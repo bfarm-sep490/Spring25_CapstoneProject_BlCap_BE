@@ -1,0 +1,6 @@
+@Spring25.BlCapstone.BE.APIs_HostAddress = http://localhost:5107
+
+GET {{Spring25.BlCapstone.BE.APIs_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
