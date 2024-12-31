@@ -1,8 +1,18 @@
 pipeline {
     agent any
-
+    
     stages {
-
+        stage('Retrieve Credentials') {
+            steps {
+                script {
+                    withCredentials([
+                        string(credentialsId: 'CLOUDINARY_URL', variable: 'CLOUDINARY_URL'),
+                    ]) {
+                        env.CLOUDINARY_URL = "${CLOUDINARY_URL}"
+                    }
+                }
+            }
+        }
         stage('Packaging') {
             steps {
                 sh 'docker build --pull --rm -f Dockerfile -t blcapstone:latest .'
