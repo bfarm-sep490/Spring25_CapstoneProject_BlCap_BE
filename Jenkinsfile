@@ -35,6 +35,7 @@ pipeline {
                 sh 'if [ $(docker ps -q -f name=blcapstone) ]; then docker container stop blcapstone; fi'
                 sh 'echo y | docker system prune'
                 sh 'docker container run -d --name blcapstone -p 7777:8080 -p 7778:8081 ' +
+                   "-e CLOUDINARY_URL=${env.CLOUDINARY_URL} " +
                    'tuanhuu3264/blcapstone'
             }
         }
