@@ -1,0 +1,363 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\controllers\\fertilizercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\controllers\\fertilizercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\controllers\\pesticidecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\controllers\\pesticidecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.services\\services\\fertilizerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|solutionrelative:spring25.blcapstone.be.services\\services\\fertilizerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.services\\services\\pesticideservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|solutionrelative:spring25.blcapstone.be.services\\services\\pesticideservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\repositories\\pesticiderepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\repositories\\pesticiderepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\repositories\\fertilizerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\repositories\\fertilizerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\context.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\models\\farmowner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\models\\farmowner.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\models\\pesticide.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\models\\pesticide.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\models\\fertilizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\models\\fertilizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\spring25.blcapstone.be.apis.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\spring25.blcapstone.be.apis.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\controllers\\authencationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\controllers\\authencationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.services\\services\\authencationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|solutionrelative:spring25.blcapstone.be.services\\services\\authencationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\repositories\\farmownerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\repositories\\farmownerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.repositories\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4CC997C2-0DA5-42BE-B650-0280E267E2C3}|Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj|solutionrelative:spring25.blcapstone.be.repositories\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.services\\spring25.blcapstone.be.services.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{D16CFE58-C845-4B6A-A31D-2CCD7710E900}|Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj|solutionrelative:spring25.blcapstone.be.services\\spring25.blcapstone.be.services.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20241231023027_Fertilizer.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T02:30:27.871Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FertilizerController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T02:25:50.608Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "FertilizerService.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T02:23:44.631Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "FertilizerRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T02:21:13.876Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Fertilizer.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-31T02:13:14.88Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Spring25.BlCapstone.BE.APIs.csproj",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-30T12:52:25.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Program.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Program.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Program.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Program.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAFIAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:46:49.384Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AuthencationController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\AuthencationController.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Controllers\\AuthencationController.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\AuthencationController.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Controllers\\AuthencationController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:42:04.376Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "PesticideController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:41:54.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "UnitOfWork.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:34:40.264Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AuthencationService.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\AuthencationService.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Services\\AuthencationService.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\AuthencationService.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Services\\Services\\AuthencationService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:34:31.392Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PesticideService.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:34:29.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "GenericRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\GenericRepository.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\GenericRepository.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\GenericRepository.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Repositories\\GenericRepository.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:32:57.405Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PesticideRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:32:46.924Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Spring25.BlCapstone.BE.Services.csproj",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-30T12:26:20.291Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "FarmOwnerRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\FarmOwnerRepository.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FarmOwnerRepository.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\FarmOwnerRepository.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FarmOwnerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T12:08:29.169Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Pesticide.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T11:55:01.448Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\appsettings.json",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\appsettings.json",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\appsettings.json",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\appsettings.json",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAmwBEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-12-30T11:49:40.256Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FarmOwner.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T11:46:10.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Context.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Context.cs",
+              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Context.cs",
+              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Context.cs",
+              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Context.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAYwCEAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T11:46:04.254Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

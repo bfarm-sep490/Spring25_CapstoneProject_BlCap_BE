@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Spring25.BlCapstone.BE.APIs.props" />
+</Project>
