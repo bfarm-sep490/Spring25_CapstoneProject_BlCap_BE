@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\controllers\\fertilizercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\controllers\\fertilizercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -13,10 +13,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\controllers\\fertilizercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|solutionrelative:spring25.blcapstone.be.apis\\controllers\\fertilizercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D609C316-7C4D-462B-99D1-3605B831A872}|Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj|c:\\users\\admin\\onedrive\\m\u00E1y t\u00EDnh\\spring25_capstoneproject_blcap_be\\spring25.blcapstone.be.apis\\controllers\\pesticidecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -103,32 +99,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "20241231023027_Fertilizer.cs",
-              "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
-              "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
-              "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
-              "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Migrations\\20241231023027_Fertilizer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-31T02:30:27.871Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "FertilizerController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
               "ToolTip": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
               "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Controllers\\FertilizerController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-31T02:25:50.608Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "FertilizerService.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
@@ -141,7 +124,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 8,
               "Title": "FertilizerRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
@@ -154,7 +137,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 12,
               "Title": "Fertilizer.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
@@ -167,7 +150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 13,
               "Title": "Spring25.BlCapstone.BE.APIs.csproj",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
@@ -193,7 +176,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 14,
               "Title": "AuthencationController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\AuthencationController.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Controllers\\AuthencationController.cs",
@@ -205,7 +188,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "PesticideController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
@@ -218,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
@@ -231,7 +214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 15,
               "Title": "AuthencationService.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\AuthencationService.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Services\\AuthencationService.cs",
@@ -243,7 +226,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "PesticideService.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
@@ -256,7 +239,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 17,
               "Title": "GenericRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\GenericRepository.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\GenericRepository.cs",
@@ -268,7 +251,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "PesticideRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
@@ -281,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 18,
               "Title": "Spring25.BlCapstone.BE.Services.csproj",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
@@ -293,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 16,
               "Title": "FarmOwnerRepository.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Repositories\\FarmOwnerRepository.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FarmOwnerRepository.cs",
@@ -305,7 +288,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 11,
               "Title": "Pesticide.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
@@ -331,7 +314,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 10,
               "Title": "FarmOwner.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
@@ -344,7 +327,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 9,
               "Title": "Context.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\OneDrive\\M\u00E1y t\u00EDnh\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Context.cs",
               "RelativeDocumentMoniker": "Spring25.BlCapstone.BE.Repositories\\Context.cs",
