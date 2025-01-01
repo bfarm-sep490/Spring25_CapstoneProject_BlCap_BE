@@ -119,8 +119,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Services\\Services\\FertilizerService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-31T02:23:44.631Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-31T02:23:44.631Z"
             },
             {
               "$type": "Document",
@@ -132,8 +131,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Repositories\\FertilizerRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-31T02:21:13.876Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-31T02:21:13.876Z"
             },
             {
               "$type": "Document",
@@ -145,8 +143,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Models\\Fertilizer.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-31T02:13:14.88Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-31T02:13:14.88Z"
             },
             {
               "$type": "Document",
@@ -158,8 +155,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-12-30T12:52:25.746Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T12:52:25.746Z"
             },
             {
               "$type": "Document",
@@ -171,8 +167,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Program.cs",
               "ViewState": "AgIAADkAAAAAAAAAAAAAAFIAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T12:46:49.384Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T12:46:49.384Z"
             },
             {
               "$type": "Document",
@@ -196,8 +191,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\Controllers\\PesticideController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T12:41:54.132Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T12:41:54.132Z"
             },
             {
               "$type": "Document",
@@ -209,8 +203,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\UnitOfWork.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T12:34:40.264Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T12:34:40.264Z"
             },
             {
               "$type": "Document",
@@ -234,8 +227,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Services\\Services\\PesticideService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T12:34:29.231Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T12:34:29.231Z"
             },
             {
               "$type": "Document",
@@ -259,8 +251,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Repositories\\PesticideRepository.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T12:32:46.924Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T12:32:46.924Z"
             },
             {
               "$type": "Document",
@@ -296,8 +287,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Models\\Pesticide.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T11:55:01.448Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T11:55:01.448Z"
             },
             {
               "$type": "Document",
@@ -309,8 +299,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.APIs\\appsettings.json",
               "ViewState": "AgIAAAgAAAAAAAAAAAAmwBEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-12-30T11:49:40.256Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T11:49:40.256Z"
             },
             {
               "$type": "Document",
@@ -322,8 +311,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Models\\FarmOwner.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T11:46:10.883Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T11:46:10.883Z"
             },
             {
               "$type": "Document",
@@ -335,8 +323,7 @@
               "RelativeToolTip": "Spring25.BlCapstone.BE.Repositories\\Context.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAYwCEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-30T11:46:04.254Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-30T11:46:04.254Z"
             }
           ]
         }
