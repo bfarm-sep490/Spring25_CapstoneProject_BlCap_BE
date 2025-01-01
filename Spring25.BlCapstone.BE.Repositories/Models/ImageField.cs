@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class FarmOwner
+    public class ImageField
     {
         [Key]
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string Password {  get; set; }
+        public string Url { get; set; }
+        public string Status { get; set; }
+        public int FieldId { get; set; }
 
-        public ICollection<Field> Fields { get; set; }
+        public Field Field { get; set; }
     }
 }

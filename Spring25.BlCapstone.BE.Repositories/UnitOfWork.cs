@@ -10,6 +10,8 @@ namespace Spring25.BlCapstone.BE.Repositories
     public class UnitOfWork
     {
         private FarmOwnerRepository _farmOwnerRepository;
+        private FieldRepository _fieldRepository;
+        private ImageFieldRepository _imageFieldRepository;
 
         public UnitOfWork()
         {
@@ -21,5 +23,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         }
 
         public FarmOwnerRepository FarmOwnerRepository { get { return _farmOwnerRepository; } }
+        public FieldRepository FieldRepository { get { return _fieldRepository; } }
+        public ImageFieldRepository ImageFieldRepository { get { return _imageFieldRepository; } }
     }
 }
