@@ -14,7 +14,10 @@ namespace Spring25.BlCapstone.BE.Repositories
         }
 
         public virtual DbSet<FarmOwner> FarmOwners { get; set; }
+        public virtual DbSet<Pesticide> Pesticides { get; set; }
+        public virtual DbSet<Fertilizer> Fertilizers { get; set; }
         public virtual DbSet<Farmer> Farmers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,17 +25,32 @@ namespace Spring25.BlCapstone.BE.Repositories
 
             modelBuilder.Entity<FarmOwner>().ToTable("FarmOwner");
 
+            modelBuilder.Entity<Pesticide>(entity =>
+            {
+                entity.ToTable("Pesticide");
+                entity.HasOne(d=>d.Owner).WithMany(p=>p.Pesticides)
+                .HasForeignKey(p => p.FarmOrnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Pesticide_FarmOwner");
+            });
+            modelBuilder.Entity<Fertilizer>(entity =>
+            {
+                entity.ToTable("Fertilizer");
+                entity.HasOne(d => d.Owner).WithMany(p => p.Fertilizers)
+                .HasForeignKey(p => p.FarmOrnerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Fertilizer_FarmOwner");
+            });
             modelBuilder.Entity<Farmer>().ToTable("Farmer");
 
         }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 var config = new ConfigurationBuilder()
                     .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
 
                 string connectionString = config.GetConnectionString("DefaultConnection");
@@ -41,3 +59,4 @@ namespace Spring25.BlCapstone.BE.Repositories
         }
     }
 }
+    

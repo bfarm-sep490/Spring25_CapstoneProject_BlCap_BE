@@ -26,5 +26,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public DateTime CreatedAt { get; set;}
         public int Status { get; set; }
         public string Phone {  get; set; }
+        public virtual ICollection<Pesticide> Pesticides { get; set; }
+        public virtual ICollection<Fertilizer> Fertilizers { get; set; }
     }
 }
