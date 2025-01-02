@@ -14,12 +14,15 @@ namespace Spring25.BlCapstone.BE.Repositories
         }
 
         public virtual DbSet<FarmOwner> FarmOwners { get; set; }
+        public virtual DbSet<Farmer> Farmers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<FarmOwner>().ToTable("FarmOwner");
+
+            modelBuilder.Entity<Farmer>().ToTable("Farmer");
 
         }
 
