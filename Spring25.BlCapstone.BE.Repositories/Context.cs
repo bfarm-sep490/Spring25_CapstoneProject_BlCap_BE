@@ -16,6 +16,8 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<FarmOwner> FarmOwners { get; set; }
         public virtual DbSet<Pesticide> Pesticides { get; set; }
         public virtual DbSet<Fertilizer> Fertilizers { get; set; }
+        public virtual DbSet<Farmer> Farmers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +41,8 @@ namespace Spring25.BlCapstone.BE.Repositories
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Fertilizer_FarmOwner");
             });
+            modelBuilder.Entity<Farmer>().ToTable("Farmer");
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
