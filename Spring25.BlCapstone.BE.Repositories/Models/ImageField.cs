@@ -14,6 +14,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Url { get; set; }
         public string Status { get; set; }
         public int FieldId { get; set; }
+        public string PublicId { get; set; }
 
         public Field Field { get; set; }
     }

@@ -75,6 +75,8 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddScoped<IAuthencationService, AuthencationService>();
+builder.Services.AddScoped<IFieldService, FieldService>();
+builder.Services.AddScoped<IImageFieldService, ImageFieldService>();
 builder.Services.AddScoped<Context>();
 builder.Services.AddScoped<FarmOwnerRepository>();
 builder.Services.AddScoped<GenericRepository<FarmOwner>>();

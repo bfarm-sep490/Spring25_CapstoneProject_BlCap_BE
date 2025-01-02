@@ -29,7 +29,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
         public const string IMAGE_FOLDER = "IMAGES";
         public const string DOCUMENT_FOLDER = "DOCUMENTS";
 
-        public static async Task<string> UploadImage(IFormFile file)
+        public static async Task<(string PublicId, string Url)> UploadImage(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File is empty or null...");
@@ -50,10 +50,10 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             if (uploadResult.Error != null)
                 throw new Exception($"Upload error: {uploadResult.Error.Message}");
 
-            return uploadResult.SecureUrl.ToString();
+            return (uploadResult.PublicId, uploadResult.SecureUrl.ToString());
         }
 
-        public static async Task<string> UploadDocument(IFormFile file)
+        public static async Task<(string PublicId, string Url)> UploadDocument(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 throw new ArgumentException("File is empty or null...");
@@ -74,33 +74,84 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             if (uploadResult.Error != null)
                 throw new Exception($"Upload error: {uploadResult.Error.Message}");
             
-            return uploadResult.SecureUrl.ToString();
+            return (uploadResult.PublicId, uploadResult.SecureUrl.ToString());
         }
 
-        public static async Task<List<string>> UploadMultipleImages(List<IFormFile> files)
+        public static async Task<List<(string PublicId, string Url)>> UploadMultipleImages(List<IFormFile> files)
         {
-            var urls = new List<string>();
+            var resultList = new List<(string PublicId, string Url)>();
 
             foreach (var file in files)
             {
-                var url = await UploadImage(file);
-                urls.Add(url);
+                var (publicId, url) = await UploadImage(file);
+                resultList.Add((publicId, url));
             }
 
-            return urls;
+            return resultList;
         }
 
-        public static async Task<List<string>> UploadMultipleDocuments(List<IFormFile> files)
+        public static async Task<List<(string PublicId, string Url)>> UploadMultipleDocuments(List<IFormFile> files)
         {
-            var urls = new List<string>();
+            var resultList = new List<(string PublicId, string Url)>();
 
             foreach (var file in files)
             {
-                var url = await UploadDocument(file);
-                urls.Add(url);
+                var (publicId, url) = await UploadDocument(file);
+                resultList.Add((publicId, url));
             }
 
-            return urls;
+            return resultList;
         }
+
+        public static async Task<bool> DeleteImage(string publicId)
+        {
+            try
+            {
+                var deletionParams = new DeletionParams(publicId)
+                {
+                    ResourceType = ResourceType.Image
+                };
+
+                var deletionResult = await _cloud.DestroyAsync(deletionParams);
+
+                if (deletionResult.Result == "ok")
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception($"Failed to delete image: {deletionResult.Error?.ToString()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error deleting image from Cloudinary: {ex.Message}");
+            }
+        }
+
+        public static async Task<string> UpdateImage(IFormFile file, string publicId)
+        {
+            if (file == null || file.Length == 0)
+                throw new ArgumentException("File is empty or null...");
+
+            using var stream = file.OpenReadStream();
+            var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(fileName, stream),
+                PublicId = publicId,   
+                Overwrite = true,      
+                UseFilename = false
+            };
+
+            var uploadResult = await _cloud.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+                throw new Exception($"Upload error: {uploadResult.Error.Message}");
+
+            return uploadResult.SecureUrl.ToString(); 
+        }
+
     }
 }

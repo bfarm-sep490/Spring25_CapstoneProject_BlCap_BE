@@ -16,10 +16,14 @@ namespace Spring25.BlCapstone.BE.Repositories
         public UnitOfWork()
         {
             _farmOwnerRepository ??= new FarmOwnerRepository();
+            _fieldRepository ??= new FieldRepository();
+            _imageFieldRepository ??= new ImageFieldRepository();
         }
-        public UnitOfWork(FarmOwnerRepository farmOwnerRepository)
+        public UnitOfWork(FarmOwnerRepository farmOwnerRepository, FieldRepository fieldRepository, ImageFieldRepository imageFieldRepository)
         {
             _farmOwnerRepository = farmOwnerRepository;
+            _fieldRepository = fieldRepository;
+            _imageFieldRepository = imageFieldRepository;
         }
 
         public FarmOwnerRepository FarmOwnerRepository { get { return _farmOwnerRepository; } }
