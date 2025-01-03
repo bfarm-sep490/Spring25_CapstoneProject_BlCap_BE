@@ -80,7 +80,10 @@ builder.Services.AddScoped<IImageFieldService, ImageFieldService>();
 builder.Services.AddScoped<Context>();
 builder.Services.AddScoped<FarmOwnerRepository>();
 builder.Services.AddScoped<GenericRepository<FarmOwner>>();
-
+builder.Services.AddScoped<IPesticideService,PesticideService>();
+builder.Services.AddScoped<IFertilizerService, FertilizerService>();
+builder.Services.AddScoped<PesticideRepository>(); 
+builder.Services.AddScoped<FertilizerRepository>(); 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -13,7 +13,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password {  get; set; }
-
+        public string OwnerName { get; set; }
+        public string FarmName { get; set; }
+        public string Address { get; set; }
+        public float Longtitude { get; set; }
+        public float Latitude { get; set; }
+        public string ThumbailImage { get; set; }
+        public string CINumber { get; set; }
+        public string CIBeforeImage {  get; set; }
+        public string CIAfterImage { get; set;}
+        public string CreatedBy {  get; set; }
+        public DateTime CreatedAt { get; set;}
+        public int Status { get; set; }
+        public string Phone {  get; set; }
+        public virtual ICollection<Pesticide> Pesticides { get; set; }
+        public virtual ICollection<Fertilizer> Fertilizers { get; set; }
         public ICollection<Field> Fields { get; set; }
     }
 }
