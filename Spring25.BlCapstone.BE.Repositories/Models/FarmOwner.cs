@@ -28,5 +28,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Phone {  get; set; }
         public virtual ICollection<Pesticide> Pesticides { get; set; }
         public virtual ICollection<Fertilizer> Fertilizers { get; set; }
+        public ICollection<Field> Fields { get; set; }
     }
 }
