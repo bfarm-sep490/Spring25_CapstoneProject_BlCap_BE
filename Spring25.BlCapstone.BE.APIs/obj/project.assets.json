@@ -67,7 +67,7 @@
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/Humanizer.dll": {
             "related": ".xml"
           }
         },
@@ -195,7 +195,7 @@
           "System.Text.Encoding.CodePages": "6.0.0"
         },
         "compile": {
-          "lib/netcoreapp3.1/_._": {
+          "lib/netcoreapp3.1/Microsoft.CodeAnalysis.dll": {
             "related": ".pdb;.xml"
           }
         },
@@ -252,7 +252,7 @@
           "Microsoft.CodeAnalysis.Common": "[4.5.0]"
         },
         "compile": {
-          "lib/netcoreapp3.1/_._": {
+          "lib/netcoreapp3.1/Microsoft.CodeAnalysis.CSharp.dll": {
             "related": ".pdb;.xml"
           }
         },
@@ -312,7 +312,7 @@
           "Microsoft.CodeAnalysis.Workspaces.Common": "[4.5.0]"
         },
         "compile": {
-          "lib/netcoreapp3.1/_._": {
+          "lib/netcoreapp3.1/Microsoft.CodeAnalysis.CSharp.Workspaces.dll": {
             "related": ".pdb;.xml"
           }
         },
@@ -374,7 +374,7 @@
           "System.Threading.Channels": "6.0.0"
         },
         "compile": {
-          "lib/netcoreapp3.1/_._": {
+          "lib/netcoreapp3.1/Microsoft.CodeAnalysis.Workspaces.dll": {
             "related": ".pdb;.xml"
           }
         },
@@ -538,7 +538,7 @@
           "Mono.TextTemplating": "2.2.1"
         },
         "compile": {
-          "lib/net8.0/_._": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
             "related": ".xml"
           }
         },
@@ -777,7 +777,7 @@
           "System.Text.Json": "8.0.0"
         },
         "compile": {
-          "lib/net8.0/_._": {
+          "lib/net8.0/Microsoft.Extensions.DependencyModel.dll": {
             "related": ".xml"
           }
         },
@@ -1159,7 +1159,7 @@
           "System.CodeDom": "4.4.0"
         },
         "compile": {
-          "lib/netstandard2.0/_._": {}
+          "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
@@ -1411,7 +1411,7 @@
       "System.CodeDom/4.4.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.0/_._": {
+          "ref/netstandard2.0/System.CodeDom.dll": {
             "related": ".xml"
           }
         },
@@ -1461,7 +1461,7 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Collections.Immutable.dll": {
             "related": ".xml"
           }
         },
@@ -1490,7 +1490,7 @@
       "System.Composition.AttributedModel/6.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Composition.AttributedModel.dll": {
             "related": ".xml"
           }
         },
@@ -1509,7 +1509,7 @@
           "System.Composition.AttributedModel": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Composition.Convention.dll": {
             "related": ".xml"
           }
         },
@@ -1528,7 +1528,7 @@
           "System.Composition.Runtime": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Composition.Hosting.dll": {
             "related": ".xml"
           }
         },
@@ -1544,7 +1544,7 @@
       "System.Composition.Runtime/6.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Composition.Runtime.dll": {
             "related": ".xml"
           }
         },
@@ -1565,7 +1565,7 @@
           "System.Composition.Runtime": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Composition.TypedParts.dll": {
             "related": ".xml"
           }
         },
@@ -1805,7 +1805,7 @@
       "System.IO.Pipelines/6.0.3": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.IO.Pipelines.dll": {
             "related": ".xml"
           }
         },
@@ -1950,7 +1950,7 @@
           "System.Collections.Immutable": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Reflection.Metadata.dll": {
             "related": ".xml"
           }
         },
@@ -2421,7 +2421,7 @@
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         },
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Text.Encoding.CodePages.dll": {
             "related": ".xml"
           }
         },
@@ -2511,7 +2511,7 @@
       "System.Threading.Channels/6.0.0": {
         "type": "package",
         "compile": {
-          "lib/net6.0/_._": {
+          "lib/net6.0/System.Threading.Channels.dll": {
             "related": ".xml"
           }
         },
@@ -7772,6 +7772,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.0",
+      "Microsoft.EntityFrameworkCore.Design >= 8.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.0",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.19.6",
       "Spring25.BlCapstone.BE.Repositories >= 1.0.0",
@@ -7780,24 +7781,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\BIN\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+      "projectUniqueName": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
       "projectName": "Spring25.BlCapstone.BE.APIs",
-      "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\obj\\",
+      "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+      "packagesPath": "C:\\Users\\BIN\\.nuget\\packages\\",
+      "outputPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\BIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7805,18 +7801,17 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
-              "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj"
+            "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
+              "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj"
             },
-            "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj": {
-              "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj"
+            "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj": {
+              "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj"
             }
           }
         }
@@ -7837,6 +7832,10 @@
         "targetAlias": "net8.0",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
+            "target": "Package",
+            "version": "[8.0.0, )"
+          },
+          "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
             "version": "[8.0.0, )"
           },
@@ -7874,7 +7873,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.307/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

@@ -4,7 +4,7 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/ImageFields")]
     [ApiController]
     public class ImageFieldsController : ControllerBase
     {

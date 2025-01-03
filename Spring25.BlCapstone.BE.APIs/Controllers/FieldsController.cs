@@ -6,7 +6,7 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/fields")]
     [ApiController]
     public class FieldsController : ControllerBase
     {

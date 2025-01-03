@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj": {}
+    "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj": {
+    "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+        "projectUniqueName": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
         "projectName": "Spring25.BlCapstone.BE.APIs",
-        "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\obj\\",
+        "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\Spring25.BlCapstone.BE.APIs.csproj",
+        "packagesPath": "C:\\Users\\BIN\\.nuget\\packages\\",
+        "outputPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.APIs\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\BIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,18 +22,17 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
-                "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj"
+              "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
+                "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj"
               },
-              "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj": {
-                "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj"
+              "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj": {
+                "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj"
               }
             }
           }
@@ -58,6 +53,10 @@
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
               "target": "Package",
               "version": "[8.0.0, )"
             },
@@ -95,25 +94,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
+    "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj",
+        "projectUniqueName": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj",
         "projectName": "Spring25.BlCapstone.BE.Repositories",
-        "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\obj\\",
+        "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj",
+        "packagesPath": "C:\\Users\\BIN\\.nuget\\packages\\",
+        "outputPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\BIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -121,7 +116,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -190,25 +184,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj": {
+    "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
+        "projectUniqueName": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
         "projectName": "Spring25.BlCapstone.BE.Services",
-        "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
-        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\obj\\",
+        "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\Spring25.BlCapstone.BE.Services.csproj",
+        "packagesPath": "C:\\Users\\BIN\\.nuget\\packages\\",
+        "outputPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Services\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\BIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -216,15 +206,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
-                "projectPath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj"
+              "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj": {
+                "projectPath": "E:\\SEP400\\Spring25_CapstoneProject_BlCap_BE\\Spring25.BlCapstone.BE.Repositories\\Spring25.BlCapstone.BE.Repositories.csproj"
               }
             }
           }
@@ -269,7 +258,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.307/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Spring25.BlCapstone.BE.Services")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a8f2fd8bedac5ebaeb3416c8435b1388b0c199c5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7780058f2e744dc8ea29e6ce37e3e3b4fc832b6a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Spring25.BlCapstone.BE.Services")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Spring25.BlCapstone.BE.Services")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.Repositories
                     .WithMany(f => f.ImageFields)
                     .HasForeignKey(i => i.FieldId)  
                 .OnDelete(DeleteBehavior.ClientSetNull);
-        }
+        
             modelBuilder.Entity<Pesticide>(entity =>
             {
                 entity.ToTable("Pesticide");
