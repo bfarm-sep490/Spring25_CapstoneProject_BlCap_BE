@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Spring25.BlCapstone.BE.APIs.props" />
-</Project>
