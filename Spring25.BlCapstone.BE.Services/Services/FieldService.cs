@@ -15,7 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> CreateField(FieldModels field);
+        Task<IBusinessResult> CreateField(CreateFieldModels field);
         Task<IBusinessResult> UpdateField(int id, UpdateFieldModels field);
         Task<IBusinessResult> SwitchStatus(int id);
         Task<IBusinessResult> RemoveField(int id);
@@ -143,7 +143,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> CreateField(FieldModels field)
+        public async Task<IBusinessResult> CreateField(CreateFieldModels field)
         {
             try
             {

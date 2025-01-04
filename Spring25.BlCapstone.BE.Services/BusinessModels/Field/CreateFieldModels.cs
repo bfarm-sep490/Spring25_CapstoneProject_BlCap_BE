@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fields
 {
-    public class FieldModels
+    public class CreateFieldModels
     {
         public double Area { get; set; }
         public int FarmOwnerId { get; set; }

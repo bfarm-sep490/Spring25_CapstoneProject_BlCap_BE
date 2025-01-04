@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fields
+namespace Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide
 {
     public class PesticideModel
     {
@@ -23,6 +23,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fields
         // public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public int FarmOrnerId { get; set; }
-       // public FarmOwner Owner { get; set; }
+        // public FarmOwner Owner { get; set; }
     }
 }

@@ -45,7 +45,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IBusinessResult>> Create([FromForm] FieldModels model)
+        public async Task<ActionResult<IBusinessResult>> Create([FromForm] CreateFieldModels model)
         {
             try
             {
