@@ -2,16 +2,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Spring25.BlCapstone.BE.APIs.Configs;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Services;
 using System.Text;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
@@ -26,7 +25,6 @@ builder.Services.AddCors(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
                {
@@ -43,7 +41,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
                    };
                });
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo { Title = "BlCapstone API Swagger v1", Version = "v1" });
@@ -83,7 +81,8 @@ builder.Services.AddScoped<GenericRepository<FarmOwner>>();
 builder.Services.AddScoped<IPesticideService,PesticideService>();
 builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<PesticideRepository>(); 
-builder.Services.AddScoped<FertilizerRepository>(); 
+builder.Services.AddScoped<FertilizerRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -94,7 +93,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
-
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
