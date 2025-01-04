@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Fields;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

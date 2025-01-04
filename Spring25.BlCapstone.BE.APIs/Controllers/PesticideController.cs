@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Fields;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers

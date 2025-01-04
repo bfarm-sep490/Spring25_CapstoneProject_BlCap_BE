@@ -2,7 +2,8 @@
 using Spring25.BlCapstone.BE.APIs.RequestModels.Fertilizer;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide;
 using Spring25.BlCapstone.BE.Repositories.Models;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Fields;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using System.Xml.Serialization;
 
 namespace Spring25.BlCapstone.BE.APIs.Configs

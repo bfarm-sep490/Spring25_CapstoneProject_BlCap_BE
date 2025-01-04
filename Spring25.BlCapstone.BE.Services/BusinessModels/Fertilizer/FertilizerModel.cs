@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fields
+namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer
 {
     public class FertilizerModel
     {
@@ -19,9 +19,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fields
         public int Unit { get; set; }
         public DateOnly ExpriredDate { get; set; }
         public string Status { get; set; }
-       // public DateTime CreatedAt { get; set; }
+        // public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public int FarmOrnerId { get; set; }
-       // public FarmOwner Owner { get; set; }
+        // public FarmOwner Owner { get; set; }
     }
 }
