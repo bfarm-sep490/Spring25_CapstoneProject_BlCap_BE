@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Spring25.BlCapstone.BE.Services\Spring25.BlCapstone.BE.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configs\" />
-  </ItemGroup>
-
 </Project>

@@ -174,7 +174,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
                 var rs = await _unitOfWork.FieldRepository.CreateAsync(newField);
 
-                if (rs <= 0)
+                if (rs == null)
                 {
                     return new BusinessResult
                     {
