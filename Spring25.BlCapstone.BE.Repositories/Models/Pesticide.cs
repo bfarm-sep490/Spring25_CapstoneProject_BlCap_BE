@@ -25,6 +25,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public int FarmOrnerId {  get; set; }
+
         public FarmOwner Owner { get; set; }
+        public ICollection<TaskPesticide> TaskPesticides { get; set; }
     }
 }
