@@ -80,6 +80,7 @@ builder.Services.AddScoped<FarmOwnerRepository>();
 builder.Services.AddScoped<GenericRepository<FarmOwner>>();
 builder.Services.AddScoped<IPesticideService,PesticideService>();
 builder.Services.AddScoped<IFertilizerService, FertilizerService>();
+builder.Services.AddScoped<IFCMService, FCMService>();
 builder.Services.AddScoped<PesticideRepository>(); 
 builder.Services.AddScoped<FertilizerRepository>();
 
