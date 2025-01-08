@@ -25,5 +25,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public int Status { get; set; }
+
+        public ICollection<Task> Tasks { get; set; }
     }
 }

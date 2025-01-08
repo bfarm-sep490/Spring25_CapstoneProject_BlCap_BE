@@ -34,7 +34,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> Create(FertilizerModel model)
         {
-           var orner = await _unitOfWork.FarmOwnerRepository.GetByIdAsync(model.FarmOrnerId);
+           var orner = await _unitOfWork.FarmOwnerRepository.GetByIdAsync(model.FarmOwnerId);
             if (orner == null) { return new BusinessResult(2,"Do not have this Farm Owner"); }
            var obj = _mapper.Map<Fertilizer>(model);
            obj.CreatedAt = DateTime.Now;

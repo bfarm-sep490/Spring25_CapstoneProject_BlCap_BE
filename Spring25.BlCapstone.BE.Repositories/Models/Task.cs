@@ -19,8 +19,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string ReportContent { get; set; }
         public string Status { get; set; }
         public DateTime ActionDate { get; set; }
+        public int FarmerId { get; set; }
 
         public Period Period { get; set; }
+        public Farmer Farmer { get; set; }
         public ICollection<ImageReport> ImageReports { get; set; }
         public ICollection<TaskFertilizer> TaskFertilizers { get; set; }
         public ICollection<TaskPesticide> TaskPesticides { get; set; }

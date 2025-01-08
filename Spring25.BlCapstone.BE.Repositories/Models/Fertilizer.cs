@@ -17,12 +17,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string NutrientContent { get; set; }
         public string StorageConditions { get; set; }
         public int Quantity { get; set; }
-        public int Unit { get; set; }
-        public DateOnly ExpriredDate { get; set; }
+        public string Unit { get; set; }
+        public DateTime ExpiredDate { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
-        public int FarmOrnerId { get; set; }
+        public int FarmOwnerId { get; set; }
 
         public FarmOwner Owner { get; set; }
         public ICollection<TaskFertilizer> TaskFertilizers { get; set; }

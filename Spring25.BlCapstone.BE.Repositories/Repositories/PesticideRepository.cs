@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         }
         public async Task<List<Pesticide>> GetFertilizersByFarmOwnerId(int farmId)
         {
-            return await _context.Pesticides.Where(x => x.FarmOrnerId == farmId).ToListAsync();
+            return await _context.Pesticides.Where(x => x.FarmOwnerId == farmId).ToListAsync();
         }
     }
 }

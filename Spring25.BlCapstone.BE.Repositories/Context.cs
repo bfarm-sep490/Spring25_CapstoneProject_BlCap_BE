@@ -49,7 +49,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             {
                 entity.ToTable("Pesticide");
                 entity.HasOne(d => d.Owner).WithMany(p => p.Pesticides)
-                .HasForeignKey(p => p.FarmOrnerId)
+                .HasForeignKey(p => p.FarmOwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Pesticide_FarmOwner");
             });
@@ -58,7 +58,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             {
                 entity.ToTable("Fertilizer");
                 entity.HasOne(d => d.Owner).WithMany(p => p.Fertilizers)
-                .HasForeignKey(p => p.FarmOrnerId)
+                .HasForeignKey(p => p.FarmOwnerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Fertilizer_FarmOwner");
             });
@@ -99,6 +99,9 @@ namespace Spring25.BlCapstone.BE.Repositories
                 entity.HasOne(e => e.Period)
                       .WithMany(p => p.Tasks)
                       .HasForeignKey(e => e.PeriodId);
+                entity.HasOne(e => e.Farmer)
+                      .WithMany(f => f.Tasks)
+                      .HasForeignKey(e => e.FarmerId);
             });
 
             modelBuilder.Entity<ImageReport>(entity =>
