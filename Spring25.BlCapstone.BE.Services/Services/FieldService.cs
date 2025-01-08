@@ -217,7 +217,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     Status = 200,
                     Message = "Create successfully!",
-                    Data = null
+                    Data = rs
                 };
             }
             catch (Exception ex)
