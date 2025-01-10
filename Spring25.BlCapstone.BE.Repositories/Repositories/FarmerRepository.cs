@@ -17,5 +17,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             this._context = context;
         }
+        public async Task<Farmer> SignIn(string email, string password)
+        {
+            var user = (await this.FindByConditionAsync(x => x.Email == email && x.Password == password)).FirstOrDefault();
+            return user;
+        }
     }
 }

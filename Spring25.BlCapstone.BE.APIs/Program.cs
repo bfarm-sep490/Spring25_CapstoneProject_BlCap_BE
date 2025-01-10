@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 using Spring25.BlCapstone.BE.APIs.Configs;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Services;
 using System.Text;
+using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -81,8 +83,10 @@ builder.Services.AddScoped<GenericRepository<FarmOwner>>();
 builder.Services.AddScoped<IPesticideService,PesticideService>();
 builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<IFCMService, FCMService>();
+builder.Services.AddScoped<IFarmerService, FarmerService>();
 builder.Services.AddScoped<PesticideRepository>(); 
 builder.Services.AddScoped<FertilizerRepository>();
+builder.Services.AddScoped<FarmerRepository>();
 
 var app = builder.Build();
 

@@ -73,7 +73,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("pesticides/farmowner/{id}")]
+        [HttpGet("farmowner/{id}/pesticides")]
+        
         public async Task<IActionResult> GetbyFarmOwnerId([FromRoute] int id)
         {
             try
