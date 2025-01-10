@@ -14,25 +14,18 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fields
     {
         [JsonPropertyName("area")]
         public double Area { get; set; }
-
         [JsonPropertyName("farm_owner_id")]
         public int FarmOwnerId { get; set; }
-
         [JsonPropertyName("description")]
         public string Description { get; set; }
-
         [JsonPropertyName("wide")]
         public double Wide { get; set; }
-
         [JsonPropertyName("long")]
         public double Long { get; set; }
-
         [JsonPropertyName("type")]
         public string Type { get; set; }
-
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
-
         [JsonPropertyName("image_fields")]
         public List<IFormFile>? ImageFields { get; set; }
     }
