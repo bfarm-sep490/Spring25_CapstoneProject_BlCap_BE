@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Fertilizer;
 using Spring25.BlCapstone.BE.Repositories.Models;
@@ -31,6 +32,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "FarmOwner")]
         [HttpDelete("fertilizers/{id}")]
         public async Task<IActionResult> Remove([FromRoute] int id)
         {
@@ -44,6 +46,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "FarmOwner")]
         [HttpPost("fertilizers")]
         public async Task<IActionResult> Create([FromBody] CreatedFertilizer model)
         {
@@ -58,6 +61,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Roles = "FarmOwner")]
         [HttpPut("fertilizers/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdatedFertilizer model, [FromRoute]int id)
         {
@@ -72,7 +76,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("fertilizers/farmowner/{id}")]
+        [Authorize]
+        [HttpGet("farmowner/{id}/fertilizers")]
         public async Task<IActionResult> GetbyFarmOwnerId([FromRoute] int id)
         {
             try

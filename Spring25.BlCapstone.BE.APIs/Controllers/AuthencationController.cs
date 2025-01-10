@@ -28,6 +28,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        } 
+        [HttpPost("farmer/login")]
+        public async Task<ActionResult<IBusinessResult>> SignInForFarmer(LoginForm form)
+        {
+            try
+            {
+                var result = await _authencationService.SignInForFarmer(form.Email, form.Password);
+                return StatusCode(200, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
+
     }
 }
