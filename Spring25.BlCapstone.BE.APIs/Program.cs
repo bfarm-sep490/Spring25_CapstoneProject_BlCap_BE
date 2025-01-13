@@ -84,6 +84,7 @@ builder.Services.AddScoped<IPesticideService,PesticideService>();
 builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<IFCMService, FCMService>();
 builder.Services.AddScoped<IFarmerService, FarmerService>();
+builder.Services.AddScoped<IAblyService, AblyService>();
 builder.Services.AddScoped<PesticideRepository>(); 
 builder.Services.AddScoped<FertilizerRepository>();
 builder.Services.AddScoped<FarmerRepository>();

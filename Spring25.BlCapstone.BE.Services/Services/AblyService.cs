@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Helper;
+﻿using Newtonsoft.Json.Linq;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Services.Base;
 using System;
 using System.Collections.Generic;
@@ -8,32 +9,33 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
-    public interface IFCMService
+    public interface IAblyService
     {
-        Task<IBusinessResult> SendMessageToDevice(string title, string body, string dvToken);
+        Task<IBusinessResult> SendNotification(string title, string body);
         Task<IBusinessResult> SendMessageWithTopic(string title, string body, string topic);
     }
 
-    public class FCMService : IFCMService
+    public class AblyService : IAblyService
     {
-        private readonly FCMHelper _fcm;
-        public FCMService()
+        private readonly AblyHelper _ably;
+        public AblyService()
         {
-            _fcm ??= new FCMHelper();
+            _ably ??= new AblyHelper();
         }
-        public async Task<IBusinessResult> SendMessageToDevice(string title, string body, string dvToken)
+
+        public async Task<IBusinessResult> SendNotification(string title, string body)
         {
             try
             {
-                var res = await _fcm.SendMessageToDevice(title, body, dvToken);
+                var res = await _ably.SendNotificationAsync(title, body);
                 return new BusinessResult
                 {
                     Status = 200,
-                    Message = "Send Message Success!",
-                    Data = res
+                    Message = res,
+                    Data = null
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BusinessResult
                 {
@@ -48,15 +50,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var res = await _fcm.SendMessageWithTopic(title, body, topic);
+                var res = await _ably.SendMessageWithTopic(title, body, topic);
                 return new BusinessResult
                 {
                     Status = 200,
-                    Message = "Send Message Success!",
-                    Data = res
+                    Message = res,
+                    Data = null
                 };
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BusinessResult
                 {
