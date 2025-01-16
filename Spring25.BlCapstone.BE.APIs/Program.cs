@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Spring25.BlCapstone.BE.APIs.Configs;
+using Spring25.BlCapstone.BE.BackgroundServices.Clients;
+using Spring25.BlCapstone.BE.BackgroundServices.Cosumers;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
@@ -88,6 +90,17 @@ builder.Services.AddScoped<IAblyService, AblyService>();
 builder.Services.AddScoped<PesticideRepository>(); 
 builder.Services.AddScoped<FertilizerRepository>();
 builder.Services.AddScoped<FarmerRepository>();
+
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
+    {
+        services.AddSingleton<HiveCloudClient>();
+        services.AddSingleton<UnitOfWork>();
+        services.AddHostedService<IotModuleMqttConsumer>();
+    })
+    .Build();
+
+await host.RunAsync();
 
 var app = builder.Build();
 
