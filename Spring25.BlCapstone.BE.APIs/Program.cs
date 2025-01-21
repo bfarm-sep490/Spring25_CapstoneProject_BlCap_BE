@@ -75,19 +75,11 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 builder.Services.AddScoped<IAuthencationService, AuthencationService>();
-builder.Services.AddScoped<IFieldService, FieldService>();
-builder.Services.AddScoped<IImageFieldService, ImageFieldService>();
-builder.Services.AddScoped<Context>();
-builder.Services.AddScoped<FarmOwnerRepository>();
-builder.Services.AddScoped<GenericRepository<FarmOwner>>();
-builder.Services.AddScoped<IPesticideService,PesticideService>();
-builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<IFCMService, FCMService>();
-builder.Services.AddScoped<IFarmerService, FarmerService>();
 builder.Services.AddScoped<IAblyService, AblyService>();
-builder.Services.AddScoped<PesticideRepository>(); 
-builder.Services.AddScoped<FertilizerRepository>();
-builder.Services.AddScoped<FarmerRepository>();
+builder.Services.AddScoped<IFarmerService, FarmerService>();
+builder.Services.AddScoped<IItemService, ItemService>();
+builder.Services.AddScoped<IExpertService, ExpertService>();
 
 var app = builder.Build();
 

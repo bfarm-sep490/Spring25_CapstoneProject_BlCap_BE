@@ -23,8 +23,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<PesticideModel,UpdatedPesticide>()
                 .ReverseMap();
-            CreateMap<PesticideModel, Pesticide>()
-                .ReverseMap();
+            /*CreateMap<PesticideModel, Pesticide>()
+                .ReverseMap();*/
        }
        void FertilizerProfile()
        {
@@ -32,8 +32,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<FertilizerModel, UpdatedFertilizer>()
                 .ReverseMap();
-            CreateMap<FertilizerModel,Fertilizer>()
-                .ReverseMap();
+            /*CreateMap<FertilizerModel,Fertilizer>()
+                .ReverseMap();*/
        }
         void FarmerProfile()
         {

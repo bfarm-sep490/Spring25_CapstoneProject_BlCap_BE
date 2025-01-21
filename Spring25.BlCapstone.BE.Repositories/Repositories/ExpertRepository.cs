@@ -8,16 +8,19 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Repositories
 {
-    public class PesticideRepository:GenericRepository<Pesticide>
+    public class ExpertRepository : GenericRepository<Expert>
     {
-        public PesticideRepository() { }
-        public PesticideRepository(Context context)
+        public ExpertRepository() { }
+        public ExpertRepository(Context context)
         {
             _context = context;
         }
-        public async Task<List<Pesticide>> GetFertilizersByFarmOwnerId(int farmId)
+
+        public async Task<List<Expert>> GetExperts()
         {
-            return await _context.Pesticides.Where(x => x.FarmOwnerId == farmId).ToListAsync();
+            return await _context.Experts
+                .Include(f => f.Account)
+                .ToListAsync();
         }
     }
 }
