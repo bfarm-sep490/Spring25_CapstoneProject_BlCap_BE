@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,46 +11,46 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
-    public interface IFarmerService
+    public interface IExpertService
     {
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> SwitchStatus(int id);
-        Task<IBusinessResult> RemoveFarmer(int id);
+        Task<IBusinessResult> RemoveExpert(int id);
     }
 
-    public class FarmerService : IFarmerService
+    public class ExpertService : IExpertService
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public FarmerService()
+        public ExpertService()
         {
             _unitOfWork ??= new UnitOfWork();
         }
 
         public async Task<IBusinessResult> GetAll()
         {
-            var list = await _unitOfWork.FarmerRepository.GetFarmers();
-            var result = list.Select(f => new FarmerModel
+            var list = await _unitOfWork.ExpertRepository.GetExperts();
+            var result = list.Select(e => new FarmerModel
             {
-                Id = f.Id,
-                Email = f.Account.Email,
-                Password = f.Account.Password,
-                Name = f.Account.Name,
-                Phone = f.Phone,
-                Status = f.Status,
-                Avatar = f.Avatar,
-                IsActive = f.Account.IsActive
+                Id = e.Id,
+                Email = e.Account.Email,
+                Password = e.Account.Password,
+                Name = e.Account.Name,
+                Phone = e.Phone,
+                Status = e.Status,
+                Avatar = e.Avatar,
+                IsActive = e.Account.IsActive
             })
             .ToList();
-            return new BusinessResult(200, "List Farmer", result);
+            return new BusinessResult(200, "List Experts", result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
         {
             try
             {
-                var users = await _unitOfWork.FarmerRepository.GetFarmers();
+                var users = await _unitOfWork.ExpertRepository.GetExperts();
                 var result = users
                     .Where(u => u.Id == id)
                     .Select(f => new FarmerModel
@@ -72,7 +71,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult
                     {
                         Status = 404,
-                        Message = "Not found any Farmers",
+                        Message = "Not found any Experts",
                         Data = null
                     };
                 }
@@ -83,7 +82,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = "Read successfull !",
                     Data = result
                 };
-            } 
+            }
             catch (Exception ex)
             {
                 return new BusinessResult
@@ -99,8 +98,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-                if (farmer == null)
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
+                if (expert == null)
                 {
                     return new BusinessResult
                     {
@@ -110,8 +109,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                farmer.Account.IsActive = !farmer.Account.IsActive;
-                var rs = await _unitOfWork.FarmerRepository.UpdateAsync(farmer);
+                expert.Account.IsActive = !expert.Account.IsActive;
+                var rs = await _unitOfWork.ExpertRepository.UpdateAsync(expert);
 
                 if (rs > 0)
                 {
@@ -143,24 +142,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> RemoveFarmer(int id)
+        public async Task<IBusinessResult> RemoveExpert(int id)
         {
             try
             {
-                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-                var account = await _unitOfWork.AccountRepository.GetByIdAsync(farmer.AccountId);
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
+                var account = await _unitOfWork.AccountRepository.GetByIdAsync(expert.AccountId);
 
-                if (farmer == null)
+                if (expert == null)
                 {
                     return new BusinessResult
                     {
                         Status = 404,
-                        Message = "Not found any farmers!",
+                        Message = "Not found any experts!",
                         Data = null
                     };
                 }
 
-                var result = await _unitOfWork.FarmerRepository.RemoveAsync(farmer);
+                var result = await _unitOfWork.ExpertRepository.RemoveAsync(expert);
                 var rs = await _unitOfWork.AccountRepository.RemoveAsync(account);
 
                 if (result && rs)

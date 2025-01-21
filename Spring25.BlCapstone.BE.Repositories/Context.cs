@@ -13,39 +13,36 @@ namespace Spring25.BlCapstone.BE.Repositories
         {
         }
 
-        public virtual DbSet<FarmOwner> FarmOwners { get; set; }
-        public virtual DbSet<Field> Fields { get; set; }
-        public virtual DbSet<ImageField> ImageFields { get; set; }
-        public virtual DbSet<Pesticide> Pesticides { get; set; }
-        public virtual DbSet<Fertilizer> Fertilizers { get; set; }
+        public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Farmer> Farmers { get; set; }
+        public virtual DbSet<Expert> Experts { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<FarmOwner>()
-                .ToTable("FarmOwner")
-                .HasMany(f => f.Fields)
-                    .WithOne(f => f.FarmOwner)
-                    .HasForeignKey(f => f.FarmOwnerId)
+            modelBuilder.Entity<Account>()
+                .ToTable("Account");
+
+            modelBuilder.Entity<Item>()
+                .ToTable("Item");
+
+            modelBuilder.Entity<Farmer>()
+                .ToTable("Farmer")
+                .HasOne(f => f.Account)
+                    .WithMany(f => f.Farmers)
+                    .HasForeignKey(f => f.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<Field>()
-                .ToTable("Field")
-                .HasMany(f => f.ImageFields)
-                    .WithOne(i => i.Field)
-                    .HasForeignKey(i => i.FieldId)
+            modelBuilder.Entity<Expert>()
+                .ToTable("Expert")
+                .HasOne(i => i.Account)
+                    .WithMany(f => f.Experts)
+                    .HasForeignKey(i => i.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-            modelBuilder.Entity<ImageField>()
-                .ToTable("ImageField")
-                .HasOne(i => i.Field)
-                    .WithMany(f => f.ImageFields)
-                    .HasForeignKey(i => i.FieldId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
-
-            modelBuilder.Entity<Pesticide>(entity =>
+            /*modelBuilder.Entity<Pesticide>(entity =>
             {
                 entity.ToTable("Pesticide");
                 entity.HasOne(d => d.Owner).WithMany(p => p.Pesticides)
@@ -135,6 +132,7 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(t => t.TaskPesticides)
                       .HasForeignKey(tp => tp.TaskId);
             });
+            */
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

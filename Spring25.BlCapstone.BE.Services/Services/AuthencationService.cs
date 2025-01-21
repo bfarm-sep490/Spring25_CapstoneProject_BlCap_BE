@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IAuthencationService
     {
         Task<IBusinessResult> SignIn(string email, string password);
-        Task<IBusinessResult> SignInForFarmer(string email, string password);
+        //Task<IBusinessResult> SignInForFarmer(string email, string password);
     }
     public class AuthencationService :IAuthencationService 
     {
@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = "password is empty.",
                     Status = 400
                 };
-            var user = await _unitOfWork.FarmOwnerRepository.SignIn(email,password);
+            var user = await _unitOfWork.AccountRepository.SignIn(email,password);
             if (user == null)
                 return new BusinessResult()
                 {
@@ -53,7 +53,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
                 
            
-            var signInModel = GenarateToken(user.Id,"FarmOwner",user.OwnerName,user.Email);
+            var signInModel = GenarateToken(user.Id, user.Role, user.Name, user.Email);
             return new BusinessResult()
             {
                 Data = signInModel,
@@ -62,6 +62,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             };
         }
 
+        /*
         public async Task<IBusinessResult> SignInForFarmer(string email, string password)
         {
             if (string.IsNullOrEmpty(email))
@@ -97,8 +98,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 Message = "signing in successfully."
             };
         }
+        */
 
-        private object GenarateToken(int Id,string Role,string Name, string Email)
+        private object GenarateToken(int Id, string Role, string Name, string Email)
         {
             JwtSecurityToken accessJwtSecurityToken = JWTHelper.GetToken(_configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], Role, Id, Email,Email, 1, null);
 

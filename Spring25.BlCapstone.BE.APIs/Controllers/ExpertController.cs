@@ -1,18 +1,16 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/farmers")]
+    [Route("api/experts")]
     [ApiController]
-    public class FarmerController : ControllerBase
+    public class ExpertController : ControllerBase
     {
-        private IFarmerService _service;
-
-        public FarmerController(IFarmerService farmerService)
+        private IExpertService _expertService;
+        public ExpertController(IExpertService expertService)
         {
-            _service = farmerService;
+            _expertService = expertService;
         }
 
         [HttpGet]
@@ -20,7 +18,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var result = await _service.GetAll();
+                var result = await _expertService.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -32,21 +30,21 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var rs = await _service.GetById(id);
+            var rs = await _expertService.GetById(id);
             return Ok(rs);
         }
 
         [HttpPut("status/{id}")]
         public async Task<IActionResult> SwitchStatus(int id)
         {
-            var rs = await _service.SwitchStatus(id);
+            var rs = await _expertService.SwitchStatus(id);
             return Ok(rs);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(int id)
         {
-            var rs = await _service.RemoveFarmer(id);
+            var rs = await _expertService.RemoveExpert(id);
             return Ok(rs);
         }
     }

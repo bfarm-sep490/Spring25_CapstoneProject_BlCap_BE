@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,22 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Repositories
 {
-    public class FarmerRepository :GenericRepository<Farmer>
+    public class FarmerRepository : GenericRepository<Farmer>
     {
-        public FarmerRepository()
-        {
-            this._context ??= new Context();
+        public FarmerRepository() {
+            _context ??= new Context();
         }
-        public FarmerRepository(Context context)
+
+        public FarmerRepository(Context context) 
         {
-            this._context = context;
+            _context = context;
         }
-        public async Task<Farmer> SignIn(string email, string password)
+
+        public async Task<List<Farmer>> GetFarmers()
         {
-            var user = (await this.FindByConditionAsync(x => x.Email == email && x.Password == password)).FirstOrDefault();
-            return user;
+            return await _context.Farmers
+                .Include(f => f.Account)
+                .ToListAsync();
         }
     }
 }
