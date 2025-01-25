@@ -43,7 +43,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 IsActive = e.Account.IsActive
             })
             .ToList();
-            return new BusinessResult(200, "List Experts", result);
+
+            if(result.Count > 0)
+            {
+                return new BusinessResult(200, "List Experts", result);
+            }
+            else
+            {
+                return new BusinessResult(404, "Not Found Any Experts", null);
+            }
         }
 
         public async Task<IBusinessResult> GetById(int id)

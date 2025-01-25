@@ -44,7 +44,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 IsActive = f.Account.IsActive
             })
             .ToList();
-            return new BusinessResult(200, "List Farmer", result);
+
+            if (result.Count > 0)
+            {
+                return new BusinessResult(200, "List Farmers", result);
+            }
+            else
+            {
+                return new BusinessResult(404, "Not Found Any Farmers", null);
+            }
         }
 
         public async Task<IBusinessResult> GetById(int id)
