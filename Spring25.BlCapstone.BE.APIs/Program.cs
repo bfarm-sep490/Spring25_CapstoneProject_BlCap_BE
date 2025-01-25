@@ -80,7 +80,9 @@ builder.Services.AddScoped<IAblyService, AblyService>();
 builder.Services.AddScoped<IFarmerService, FarmerService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
-
+builder.Services.AddScoped<ISeedService, SeedService>();
+builder.Services.AddScoped<IYieldService, YieldService>();
+builder.Services.AddScoped<UnitOfWork>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

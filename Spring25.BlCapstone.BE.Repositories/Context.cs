@@ -6,7 +6,7 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 namespace Spring25.BlCapstone.BE.Repositories
 {
     public class Context : DbContext
-    {  
+    {
         public Context() { }
         public Context(DbContextOptions<Context> options)
             : base(options)
@@ -17,7 +17,9 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<Farmer> Farmers { get; set; }
         public virtual DbSet<Expert> Experts { get; set; }
         public virtual DbSet<Item> Items { get; set; }
-
+        public virtual DbSet<Seed> Seeds { get; set; } 
+        public virtual DbSet<Yield> Yields { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -41,7 +43,10 @@ namespace Spring25.BlCapstone.BE.Repositories
                     .WithMany(f => f.Experts)
                     .HasForeignKey(i => i.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
-
+            modelBuilder.Entity<Seed>()
+                .ToTable("Seed");
+            modelBuilder.Entity<Yield>()
+                .ToTable("Yield");
             /*modelBuilder.Entity<Pesticide>(entity =>
             {
                 entity.ToTable("Pesticide");
