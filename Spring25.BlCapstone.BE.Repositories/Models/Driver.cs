@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class Farmer
+    public class Driver
     {
         [Key]
         public int Id { get; set; }
@@ -18,9 +18,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? Avatar { get; set; }
 
         public Account Account { get; set; }
-        public ICollection<FarmerPermission> FarmerPermissions { get; set; }
-        public ICollection<ProductionTask> ProductionTasks { get; set; }
-        public ICollection<HarvestingTask> HarvestingTasks { get; set; }
-        public ICollection<PackagingTask> PackagingTasks { get; set; }
+        public ICollection<ShipmentTrip> ShipmentTrips { get; set; }
     }
 }
