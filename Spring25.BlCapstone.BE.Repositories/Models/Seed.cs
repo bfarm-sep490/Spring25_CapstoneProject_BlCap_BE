@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,5 +30,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public double MinBrixPoint {  get; set; }
         public double MaxBrixPoint { get;set; }
         public string GTTestKitColor {  get; set; }
+
+        public ICollection<Plan> Plans { get; set; }
     }
 }
