@@ -107,8 +107,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-                if (farmer == null)
+                var farmers = await _unitOfWork.FarmerRepository.GetFarmers();
+                var updatedFarmer = farmers.FirstOrDefault(f => f.Id == id);
+
+                if (updatedFarmer == null)
                 {
                     return new BusinessResult
                     {
@@ -118,8 +120,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                farmer.Account.IsActive = !farmer.Account.IsActive;
-                var rs = await _unitOfWork.FarmerRepository.UpdateAsync(farmer);
+                
+                updatedFarmer.Account.IsActive = !updatedFarmer.Account.IsActive;
+                var rs = await _unitOfWork.FarmerRepository.UpdateAsync(updatedFarmer);
 
                 if (rs > 0)
                 {

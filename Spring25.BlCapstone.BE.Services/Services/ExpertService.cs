@@ -106,8 +106,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
-                if (expert == null)
+                var experts = await _unitOfWork.ExpertRepository.GetExperts();
+                var updatedExpert = experts.FirstOrDefault(f => f.Id == id);
+                if (updatedExpert == null)
                 {
                     return new BusinessResult
                     {
@@ -117,8 +118,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                expert.Account.IsActive = !expert.Account.IsActive;
-                var rs = await _unitOfWork.ExpertRepository.UpdateAsync(expert);
+                updatedExpert.Account.IsActive = !updatedExpert.Account.IsActive;
+                var rs = await _unitOfWork.ExpertRepository.UpdateAsync(updatedExpert);
 
                 if (rs > 0)
                 {
