@@ -40,7 +40,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<ProductionImage> ProductionImages { get; set; }
         public virtual DbSet<HarvestingImage> HarvestingImages { get; set; }
         public virtual DbSet<PackagingImage> PackagingImages { get; set; }
-        public virtual DbSet<InspectingImage> InspectionImages { get; set; }
+        public virtual DbSet<InspectingImage> InspectingImages { get; set; }
         public virtual DbSet<Pesticide> Pesticides { get; set; }
         public virtual DbSet<ProductionPesticide> ProductionPesticides { get; set; }
         public virtual DbSet<Fertilizer> Fertilizers { get; set; }
