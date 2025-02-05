@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Spring25.BlCapstone.BE.Repositories;
+﻿using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
@@ -14,50 +11,50 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
-    public interface IFarmerService
+    public interface IDriverService
     {
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> SwitchStatus(int id);
-        Task<IBusinessResult> RemoveFarmer(int id);
-        Task<IBusinessResult> CreateFarmer(CreateFarmer model);
-        Task<IBusinessResult> UpdateFarmer(int id, CreateFarmer model);
+        Task<IBusinessResult> RemoveDriver(int id);
+        Task<IBusinessResult> CreateDriver(CreateFarmer model);
+        Task<IBusinessResult> UpdateDriver(int id, CreateFarmer model);
     }
 
-    public class FarmerService : IFarmerService
+    public class DriverService : IDriverService
     {
         private readonly UnitOfWork _unitOfWork;
 
-        public FarmerService()
+        public DriverService()
         {
             _unitOfWork ??= new UnitOfWork();
         }
 
         public async Task<IBusinessResult> GetAll()
         {
-            var list = await _unitOfWork.FarmerRepository.GetFarmers();
-            var result = list.Select(f => new FarmerModel
+            var list = await _unitOfWork.DriverRepository.GetDrivers();
+            var result = list.Select(e => new FarmerModel
             {
-                Id = f.Id,
-                Email = f.Account.Email,
-                Password = f.Account.Password,
-                Name = f.Account.Name,
-                Phone = f.Phone,
-                Status = f.Status,
-                Avatar = f.Avatar,
-                IsActive = f.Account.IsActive,
-                UpdatedAt = f.Account.UpdatedAt,
-                CreatedAt = f.Account.CreatedAt,
+                Id = e.Id,
+                Email = e.Account.Email,
+                Password = e.Account.Password,
+                Name = e.Account.Name,
+                Phone = e.Phone,
+                Status = e.Status,
+                Avatar = e.Avatar,
+                IsActive = e.Account.IsActive,
+                UpdatedAt = e.Account.UpdatedAt,
+                CreatedAt = e.Account.CreatedAt,
             })
             .ToList();
 
             if (result.Count > 0)
             {
-                return new BusinessResult(200, "List Farmers", result);
+                return new BusinessResult(200, "List Drivers", result);
             }
             else
             {
-                return new BusinessResult(404, "Not Found Any Farmers", null);
+                return new BusinessResult(404, "Not Found Any Drivers", null);
             }
         }
 
@@ -65,7 +62,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var users = await _unitOfWork.FarmerRepository.GetFarmers();
+                var users = await _unitOfWork.DriverRepository.GetDrivers();
                 var result = users
                     .Where(u => u.Id == id)
                     .Select(f => new FarmerModel
@@ -78,7 +75,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Status = f.Status,
                         Avatar = f.Avatar,
                         IsActive = f.Account.IsActive,
-                        UpdatedAt= f.Account.UpdatedAt,
+                        UpdatedAt = f.Account.UpdatedAt,
                         CreatedAt = f.Account.CreatedAt,
                     })
                 .ToList();
@@ -88,7 +85,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult
                     {
                         Status = 404,
-                        Message = "Not found any Farmers",
+                        Message = "Not found any Drivers",
                         Data = null
                     };
                 }
@@ -115,10 +112,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var farmers = await _unitOfWork.FarmerRepository.GetFarmers();
-                var updatedFarmer = farmers.FirstOrDefault(f => f.Id == id);
-
-                if (updatedFarmer == null)
+                var drivers = await _unitOfWork.DriverRepository.GetDrivers();
+                var updatedDriver = drivers.FirstOrDefault(f => f.Id == id);
+                if (updatedDriver == null)
                 {
                     return new BusinessResult
                     {
@@ -128,9 +124,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-
-                updatedFarmer.Account.IsActive = !updatedFarmer.Account.IsActive;
-                var rs = await _unitOfWork.FarmerRepository.UpdateAsync(updatedFarmer);
+                updatedDriver.Account.IsActive = !updatedDriver.Account.IsActive;
+                var rs = await _unitOfWork.DriverRepository.UpdateAsync(updatedDriver);
 
                 if (rs > 0)
                 {
@@ -162,24 +157,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> RemoveFarmer(int id)
+        public async Task<IBusinessResult> RemoveDriver(int id)
         {
             try
             {
-                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-                var account = await _unitOfWork.AccountRepository.GetByIdAsync(farmer.AccountId);
+                var driver = await _unitOfWork.DriverRepository.GetByIdAsync(id);
+                var account = await _unitOfWork.AccountRepository.GetByIdAsync(driver.AccountId);
 
-                if (farmer == null)
+                if (driver == null)
                 {
                     return new BusinessResult
                     {
                         Status = 404,
-                        Message = "Not found any farmers!",
+                        Message = "Not found any drivers!",
                         Data = null
                     };
                 }
 
-                var result = await _unitOfWork.FarmerRepository.RemoveAsync(farmer);
+                var result = await _unitOfWork.DriverRepository.RemoveAsync(driver);
                 var rs = await _unitOfWork.AccountRepository.RemoveAsync(account);
 
                 if (result && rs)
@@ -212,7 +207,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> CreateFarmer(CreateFarmer model)
+        public async Task<IBusinessResult> CreateDriver(CreateFarmer model)
         {
             try
             {
@@ -220,7 +215,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     Email = model.Email,
                     Name = model.Name,
-                    Role = "Farmer",
+                    Role = "Driver",
                     Password = model.Password,
                     IsActive = true,
                     CreatedAt = DateTime.Now
@@ -234,7 +229,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     url = i.Url;
                 }
 
-                var newFarmer = new Farmer
+                var newDriver = new Driver
                 {
                     AccountId = newAccount.Id,
                     DOB = model.DOB != null ? model.DOB : null,
@@ -242,7 +237,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Status = "?",
                     Avatar = url != null ? url : null,
                 };
-                var rsf = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
+                var rsf = await _unitOfWork.DriverRepository.CreateAsync(newDriver);
 
                 if (rsf == null)
                 {
@@ -258,7 +253,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult
                 {
                     Status = 200,
-                    Message = "Create farmer success !",
+                    Message = "Create driver success !",
                     Data = rsf
                 };
 
@@ -274,34 +269,34 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> UpdateFarmer(int id, CreateFarmer model)
+        public async Task<IBusinessResult> UpdateDriver(int id, CreateFarmer model)
         {
             try
             {
-                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-                if (farmer == null)
+                var driver = await _unitOfWork.DriverRepository.GetByIdAsync(id);
+                if (driver == null)
                 {
                     return new BusinessResult
                     {
                         Status = 404,
-                        Message = "Farmer not found !",
+                        Message = "Driver not found !",
                         Data = null
                     };
                 }
 
-                var account = await _unitOfWork.AccountRepository.GetByIdAsync(farmer.AccountId);
+                var account = await _unitOfWork.AccountRepository.GetByIdAsync(driver.AccountId);
                 account.Name = model.Name;
                 account.Email = model.Email;
                 account.Password = model.Password;
                 account.UpdatedAt = DateTime.Now;
                 await _unitOfWork.AccountRepository.UpdateAsync(account);
 
-                farmer.DOB = model.DOB;
-                farmer.Phone = model.Phone;
+                driver.DOB = model.DOB;
+                driver.Phone = model.Phone;
                 var url = await CloudinaryHelper.UploadImage(model.Avatar);
-                farmer.Avatar = url.Url;
+                driver.Avatar = url.Url;
 
-                var rs = await _unitOfWork.FarmerRepository.UpdateAsync(farmer);
+                var rs = await _unitOfWork.DriverRepository.UpdateAsync(driver);
                 if (rs > 0)
                 {
                     return new BusinessResult
@@ -310,7 +305,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = "Update successfull",
                         Data = null
                     };
-                } else
+                }
+                else
                 {
                     return new BusinessResult
                     {

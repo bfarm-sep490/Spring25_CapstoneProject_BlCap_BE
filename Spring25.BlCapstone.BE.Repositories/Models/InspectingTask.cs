@@ -35,6 +35,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public bool IsCompleted { get; set; }
         public bool IsAvailable { get; set; }
         public int DefectsFound { get; set; }
+        public int Priority { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

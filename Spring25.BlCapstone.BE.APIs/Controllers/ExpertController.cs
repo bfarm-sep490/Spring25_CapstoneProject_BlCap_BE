@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -45,6 +46,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             var rs = await _expertService.RemoveExpert(id);
+            return Ok(rs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateFarmer model)
+        {
+            var rs = await _expertService.CreateExpert(model);
+            return Ok(rs);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] CreateFarmer model)
+        {
+            var rs = await _expertService.UpdateExpert(id, model);
             return Ok(rs);
         }
     }

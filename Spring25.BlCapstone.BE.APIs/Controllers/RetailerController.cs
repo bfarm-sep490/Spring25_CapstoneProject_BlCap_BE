@@ -1,19 +1,18 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Retailer;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/farmers")]
+    [Route("api/retailers")]
     [ApiController]
-    public class FarmerController : ControllerBase
+    public class RetailerController : ControllerBase
     {
-        private IFarmerService _service;
-
-        public FarmerController(IFarmerService farmerService)
+        private IRetailerService _retailerService;
+        public RetailerController(IRetailerService retailerService)
         {
-            _service = farmerService;
+            _retailerService = retailerService;
         }
 
         [HttpGet]
@@ -21,7 +20,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var result = await _service.GetAll();
+                var result = await _retailerService.GetAll();
                 return Ok(result);
             }
             catch (Exception ex)
@@ -33,35 +32,35 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var rs = await _service.GetById(id);
+            var rs = await _retailerService.GetById(id);
             return Ok(rs);
         }
 
         [HttpPut("status/{id}")]
         public async Task<IActionResult> SwitchStatus(int id)
         {
-            var rs = await _service.SwitchStatus(id);
+            var rs = await _retailerService.SwitchStatus(id);
             return Ok(rs);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(int id)
         {
-            var rs = await _service.RemoveFarmer(id);
+            var rs = await _retailerService.RemoveRetailer(id);
             return Ok(rs);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateFarmer model)
+        public async Task<IActionResult> Create([FromForm] CreateRetailer model)
         {
-            var rs = await _service.CreateFarmer(model);
+            var rs = await _retailerService.CreateRetailer(model);
             return Ok(rs);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] CreateFarmer model)
+        public async Task<IActionResult> Update(int id, [FromForm] CreateRetailer model)
         {
-            var rs = await _service.UpdateFarmer(id, model);
+            var rs = await _retailerService.UpdateRetailer(id, model);
             return Ok(rs);
         }
     }

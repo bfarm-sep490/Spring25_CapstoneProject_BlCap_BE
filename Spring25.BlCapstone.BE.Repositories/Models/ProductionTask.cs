@@ -21,6 +21,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public DateTime EndDate { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsAvailable { get; set; }
+        public int Priority { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

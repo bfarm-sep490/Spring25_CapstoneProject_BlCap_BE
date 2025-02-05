@@ -33,7 +33,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var items = await _unitOfWork.ItemRepository.GetAllAsync();
-                if (items == null)
+                var res = items.Select(i => new ItemModels
+                {
+                    Id = i.Id,
+                    Description = i.Description,
+                    Image = i.Image,
+                    Name = i.Name,
+                    Status = i.Status,
+                    Type = i.Type,
+                }).ToList();
+                if (res.Count <= 0)
                 {
                     return new BusinessResult
                     {
@@ -41,14 +50,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = "Not found any Items!",
                         Data = null
                     };
-                } 
+                }
                 else
                 {
                     return new BusinessResult
                     {
                         Status = 200,
                         Message = "Read data successfully !!!",
-                        Data = items
+                        Data = res
                     };
                 }
             }
@@ -68,6 +77,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var item = await _unitOfWork.ItemRepository.GetByIdAsync(id);
+
                 if (item == null)
                 {
                     return new BusinessResult
@@ -77,15 +87,23 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Data = null
                     };
                 }
-                else
+
+                var res = new ItemModels
                 {
-                    return new BusinessResult
-                    {
-                        Status = 200,
-                        Message = "Read data successfully !!!",
-                        Data = item
-                    };
-                }
+                    Id = item.Id,
+                    Description = item.Description,
+                    Image = item.Image,
+                    Name = item.Name,
+                    Status = item.Status,
+                    Type = item.Type,
+                };
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Read data successfully !!!",
+                    Data = res
+                };
             }
             catch (Exception ex)
             {
@@ -122,7 +140,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = "Create failed !",
                         Data = null
                     };
-                } 
+                }
                 else
                 {
                     return new BusinessResult
