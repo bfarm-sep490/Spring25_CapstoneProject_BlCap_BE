@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> SwitchStatus(int id);
         Task<IBusinessResult> RemoveFarmer(int id);
+        Task<IBusinessResult> CreateFarmer(CreateFarmer model);
+        Task<IBusinessResult> UpdateFarmer(int id, CreateFarmer model);
     }
 
     public class FarmerService : IFarmerService
@@ -41,7 +45,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 Phone = f.Phone,
                 Status = f.Status,
                 Avatar = f.Avatar,
-                IsActive = f.Account.IsActive
+                IsActive = f.Account.IsActive,
+                UpdatedAt = f.Account.UpdatedAt,
+                CreatedAt = f.Account.CreatedAt,
             })
             .ToList();
 
@@ -71,7 +77,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Phone = f.Phone,
                         Status = f.Status,
                         Avatar = f.Avatar,
-                        IsActive = f.Account.IsActive
+                        IsActive = f.Account.IsActive,
+                        UpdatedAt= f.Account.UpdatedAt,
+                        CreatedAt = f.Account.CreatedAt,
                     })
                 .ToList();
 
@@ -91,7 +99,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = "Read successfull !",
                     Data = result
                 };
-            } 
+            }
             catch (Exception ex)
             {
                 return new BusinessResult
@@ -120,7 +128,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                
+
                 updatedFarmer.Account.IsActive = !updatedFarmer.Account.IsActive;
                 var rs = await _unitOfWork.FarmerRepository.UpdateAsync(updatedFarmer);
 
@@ -189,6 +197,125 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     {
                         Status = 500,
                         Message = "Remove failed !",
+                        Data = null
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public async Task<IBusinessResult> CreateFarmer(CreateFarmer model)
+        {
+            try
+            {
+                var newAccount = new Account
+                {
+                    Email = model.Email,
+                    Name = model.Name,
+                    Role = "Farmer",
+                    Password = model.Password,
+                    IsActive = true,
+                    CreatedAt = DateTime.Now
+                };
+                var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
+
+                string url = null;
+                if (model.Avatar != null)
+                {
+                    var i = await CloudinaryHelper.UploadImage(model.Avatar);
+                    url = i.Url;
+                }
+
+                var newFarmer = new Farmer
+                {
+                    AccountId = newAccount.Id,
+                    DOB = model.DOB != null ? model.DOB : null,
+                    Phone = model.Phone != null ? model.Phone : null,
+                    Status = "?",
+                    Avatar = url != null ? url : null,
+                };
+                var rsf = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
+
+                if (rsf == null)
+                {
+                    return new BusinessResult
+                    {
+                        Status = 500,
+                        Message = "Create failed !",
+                        Data = null
+
+                    };
+                };
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Create farmer success !",
+                    Data = rsf
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public async Task<IBusinessResult> UpdateFarmer(int id, CreateFarmer model)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
+                if (farmer == null)
+                {
+                    return new BusinessResult
+                    {
+                        Status = 404,
+                        Message = "Farmer not found !",
+                        Data = null
+                    };
+                }
+
+                var account = await _unitOfWork.AccountRepository.GetByIdAsync(farmer.AccountId);
+                account.Name = model.Name;
+                account.Email = model.Email;
+                account.Password = model.Password;
+                account.UpdatedAt = DateTime.Now;
+                await _unitOfWork.AccountRepository.UpdateAsync(account);
+
+                farmer.DOB = model.DOB;
+                farmer.Phone = model.Phone;
+                var url = await CloudinaryHelper.UploadImage(model.Avatar);
+                farmer.Avatar = url.Url;
+
+                var rs = await _unitOfWork.FarmerRepository.UpdateAsync(farmer);
+                if (rs > 0)
+                {
+                    return new BusinessResult
+                    {
+                        Status = 200,
+                        Message = "Update successfull",
+                        Data = null
+                    };
+                } else
+                {
+                    return new BusinessResult
+                    {
+                        Status = 500,
+                        Message = "Update failed",
                         Data = null
                     };
                 }

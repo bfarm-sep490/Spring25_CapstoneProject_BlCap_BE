@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Retailer;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -45,6 +47,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             var rs = await _retailerService.RemoveRetailer(id);
+            return Ok(rs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateRetailer model)
+        {
+            var rs = await _retailerService.CreateRetailer(model);
+            return Ok(rs);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromForm] CreateRetailer model)
+        {
+            var rs = await _retailerService.UpdateRetailer(id, model);
             return Ok(rs);
         }
     }
