@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -21,6 +22,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> RemoveExpert(int id);
         Task<IBusinessResult> CreateExpert(CreateFarmer model);
         Task<IBusinessResult> UpdateExpert(int id, CreateFarmer model);
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
 
     public class ExpertService : IExpertService
@@ -317,6 +319,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Data = null
                     };
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
             }
             catch (Exception ex)
             {
