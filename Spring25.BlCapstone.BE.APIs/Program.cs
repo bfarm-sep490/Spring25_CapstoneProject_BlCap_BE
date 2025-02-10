@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Services;
+using System.Security;
 using System.Text;
 using System.Text.Json;
 var builder = WebApplication.CreateBuilder(args);
@@ -85,6 +86,8 @@ builder.Services.AddScoped<IYieldService, YieldService>();
 builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<IRetailerService, RetailerService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IPesticideService, PesticideService>();
+builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<UnitOfWork>();
 var app = builder.Build();
 

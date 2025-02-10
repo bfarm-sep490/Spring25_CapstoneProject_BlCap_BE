@@ -10,7 +10,7 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Seed
         public string Description { get; set; }
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }
-        [JsonPropertyName("min_humid")]
+        [JsonPropertyName("min_temp")]
         public double MinTemp { get; set; }
         [JsonPropertyName("max_temp")]
         public double MaxTemp { get; set; }
