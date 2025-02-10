@@ -39,14 +39,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
             throw new NotImplementedException();
         }
 
-        public Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll()
         {
-            throw new NotImplementedException();
+           var list = await _unitOfWork.YieldRepository.GetAllAsync();
+           var result= _mapper.Map<List<YieldModel>>(list);
+            return new BusinessResult(200,"List Yields",result);
+            
         }
 
-        public Task<IBusinessResult> GetById(int id)
+        public async Task<IBusinessResult> GetById(int id)
         {
-            throw new NotImplementedException();
+            var obj = await _unitOfWork.YieldRepository.GetByIdAsync(id);
+            var result= _mapper.Map<YieldModel>(obj);
+            return new BusinessResult(200, "Get Yield by Id", result);
         }
 
         public Task<IBusinessResult> Update(YieldModel model)

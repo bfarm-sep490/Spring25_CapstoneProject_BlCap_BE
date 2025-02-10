@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.APIs.RequestModels.Seed;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Seed;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -47,6 +49,34 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             try
             {
                 var result = await _seedService.Delete(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] CreatedSeed model)
+        {
+            try
+            {
+                var obj = _mapper.Map<SeedModel>(model);
+                var result = await _seedService.Create(obj);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromBody] UpdatedSeed model, [FromRoute]int id)
+        {
+            try
+            {
+                var obj = _mapper.Map<SeedModel>(model);
+                var result = await _seedService.Update(id,obj);
                 return Ok(result);
             }
             catch (Exception ex)
