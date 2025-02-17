@@ -33,7 +33,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> Create(SeedModel model)
         {
            CheckModel(model);
-           var obj = _mapper.Map<Seed>(model);
+           var obj = _mapper.Map<Plant>(model);
            var result = await _unitOfWork.SeedRepository.CreateAsync(obj);
            return new BusinessResult(200,"Create successfully",result);
         }

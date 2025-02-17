@@ -11,41 +11,40 @@ namespace Spring25.BlCapstone.BE.Repositories
     public class UnitOfWork
     {
         private AccountRepository _accountRepository;
-        private FarmerRepository _farmerRepository;
-        private ExpertRepository _expertRepository;
-        private ItemRepository _itemRepository;
-        private YieldRepository _yieldRepository;
-        private SeedRepository _seedRepository;
-        private RetailerRepository _retailerRepository;
-        private DriverRepository _driverRepository;
-        private OrderRepository _orderRepository;
-        private ShipmentTripRepository _shipmentTripRepository;
-        private ShipmentImageRepository _shipmentImageRepository;
-        private TransactionRepository _transactionRepository;
-        private PlanRepository _planRepository;
-        private PackedProductRepository _packedProductRepository;
-        private OrderDetailRepository _orderDetailRepository;
+        private CaringFertilizerRepository _caringFertilizerRepository;
+        private CaringImageRepository _caringImageRepository;
+        private CaringItemRepository _caringItemRepository;
+        private CaringPesticideRepository _caringPesticideRepository;
+        private CaringTaskRepository _caringTaskRepository;
         private DeviceRepository _deviceRepository;
-        private ExpertPermissionRepository _expertPermissionRepository;
+        private ExpertRepository _expertRepository;
         private FarmerPermissionRepository _farmerPermissionRepository;
-        private YieldPlanRepository _yieldPlanRepository;
-        private PeriodRepository _periodRepository;
-        private ProductionTaskRepository _productionTaskRepository;
-        private HarvestingTaskRepository _harvestingTaskRepository;
-        private PackagingTaskRepository _packagingTaskRepository;
-        private InspectingTaskRepository _inspectingTaskRepository;
-        private ProductionImageRepository _productionImageRepository;
-        private HarvestingImageRepository _harvestingImageRepository;
-        private PackagingImageRepository _packagingImageRepository;
-        private InspectingImageRepository _inspectingImageRepository;
-        private PesticideRepository _pesticideRepository;
-        private ProductionPesticideRepository _productionPesticideRepository;
+        private FarmerRepository _farmerRepository;
+        private FertilizerRangeRepository _fertilizerRangeRepository;
         private FertilizerRepository _fertilizerRepository;
-        private ProductionFertilizerRepository _productionFertilizerRepository;
-        private ProductionItemRepository _productionItemRepository;
+        private HarvestingImageRepository _harvestingImageRepository;
         private HarvestingItemRepository _harvestingItemRepository;
-        private PackagingItemRepository _packagingItemRepository;
+        private HarvestingTaskRepository _harvestingTaskRepository;
+        private InspectingFormRepository _inspectingFormRepository;
+        private InspectingImageRepository _inspectingImageRepository;
         private InspectingItemRepository _inspectingItemRepository;
+        private InspectorRepository _inspectorRepository;
+        private IssueRepository _issueRepository;
+        private ItemRepository _itemRepository;
+        private OrderPlanRepository _orderPlanRepository;
+        private OrderPlantRepository _orderPlantRepository;
+        private OrderRepository _orderRepository;
+        private PesticideRangeRepository _pesticideRangeRepository;
+        private PesticideRepository _pesticideRepository;
+        private PlanRepository _planRepository;
+        private PlantRepository _plantRepository;
+        private ProblemImageRepository _problemImageRepository;
+        private ProblemRepository _problemRepository;
+        private RetailerRepository _retailerRepository;
+        private SampleSolutionRepository _sampleSolutionRepository;
+        private TransactionRepository _transactionRepository;
+        private YieldPlanRepository _yieldPlanRepository;
+        private YieldRepository _yieldRepository;
 
         public UnitOfWork()
         {
@@ -54,91 +53,90 @@ namespace Spring25.BlCapstone.BE.Repositories
             _expertRepository ??= new ExpertRepository();
             _itemRepository ??= new ItemRepository();
             _yieldRepository ??= new YieldRepository();
-            _seedRepository ??= new SeedRepository();
+            _plantRepository ??= new PlantRepository();
             _retailerRepository ??= new RetailerRepository();
-            _driverRepository ??= new DriverRepository();
             _orderRepository ??= new OrderRepository();
-            _shipmentTripRepository ??= new ShipmentTripRepository();
-            _shipmentImageRepository ??= new ShipmentImageRepository();
             _transactionRepository ??= new TransactionRepository();
             _planRepository ??= new PlanRepository();
-            _packedProductRepository ??= new PackedProductRepository();
-            _orderDetailRepository ??= new OrderDetailRepository();
             _deviceRepository ??= new DeviceRepository();
-            _expertPermissionRepository ??= new ExpertPermissionRepository();
             _farmerPermissionRepository ??= new FarmerPermissionRepository();
             _yieldPlanRepository ??= new YieldPlanRepository();
-            _periodRepository ??= new PeriodRepository();
-            _productionTaskRepository ??= new ProductionTaskRepository();
+            _caringTaskRepository ??= new CaringTaskRepository();
             _harvestingTaskRepository ??= new HarvestingTaskRepository();
-            _packagingTaskRepository ??= new PackagingTaskRepository();
-            _inspectingTaskRepository ??= new InspectingTaskRepository();
-            _productionImageRepository ??= new ProductionImageRepository();
+            _inspectingFormRepository ??= new InspectingFormRepository();
+            _caringImageRepository ??= new CaringImageRepository();
             _harvestingImageRepository ??= new HarvestingImageRepository();
-            _packagingImageRepository ??= new PackagingImageRepository();
             _inspectingImageRepository ??= new InspectingImageRepository();
             _pesticideRepository ??= new PesticideRepository();
-            _productionPesticideRepository ??= new ProductionPesticideRepository();
+            _caringPesticideRepository ??= new CaringPesticideRepository();
             _fertilizerRepository ??= new FertilizerRepository();
-            _productionFertilizerRepository ??= new ProductionFertilizerRepository();
-            _productionItemRepository ??= new ProductionItemRepository();
+            _caringFertilizerRepository ??= new CaringFertilizerRepository();
+            _caringItemRepository ??= new CaringItemRepository();
             _harvestingItemRepository ??= new HarvestingItemRepository();
-            _packagingItemRepository ??= new PackagingItemRepository();
             _inspectingItemRepository ??= new InspectingItemRepository();
+            _fertilizerRangeRepository ??= new FertilizerRangeRepository();
+            _inspectorRepository ??= new InspectorRepository();
+            _issueRepository ??= new IssueRepository();
+            _orderPlanRepository ??= new OrderPlanRepository();
+            _orderPlantRepository ??= new OrderPlantRepository();
+            _pesticideRangeRepository ??= new PesticideRangeRepository();
+            _problemImageRepository ??= new ProblemImageRepository();
+            _problemRepository ??= new ProblemRepository();
+            _sampleSolutionRepository ??= new SampleSolutionRepository();
         }
 
         public UnitOfWork(AccountRepository accountRepository, FarmerRepository farmerRepository,
             ExpertRepository expertRepository, ItemRepository itemRepository,YieldRepository yieldRepository,
-            SeedRepository seedRepository, RetailerRepository retailerRepository, DriverRepository driverRepository,
-            OrderRepository orderRepository, ShipmentTripRepository shipmentTripRepository,
-            ShipmentImageRepository shipmentImageRepository, TransactionRepository transactionRepository, PlanRepository planRepository,
-            PackedProductRepository packedProductRepository, OrderDetailRepository orderDetailRepository,
-            DeviceRepository deviceRepository, ExpertPermissionRepository expertPermissionRepository, FarmerPermissionRepository farmerPermissionRepository,
-            YieldPlanRepository yieldPlanRepository, PeriodRepository periodRepository, ProductionTaskRepository productionTaskRepository,
-            HarvestingTaskRepository harvestingTaskRepository, PackagingTaskRepository packagingTaskRepository,
-            InspectingTaskRepository inspectingTaskRepository, ProductionImageRepository productionImageRepository,
-            HarvestingImageRepository harvestingImageRepository, PackagingImageRepository packagingImageRepository, InspectingImageRepository inspectingImageRepository,
-            PesticideRepository pesticideRepository, ProductionPesticideRepository productionPesticideRepository,
-            FertilizerRepository fertilizerRepository, ProductionFertilizerRepository productionFertilizerRepository,
-            ProductionItemRepository productionItemRepository, HarvestingItemRepository harvestingItemRepository,
-            PackagingItemRepository packagingItemRepository, InspectingItemRepository inspectingItemRepository)
+            PlantRepository plantRepository, RetailerRepository retailerRepository,
+            OrderRepository orderRepository, TransactionRepository transactionRepository, PlanRepository planRepository,
+            DeviceRepository deviceRepository, FarmerPermissionRepository farmerPermissionRepository,
+            YieldPlanRepository yieldPlanRepository, CaringTaskRepository caringTaskRepository,
+            HarvestingTaskRepository harvestingTaskRepository,
+            InspectingFormRepository inspectingFormRepository, CaringImageRepository caringImageRepository,
+            HarvestingImageRepository harvestingImageRepository, InspectingImageRepository inspectingImageRepository,
+            PesticideRepository pesticideRepository, CaringPesticideRepository caringPesticideRepository,
+            FertilizerRepository fertilizerRepository, CaringFertilizerRepository caringFertilizerRepository,
+            CaringItemRepository caringItemRepository, HarvestingItemRepository harvestingItemRepository,
+            InspectingItemRepository inspectingItemRepository, FertilizerRangeRepository fertilizerRangeRepository,
+            InspectorRepository inspectorRepository, IssueRepository issueRepository, OrderPlanRepository orderPlanRepository,
+            OrderPlantRepository orderPlantRepository, PesticideRangeRepository pesticideRangeRepository, ProblemImageRepository problemImageRepository,
+            ProblemRepository problemRepository, SampleSolutionRepository sampleSolutionRepository)
         {
             _accountRepository = accountRepository;
             _farmerRepository = farmerRepository;
             _expertRepository = expertRepository;
             _itemRepository = itemRepository;
             _yieldRepository = yieldRepository;
-            _seedRepository = seedRepository;
+            _plantRepository = plantRepository;
             _retailerRepository = retailerRepository;
-            _driverRepository = driverRepository;
             _orderRepository = orderRepository;
-            _shipmentTripRepository = shipmentTripRepository;
-            _shipmentImageRepository = shipmentImageRepository;
             _transactionRepository = transactionRepository;
             _planRepository = planRepository;
-            _packedProductRepository = packedProductRepository;
-            _orderDetailRepository = orderDetailRepository;
             _deviceRepository = deviceRepository;
-            _expertPermissionRepository = expertPermissionRepository;
             _farmerPermissionRepository = farmerPermissionRepository;
             _yieldPlanRepository = yieldPlanRepository;
-            _periodRepository = periodRepository;
-            _productionTaskRepository = productionTaskRepository;
+            _caringTaskRepository = caringTaskRepository;
             _harvestingTaskRepository = harvestingTaskRepository;
-            _packagingTaskRepository = packagingTaskRepository;
-            _inspectingTaskRepository = inspectingTaskRepository;
-            _productionImageRepository = productionImageRepository;
+            _inspectingFormRepository = inspectingFormRepository;
+            _caringImageRepository = caringImageRepository;
             _harvestingImageRepository = harvestingImageRepository;
-            _packagingImageRepository = packagingImageRepository;
             _inspectingImageRepository = inspectingImageRepository;
             _pesticideRepository = pesticideRepository;
-            _productionPesticideRepository = productionPesticideRepository;
+            _caringPesticideRepository = caringPesticideRepository;
             _fertilizerRepository = fertilizerRepository;
-            _productionFertilizerRepository = productionFertilizerRepository;
-            _productionItemRepository = productionItemRepository;
+            _caringFertilizerRepository = caringFertilizerRepository;
+            _caringItemRepository = caringItemRepository;
             _harvestingItemRepository = harvestingItemRepository;
-            _packagingItemRepository = packagingItemRepository;
             _inspectingItemRepository = inspectingItemRepository;
+            _fertilizerRangeRepository = fertilizerRangeRepository;
+            _inspectorRepository = inspectorRepository;
+            _issueRepository = issueRepository;
+            _orderPlanRepository = orderPlanRepository;
+            _orderPlantRepository = orderPlantRepository;
+            _pesticideRangeRepository = pesticideRangeRepository;
+            _problemImageRepository = problemImageRepository;
+            _problemRepository = problemRepository;
+            _sampleSolutionRepository = sampleSolutionRepository;
         }
 
         public AccountRepository AccountRepository { get { return _accountRepository; } }
@@ -146,36 +144,35 @@ namespace Spring25.BlCapstone.BE.Repositories
         public ExpertRepository ExpertRepository { get { return _expertRepository; } }
         public ItemRepository ItemRepository { get { return _itemRepository; } }
         public YieldRepository YieldRepository { get {return _yieldRepository; } }
-        public SeedRepository SeedRepository { get { return _seedRepository; } }
+        public PlantRepository SeedRepository { get { return _plantRepository; } }
         public RetailerRepository RetailerRepository { get { return _retailerRepository; } }
-        public DriverRepository DriverRepository { get { return _driverRepository; } }
         public OrderRepository OrderRepository { get { return _orderRepository; } }
-        public ShipmentTripRepository ShipmentTripRepository { get { return _shipmentTripRepository; } }
-        public ShipmentImageRepository ShipmentImageRepository { get { return _shipmentImageRepository; } }
         public TransactionRepository TransactionRepository { get { return _transactionRepository; } }
         public PlanRepository PlanRepository { get { return _planRepository; } }
-        public PackedProductRepository PackedProductRepository { get { return _packedProductRepository; } }
-        public OrderDetailRepository OrderDetailRepository { get { return _orderDetailRepository; } }
         public DeviceRepository DeviceRepository { get { return _deviceRepository; } }
-        public ExpertPermissionRepository ExpertPermissionRepository { get { return _expertPermissionRepository; } }
         public FarmerPermissionRepository FarmerPermissionRepository { get { return _farmerPermissionRepository; } }
         public YieldPlanRepository YieldPlanRepository { get { return _yieldPlanRepository; } }
-        public PeriodRepository PeriodRepository { get { return _periodRepository; } }
-        public ProductionTaskRepository ProductionTaskRepository { get { return _productionTaskRepository; } }
+        public CaringTaskRepository ProductionTaskRepository { get { return _caringTaskRepository; } }
         public HarvestingTaskRepository HarvestingTaskRepository { get {return _harvestingTaskRepository; } }
-        public PackagingTaskRepository PackagingTaskRepository { get { return _packagingTaskRepository; } }
-        public InspectingTaskRepository InspectingTaskRepository { get { return _inspectingTaskRepository; } }
-        public ProductionImageRepository ProductionImageRepository { get { return _productionImageRepository; } }
+        public InspectingFormRepository InspectingTaskRepository { get { return _inspectingFormRepository; } }
+        public CaringImageRepository ProductionImageRepository { get { return _caringImageRepository; } }
         public HarvestingImageRepository HarvestingImageRepository { get { return _harvestingImageRepository; } }
-        public PackagingImageRepository PackagingImageRepository { get { return _packagingImageRepository; } }
         public InspectingImageRepository InspectingImageRepository { get { return _inspectingImageRepository; } }
         public PesticideRepository PesticideRepository { get { return _pesticideRepository; } }
-        public ProductionPesticideRepository ProductionPesticideRepository { get { return _productionPesticideRepository; } }
+        public CaringPesticideRepository ProductionPesticideRepository { get { return _caringPesticideRepository; } }
         public FertilizerRepository FertilizerRepository {  get { return _fertilizerRepository; } }
-        public ProductionFertilizerRepository ProductionFertilizerRepository { get { return _productionFertilizerRepository; } }
-        public ProductionItemRepository ProductionItemRepository { get { return _productionItemRepository; } }
+        public CaringFertilizerRepository ProductionFertilizerRepository { get { return _caringFertilizerRepository; } }
+        public CaringItemRepository ProductionItemRepository { get { return _caringItemRepository; } }
         public HarvestingItemRepository HarvestingItemRepository { get { return _harvestingItemRepository; } }
-        public PackagingItemRepository PackagingItemRepository { get { return _packagingItemRepository; } }
         public InspectingItemRepository InspectingItemRepository { get { return _inspectingItemRepository; } }
+        public FertilizerRangeRepository FertilizerRangeRepository { get { return _fertilizerRangeRepository; } }
+        public InspectorRepository InspectorRepository { get { return _inspectorRepository; } }
+        public IssueRepository IssueRepository { get { return _issueRepository; } }
+        public OrderPlanRepository OrderPlanRepository { get { return _orderPlanRepository; } }
+        public OrderPlantRepository OrderPlantRepository { get { return _orderPlantRepository; } }
+        public PesticideRangeRepository PesticideRangeRepository { get { return _pesticideRangeRepository; } }
+        public ProblemImageRepository ProblemImageRepository { get { return _problemImageRepository; } }
+        public ProblemRepository ProblemRepository { get { return _problemRepository; } }
+        public SampleSolutionRepository SampleSolutionRepository { get { return _sampleSolutionRepository; } }
     }
 }

@@ -20,8 +20,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public bool IsPaid { get; set; }
 
         public Retailer Retailer { get; set; }
-        public ICollection<ShipmentTrip> ShipmentTrips { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public ICollection<OrderPlant> OrderPlants { get; set; }
+        public ICollection<OrderPlan> OrderPlans { get; set; }
     }
 }
