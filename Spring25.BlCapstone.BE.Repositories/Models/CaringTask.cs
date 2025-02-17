@@ -8,31 +8,33 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class HarvestingTask
+    public class CaringTask
     {
         [Key]
         public int Id { get; set; }
         public int PlanId { get; set; }
         public int YieldId { get; set; }
         public int? FarmerId { get; set; }
+        public int? ProblemId { get; set; }
         public string TaskName { get; set; }
-        public string TaskType { get; set; }
-        public string Description { get; set; }
         public string? ResultContent { get; set; }
-        public DateTime? HarvestDate { get; set; }
-        public DateTime? CompleteDate { get; set; }
-        public float? HarvestedQuantity { get; set; }
-        public string? HarvestedUnit { get; set; }
+        public string TaskType { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsAvailable { get; set; }
         public int Priority { get; set; }
+        public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public Plan Plan { get; set; }
         public Yield Yield { get; set; }
         public Farmer Farmer { get; set; }
-        public ICollection<HarvestingImage> HarvestingImages { get; set; }
-        public ICollection<HarvestingItem> HarvestingItems { get; set; }
+        public Problem Problem { get; set; }
+        public ICollection<CaringImage> CaringImages { get; set; }
+        public ICollection<CaringPesticide> CaringPesticides { get; set; }
+        public ICollection<CaringFertilizer> CaringFertilizers { get; set; }
+        public ICollection<CaringItem> CaringItems { get; set; }
     }
 }

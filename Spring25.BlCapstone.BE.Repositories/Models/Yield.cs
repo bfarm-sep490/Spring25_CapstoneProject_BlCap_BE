@@ -21,11 +21,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public bool IsAvailable { get; set; }
         public string Size {  get; set; }
 
-        public ICollection<Plan> Plans { get; set; }
         public ICollection<Device> Devices { get; set; }
         public ICollection<YieldPlan> YieldPlans { get; set; }
-        public ICollection<ProductionTask> ProductionTasks { get; set; }
+        public ICollection<CaringTask> CaringTasks { get; set; }
         public ICollection<HarvestingTask> HarvestingTasks { get; set; }
-        public ICollection<InspectingTask> InspectingTasks { get; set; }
+        public ICollection<InspectingForm> InspectingForms { get; set; }
     }
 }

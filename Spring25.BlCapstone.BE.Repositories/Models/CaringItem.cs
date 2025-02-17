@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class InspectingItem
+    public class CaringItem
     {
         public int ItemId { get; set; }
         public int TaskId { get; set; }
@@ -14,6 +14,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Unit { get; set; }
 
         public Item Item { get; set; }
-        public InspectingForm InspectingForm { get; set; }
+        public CaringTask CaringTask { get; set; }
     }
 }

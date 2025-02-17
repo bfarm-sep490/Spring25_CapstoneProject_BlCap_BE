@@ -18,7 +18,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? Avatar { get; set; }
 
         public Account Account { get; set; }
-        public ICollection<ExpertPermission> ExpertPermissions { get; set; }
-        public ICollection<InspectingTask> InspectingTasks { get; set; }
+        public ICollection<Plan> Plans { get; set; }
     }
 }

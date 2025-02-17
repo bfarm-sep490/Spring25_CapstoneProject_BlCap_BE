@@ -12,7 +12,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Device
         [JsonPropertyName("id")]
         public int Id { get; set; }
         [JsonPropertyName("yield_id")]
-        public int YieldId { get; set; }
+        public int? YieldId { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("type")]
@@ -24,13 +24,13 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Device
         [JsonPropertyName("device_code")]
         public string DeviceCode { get; set; }
         [JsonPropertyName("installation_date")]
-        public DateTime InstallationDate { get; set; }
+        public DateTime? InstallationDate { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         [JsonPropertyName("updated_by")]
         public string UpdatedBy { get; set; }
     }

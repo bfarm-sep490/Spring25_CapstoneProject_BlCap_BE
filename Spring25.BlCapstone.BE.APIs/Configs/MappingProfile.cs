@@ -48,7 +48,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         }
         void SeedProfile()
         {
-            CreateMap<Seed, SeedModel>()
+            CreateMap<Plant, SeedModel>()
                 .ReverseMap();
             CreateMap<SeedModel,CreatedSeed>()
                 .ReverseMap();

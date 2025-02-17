@@ -23,6 +23,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public ICollection<Farmer> Farmers { get; set; }
         public ICollection<Expert> Experts { get; set; }
         public ICollection<Retailer> Retailers { get; set; }
-        public ICollection<Driver> Drivers { get; set; }
+        public ICollection<Inspector> Inspectors { get; set; }
     }
 }

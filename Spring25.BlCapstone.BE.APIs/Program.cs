@@ -83,7 +83,6 @@ builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<ISeedService, SeedService>();
 builder.Services.AddScoped<IYieldService, YieldService>();
-builder.Services.AddScoped<IDriverService, DriverService>();
 builder.Services.AddScoped<IRetailerService, RetailerService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IPesticideService, PesticideService>();

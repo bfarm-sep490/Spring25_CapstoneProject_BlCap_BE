@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class Farmer
+    public class Inspector
     {
         [Key]
         public int Id { get; set; }
         public int AccountId { get; set; }
-        public DateTime? DOB { get; set; }
-        public string? Phone { get; set; }
+        public string? Description { get; set; }
+        public string? Address { get; set; }
         public string? Status { get; set; }
-        public string? Avatar { get; set; }
+        public string? ImageUrl { get; set; }
+        public bool IsAvailable { get; set; }
 
         public Account Account { get; set; }
-        public ICollection<FarmerPermission> FarmerPermissions { get; set; }
-        public ICollection<CaringTask> CaringTasks { get; set; }
-        public ICollection<HarvestingTask> HarvestingTasks { get; set; }
+        public ICollection<InspectingForm> InspectingForms { get; set; }
     }
 }

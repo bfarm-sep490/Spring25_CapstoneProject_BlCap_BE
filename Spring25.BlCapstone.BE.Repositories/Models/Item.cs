@@ -18,9 +18,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Status { get; set; }
         public string Type { get; set; }
 
-        public ICollection<ProductionItem> ProductionItems { get; set; }
+        public ICollection<CaringItem> CaringItems { get; set; }
         public ICollection<HarvestingItem> HarvestingItems { get; set; }
-        public ICollection<PackagingItem> PackagingItems {  get; set; } 
         public ICollection<InspectingItem> InspectingItems { get; set; }
     }
 }
