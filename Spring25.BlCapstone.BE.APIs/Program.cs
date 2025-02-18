@@ -79,6 +79,7 @@ builder.Services.AddScoped<IAuthencationService, AuthencationService>();
 builder.Services.AddScoped<IFCMService, FCMService>();
 builder.Services.AddScoped<IAblyService, AblyService>();
 builder.Services.AddScoped<IFarmerService, FarmerService>();
+builder.Services.AddScoped<IInspectorService, InspectorService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<IPlantService, PlantService>();
