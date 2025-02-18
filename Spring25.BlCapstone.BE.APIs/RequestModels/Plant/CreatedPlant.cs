@@ -1,15 +1,14 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
-namespace Spring25.BlCapstone.BE.APIs.RequestModels.Seed
+namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
 {
-    public class UpdatedSeed
+    public class CreatedPlant
     {
         [JsonPropertyName("seed_name")]
         public string SeedName { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
-        [JsonPropertyName("is_available")]
-        public bool IsAvailable { get; set; }
         [JsonPropertyName("min_temp")]
         public double MinTemp { get; set; }
         [JsonPropertyName("max_temp")]

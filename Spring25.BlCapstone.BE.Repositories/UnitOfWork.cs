@@ -144,7 +144,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public ExpertRepository ExpertRepository { get { return _expertRepository; } }
         public ItemRepository ItemRepository { get { return _itemRepository; } }
         public YieldRepository YieldRepository { get {return _yieldRepository; } }
-        public PlantRepository SeedRepository { get { return _plantRepository; } }
+        public PlantRepository PlantRepository { get { return _plantRepository; } }
         public RetailerRepository RetailerRepository { get { return _retailerRepository; } }
         public OrderRepository OrderRepository { get { return _orderRepository; } }
         public TransactionRepository TransactionRepository { get { return _transactionRepository; } }

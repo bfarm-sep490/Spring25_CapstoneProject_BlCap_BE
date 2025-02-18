@@ -81,7 +81,7 @@ builder.Services.AddScoped<IAblyService, AblyService>();
 builder.Services.AddScoped<IFarmerService, FarmerService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IExpertService, ExpertService>();
-builder.Services.AddScoped<ISeedService, SeedService>();
+builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<IYieldService, YieldService>();
 builder.Services.AddScoped<IRetailerService, RetailerService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();

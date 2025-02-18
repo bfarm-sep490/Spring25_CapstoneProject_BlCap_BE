@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Fertilizer;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide;
-using Spring25.BlCapstone.BE.APIs.RequestModels.Seed;
+using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Seed;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -48,11 +48,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         }
         void SeedProfile()
         {
-            CreateMap<Plant, SeedModel>()
+            CreateMap<Plant, PlantModel>()
                 .ReverseMap();
-            CreateMap<SeedModel,CreatedSeed>()
+            CreateMap<PlantModel, CreatedPlant>()
                 .ReverseMap();
-            CreateMap<SeedModel,UpdatedSeed>()
+            CreateMap<PlantModel,UpdatedPlant>()
                 .ReverseMap();
         }
         void YieldProfile()

@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
-namespace Spring25.BlCapstone.BE.Services.BusinessModels.Seed
+namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
 {
-    public class SeedModel
+    public class UpdatedPlant
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
         [JsonPropertyName("seed_name")]
         public string SeedName { get; set; }
         [JsonPropertyName("description")]
@@ -44,7 +37,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Seed
         [JsonPropertyName("min_brix_point")]
         public double MinBrixPoint { get; set; }
         [JsonPropertyName("max_brix_point")]
-        public double MaxBrixPoint { get; set; } 
+        public double MaxBrixPoint { get; set; }
         [JsonPropertyName("gt_test_kit_color")]
         public string GTTestKitColor { get; set; }
     }
