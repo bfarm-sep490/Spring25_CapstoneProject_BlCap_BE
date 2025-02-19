@@ -88,6 +88,7 @@ builder.Services.AddScoped<IRetailerService, RetailerService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IPesticideService, PesticideService>();
 builder.Services.AddScoped<IFertilizerService, FertilizerService>();
+builder.Services.AddScoped<IProblemService, ProblemService>();
 builder.Services.AddScoped<UnitOfWork>();
 var app = builder.Build();
 

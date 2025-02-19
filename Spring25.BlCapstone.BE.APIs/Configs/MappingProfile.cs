@@ -9,6 +9,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -24,6 +25,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             SeedProfile();
             YieldProfile();
             InspectorProfile();
+            ProblemProfile();
        }
 
        void PesticideProfie()
@@ -80,7 +82,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Account.IsActive))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Account.UpdatedAt))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Account.CreatedAt))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name));
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
+                .ReverseMap();
+        }
+
+        void ProblemProfile()
+        {
+            CreateMap<Problem, ProblemModel>()
+                .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.ProblemImages))
+                .ForMember(dest => dest.ProblemIssues, opt => opt.MapFrom(src => src.Issues))
+                .ReverseMap();
+            CreateMap<ProblemImage, Images>()
+                .ReverseMap();
+            CreateMap<Issue, ProblemIssues>()
+                .ReverseMap();
         }
     }
 }
