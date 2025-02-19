@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
@@ -26,6 +27,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             YieldProfile();
             InspectorProfile();
             ProblemProfile();
+            PlanProfile();
        }
 
        void PesticideProfie()
@@ -95,6 +97,35 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<ProblemImage, Images>()
                 .ReverseMap();
             CreateMap<Issue, ProblemIssues>()
+                .ReverseMap();
+        }
+
+        void PlanProfile()
+        {
+            CreateMap<Plan, PlanModel>()
+                .ForMember(dest => dest.PlantInfor, opt => opt.MapFrom(src => src.Plant))
+                .ForMember(dest => dest.YieldInfor, opt => opt.MapFrom(src => src.YieldPlans))
+                .ForMember(dest => dest.CaringTaskInfor, opt => opt.MapFrom(src => src.CaringTasks))
+                .ForMember(dest => dest.InspectingInfors, opt => opt.MapFrom(src => src.InspectingForms))
+                .ForMember(dest => dest.HarvestingInfors, opt => opt.MapFrom(src => src.HarvestingTasks))
+                .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
+                .ReverseMap();
+            CreateMap<Plant, PlantInfor>()
+                .ReverseMap();
+            CreateMap<YieldPlan, YieldInfor>()
+                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
+                .ForMember(dest => dest.AreaUnit, opt => opt.MapFrom(src => src.Yield.AreaUnit))
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Yield.Area))
+                .ReverseMap();
+            CreateMap<CaringTask, PlanCaringInfor>()
+                .ReverseMap();
+            CreateMap<InspectingForm, PlanInspectingInfor>()
+                .ReverseMap();
+            CreateMap<HarvestingTask, PlanHarvestingInfor>()
+                .ReverseMap();
+            CreateMap<Problem, ProblemInfor>()
+                .ReverseMap();
+            CreateMap<Plan, PlanForList>()
                 .ReverseMap();
         }
     }
