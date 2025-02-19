@@ -51,7 +51,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = "email/password is incorrect.",
                     Status = 404
                 };
-                
+            else if( user.IsActive == false)
+            {
+                return new BusinessResult()
+                {
+                    Data = null,
+                    Message = "this account is not Active",
+                    Status = 400
+                };
+            }    
            
             var signInModel = GenarateToken(user.Id, user.Role, user.Name, user.Email);
             return new BusinessResult()
@@ -107,6 +115,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             object signInModel = new
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(accessJwtSecurityToken),
+                Role = Role,
             };
             return signInModel;
         }
