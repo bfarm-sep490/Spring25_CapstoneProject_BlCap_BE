@@ -2,7 +2,7 @@
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Seed;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,67 +11,67 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
-    public interface ISeedService
+    public interface IPlantService
     {
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> Create(SeedModel model);
-        Task<IBusinessResult> Update(int id,SeedModel model);
+        Task<IBusinessResult> Create(PlantModel model);
+        Task<IBusinessResult> Update(int id,PlantModel model);
         Task<IBusinessResult> Delete(int id);
         
     }
-    public class SeedService:ISeedService
+    public class PlantService : IPlantService
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public SeedService(UnitOfWork unitOfWork,IMapper mapper)
+        public PlantService(UnitOfWork unitOfWork,IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> Create(SeedModel model)
+        public async Task<IBusinessResult> Create(PlantModel model)
         {
            CheckModel(model);
            var obj = _mapper.Map<Plant>(model);
-           var result = await _unitOfWork.SeedRepository.CreateAsync(obj);
+           var result = await _unitOfWork.PlantRepository.CreateAsync(obj);
            return new BusinessResult(200,"Create successfully",result);
         }
 
         public async Task<IBusinessResult> Delete(int id)
         {
-            var obj = await _unitOfWork.SeedRepository.GetByIdAsync(id);
-            if (obj == null) return new BusinessResult(400, "Not found this Seed", null);
-            var result = await _unitOfWork.SeedRepository.RemoveAsync(obj);
+            var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+            if (obj == null) return new BusinessResult(400, "Not found this Plant", null);
+            var result = await _unitOfWork.PlantRepository.RemoveAsync(obj);
             return new BusinessResult(200, "Remove successfully", result);
         }
 
         public async Task<IBusinessResult> GetAll()
         {
-           var list = await _unitOfWork.SeedRepository.GetAllAsync();
-           var result = _mapper.Map<List<SeedModel>>(list);
-           return new BusinessResult(200, "Get all seeds", result);
+           var list = await _unitOfWork.PlantRepository.GetAllAsync();
+           var result = _mapper.Map<List<PlantModel>>(list);
+           return new BusinessResult(200, "Get all plants", result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
         {
-            var obj = await _unitOfWork.SeedRepository.GetByIdAsync(id);
-            var result = _mapper.Map<SeedModel>(obj);
-            return new BusinessResult(200, "Get Seed by Id", result);
+            var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+            var result = _mapper.Map<PlantModel>(obj);
+            return new BusinessResult(200, "Get Plant by Id", result);
         }
 
-        public async Task<IBusinessResult> Update(int id, SeedModel model)
+        public async Task<IBusinessResult> Update(int id, PlantModel model)
         {
            CheckModel(model);
-            var obj = await _unitOfWork.SeedRepository.GetByIdAsync(id);
-            if (obj == null) return new BusinessResult(400, "Not found this Seed", null);
+            var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+            if (obj == null) return new BusinessResult(400, "Not found this Plant", null);
             _mapper.Map(model,obj);
             obj.Id = id;
-            var result = await _unitOfWork.SeedRepository.UpdateAsync(obj);
+            var result = await _unitOfWork.PlantRepository.UpdateAsync(obj);
             return new BusinessResult(200,"Update successfully",obj);
 
         }
-        private void CheckModel(SeedModel model)
+        private void CheckModel(PlantModel model)
         {
             if (model.MinMoisture >= model.MaxMoisture) { throw new Exception("MinMoisture must be < MaxMoistrure"); }
             if (model.MinPesticide >= model.MaxPesticide) { throw new Exception("MinPesticide must be < MaxPesticide"); }

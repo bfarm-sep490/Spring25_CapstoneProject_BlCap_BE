@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Spring25.BlCapstone.BE.APIs.RequestModels.Seed;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Seed;
+using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/seeds")]
+    [Route("api/plants")]
     [ApiController]
-    public class SeedController : Controller
+    public class PlantController : Controller
     {
         private IMapper _mapper;
-        private ISeedService _seedService;
-        public SeedController(IMapper mapper, ISeedService seedService)
+        private IPlantService _seedService;
+        public PlantController(IMapper mapper, IPlantService seedService)
         {
             _mapper = mapper;
             _seedService = seedService;
@@ -57,11 +57,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreatedSeed model)
+        public async Task<IActionResult> Create([FromBody] CreatedPlant model)
         {
             try
             {
-                var obj = _mapper.Map<SeedModel>(model);
+                var obj = _mapper.Map<PlantModel>(model);
                 var result = await _seedService.Create(obj);
                 return Ok(result);
             }
@@ -71,11 +71,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromBody] UpdatedSeed model, [FromRoute]int id)
+        public async Task<IActionResult> Update([FromBody] UpdatedPlant model, [FromRoute]int id)
         {
             try
             {
-                var obj = _mapper.Map<SeedModel>(model);
+                var obj = _mapper.Map<PlantModel>(model);
                 var result = await _seedService.Update(id,obj);
                 return Ok(result);
             }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Seed;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System;
 using System.Collections.Generic;

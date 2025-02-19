@@ -1,14 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
-namespace Spring25.BlCapstone.BE.APIs.RequestModels.Seed
+namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
 {
-    public class CreatedSeed
+    public class PlantModel
     {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
         [JsonPropertyName("seed_name")]
         public string SeedName { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
+        [JsonPropertyName("is_available")]
+        public bool IsAvailable { get; set; }
         [JsonPropertyName("min_temp")]
         public double MinTemp { get; set; }
         [JsonPropertyName("max_temp")]
@@ -36,7 +44,7 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Seed
         [JsonPropertyName("min_brix_point")]
         public double MinBrixPoint { get; set; }
         [JsonPropertyName("max_brix_point")]
-        public double MaxBrixPoint { get; set; }
+        public double MaxBrixPoint { get; set; } 
         [JsonPropertyName("gt_test_kit_color")]
         public string GTTestKitColor { get; set; }
     }
