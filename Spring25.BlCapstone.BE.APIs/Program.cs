@@ -91,6 +91,7 @@ builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<IProblemService, ProblemService>();
 builder.Services.AddScoped<IPlanService, PlanService>();
 builder.Services.AddScoped<ICaringTaskService, CaringTaskService>();
+builder.Services.AddScoped<IHarvestingTaskService, HarvestingTaskService>();
 builder.Services.AddScoped<UnitOfWork>();
 var app = builder.Build();
 
