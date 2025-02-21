@@ -106,19 +106,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<Plan, PlanModel>()
                 .ForMember(dest => dest.PlantInfor, opt => opt.MapFrom(src => src.Plant))
-                .ForMember(dest => dest.YieldInfor, opt => opt.MapFrom(src => src.YieldPlans))
                 .ForMember(dest => dest.CaringTaskInfor, opt => opt.MapFrom(src => src.CaringTasks))
                 .ForMember(dest => dest.InspectingInfors, opt => opt.MapFrom(src => src.InspectingForms))
                 .ForMember(dest => dest.HarvestingInfors, opt => opt.MapFrom(src => src.HarvestingTasks))
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
                 .ReverseMap();
             CreateMap<Plant, PlantInfor>()
-                .ReverseMap();
-            CreateMap<YieldPlan, YieldInfor>()
-                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
-                .ForMember(dest => dest.AreaUnit, opt => opt.MapFrom(src => src.Yield.AreaUnit))
-                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Yield.Area))
-                .ReverseMap();
+                .ReverseMap();   
             CreateMap<CaringTask, PlanCaringInfor>()
                 .ReverseMap();
             CreateMap<InspectingForm, PlanInspectingInfor>()

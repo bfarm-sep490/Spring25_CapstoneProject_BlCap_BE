@@ -11,7 +11,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         public int Id { get; set; }
         public int PlanId { get; set; }
         public int? InspectorId { get; set; }
-        public int YieldId { get; set; }
         public string TaskName { get; set; }
         public string TaskType { get; set; }
         public string Description { get; set; }

@@ -13,7 +13,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         [Key]
         public int Id { get; set; }
         public int PlanId { get; set; }
-        public int YieldId { get; set; }
         public int? FarmerId { get; set; }
         public int? ProblemId { get; set; }
         public string TaskName { get; set; }
@@ -29,7 +28,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public DateTime? UpdatedAt { get; set; }
 
         public Plan Plan { get; set; }
-        public Yield Yield { get; set; }
         public Farmer Farmer { get; set; }
         public Problem Problem { get; set; }
         public ICollection<CaringImage> CaringImages { get; set; }
