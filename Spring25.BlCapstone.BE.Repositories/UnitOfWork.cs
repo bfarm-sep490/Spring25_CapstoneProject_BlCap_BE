@@ -152,17 +152,17 @@ namespace Spring25.BlCapstone.BE.Repositories
         public DeviceRepository DeviceRepository { get { return _deviceRepository; } }
         public FarmerPermissionRepository FarmerPermissionRepository { get { return _farmerPermissionRepository; } }
         public YieldPlanRepository YieldPlanRepository { get { return _yieldPlanRepository; } }
-        public CaringTaskRepository ProductionTaskRepository { get { return _caringTaskRepository; } }
+        public CaringTaskRepository CaringTaskRepository { get { return _caringTaskRepository; } }
         public HarvestingTaskRepository HarvestingTaskRepository { get {return _harvestingTaskRepository; } }
         public InspectingFormRepository InspectingTaskRepository { get { return _inspectingFormRepository; } }
-        public CaringImageRepository ProductionImageRepository { get { return _caringImageRepository; } }
+        public CaringImageRepository CaringImageRepository { get { return _caringImageRepository; } }
         public HarvestingImageRepository HarvestingImageRepository { get { return _harvestingImageRepository; } }
         public InspectingImageRepository InspectingImageRepository { get { return _inspectingImageRepository; } }
         public PesticideRepository PesticideRepository { get { return _pesticideRepository; } }
-        public CaringPesticideRepository ProductionPesticideRepository { get { return _caringPesticideRepository; } }
+        public CaringPesticideRepository CaringPesticideRepository { get { return _caringPesticideRepository; } }
         public FertilizerRepository FertilizerRepository {  get { return _fertilizerRepository; } }
-        public CaringFertilizerRepository ProductionFertilizerRepository { get { return _caringFertilizerRepository; } }
-        public CaringItemRepository ProductionItemRepository { get { return _caringItemRepository; } }
+        public CaringFertilizerRepository CaringFertilizerRepository { get { return _caringFertilizerRepository; } }
+        public CaringItemRepository CaringItemRepository { get { return _caringItemRepository; } }
         public HarvestingItemRepository HarvestingItemRepository { get { return _harvestingItemRepository; } }
         public InspectingItemRepository InspectingItemRepository { get { return _inspectingItemRepository; } }
         public FertilizerRangeRepository FertilizerRangeRepository { get { return _fertilizerRangeRepository; } }
