@@ -37,15 +37,6 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask
         public bool IsAvailable { get; set; }
         [JsonPropertyName("priority")]
         public int Priority { get; set; }
-        [JsonPropertyName("status")]
-
-        public string Status { get; set; }
-        [JsonPropertyName("create_at")]
-
-        public DateTime CreatedAt { get; set; }
-        [JsonPropertyName("update_at")]
-
-        public DateTime? UpdatedAt { get; set; }
     }
 }
 
