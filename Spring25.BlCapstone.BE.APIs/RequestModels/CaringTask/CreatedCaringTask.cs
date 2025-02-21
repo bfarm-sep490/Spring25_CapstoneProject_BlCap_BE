@@ -48,3 +48,4 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask
         public DateTime? UpdatedAt { get; set; }
     }
 }
+

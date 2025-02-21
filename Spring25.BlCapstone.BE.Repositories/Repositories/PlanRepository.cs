@@ -19,7 +19,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<Plan> GetPlan(int id)
         {
             return await _context.Plans
-                .Include(p => p.Plant)             
+                .Include(p => p.Plant)        
                 .Include(p => p.CaringTasks)
                 .Include(p => p.HarvestingTasks)
                 .Include(p => p.InspectingForms)

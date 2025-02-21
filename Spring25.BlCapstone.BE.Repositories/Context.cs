@@ -271,7 +271,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<CaringItem>(entity =>
             {
                 entity.ToTable("CaringItem");
-                entity.HasKey(pi => new { pi.ItemId, pi.TaskId });
                 entity.HasOne(pi => pi.Item)
                       .WithMany(pi => pi.CaringItems)
                       .HasForeignKey(pi => pi.ItemId)
@@ -285,7 +284,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<HarvestingItem>(entity =>
             {
                 entity.ToTable("HarvestingItem");
-                entity.HasKey(hi => new { hi.ItemId, hi.TaskId });
                 entity.HasOne(hi => hi.Item)
                       .WithMany(hi => hi.HarvestingItems)
                       .HasForeignKey(hi => hi.ItemId)

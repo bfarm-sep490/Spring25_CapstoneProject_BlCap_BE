@@ -112,7 +112,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
                 .ReverseMap();
             CreateMap<Plant, PlantInfor>()
-                .ReverseMap();   
+                .ReverseMap();
             CreateMap<CaringTask, PlanCaringInfor>()
                 .ReverseMap();
             CreateMap<InspectingForm, PlanInspectingInfor>()
