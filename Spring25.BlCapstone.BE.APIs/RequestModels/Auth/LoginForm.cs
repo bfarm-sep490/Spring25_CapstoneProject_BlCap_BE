@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 
-namespace Spring25.BlCapstone.BE.APIs.RequestModels
+namespace Spring25.BlCapstone.BE.APIs.RequestModels.Auth
 {
 
-    public class LoginForm 
+    public class LoginForm
     {
         [JsonPropertyName("email")]
         public string Email { get; set; }

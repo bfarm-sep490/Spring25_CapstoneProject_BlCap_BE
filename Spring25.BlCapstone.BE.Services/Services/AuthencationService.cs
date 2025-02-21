@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -15,17 +17,52 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> SignIn(string email, string password);
         //Task<IBusinessResult> SignInForFarmer(string email, string password);
+        Task<IBusinessResult> GetAccountInfoById(int id);
     }
-    public class AuthencationService :IAuthencationService 
+    public class AuthencationService : IAuthencationService
     {
         private UnitOfWork _unitOfWork;
         private IConfiguration _configuration;
+        private IMapper _mapper;
 
-        public AuthencationService(IConfiguration configuration)
+        public AuthencationService(IConfiguration configuration,IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
             _configuration = configuration;
+            _mapper = mapper;
         }
+
+        public async Task<IBusinessResult> GetAccountInfoById(int id)
+        {
+            var obj = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+            if (obj == null) { return new BusinessResult(400,"Not found this account"); } 
+            var result = _mapper.Map<AccountModel>(obj);
+            switch (obj.Role.ToLower()) 
+            {
+                case "farmer":
+                    var farmer = await _unitOfWork.FarmerRepository.GetFarmerbyAccountId(id);
+                    result.Infomation = _mapper.Map<InfomationModel>(farmer);
+                break;
+
+                case "retailer":
+                    var retailer = await _unitOfWork.RetailerRepository.GetRetailerbyAccountId(id);
+                    result.Infomation = _mapper.Map<InfomationModel>(retailer);
+                break;
+
+                case "inspector":
+                    var inspector = await _unitOfWork.InspectingTaskRepository.GetInspectorbyAccountId(id);
+                    result.Infomation = _mapper.Map<InfomationModel> (inspector);
+                break;
+                case "farm owner":
+                    return new BusinessResult(200, "You are crazy??? U are a farm owner... OKE ????", null);
+                   
+                default:
+                    return new BusinessResult(400,"Do not get your role",obj.Role);
+            }
+            return new BusinessResult(200, "Get information by account id", result);
+
+        }
+
         public async Task<IBusinessResult> SignIn(string email, string password)
         {
             if (string.IsNullOrEmpty(email))
@@ -69,45 +106,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 Message = "signing in successfully."
             };
         }
-
-        /*
-        public async Task<IBusinessResult> SignInForFarmer(string email, string password)
-        {
-            if (string.IsNullOrEmpty(email))
-                return new BusinessResult()
-                {
-                    Data = null,
-                    Message = "email is empty.",
-                    Status = 400
-                };
-
-            if (string.IsNullOrEmpty(password))
-                return new BusinessResult()
-                {
-                    Data = null,
-                    Message = "password is empty.",
-                    Status = 400
-                };
-            var user = await _unitOfWork.FarmerRepository.SignIn(email, password);
-            if (user == null)
-                return new BusinessResult()
-                {
-                    Data = null,
-                    Message = "email/password is incorrect.",
-                    Status = 404
-                };
-
-
-            var signInModel = GenarateToken(user.Id, "Farmer", user.FullName, user.Email);
-            return new BusinessResult()
-            {
-                Data = signInModel,
-                Status = 200,
-                Message = "signing in successfully."
-            };
-        }
-        */
-
         private object GenarateToken(int Id, string Role, string Name, string Email)
         {
             JwtSecurityToken accessJwtSecurityToken = JWTHelper.GetToken(_configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], Role, Id, Email,Email, 1, null);
@@ -116,6 +114,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 AccessToken = new JwtSecurityTokenHandler().WriteToken(accessJwtSecurityToken),
                 Role = Role,
+                id = Id
             };
             return signInModel;
         }

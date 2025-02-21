@@ -4,6 +4,7 @@ using Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
@@ -30,9 +31,23 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             ProblemProfile();
             PlanProfile();
             CaringProfile();
+            AuthProfile();
        }
 
-       void PesticideProfie()
+        private void AuthProfile()
+        {
+            CreateMap<AccountModel, Account>()
+                .ReverseMap();
+            CreateMap<InfomationModel, Farmer>()
+                .ReverseMap(); 
+            CreateMap<InfomationModel, Retailer>()
+                .ReverseMap();
+            CreateMap<InfomationModel, Inspector>()
+                .ReverseMap();
+
+        }
+
+        void PesticideProfie()
        {
             CreateMap<PesticideModel,CreatedPesticide>()
                 .ReverseMap();

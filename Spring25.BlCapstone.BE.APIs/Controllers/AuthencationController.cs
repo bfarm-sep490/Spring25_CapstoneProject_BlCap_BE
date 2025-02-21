@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Spring25.BlCapstone.BE.APIs.RequestModels;
+using Spring25.BlCapstone.BE.APIs.RequestModels.Auth;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.Services;
 
@@ -28,7 +28,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
-        } 
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IBusinessResult>> GetAccountInfobyId([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _authencationService.GetAccountInfoById(id);
+                return StatusCode(200, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
 
+        }
     }
 }
