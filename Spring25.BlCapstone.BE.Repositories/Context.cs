@@ -47,7 +47,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<SampleSolution> SampleSolutions { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Yield> Yields { get; set; }
-        public virtual DbSet<YieldPlan> YieldPlans { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -118,6 +117,10 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(p => p.Plans)
                       .HasForeignKey(p => p.ExpertId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(p => p.Yield)
+                      .WithMany(p => p.Plans)
+                      .HasForeignKey(p => p.YieldId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<OrderPlant>(entity =>
@@ -169,31 +172,13 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            modelBuilder.Entity<YieldPlan>(entity =>
-            {
-                entity.ToTable("YieldPlan");
-                entity.HasKey(yp => new { yp.PlanId, yp.YieldId });
-                entity.HasOne(yp => yp.Plan)
-                      .WithMany(yp => yp.YieldPlans)
-                      .HasForeignKey(yp => yp.PlanId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(yp => yp.Yield)
-                      .WithMany(yp => yp.YieldPlans)
-                      .HasForeignKey(yp => yp.YieldId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-            });
-
             modelBuilder.Entity<CaringTask>(entity =>
             {
                 entity.ToTable("CaringTask");
                 entity.HasOne(pt => pt.Plan)
                       .WithMany(pt => pt.CaringTasks)
                       .HasForeignKey(pt => pt.PlanId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(pt => pt.Yield)
-                      .WithMany(pt => pt.CaringTasks)
-                      .HasForeignKey(pt => pt.YieldId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
+                      .OnDelete(DeleteBehavior.ClientSetNull); 
                 entity.HasOne(pt => pt.Farmer)
                       .WithMany(pt => pt.CaringTasks)
                       .HasForeignKey(pt => pt.FarmerId)
@@ -210,11 +195,7 @@ namespace Spring25.BlCapstone.BE.Repositories
                 entity.HasOne(ht => ht.Plan)
                       .WithMany(ht => ht.HarvestingTasks)
                       .HasForeignKey(ht => ht.PlanId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(ht => ht.Yield)
-                      .WithMany(ht => ht.HarvestingTasks)
-                      .HasForeignKey(ht => ht.YieldId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
+                      .OnDelete(DeleteBehavior.ClientSetNull);            
                 entity.HasOne(ht => ht.Farmer)
                       .WithMany(ht => ht.HarvestingTasks)
                       .HasForeignKey(ht => ht.FarmerId)
@@ -227,10 +208,6 @@ namespace Spring25.BlCapstone.BE.Repositories
                 entity.HasOne(it => it.Plan)
                       .WithMany(it => it.InspectingForms)
                       .HasForeignKey(it => it.PlanId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(it => it.Yield)
-                      .WithMany(it => it.InspectingForms)
-                      .HasForeignKey(it => it.YieldId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
                 entity.HasOne(it => it.Inspector)
                       .WithMany(it => it.InspectingForms)
@@ -251,7 +228,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<CaringPesticide>(entity =>
             {
                 entity.ToTable("CaringPesticide");
-                entity.HasKey(pp => new { pp.PesticideId, pp.TaskId });
                 entity.HasOne(pp => pp.Pesticide)
                       .WithMany(pp => pp.CaringPesticides)
                       .HasForeignKey(pp => pp.PesticideId)
@@ -268,7 +244,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<CaringFertilizer>(entity =>
             {
                 entity.ToTable("CaringFertilizer");
-                entity.HasKey(pf => new { pf.FertilizerId, pf.TaskId });
                 entity.HasOne(pf => pf.Fertilizer)
                       .WithMany(pf => pf.CaringFertilizers)
                       .HasForeignKey(pf => pf.FertilizerId)
@@ -324,7 +299,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<InspectingItem>(entity =>
             {
                 entity.ToTable("InspectingItem");
-                entity.HasKey(ii => new { ii.ItemId, ii.TaskId });
                 entity.HasOne(ii => ii.Item)
                       .WithMany(ii => ii.InspectingItems)
                       .HasForeignKey(ii => ii.ItemId)

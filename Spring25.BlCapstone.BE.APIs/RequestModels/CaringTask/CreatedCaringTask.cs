@@ -46,6 +46,5 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask
         [JsonPropertyName("update_at")]
 
         public DateTime? UpdatedAt { get; set; }
-        [JsonPropertyName("care_images")]
     }
 }

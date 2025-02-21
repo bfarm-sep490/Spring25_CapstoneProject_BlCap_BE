@@ -43,7 +43,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         private RetailerRepository _retailerRepository;
         private SampleSolutionRepository _sampleSolutionRepository;
         private TransactionRepository _transactionRepository;
-        private YieldPlanRepository _yieldPlanRepository;
         private YieldRepository _yieldRepository;
 
         public UnitOfWork()
@@ -60,7 +59,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             _planRepository ??= new PlanRepository();
             _deviceRepository ??= new DeviceRepository();
             _farmerPermissionRepository ??= new FarmerPermissionRepository();
-            _yieldPlanRepository ??= new YieldPlanRepository();
             _caringTaskRepository ??= new CaringTaskRepository();
             _harvestingTaskRepository ??= new HarvestingTaskRepository();
             _inspectingFormRepository ??= new InspectingFormRepository();
@@ -90,7 +88,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             PlantRepository plantRepository, RetailerRepository retailerRepository,
             OrderRepository orderRepository, TransactionRepository transactionRepository, PlanRepository planRepository,
             DeviceRepository deviceRepository, FarmerPermissionRepository farmerPermissionRepository,
-            YieldPlanRepository yieldPlanRepository, CaringTaskRepository caringTaskRepository,
+            CaringTaskRepository caringTaskRepository,
             HarvestingTaskRepository harvestingTaskRepository,
             InspectingFormRepository inspectingFormRepository, CaringImageRepository caringImageRepository,
             HarvestingImageRepository harvestingImageRepository, InspectingImageRepository inspectingImageRepository,
@@ -114,7 +112,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             _planRepository = planRepository;
             _deviceRepository = deviceRepository;
             _farmerPermissionRepository = farmerPermissionRepository;
-            _yieldPlanRepository = yieldPlanRepository;
             _caringTaskRepository = caringTaskRepository;
             _harvestingTaskRepository = harvestingTaskRepository;
             _inspectingFormRepository = inspectingFormRepository;
@@ -151,7 +148,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public PlanRepository PlanRepository { get { return _planRepository; } }
         public DeviceRepository DeviceRepository { get { return _deviceRepository; } }
         public FarmerPermissionRepository FarmerPermissionRepository { get { return _farmerPermissionRepository; } }
-        public YieldPlanRepository YieldPlanRepository { get { return _yieldPlanRepository; } }
         public CaringTaskRepository CaringTaskRepository { get { return _caringTaskRepository; } }
         public HarvestingTaskRepository HarvestingTaskRepository { get {return _harvestingTaskRepository; } }
         public InspectingFormRepository InspectingTaskRepository { get { return _inspectingFormRepository; } }
