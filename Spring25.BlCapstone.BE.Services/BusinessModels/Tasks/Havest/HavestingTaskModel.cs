@@ -10,7 +10,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
     {
         public int Id { get; set; }
         public int PlanId { get; set; }
-        public int YieldId { get; set; }
         public int? FarmerId { get; set; }
         public string TaskName { get; set; }
         public string TaskType { get; set; }
