@@ -15,10 +15,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             _context = context;
         }
-        public async Task<Inspector> GetInspectorbyAccountId(int id)
+     public async Task<InspectingForm> GetDetailInspectingFormById(int id)
         {
-            return await _context.Inspectors
-                .Where(f => f.AccountId == id)
+            return await _context.InspectingForms.Where(x =>x.Id == id)
+                .Include(x=>x.InspectingItems)
+                .Include(x=>x.InspectingImages)
                 .FirstOrDefaultAsync();
         }
     }

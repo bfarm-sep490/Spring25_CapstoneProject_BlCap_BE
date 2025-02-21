@@ -50,7 +50,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 break;
 
                 case "inspector":
-                    var inspector = await _unitOfWork.InspectingTaskRepository.GetInspectorbyAccountId(id);
+                    var inspector = await _unitOfWork.InspectorRepository.GetInspectorbyAccountId(id);
                     result.Infomation = _mapper.Map<InfomationModel> (inspector);
                 break;
                 case "farm owner":

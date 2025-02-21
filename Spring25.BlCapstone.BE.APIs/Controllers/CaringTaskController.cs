@@ -6,7 +6,7 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/caring-task")]
+    [Route("api")]
     [ApiController]
     public class CaringTaskController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _caringTaskService = caringTaskService;
         }
-        [HttpGet]
+        [HttpGet("caring-tasks")]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -30,7 +30,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
 
         }
-        [HttpGet("{id}")]
+        [HttpGet("caring-tasks/{id}")]
         public async Task<IActionResult> GetById([FromRoute]int id)
         {
             try
@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
            
         }
-        [HttpGet("{id}/detail")]
+        [HttpGet("caring-tasks/{id}/detail")]
         public async Task<IActionResult> GetDetailbyId([FromRoute] int id)
         {
             try

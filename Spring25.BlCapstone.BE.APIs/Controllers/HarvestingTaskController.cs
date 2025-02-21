@@ -6,7 +6,7 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class HarvestingTaskController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _harvestingTaskService = harvestingTaskService;
         }
-        [HttpGet]
+        [HttpGet("harvesting-tasks")]
         public async Task<IActionResult> GetAllHarvestingTasks()
         {
             try
@@ -30,7 +30,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{id}")]
+        [HttpGet("harvesting-tasks/{id}")]
         public async Task<IActionResult> GetHarvestingTaskById([FromRoute]int id)
         {
             try
@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("{id}/detail")]
+        [HttpGet("harvesting-tasks/{id}/detail")]
         public async Task<IActionResult> GetDetailHarvestingTaskById([FromRoute] int id)
         {
             try

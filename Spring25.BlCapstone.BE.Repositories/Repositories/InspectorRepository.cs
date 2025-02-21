@@ -35,5 +35,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Where(f => f.AccountId == id)
                 .FirstOrDefaultAsync();
         }
+
     }
 }
