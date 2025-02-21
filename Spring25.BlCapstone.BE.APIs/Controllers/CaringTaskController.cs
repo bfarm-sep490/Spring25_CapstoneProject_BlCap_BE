@@ -1,0 +1,61 @@
+﻿using AutoMapper;
+using MailKit.Net.Imap;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.Services;
+
+namespace Spring25.BlCapstone.BE.APIs.Controllers
+{
+    [Route("api/caring-task")]
+    [ApiController]
+    public class CaringTaskController : ControllerBase
+    {
+        private readonly IMapper _mapper;
+        private readonly ICaringTaskService _caringTaskService;
+        public CaringTaskController(IMapper mapper, ICaringTaskService caringTaskService)
+        {
+            _mapper = mapper;
+            _caringTaskService = caringTaskService;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var result = await _caringTaskService.GetAllCaringTask();
+                return Ok(result);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute]int id)
+        {
+            try
+            {
+                var result = await _caringTaskService.GetCaringTaskById(id);
+                return Ok(result);
+            }
+            catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }
+           
+        }
+        [HttpGet("{id}/detail")]
+        public async Task<IActionResult> GetDetailbyId([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _caringTaskService.GetDetailCaringTaskById(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+    }
+}

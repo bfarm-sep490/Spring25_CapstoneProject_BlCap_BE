@@ -11,6 +11,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -28,6 +29,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             InspectorProfile();
             ProblemProfile();
             PlanProfile();
+            CaringProfile();
        }
 
        void PesticideProfie()
@@ -126,6 +128,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Problem, ProblemInfor>()
                 .ReverseMap();
             CreateMap<Plan, PlanForList>()
+                .ReverseMap();
+        }
+        void CaringProfile()
+        {
+            CreateMap<CaringTask,CaringTaskModel>()
+                .ForMember(dest=>dest.CarePesticides,otp=>otp.MapFrom(src=>src.CaringPesticides))
+                .ForMember(dest=>dest.CareImages,otp=>otp.MapFrom(src=>src.CaringImages))
+                .ForMember(dest=>dest.CareFertilizers,otp=>otp.MapFrom(src=>src.CaringFertilizers))
+                .ReverseMap();
+            CreateMap<CareFertilizerModel, CaringFertilizer>()
+                .ReverseMap();
+            CreateMap<CarePesticideModel, CaringPesticide>()
+                .ReverseMap();
+            CreateMap<CaringImage, CaringImageModel>()
                 .ReverseMap();
         }
     }
