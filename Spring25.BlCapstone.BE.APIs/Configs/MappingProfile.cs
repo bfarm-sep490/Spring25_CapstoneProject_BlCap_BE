@@ -14,6 +14,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -34,7 +35,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CaringProfile();
             AuthProfile();
             HarvestingProfile();
+            InspectingProfile();
        }
+
+        private void InspectingProfile()
+        {
+            CreateMap<InspectingForm, InspectingFormModel>()
+                .ForMember(x => x.InspectingItems, otp => otp.MapFrom(x => x.InspectingItems))
+                .ForMember(x => x.InspectingImages, otp => otp.MapFrom(x => x.InspectingImages))
+                .ReverseMap();
+            CreateMap<InspectingImage, InspectingImageModel>()
+                .ReverseMap();
+            CreateMap <InspectingItem, InspectingItemModel>()
+                .ReverseMap();
+        }
 
         private void AuthProfile()
         {
