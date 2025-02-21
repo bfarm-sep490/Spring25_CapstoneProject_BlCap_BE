@@ -14,7 +14,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int PlanId { get; set; }
         public int? InspectorId { get; set; }
-        public int YieldId { get; set; }
         public string TaskName { get; set; }
         public string TaskType { get; set; }
         public string Description { get; set; }
@@ -39,7 +38,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public Plan Plan { get; set; }
         public Inspector Inspector { get; set; }
-        public Yield Yield { get; set; }
         public ICollection<InspectingImage> InspectingImages { get; set; }
         public ICollection<InspectingItem> InspectingItems { get; set; }
     }

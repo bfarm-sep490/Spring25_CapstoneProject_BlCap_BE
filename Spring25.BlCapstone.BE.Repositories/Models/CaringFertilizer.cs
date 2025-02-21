@@ -8,6 +8,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 {
     public class CaringFertilizer
     {
+        [Key]
+        public int Id { get; set; }
         public int FertilizerId { get; set; }
         public int TaskId { get; set; }
         public float Quantity { get; set; }
