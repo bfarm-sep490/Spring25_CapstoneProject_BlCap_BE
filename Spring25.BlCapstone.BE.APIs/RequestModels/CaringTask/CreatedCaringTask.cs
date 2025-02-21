@@ -37,6 +37,8 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask
         public bool IsAvailable { get; set; }
         [JsonPropertyName("priority")]
         public int Priority { get; set; }
+        [JsonPropertyName("images")]
+        public List<IFormFile> Images { get; set; }
     }
 }
 

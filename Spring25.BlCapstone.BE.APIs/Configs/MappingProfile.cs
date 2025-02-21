@@ -13,6 +13,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -32,6 +33,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             PlanProfile();
             CaringProfile();
             AuthProfile();
+            HarvestingProfile();
        }
 
         private void AuthProfile()
@@ -153,5 +155,17 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<CaringImage, CaringImageModel>()
                 .ReverseMap();
         }
+        void HarvestingProfile()
+        {
+            CreateMap<HarvestingTask, HarvestingTaskModel>()
+                .ForMember(dest => dest.HarvestImages, otp => otp.MapFrom(src => src.HarvestingImages))
+                .ForMember(dest => dest.HarvestingItems, otp => otp.MapFrom(src => src.HarvestingItems))
+                .ReverseMap();
+            CreateMap<HarvestingImage, HarvestingImageModel>()
+                .ReverseMap();
+            CreateMap<HarvestingItem, HarvestingItemModel>()
+                .ReverseMap();              
+        }
+
     }
 }

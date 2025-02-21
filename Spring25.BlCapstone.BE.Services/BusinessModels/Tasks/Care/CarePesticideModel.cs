@@ -9,6 +9,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
 {
     public class CarePesticideModel
     {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
         [JsonPropertyName("pesticide_id")]
         public int PesticideId { get; set; }
         [JsonPropertyName("task_id")]
