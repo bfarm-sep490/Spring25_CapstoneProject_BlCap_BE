@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Spring25.BlCapstone.BE.Repositories.Helper
 {
@@ -341,22 +342,30 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new Plan { Id = 6, PlantId = 6, YieldId = 6, ExpertId = 3, PlanName = "Trồng hành lá", Description = "Kế hoạch trồng hành lá sạch", StartDate = new DateTime(2024, 6, 10), EndDate = new DateTime(2024, 9, 30), Status = "Ongoing", EstimatedProduct = 250, EstimatedUnit = "kg", AvailablePackagingQuantity = 120, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true }
             );
 
+            modelBuilder.Entity<FarmerPermission>().HasData(
+                new FarmerPermission { FarmerId = 4, PlanId = 2, IsActive = true },
+                new FarmerPermission { FarmerId = 2, PlanId = 1, IsActive = true },
+                new FarmerPermission { FarmerId = 3, PlanId = 2, IsActive = true },
+                new FarmerPermission { FarmerId = 1, PlanId = 3, IsActive = true },
+                new FarmerPermission { FarmerId = 5, PlanId = 3, IsActive = true }
+                );
+
             modelBuilder.Entity<CaringTask>().HasData(
-                new CaringTask { Id = 1, PlanId = 1, FarmerId = 1, TaskName = "Tưới nước cho cà chua", TaskType = "Watering", StartDate = new DateTime(2024, 1, 12), EndDate = new DateTime(2024, 1, 15), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 2, PlanId = 1, FarmerId = 2, TaskName = "Bón phân hữu cơ cho cà chua", TaskType = "Fertilizing", StartDate = new DateTime(2024, 1, 18), EndDate = new DateTime(2024, 1, 20), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 3, PlanId = 2, FarmerId = 3, TaskName = "Kiểm tra sâu bệnh trên dưa lưới", TaskType = "Inspecting", StartDate = new DateTime(2024, 2, 10), EndDate = new DateTime(2024, 2, 12), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 4, PlanId = 2, FarmerId = 4, TaskName = "Lắp hệ thống tưới tự động", TaskType = "Setup", StartDate = new DateTime(2024, 2, 15), EndDate = new DateTime(2024, 2, 18), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Ongoing", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 5, PlanId = 3, FarmerId = 5, TaskName = "Nhổ cỏ dại quanh bắp cải", TaskType = "Weeding", StartDate = new DateTime(2024, 3, 20), EndDate = new DateTime(2024, 3, 22), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 6, PlanId = 4, FarmerId = 1, TaskName = "Phun thuốc phòng bệnh cho rau muống", TaskType = "Pesticide", StartDate = new DateTime(2024, 4, 7), EndDate = new DateTime(2024, 4, 10), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 7, PlanId = 4, FarmerId = 2, TaskName = "Thu gom rác nông nghiệp", TaskType = "Cleaning", StartDate = new DateTime(2024, 4, 12), EndDate = new DateTime(2024, 4, 14), IsCompleted = true, IsAvailable = true, Priority = 3, Status = "Completed", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 8, PlanId = 5, FarmerId = 3, TaskName = "Tưới nước cho cà rốt", TaskType = "Watering", StartDate = new DateTime(2024, 5, 5), EndDate = new DateTime(2024, 5, 7), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 9, PlanId = 6, FarmerId = 4, TaskName = "Bón phân lá cho hành lá", TaskType = "Fertilizing", StartDate = new DateTime(2024, 6, 15), EndDate = new DateTime(2024, 6, 17), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Ongoing", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 10, PlanId = 1, FarmerId = 5, TaskName = "Kiểm tra côn trùng gây hại trên mướp hương", TaskType = "Inspecting", StartDate = new DateTime(2024, 7, 12), EndDate = new DateTime(2024, 7, 15), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 11, PlanId = 2, FarmerId = 1, TaskName = "Cắt tỉa cành ớt chuông", TaskType = "Pruning", StartDate = new DateTime(2024, 8, 20), EndDate = new DateTime(2024, 8, 22), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 12, PlanId = 3, FarmerId = 2, TaskName = "Tưới phun sương cho rau xà lách", TaskType = "Watering", StartDate = new DateTime(2024, 9, 10), EndDate = new DateTime(2024, 9, 12), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 13, PlanId = 4, FarmerId = 3, TaskName = "Nhổ cỏ dại trong vườn xà lách", TaskType = "Weeding", StartDate = new DateTime(2024, 9, 15), EndDate = new DateTime(2024, 9, 17), IsCompleted = true, IsAvailable = true, Priority = 3, Status = "Completed", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 14, PlanId = 5, FarmerId = 4, TaskName = "Bón phân NPK cho cải ngọt", TaskType = "Fertilizing", StartDate = new DateTime(2024, 10, 5), EndDate = new DateTime(2024, 10, 8), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Ongoing", CreatedAt = DateTime.Now },
-                new CaringTask { Id = 15, PlanId = 6, FarmerId = 5, TaskName = "Phun thuốc sinh học phòng bệnh cho cải ngọt", TaskType = "Pesticide", StartDate = new DateTime(2024, 10, 12), EndDate = new DateTime(2024, 10, 15), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now }
+                new CaringTask { Id = 1, PlanId = 1, ProblemId = 1, FarmerId = 1, TaskName = "Tưới nước cho cà chua", TaskType = "Watering", StartDate = new DateTime(2024, 1, 12), EndDate = new DateTime(2024, 1, 15), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 2, PlanId = 1, ProblemId = 2, FarmerId = 2, TaskName = "Bón phân hữu cơ cho cà chua", TaskType = "Fertilizing", StartDate = new DateTime(2024, 1, 18), EndDate = new DateTime(2024, 1, 20), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 3, PlanId = 2, ProblemId = 3, FarmerId = 3, TaskName = "Kiểm tra sâu bệnh trên dưa lưới", TaskType = "Inspecting", StartDate = new DateTime(2024, 2, 10), EndDate = new DateTime(2024, 2, 12), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 4, PlanId = 2, ProblemId = 4, FarmerId = 4, TaskName = "Lắp hệ thống tưới tự động", TaskType = "Setup", StartDate = new DateTime(2024, 2, 15), EndDate = new DateTime(2024, 2, 18), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Ongoing", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 5, PlanId = 3, ProblemId = 5, FarmerId = 5, TaskName = "Nhổ cỏ dại quanh bắp cải", TaskType = "Weeding", StartDate = new DateTime(2024, 3, 20), EndDate = new DateTime(2024, 3, 22), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 6, PlanId = 4, ProblemId = 6, FarmerId = 1, TaskName = "Phun thuốc phòng bệnh cho rau muống", TaskType = "Pesticide", StartDate = new DateTime(2024, 4, 7), EndDate = new DateTime(2024, 4, 10), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 7, PlanId = 4, ProblemId = 7, FarmerId = 2, TaskName = "Thu gom rác nông nghiệp", TaskType = "Cleaning", StartDate = new DateTime(2024, 4, 12), EndDate = new DateTime(2024, 4, 14), IsCompleted = true, IsAvailable = true, Priority = 3, Status = "Completed", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 8, PlanId = 5, ProblemId = 8, FarmerId = 3, TaskName = "Tưới nước cho cà rốt", TaskType = "Watering", StartDate = new DateTime(2024, 5, 5), EndDate = new DateTime(2024, 5, 7), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 9, PlanId = 6, ProblemId = 9, FarmerId = 4, TaskName = "Bón phân lá cho hành lá", TaskType = "Fertilizing", StartDate = new DateTime(2024, 6, 15), EndDate = new DateTime(2024, 6, 17), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Ongoing", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 10, PlanId = 1, ProblemId = 10, FarmerId = 5, TaskName = "Kiểm tra côn trùng gây hại trên mướp hương", TaskType = "Inspecting", StartDate = new DateTime(2024, 7, 12), EndDate = new DateTime(2024, 7, 15), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 11, PlanId = 2, ProblemId = 1, FarmerId = 1, TaskName = "Cắt tỉa cành ớt chuông", TaskType = "Pruning", StartDate = new DateTime(2024, 8, 20), EndDate = new DateTime(2024, 8, 22), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 12, PlanId = 3, ProblemId = 2, FarmerId = 2, TaskName = "Tưới phun sương cho rau xà lách", TaskType = "Watering", StartDate = new DateTime(2024, 9, 10), EndDate = new DateTime(2024, 9, 12), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 13, PlanId = 4, ProblemId = 3, FarmerId = 3, TaskName = "Nhổ cỏ dại trong vườn xà lách", TaskType = "Weeding", StartDate = new DateTime(2024, 9, 15), EndDate = new DateTime(2024, 9, 17), IsCompleted = true, IsAvailable = true, Priority = 3, Status = "Completed", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 14, PlanId = 5, ProblemId = 4, FarmerId = 4, TaskName = "Bón phân NPK cho cải ngọt", TaskType = "Fertilizing", StartDate = new DateTime(2024, 10, 5), EndDate = new DateTime(2024, 10, 8), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Ongoing", CreatedAt = DateTime.Now },
+                new CaringTask { Id = 15, PlanId = 6, ProblemId = 5, FarmerId = 5, TaskName = "Phun thuốc sinh học phòng bệnh cho cải ngọt", TaskType = "Pesticide", StartDate = new DateTime(2024, 10, 12), EndDate = new DateTime(2024, 10, 15), IsCompleted = false, IsAvailable = true, Priority = 2, Status = "Pending", CreatedAt = DateTime.Now }
             );
 
             modelBuilder.Entity<HarvestingTask>().HasData(
@@ -487,7 +496,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     StartDate = DateTime.Now.AddDays(-9),
                     EndDate = DateTime.Now.AddDays(-8),
                     ResultContent = "Vỏ bí đỏ chưa đủ cứng",
-                    BrixPoint = 7.0f,
+                    BrixPoint = 7f,
                     Temperature = 27.2f,
                     Humidity = 60.5f,
                     Moisture = 48.3f,
@@ -529,6 +538,132 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Priority = 1,
                     CreatedAt = DateTime.Now.AddDays(-11)
                 }
+            );
+
+            modelBuilder.Entity<Problem>().HasData(
+                new Problem { Id = 1, PlanId = 1, ProblemName = "Sâu bệnh trên lá", Description = "Xuất hiện sâu ăn lá trên cây.", Date = DateTime.Parse("2024-02-01"), ProblemType = "Pest", Status = "Pending", ResultContent = null },
+                new Problem { Id = 2, PlanId = 1, ProblemName = "Thiếu nước", Description = "Đất khô, cây có dấu hiệu héo.", Date = DateTime.Parse("2024-02-05"), ProblemType = "Water", Status = "Resolved", ResultContent = "Đã tưới nước bổ sung." },
+                new Problem { Id = 3, PlanId = 2, ProblemName = "Đất kém dinh dưỡng", Description = "Lá vàng, cây chậm phát triển.", Date = DateTime.Parse("2024-02-10"), ProblemType = "Soil", Status = "Pending", ResultContent = null },
+                new Problem { Id = 4, PlanId = 3, ProblemName = "Cây bị nấm", Description = "Xuất hiện đốm trắng trên lá.", Date = DateTime.Parse("2024-02-12"), ProblemType = "Fungus", Status = "Resolved", ResultContent = "Đã phun thuốc chống nấm." },
+                new Problem { Id = 5, PlanId = 3, ProblemName = "Thiếu ánh sáng", Description = "Cây phát triển yếu do ánh sáng yếu.", Date = DateTime.Parse("2024-02-15"), ProblemType = "Light", Status = "Pending", ResultContent = null },
+                new Problem { Id = 6, PlanId = 4, ProblemName = "Sâu đục thân", Description = "Phát hiện dấu hiệu sâu đục thân cây.", Date = DateTime.Parse("2024-02-18"), ProblemType = "Pest", Status = "Resolved", ResultContent = "Đã xử lý bằng thuốc trừ sâu." },
+                new Problem { Id = 7, PlanId = 4, ProblemName = "Mưa quá nhiều", Description = "Đất ẩm lâu, có nguy cơ úng rễ.", Date = DateTime.Parse("2024-02-20"), ProblemType = "Weather", Status = "Pending", ResultContent = null },
+                new Problem { Id = 8, PlanId = 5, ProblemName = "Cây bị héo", Description = "Cây không đủ dinh dưỡng, lá rụng nhiều.", Date = DateTime.Parse("2024-02-22"), ProblemType = "Nutrients", Status = "Resolved", ResultContent = "Đã bổ sung phân bón." },
+                new Problem { Id = 9, PlanId = 6, ProblemName = "Bọ trĩ tấn công", Description = "Bọ trĩ gây hại trên lá non.", Date = DateTime.Parse("2024-02-25"), ProblemType = "Pest", Status = "Pending", ResultContent = null },
+                new Problem { Id = 10, PlanId = 6, ProblemName = "Nhiệt độ quá cao", Description = "Nắng nóng kéo dài gây stress cho cây.", Date = DateTime.Parse("2024-02-28"), ProblemType = "Weather", Status = "Resolved", ResultContent = "Đã che bóng giảm nhiệt độ." }
+            );
+
+            modelBuilder.Entity<Issue>().HasData(
+                new Issue { Id = 1, ProblemId = 1, IssueName = "Xuất hiện sâu xanh", Description = "Sâu xanh ăn lá non gây hại cho cây.", IsActive = true },
+                new Issue { Id = 2, ProblemId = 1, IssueName = "Lá bị đục lỗ", Description = "Sâu non cắn phá làm lá bị thủng lỗ.", IsActive = true },
+                new Issue { Id = 3, ProblemId = 2, IssueName = "Đất khô nứt nẻ", Description = "Lượng nước cung cấp không đủ, đất có dấu hiệu nứt nẻ.", IsActive = false },
+                new Issue { Id = 4, ProblemId = 2, IssueName = "Lá héo rũ", Description = "Thiếu nước khiến cây không thể duy trì độ tươi.", IsActive = true },
+                new Issue { Id = 5, ProblemId = 3, IssueName = "Thiếu kali", Description = "Lá vàng úa từ mép, cây yếu.", IsActive = true },
+                new Issue { Id = 6, ProblemId = 3, IssueName = "Thiếu nitơ", Description = "Lá nhạt màu, cây không phát triển mạnh.", IsActive = false },
+                new Issue { Id = 7, ProblemId = 4, IssueName = "Xuất hiện nấm mốc", Description = "Lá có đốm trắng và phát triển chậm.", IsActive = true },
+                new Issue { Id = 8, ProblemId = 4, IssueName = "Lá bị úa vàng", Description = "Nấm lây lan làm lá chuyển vàng và rụng.", IsActive = true },
+                new Issue { Id = 9, ProblemId = 5, IssueName = "Cây phát triển chậm", Description = "Cây không nhận đủ ánh sáng dẫn đến còi cọc.", IsActive = true },
+                new Issue { Id = 10, ProblemId = 6, IssueName = "Có lỗ nhỏ trên thân cây", Description = "Dấu hiệu sâu đục thân hoạt động.", IsActive = true },
+                new Issue { Id = 11, ProblemId = 6, IssueName = "Cành bị khô héo", Description = "Sâu làm tổ khiến chất dinh dưỡng không lưu thông.", IsActive = false },
+                new Issue { Id = 12, ProblemId = 7, IssueName = "Ngập úng rễ", Description = "Rễ cây bị úng nước dẫn đến chết dần.", IsActive = true },
+                new Issue { Id = 13, ProblemId = 8, IssueName = "Thiếu vi lượng", Description = "Cây không hấp thụ đủ khoáng chất cần thiết.", IsActive = true },
+                new Issue { Id = 14, ProblemId = 9, IssueName = "Xuất hiện đốm vàng trên lá", Description = "Bọ trĩ chích hút nhựa cây.", IsActive = true },
+                new Issue { Id = 15, ProblemId = 9, IssueName = "Lá bị xoăn", Description = "Cây phản ứng với sự tấn công của bọ trĩ.", IsActive = false },
+                new Issue { Id = 16, ProblemId = 10, IssueName = "Lá bị cháy nắng", Description = "Ánh nắng quá mạnh làm lá cây héo.", IsActive = true }
+            );
+
+            modelBuilder.Entity<SampleSolution>().HasData(
+                new SampleSolution { Id = 1, IssueId = 1, FileUrl = "/solutions/sau-xanh.pdf", CreatedAt = DateTime.Parse("2024-02-02"), UpdatedAt = null },
+                new SampleSolution { Id = 2, IssueId = 2, FileUrl = "/solutions/la-thung-lo.pdf", CreatedAt = DateTime.Parse("2024-02-03"), UpdatedAt = null },
+                new SampleSolution { Id = 3, IssueId = 3, FileUrl = "/solutions/dat-kho.pdf", CreatedAt = DateTime.Parse("2024-02-06"), UpdatedAt = null },
+                new SampleSolution { Id = 4, IssueId = 4, FileUrl = "/solutions/la-heo.pdf", CreatedAt = DateTime.Parse("2024-02-07"), UpdatedAt = DateTime.Parse("2024-02-08") },
+                new SampleSolution { Id = 5, IssueId = 5, FileUrl = "/solutions/thieu-kali.pdf", CreatedAt = DateTime.Parse("2024-02-11"), UpdatedAt = null },
+                new SampleSolution { Id = 6, IssueId = 6, FileUrl = "/solutions/thieu-nito.pdf", CreatedAt = DateTime.Parse("2024-02-12"), UpdatedAt = null },
+                new SampleSolution { Id = 7, IssueId = 7, FileUrl = "/solutions/nam-moc.pdf", CreatedAt = DateTime.Parse("2024-02-13"), UpdatedAt = null },
+                new SampleSolution { Id = 8, IssueId = 8, FileUrl = "/solutions/la-vang.pdf", CreatedAt = DateTime.Parse("2024-02-14"), UpdatedAt = DateTime.Parse("2024-02-15") },
+                new SampleSolution { Id = 9, IssueId = 9, FileUrl = "/solutions/thieu-anh-sang.pdf", CreatedAt = DateTime.Parse("2024-02-16"), UpdatedAt = null },
+                new SampleSolution { Id = 10, IssueId = 10, FileUrl = "/solutions/lo-tren-than.pdf", CreatedAt = DateTime.Parse("2024-02-19"), UpdatedAt = null },
+                new SampleSolution { Id = 11, IssueId = 11, FileUrl = "/solutions/canh-kho.pdf", CreatedAt = DateTime.Parse("2024-02-20"), UpdatedAt = null },
+                new SampleSolution { Id = 12, IssueId = 12, FileUrl = "/solutions/ngap-ung.pdf", CreatedAt = DateTime.Parse("2024-02-21"), UpdatedAt = null },
+                new SampleSolution { Id = 13, IssueId = 13, FileUrl = "/solutions/thieu-vi-luong.pdf", CreatedAt = DateTime.Parse("2024-02-23"), UpdatedAt = null },
+                new SampleSolution { Id = 14, IssueId = 14, FileUrl = "/solutions/dom-vang-bo-tri.pdf", CreatedAt = DateTime.Parse("2024-02-26"), UpdatedAt = null },
+                new SampleSolution { Id = 15, IssueId = 15, FileUrl = "/solutions/la-xoan.pdf", CreatedAt = DateTime.Parse("2024-02-27"), UpdatedAt = null },
+                new SampleSolution { Id = 16, IssueId = 16, FileUrl = "/solutions/la-chay-nang.pdf", CreatedAt = DateTime.Parse("2024-02-29"), UpdatedAt = null }
+            );
+
+            modelBuilder.Entity<Device>().HasData(
+                new Device { Id = 1, YieldId = 1, Name = "Cảm biến nhiệt độ", Type = "Temperature Sensor", Location = "Khu A", Status = "Active", DeviceCode = "TEMP-001", InstallationDate = DateTime.Parse("2023-01-10"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 2, YieldId = 1, Name = "Cảm biến độ ẩm đất", Type = "Soil Moisture Sensor", Location = "Khu A", Status = "Active", DeviceCode = "MOIST-002", InstallationDate = DateTime.Parse("2023-02-15"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 3, YieldId = 2, Name = "Cảm biến ánh sáng", Type = "Light Sensor", Location = "Khu B", Status = "Active", DeviceCode = "LIGHT-003", InstallationDate = DateTime.Parse("2023-03-20"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 4, YieldId = 2, Name = "Cảm biến pH đất", Type = "Soil pH Sensor", Location = "Khu B", Status = "Inactive", DeviceCode = "PH-004", InstallationDate = DateTime.Parse("2023-04-05"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 5, YieldId = 3, Name = "Cảm biến độ ẩm không khí", Type = "Humidity Sensor", Location = "Khu C", Status = "Active", DeviceCode = "HUM-005", InstallationDate = DateTime.Parse("2023-05-12"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 6, YieldId = 3, Name = "Cảm biến CO2", Type = "CO2 Sensor", Location = "Khu C", Status = "Active", DeviceCode = "CO2-006", InstallationDate = DateTime.Parse("2023-06-18"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 7, YieldId = 4, Name = "Cảm biến độ mặn", Type = "Salinity Sensor", Location = "Khu D", Status = "Inactive", DeviceCode = "SALIN-007", InstallationDate = DateTime.Parse("2023-07-08"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 8, YieldId = 5, Name = "Cảm biến gió", Type = "Wind Sensor", Location = "Khu E", Status = "Active", DeviceCode = "WIND-008", InstallationDate = DateTime.Parse("2023-08-22"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 9, YieldId = 6, Name = "Cảm biến lượng mưa", Type = "Rain Gauge", Location = "Khu F", Status = "Active", DeviceCode = "RAIN-009", InstallationDate = DateTime.Parse("2023-09-15"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
+                new Device { Id = 10, YieldId = 7, Name = "Cảm biến Nitrogen", Type = "Nitrogen Sensor", Location = "Khu G", Status = "Active", DeviceCode = "NITRO-010", InstallationDate = DateTime.Parse("2023-10-30"), CreatedAt = DateTime.Now, CreatedBy = "Admin" }
+            );
+
+            modelBuilder.Entity<Item>().HasData(
+                // (Caring Task)
+                new Item { Id = 1, Name = "Bình tưới cây", Description = "Bình tưới nước dung tích 5L", Image = "watering_can.jpg", Status = "Available", Type = "Caring" },
+                new Item { Id = 2, Name = "Kéo cắt tỉa", Description = "Kéo chuyên dụng để cắt tỉa cành", Image = "pruning_shears.jpg", Status = "Available", Type = "Caring" },
+                new Item { Id = 3, Name = "Bón phân hữu cơ", Description = "Dụng cụ bón phân dạng viên", Image = "fertilizer_spreader.jpg", Status = "Available", Type = "Caring" },
+                new Item { Id = 4, Name = "Máy đo độ ẩm đất", Description = "Dụng cụ đo độ ẩm của đất", Image = "soil_moisture_meter.jpg", Status = "Available", Type = "Caring" },
+                // (Harvesting Task)
+                new Item { Id = 5, Name = "Dao thu hoạch", Description = "Dao chuyên dụng để cắt trái cây", Image = "harvesting_knife.jpg", Status = "Available", Type = "Harvesting" },
+                new Item { Id = 6, Name = "Giỏ đựng nông sản", Description = "Giỏ chứa nông sản sau thu hoạch", Image = "harvest_basket.jpg", Status = "Available", Type = "Harvesting" },
+                new Item { Id = 7, Name = "Máy cắt lúa", Description = "Máy gặt đập liên hợp mini", Image = "rice_harvester.jpg", Status = "In Use", Type = "Harvesting" },
+                // (Inspecting Form)
+                new Item { Id = 8, Name = "Kính lúp cầm tay", Description = "Dụng cụ kiểm tra sâu bệnh", Image = "magnifying_glass.jpg", Status = "Available", Type = "Inspecting" },
+                new Item { Id = 9, Name = "Máy đo pH đất", Description = "Dụng cụ đo độ pH của đất", Image = "ph_meter.jpg", Status = "Available", Type = "Inspecting" },
+                new Item { Id = 10, Name = "Bộ kit kiểm tra dư lượng thuốc trừ sâu", Description = "Dụng cụ kiểm định dư lượng hóa chất trên nông sản", Image = "pesticide_test_kit.jpg", Status = "Available", Type = "Inspecting" }
+            );
+
+            modelBuilder.Entity<CaringItem>().HasData(
+                new CaringItem { Id = 1, ItemId = 1, TaskId = 1, Quantity = 2, Unit = "Cái" },
+                new CaringItem { Id = 2, ItemId = 1, TaskId = 5, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 3, ItemId = 2, TaskId = 2, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 4, ItemId = 2, TaskId = 6, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 5, ItemId = 3, TaskId = 3, Quantity = 10, Unit = "Kg" },
+                new CaringItem { Id = 6, ItemId = 3, TaskId = 7, Quantity = 15, Unit = "Kg" },
+                new CaringItem { Id = 7, ItemId = 4, TaskId = 4, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 8, ItemId = 4, TaskId = 8, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 9, ItemId = 1, TaskId = 9, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 10, ItemId = 3, TaskId = 10, Quantity = 12, Unit = "Kg" },
+                new CaringItem { Id = 11, ItemId = 2, TaskId = 11, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 12, ItemId = 4, TaskId = 12, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 13, ItemId = 3, TaskId = 13, Quantity = 8, Unit = "Kg" },
+                new CaringItem { Id = 14, ItemId = 2, TaskId = 14, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 15, ItemId = 1, TaskId = 15, Quantity = 2, Unit = "Cái" }
+            );
+
+            modelBuilder.Entity<HarvestingItem>().HasData(
+                new HarvestingItem { Id = 1, ItemId = 5, TaskId = 1, Quantity = 2, Unit = "Cái" },
+                new HarvestingItem { Id = 2, ItemId = 6, TaskId = 1, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 3, ItemId = 7, TaskId = 2, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 4, ItemId = 5, TaskId = 2, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 5, ItemId = 5, TaskId = 3, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 6, ItemId = 6, TaskId = 3, Quantity = 2, Unit = "Cái" },
+                new HarvestingItem { Id = 7, ItemId = 7, TaskId = 4, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 8, ItemId = 6, TaskId = 4, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 9, ItemId = 6, TaskId = 5, Quantity = 1, Unit = "Cái" },
+                new HarvestingItem { Id = 10, ItemId = 5, TaskId = 5, Quantity = 2, Unit = "Cái" }
+            );
+
+            modelBuilder.Entity<InspectingItem>().HasData(
+                new InspectingItem { Id = 1, ItemId = 8, TaskId = 1, Quantity = 1, Unit = "Bộ" },
+                new InspectingItem { Id = 2, ItemId = 9, TaskId = 1, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 3, ItemId = 10, TaskId = 2, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 4, ItemId = 8, TaskId = 2, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 5, ItemId = 9, TaskId = 3, Quantity = 1, Unit = "Bộ" },
+                new InspectingItem { Id = 6, ItemId = 10, TaskId = 3, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 7, ItemId = 9, TaskId = 4, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 8, ItemId = 8, TaskId = 4, Quantity = 1, Unit = "Bộ" },
+                new InspectingItem { Id = 9, ItemId = 10, TaskId = 5, Quantity = 1, Unit = "Bộ" },
+                new InspectingItem { Id = 10, ItemId = 8, TaskId = 5, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 11, ItemId = 9, TaskId = 6, Quantity = 1, Unit = "Cái" },
+                new InspectingItem { Id = 12, ItemId = 10, TaskId = 6, Quantity = 1, Unit = "Bộ" }
             );
         }
     }
