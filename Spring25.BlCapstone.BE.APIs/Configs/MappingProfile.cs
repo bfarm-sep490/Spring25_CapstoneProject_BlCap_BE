@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Issue;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
@@ -36,6 +37,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             AuthProfile();
             HarvestingProfile();
             InspectingProfile();
+            IssueProfile();
        }
 
         private void InspectingProfile()
@@ -184,5 +186,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();              
         }
 
+        void IssueProfile()
+        {
+            CreateMap<Issue, IssueModel>()
+                .ReverseMap();
+        }
     }
 }
