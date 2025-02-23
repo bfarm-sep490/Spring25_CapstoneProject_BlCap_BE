@@ -42,7 +42,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("plant_information")]
         public PlantInfor PlantInfor { get; set; }
         [JsonPropertyName("yield_information")]
-        public List<YieldInfor> YieldInfor { get; set; }
+        public YieldInfor YieldInfor { get; set; }
         [JsonPropertyName("caring_task_information")]
         public List<PlanCaringInfor> CaringTaskInfor { get; set; }
         [JsonPropertyName("inspecting_form")]
@@ -68,13 +68,13 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
     public class YieldInfor
     {
         [JsonPropertyName("yield_id")]
-        public int YieldId { get; set; }
-        [JsonPropertyName("is_completed")]
-        public bool IsCompleted { get; set; }
-        [JsonPropertyName("data_environment_url")]
-        public string DataEnvironmentUrl { get; set; }
+        public int Id { get; set; }
         [JsonPropertyName("yield_name")]
         public string YieldName { get; set; }
+        [JsonPropertyName("is_completed")]
+        public bool IsAvailable { get; set; }
+        //[JsonPropertyName("data_environment_url")]
+        //public string DataEnvironmentUrl { get; set; }
         [JsonPropertyName("area_unit")]
         public string AreaUnit { get; set; }
         [JsonPropertyName("area")]

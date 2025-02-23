@@ -13,7 +13,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int Id { get; set; }
         [JsonPropertyName("plan_id")]
 
-        public int YieldId { get; set; }
+        public int PlanId { get; set; }
         [JsonPropertyName("farmer_id")]
         public int? FarmerId { get; set; }
         [JsonPropertyName("problem_id")]

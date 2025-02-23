@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 
 namespace Spring25.BlCapstone.BE.Repositories
 {
@@ -362,6 +363,8 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .HasForeignKey(pr => pr.PesticideId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            FakeDataSeeder.Seed(modelBuilder);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

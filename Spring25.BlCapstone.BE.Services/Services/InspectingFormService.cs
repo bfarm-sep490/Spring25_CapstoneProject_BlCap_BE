@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> GetAllInspectingForm()
         {
             var list = await _unitOfWork.InspectingTaskRepository.GetAllAsync();
-            var result = _mapper.Map<List<InspectingImageModel>>(list);
+            var result = _mapper.Map<List<InspectingFormModel>>(list);
             return new BusinessResult(200,"Get all Inspecting forms",result);
         }
 

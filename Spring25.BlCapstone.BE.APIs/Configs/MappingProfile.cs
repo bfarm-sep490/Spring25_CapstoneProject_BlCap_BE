@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Issue;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
@@ -36,6 +37,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             AuthProfile();
             HarvestingProfile();
             InspectingProfile();
+            IssueProfile();
        }
 
         private void InspectingProfile()
@@ -137,10 +139,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<Plan, PlanModel>()
                 .ForMember(dest => dest.PlantInfor, opt => opt.MapFrom(src => src.Plant))
+                .ForMember(dest => dest.YieldInfor, opt => opt.MapFrom(src => src.Yield))
                 .ForMember(dest => dest.CaringTaskInfor, opt => opt.MapFrom(src => src.CaringTasks))
                 .ForMember(dest => dest.InspectingInfors, opt => opt.MapFrom(src => src.InspectingForms))
                 .ForMember(dest => dest.HarvestingInfors, opt => opt.MapFrom(src => src.HarvestingTasks))
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
+                .ReverseMap();
+            CreateMap<Yield, YieldInfor>()
                 .ReverseMap();
             CreateMap<Plant, PlantInfor>()
                 .ReverseMap();
@@ -181,5 +186,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();              
         }
 
+        void IssueProfile()
+        {
+            CreateMap<Issue, IssueModel>()
+                .ReverseMap();
+        }
     }
 }
