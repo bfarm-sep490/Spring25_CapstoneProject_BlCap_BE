@@ -11,8 +11,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonPropertyName("seed_name")]
-        public string SeedName { get; set; }
+        [JsonPropertyName("plant_name")]
+        public string PlantName { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("is_available")]

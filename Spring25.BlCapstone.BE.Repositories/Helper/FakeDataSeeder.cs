@@ -18,13 +18,22 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new Account { Id = 2, Name = "Trần Thị B", Email = "farmer", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 3, Name = "Lê Quang C", Email = "lequangc@example.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 4, Name = "Phạm Minh D", Email = "phaminhd@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 5, Name = "Hoàng Mai E", Email = "hoangmaie@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 5, Name = "Nguyễn Bình Phương Trâm", Email = "tramnbp@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 6, Name = "Nguyễn Thiện F", Email = "nguyenthienf@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 7, Name = "Trần Bích G", Email = "tranbichg@example.com", Role = "Farmer", Password = "1234", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 8, Name = "Lê Sơn H", Email = "inspector", Role = "Inspector", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 9, Name = "Phạm Tuan I", Email = "phamtuani@example.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 10, Name = "Hoàng Quỳnh J", Email = "expert", Role = "Expert", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 11, Name = "Trịnh Xuân Admin", Email = "admin", Role = "Farm Owner", Password = "1@", IsActive = true, CreatedAt = DateTime.Now }
+                new Account { Id = 11, Name = "Trịnh Xuân Admin", Email = "farmowner", Role = "Farm Owner", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 12, Name = "Trịnh Hữu Tuấn", Email = "retailer", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 13, Name = "Vũ Hoàng Duy Khánh", Email = "khanhvhd@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 14, Name = "Lê Quốc Khánh", Email = "khanhlq@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now }
+            );
+
+            modelBuilder.Entity<Retailer>().HasData(
+                new Retailer { Id = 1, AccountId = 12, LongxLat = "10.7769,106.7009", Address = "123 Đường Lê Lợi, Quận 1, TP.HCM", Phone = "0901234567", DOB = new DateTime(1985, 5, 10), Avatar = "avatar1.jpg", Status = "Active" },
+                new Retailer { Id = 2, AccountId = 13, LongxLat = "10.7627,106.6822", Address = "456 Đường Nguyễn Huệ, Quận 1, TP.HCM", Phone = "0912345678", DOB = new DateTime(1990, 8, 20), Avatar = "avatar2.jpg", Status = "Inactive" },
+                new Retailer { Id = 3, AccountId = 14, LongxLat = "10.8231,106.6297", Address = "789 Đường Phạm Văn Đồng, Quận Thủ Đức, TP.HCM", Phone = "0923456789", DOB = new DateTime(1995, 12, 15), Avatar = "avatar3.jpg", Status = "Pending" }
             );
 
             modelBuilder.Entity<Expert>().HasData(
