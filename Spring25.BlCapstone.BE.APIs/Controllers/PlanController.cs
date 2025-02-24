@@ -40,5 +40,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("general/{id}")]
+        public async Task<IActionResult> GetGeneralPlan(int id)
+        {
+            try
+            {
+                var res = await _planService.GetGeneralPlan(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

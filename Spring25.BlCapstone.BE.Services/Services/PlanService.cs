@@ -15,6 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetGeneralPlan(int id);
     }
 
     public class PlanService : IPlanService
@@ -74,6 +75,26 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> GetGeneralPlan(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetPlan(id);
+
+                var res = _mapper.Map<PlanGeneral>(plan);
+                if (res != null)
+                {
+                    return new BusinessResult(200, "Plan ne", res);
+                }
+
+                return new BusinessResult(404, "Not found any Plans", null);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
         }
     }

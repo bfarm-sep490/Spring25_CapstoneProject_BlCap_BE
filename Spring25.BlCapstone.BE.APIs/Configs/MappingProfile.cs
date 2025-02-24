@@ -159,6 +159,14 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Plan, PlanForList>()
                 .ReverseMap();
+            CreateMap<Plan, PlanGeneral>()
+                .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
+                .ForMember(dest => dest.YieldInformation, opt => opt.MapFrom(src => src.Yield))
+                .ReverseMap();
+            CreateMap<Plant, PlantInformation>()
+                .ReverseMap();
+            CreateMap<Yield, YieldInformation>()
+                .ReverseMap();
         }
         void CaringProfile()
         {
