@@ -89,6 +89,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<Farmer, FarmerModel>()
                 .ReverseMap();
+            CreateMap<Farmer, FarmerPlan>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
+                .ReverseMap();
         }
 
         void SeedProfile()
@@ -133,6 +136,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Issue, ProblemIssues>()
                 .ReverseMap();
+            CreateMap<Problem, ProblemPlan>()
+                .ReverseMap();
         }
 
         void PlanProfile()
@@ -158,6 +163,14 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Problem, ProblemInfor>()
                 .ReverseMap();
             CreateMap<Plan, PlanForList>()
+                .ReverseMap();
+            CreateMap<Plan, PlanGeneral>()
+                .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
+                .ForMember(dest => dest.YieldInformation, opt => opt.MapFrom(src => src.Yield))
+                .ReverseMap();
+            CreateMap<Plant, PlantInformation>()
+                .ReverseMap();
+            CreateMap<Yield, YieldInformation>()
                 .ReverseMap();
         }
         void CaringProfile()

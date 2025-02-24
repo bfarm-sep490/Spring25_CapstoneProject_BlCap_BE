@@ -31,5 +31,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Where(f => f.AccountId == id)
                 .FirstOrDefaultAsync() ;
         }
+
+        public async Task<List<Farmer>> GetFarmersByPlanId(int planId)
+        {
+            return await _context.Farmers
+                .Include(f => f.Account)
+                .Include(f => f.FarmerPermissions)
+                .Where(f => f.FarmerPermissions.Any(fp => fp.PlanId == planId && fp.IsActive == true))
+                .ToListAsync();
+        }
     }
 }
