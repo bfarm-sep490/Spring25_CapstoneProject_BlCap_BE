@@ -2,35 +2,52 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
 {
     public class PlanGeneral
     {
+        [JsonPropertyName("plan_id")]
         public int Id { get; set; }
+        [JsonPropertyName("plan_name")]
         public string PlanName { get; set; }
+        [JsonPropertyName("plant_information")]
         public PlantInformation PlantInformation { get; set; }
+        [JsonPropertyName("yield_information")]
         public YieldInformation YieldInformation { get; set; }
+        [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
+        [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
+        [JsonPropertyName("estimated_product")]
         public float EstimatedProduct { get; set; }
+        [JsonPropertyName("estimated_unit")]
         public string EstimatedUnit { get; set; }
+        [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
     }
 
     public class PlantInformation
     {
+        [JsonPropertyName("plant_id")]
         public int Id { get; set; }
+        [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
     }
 
     public class YieldInformation
     {
+        [JsonPropertyName("yield_id")]
         public int Id { get; set; }
+        [JsonPropertyName("yield_name")]
         public string YieldName { get; set; }
+        [JsonPropertyName("area_unit")]
         public string AreaUnit { get; set; }
+        [JsonPropertyName("area")]
         public double Area { get; set; }
     }
 }
