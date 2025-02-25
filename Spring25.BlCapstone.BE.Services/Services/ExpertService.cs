@@ -226,20 +226,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
-                string url = null;
-                if (model.Avatar != null)
-                {
-                    var i = await CloudinaryHelper.UploadImage(model.Avatar);
-                    url = i.Url;
-                }
-
                 var newExpert = new Expert
                 {
                     AccountId = newAccount.Id,
                     DOB = model.DOB != null ? model.DOB : null,
                     Phone = model.Phone != null ? model.Phone : null,
                     Status = "?",
-                    Avatar = url != null ? url : null,
+                    Avatar = model.Avatar != null ? model.Avatar : null,
                 };
                 var rsf = await _unitOfWork.ExpertRepository.CreateAsync(newExpert);
 
@@ -297,8 +290,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 expert.DOB = model.DOB;
                 expert.Phone = model.Phone;
-                var url = await CloudinaryHelper.UploadImage(model.Avatar);
-                expert.Avatar = url.Url;
+                expert.Avatar = model.Avatar;
 
                 var rs = await _unitOfWork.ExpertRepository.UpdateAsync(expert);
                 if (rs > 0)

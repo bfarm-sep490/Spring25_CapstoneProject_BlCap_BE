@@ -47,5 +47,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
         public double MaxBrixPoint { get; set; } 
         [JsonPropertyName("gt_test_kit_color")]
         public string GTTestKitColor { get; set; }
+        [JsonPropertyName("image_url")]
+        public string ImageUrl { get; set; }
     }
 }

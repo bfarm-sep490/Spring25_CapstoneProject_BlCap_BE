@@ -37,7 +37,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             return Ok(rs);
         }
 
-        [HttpPut("status/{id}")]
+        [HttpPut("{id}/status")]
         public async Task<IActionResult> SwitchStatus(int id)
         {
             var rs = await _service.SwitchStatus(id);
@@ -52,14 +52,14 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateFarmer model)
+        public async Task<IActionResult> Create(CreateFarmer model)
         {
             var rs = await _service.CreateFarmer(model);
             return Ok(rs);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] CreateFarmer model)
+        public async Task<IActionResult> Update(int id, CreateFarmer model)
         {
             var rs = await _service.UpdateFarmer(id, model);
             return Ok(rs);

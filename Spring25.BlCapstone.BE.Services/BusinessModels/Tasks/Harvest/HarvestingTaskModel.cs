@@ -48,6 +48,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
 
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
 
         [JsonPropertyName("priority")]
         public int Priority { get; set; }

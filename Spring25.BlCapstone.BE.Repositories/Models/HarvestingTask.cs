@@ -24,6 +24,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? HarvestedUnit { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsAvailable { get; set; }
+        public string Status { get; set; }
         public int Priority { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }

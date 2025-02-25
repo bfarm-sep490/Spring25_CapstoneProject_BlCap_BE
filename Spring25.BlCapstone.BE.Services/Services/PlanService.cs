@@ -184,7 +184,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                                             {
                                                 Id = group.Key.Id,
                                                 Unit = group.Key.Unit,
-                                                EstimatedQuantity = group.Where(i => i.HarvestingTask.IsAvailable != false).Sum(i => i.Quantity),
+                                                EstimatedQuantity = group.Where(i => i.HarvestingTask.Status.ToLower() != "cancel").Sum(i => i.Quantity),
                                                 InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
                                             }).ToList();
 

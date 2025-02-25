@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories;
+﻿using Microsoft.AspNetCore.Http;
+using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
@@ -18,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateItem(CreatedItem item);
         Task<IBusinessResult> UpdateItem(int id, CreatedItem item);
         Task<IBusinessResult> RemoveItem(int id);
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
 
     public class ItemService : IItemService
@@ -126,10 +128,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Description = item.Description,
                     Status = item.Status,
                     Type = item.Type,
+                    Image = item.Image
                 };
 
-                var url = await CloudinaryHelper.UploadImage(item.Image);
-                newItem.Image = url.Url;
                 var rs = await _unitOfWork.ItemRepository.CreateAsync(newItem);
 
                 if (rs == null)
@@ -177,13 +178,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                var url = await CloudinaryHelper.UploadImage(item.Image);
-
                 existedItem.Name = item.Name;
                 existedItem.Description = item.Description;
                 existedItem.Status = item.Status;
                 existedItem.Type = item.Type;
-                existedItem.Image = url.Url;
+                existedItem.Image = item.Image;
 
                 var rs = await _unitOfWork.ItemRepository.UpdateAsync(existedItem);
                 if (rs <= 0)
@@ -252,6 +251,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Data = null
                     };
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
             }
             catch (Exception ex)
             {

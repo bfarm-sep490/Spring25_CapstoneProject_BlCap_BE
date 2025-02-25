@@ -16,6 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public float Quantity { get; set; }
         public string Unit { get; set; }
         public string Description { get; set; }
+        public string ImageUrl { get; set; }
         public bool IsAvailable {  get; set; }
         public double MinTemp {  get; set; }
         public double MaxTemp { get; set; }

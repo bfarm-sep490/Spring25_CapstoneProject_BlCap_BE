@@ -96,7 +96,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 5,
                     MaxBrixPoint = 8,
-                    GTTestKitColor = "Green"
+                    GTTestKitColor = "Green", 
+                    ImageUrl = "https://lh3.googleusercontent.com/Yjr46vcV8-zXGaD88d-3_VV34Lcttz5Je5kzzlP4__C6HaCVPw82CZhOsqvF9QusGFr1Gbqb9wNDYglguUJhB9jA5tE1NY5a=rw"
                 },
                 new Plant
                 {
@@ -120,7 +121,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 4,
                     MaxBrixPoint = 7,
-                    GTTestKitColor = "Light Green"
+                    GTTestKitColor = "Light Green",
+                    ImageUrl = "https://bizweb.dktcdn.net/thumb/grande/100/390/808/products/417703-aadd29cc34ac4e77ad0a253a570c41fd-large.jpg?v=1592815671443"
                 },
                 new Plant
                 {
@@ -144,7 +146,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 6,
                     MaxBrixPoint = 10,
-                    GTTestKitColor = "Red"
+                    GTTestKitColor = "Red",
+                    ImageUrl = "https://product.hstatic.net/200000423303/product/ca-chua-bee-cherry-huu-co_2afe5b08b1f242809cac54171701fff4_1024x1024.jpg"
                 },
                 new Plant
                 {
@@ -168,7 +171,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 5,
                     MaxBrixPoint = 9,
-                    GTTestKitColor = "Orange"
+                    GTTestKitColor = "Orange",
+                    ImageUrl = "https://product.hstatic.net/200000459373/product/b9edb47fb13ffa61a2f24d9de633ee32_f7dc0339ec9644ae93f7eb26644592d8_master.jpg"
                 },
                 new Plant
                 {
@@ -192,7 +196,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 4,
                     MaxBrixPoint = 8,
-                    GTTestKitColor = "Yellow"
+                    GTTestKitColor = "Yellow",
+                    ImageUrl = "https://bizweb.dktcdn.net/100/021/951/products/ot-chuong-do.jpg?v=1626768715773"
                 },
                 new Plant
                 {
@@ -216,7 +221,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 5,
                     MaxBrixPoint = 7,
-                    GTTestKitColor = "Green"
+                    GTTestKitColor = "Green",
+                    ImageUrl = "https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/9/30/840429/Hanh-La-Tot-Suc-Khoe.jpg"
                 },
                 new Plant
                 {
@@ -240,7 +246,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 3,
                     MaxBrixPoint = 6,
-                    GTTestKitColor = "Green"
+                    GTTestKitColor = "Green",
+                    ImageUrl = "https://images-handler.kamereo.vn/eyJidWNrZXQiOiJpbWFnZS1oYW5kbGVyLXByb2QiLCJrZXkiOiJzdXBwbGllci82NTQvUFJPRFVDVF9JTUFHRS81ZmVjZTkxMy1lMzFlLTRlYjQtOGU3ZC0wNDEzZjA1MDFmZDEuanBnXzE3MDBXeDE3MDBIIn0="
                 },
                 new Plant
                 {
@@ -264,7 +271,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 5,
                     MaxBrixPoint = 9,
-                    GTTestKitColor = "Dark Green"
+                    GTTestKitColor = "Dark Green",
+                    ImageUrl = "https://product.hstatic.net/1000354044/product/spinach-with-root_a908f4303613407aa4212ff58f0a2301_master.jpg"
                 },
                 new Plant
                 {
@@ -288,7 +296,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 3,
                     MaxBrixPoint = 7,
-                    GTTestKitColor = "Light Green"
+                    GTTestKitColor = "Light Green",
+                    ImageUrl = "https://hoayeuthuong.com/hinh-hoa-tuoi/moingay/11896_dua-leo-lon-kg.jpg"
                 },
                 new Plant
                 {
@@ -312,7 +321,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     PesticideUnit = "ml/L",
                     MinBrixPoint = 4,
                     MaxBrixPoint = 8,
-                    GTTestKitColor = "White"
+                    GTTestKitColor = "White",
+                    ImageUrl = "https://cdn-ikpgcep.nitrocdn.com/ZvpbNFNEnLdyaCvAOioeTonnTVKjUsWC/assets/images/optimized/rev-62fa9b2/phanthietstore.com/wp-content/uploads/2024/03/13-1-2.jpg"
                 }
             );
 
@@ -378,11 +388,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<HarvestingTask>().HasData(
-                new HarvestingTask { Id = 1, PlanId = 1, FarmerId = 1, TaskName = "Thu hoạch rau cải", TaskType = "Thu hoạch", Description = "Thu hoạch rau cải trước khi trời quá nắng", HarvestDate = DateTime.Now.AddDays(-1), CompleteDate = DateTime.Now, HarvestedQuantity = 50, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 1, CreatedAt = DateTime.Now.AddDays(-5) },
-                new HarvestingTask { Id = 2, PlanId = 2, FarmerId = 2, TaskName = "Thu hoạch cà chua", TaskType = "Thu hoạch", Description = "Thu hoạch cà chua chín đỏ", HarvestDate = DateTime.Now.AddDays(-2), CompleteDate = DateTime.Now.AddDays(-1), HarvestedQuantity = 30, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 2, CreatedAt = DateTime.Now.AddDays(-6) },
-                new HarvestingTask { Id = 3, PlanId = 3, FarmerId = 3, TaskName = "Thu hoạch bắp cải", TaskType = "Thu hoạch", Description = "Thu hoạch bắp cải vào sáng sớm để giữ độ tươi", HarvestDate = DateTime.Now.AddDays(-3), CompleteDate = DateTime.Now.AddDays(-2), HarvestedQuantity = 40, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 1, CreatedAt = DateTime.Now.AddDays(-7) },
-                new HarvestingTask { Id = 4, PlanId = 4, FarmerId = 4, TaskName = "Thu hoạch dưa leo", TaskType = "Thu hoạch", Description = "Thu hoạch dưa leo vào đúng thời điểm chín", HarvestDate = DateTime.Now.AddDays(-1), CompleteDate = DateTime.Now, HarvestedQuantity = 20, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 3, CreatedAt = DateTime.Now.AddDays(-4) },
-                new HarvestingTask { Id = 5, PlanId = 5, FarmerId = 5, TaskName = "Thu hoạch bí đỏ", TaskType = "Thu hoạch", Description = "Thu hoạch bí đỏ khi vỏ cứng lại", HarvestDate = DateTime.Now.AddDays(-4), CompleteDate = DateTime.Now.AddDays(-3), HarvestedQuantity = 15, HarvestedUnit = "quả", IsCompleted = true, IsAvailable = true, Priority = 2, CreatedAt = DateTime.Now.AddDays(-8) }
+                new HarvestingTask { Id = 1, PlanId = 1, FarmerId = 1, TaskName = "Thu hoạch rau cải", TaskType = "Thu hoạch", Description = "Thu hoạch rau cải trước khi trời quá nắng", HarvestDate = DateTime.Now.AddDays(-1), CompleteDate = DateTime.Now, HarvestedQuantity = 50, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 1, CreatedAt = DateTime.Now.AddDays(-5), Status = "Cancel" },
+                new HarvestingTask { Id = 2, PlanId = 2, FarmerId = 2, TaskName = "Thu hoạch cà chua", TaskType = "Thu hoạch", Description = "Thu hoạch cà chua chín đỏ", HarvestDate = DateTime.Now.AddDays(-2), CompleteDate = DateTime.Now.AddDays(-1), HarvestedQuantity = 30, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 2, CreatedAt = DateTime.Now.AddDays(-6), Status = "Pending" },
+                new HarvestingTask { Id = 3, PlanId = 3, FarmerId = 3, TaskName = "Thu hoạch bắp cải", TaskType = "Thu hoạch", Description = "Thu hoạch bắp cải vào sáng sớm để giữ độ tươi", HarvestDate = DateTime.Now.AddDays(-3), CompleteDate = DateTime.Now.AddDays(-2), HarvestedQuantity = 40, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 1, CreatedAt = DateTime.Now.AddDays(-7), Status = "Cancel" },
+                new HarvestingTask { Id = 4, PlanId = 4, FarmerId = 4, TaskName = "Thu hoạch dưa leo", TaskType = "Thu hoạch", Description = "Thu hoạch dưa leo vào đúng thời điểm chín", HarvestDate = DateTime.Now.AddDays(-1), CompleteDate = DateTime.Now, HarvestedQuantity = 20, HarvestedUnit = "kg", IsCompleted = true, IsAvailable = true, Priority = 3, CreatedAt = DateTime.Now.AddDays(-4), Status = "Pending" },
+                new HarvestingTask { Id = 5, PlanId = 5, FarmerId = 5, TaskName = "Thu hoạch bí đỏ", TaskType = "Thu hoạch", Description = "Thu hoạch bí đỏ khi vỏ cứng lại", HarvestDate = DateTime.Now.AddDays(-4), CompleteDate = DateTime.Now.AddDays(-3), HarvestedQuantity = 15, HarvestedUnit = "quả", IsCompleted = true, IsAvailable = true, Priority = 2, CreatedAt = DateTime.Now.AddDays(-8), Status = "Pending" }
             );
 
             modelBuilder.Entity<InspectingForm>().HasData(
