@@ -41,7 +41,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("general/{id}")]
+        [HttpGet("{id}/general")]
         public async Task<IActionResult> GetGeneralPlan(int id)
         {
             try
@@ -55,7 +55,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("problems/{id}")]
+        [HttpGet("{id}/problems")]
         public async Task<IActionResult> GetAllProbs(int id)
         {
             try
@@ -69,7 +69,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("farmers/{id}")]
+        [HttpGet("{id}/farmers")]
         public async Task<IActionResult> GetAllFarmers(int id)
         {
             try
@@ -83,7 +83,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("items/{id}")]
+        [HttpGet("{id}/items")]
         public async Task<IActionResult> GetAllItems(int id)
         {
             try
