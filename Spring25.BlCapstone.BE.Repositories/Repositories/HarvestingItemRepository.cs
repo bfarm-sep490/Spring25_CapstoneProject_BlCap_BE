@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public HarvestingItemRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<List<HarvestingItem>> GetHarvestingItemByPlanId(int planId)
+        {
+            return await _context.HarvestingItems
+                .Include(ci => ci.Item)
+                .Include(ci => ci.HarvestingTask)
+                    .ThenInclude(ci => ci.Plan)
+                .Where(ci => ci.HarvestingTask.PlanId == planId)
+                .ToListAsync();
         }
     }
 }

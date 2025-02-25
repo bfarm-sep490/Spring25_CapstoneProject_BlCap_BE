@@ -3,6 +3,7 @@ using IO.Ably;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using System;
@@ -20,6 +21,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetGeneralPlan(int id);
         Task<IBusinessResult> GetAllProblems(int planId);
         Task<IBusinessResult> GetAllFarmers(int planId);
+        Task<IBusinessResult> GetAllItems(int planId);
     }
 
     public class PlanService : IPlanService
@@ -147,6 +149,62 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 return new BusinessResult { Status = 404, Message = "Not found any Farmers in plan", Data = null };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> GetAllItems(int planId)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
+                if (plan == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Plan not existed !", Data = null };
+                }
+
+                var ci = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(planId);
+                var hi = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemByPlanId(planId);
+                var ii = await _unitOfWork.InspectingItemRepository.GetInspectingItemByPlanId(planId);
+
+                var caringItemPlans = ci.GroupBy(i => new { i.Id, i.Unit })
+                                        .Select(group => new CaringItemPlan
+                                        {
+                                            Id = group.Key.Id,
+                                            Unit = group.Key.Unit,
+                                            EstimatedQuantity = group.Where(i => i.CaringTask.Status.ToLower() != "cancel").Sum(i => i.Quantity),
+                                            InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
+                                        }).ToList();
+
+                var harvestingItemPlans = hi.GroupBy(i => new { i.Id, i.Unit })
+                                            .Select(group => new HarvestingItemPlan
+                                            {
+                                                Id = group.Key.Id,
+                                                Unit = group.Key.Unit,
+                                                EstimatedQuantity = group.Where(i => i.HarvestingTask.IsAvailable != false).Sum(i => i.Quantity),
+                                                InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
+                                            }).ToList();
+
+                var inspectingItemPlan = ii.GroupBy(i => new { i.Id, i.Unit })
+                                            .Select(group => new InspectingItemPlan
+                                            {
+                                                Id = group.Key.Id,
+                                                Unit = group.Key.Unit,
+                                                EstimatedQuantity = group.Where(i => i.InspectingForm.Status.ToLower() != "cancel").Sum(i => i.Quantity),
+                                                InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
+                                            }).ToList();
+
+                var rs = new ItemPlan
+                {
+                    CaringItemPlans = caringItemPlans,
+                    HarvestingItemPlans = harvestingItemPlans,
+                    InspectingItemPlans = inspectingItemPlan
+                };
+
+                return new BusinessResult { Status = 200, Message = "Item in Plan", Data = rs };
             }
             catch (Exception ex)
             {
