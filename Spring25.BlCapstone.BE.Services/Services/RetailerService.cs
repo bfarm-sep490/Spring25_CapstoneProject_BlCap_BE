@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories;
+﻿using Microsoft.AspNetCore.Http;
+using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
@@ -20,6 +21,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> RemoveRetailer(int id);
         Task<IBusinessResult> CreateRetailer(CreateRetailer model);
         Task<IBusinessResult> UpdateRetailer(int id, CreateRetailer model);
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
 
     public class RetailerService : IRetailerService
@@ -227,20 +229,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
-                string url = null;
-                if (model.Avatar != null)
-                {
-                    var i = await CloudinaryHelper.UploadImage(model.Avatar);
-                    url = i.Url;
-                }
-
                 var newRetailer = new Retailer
                 {
                     AccountId = newAccount.Id,
                     DOB = model.DOB != null ? model.DOB : null,
                     Phone = model.Phone != null ? model.Phone : "",
                     Status = "?",
-                    Avatar = url != null ? url : null,
+                    Avatar = model.Avatar != null ? model.Avatar : null,
                     LongxLat = model.LongxLat != null ? model.LongxLat : "0",
                     Address = model.Address != null ? model.Address : "Somewhere..."
                 };
@@ -300,8 +295,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 retailer.DOB = model.DOB;
                 retailer.Phone = model.Phone != null ? model.Phone : null;
-                var url = await CloudinaryHelper.UploadImage(model.Avatar);
-                retailer.Avatar = url.Url;
+                retailer.Avatar = model.Avatar != null ? model.Avatar : null;
                 retailer.LongxLat = model.LongxLat != null ? model.LongxLat : "0";
                 retailer.Address = model.Address != null ? model.Address : "Somewhere...";
 
@@ -324,6 +318,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Data = null
                     };
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
             }
             catch (Exception ex)
             {

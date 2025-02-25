@@ -21,7 +21,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Inspector
         [JsonPropertyName("address")]
         public string? Address { get; set; }
         [JsonPropertyName("image_url")]
-        public IFormFile? ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
         [JsonPropertyName("Status")]
         public string? Status { get; set; }
     }

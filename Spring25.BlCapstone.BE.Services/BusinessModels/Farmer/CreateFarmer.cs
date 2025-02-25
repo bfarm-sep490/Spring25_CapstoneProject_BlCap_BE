@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Farmer
         public DateTime? DOB { get; set; }
         [JsonPropertyName("phone")]
         public string? Phone { get; set; }
-        [JsonPropertyName("avatar")]
-        public IFormFile? Avatar { get; set; }
+        [JsonPropertyName("avatar_url")]
+        public string? Avatar { get; set; }
     }
 }

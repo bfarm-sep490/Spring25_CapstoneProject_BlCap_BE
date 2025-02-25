@@ -50,14 +50,14 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateFarmer model)
+        public async Task<IActionResult> Create(CreateFarmer model)
         {
             var rs = await _expertService.CreateExpert(model);
             return Ok(rs);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] CreateFarmer model)
+        public async Task<IActionResult> Update(int id, CreateFarmer model)
         {
             var rs = await _expertService.UpdateExpert(id, model);
             return Ok(rs);

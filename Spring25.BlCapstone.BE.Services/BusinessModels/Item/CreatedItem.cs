@@ -18,7 +18,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Item
         public string Status { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
-        [JsonPropertyName("image")]
-        public IFormFile Image { get; set; }
+        [JsonPropertyName("image_url")]
+        public string Image { get; set; }
     }
 }

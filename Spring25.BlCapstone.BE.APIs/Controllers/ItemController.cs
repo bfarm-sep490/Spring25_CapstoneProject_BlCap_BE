@@ -30,14 +30,14 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreatedItem item)
+        public async Task<IActionResult> Create(CreatedItem item)
         {
             var rs = await _itemService.CreateItem(item);
             return Ok(rs);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] CreatedItem item)
+        public async Task<IActionResult> Update(int id, CreatedItem item)
         {
             var rs = await _itemService.UpdateItem(id, item);
             return Ok(rs);
@@ -47,6 +47,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         public async Task<IActionResult> Remove(int id)
         {
             var rs = await _itemService.RemoveItem(id);
+            return Ok(rs);
+        }
+
+        [HttpPost("images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _itemService.UploadImage(image);
             return Ok(rs);
         }
     }

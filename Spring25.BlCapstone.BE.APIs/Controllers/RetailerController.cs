@@ -51,16 +51,23 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] CreateRetailer model)
+        public async Task<IActionResult> Create(CreateRetailer model)
         {
             var rs = await _retailerService.CreateRetailer(model);
             return Ok(rs);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromForm] CreateRetailer model)
+        public async Task<IActionResult> Update(int id, CreateRetailer model)
         {
             var rs = await _retailerService.UpdateRetailer(id, model);
+            return Ok(rs);
+        }
+
+        [HttpPost("images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _retailerService.UploadImage(image);
             return Ok(rs);
         }
     }

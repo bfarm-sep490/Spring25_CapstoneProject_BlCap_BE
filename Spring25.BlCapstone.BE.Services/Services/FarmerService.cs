@@ -229,20 +229,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
-                string url = null;
-                if (model.Avatar != null)
-                {
-                    var i = await CloudinaryHelper.UploadImage(model.Avatar);
-                    url = i.Url;
-                }
-
                 var newFarmer = new Farmer
                 {
                     AccountId = newAccount.Id,
                     DOB = model.DOB != null ? model.DOB : null,
                     Phone = model.Phone != null ? model.Phone : null,
                     Status = "?",
-                    Avatar = url != null ? url : null,
+                    Avatar = model.Avatar != null ? model.Avatar : null,
                 };
                 var rsf = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
 
@@ -300,8 +293,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 farmer.DOB = model.DOB;
                 farmer.Phone = model.Phone;
-                var url = await CloudinaryHelper.UploadImage(model.Avatar);
-                farmer.Avatar = url.Url;
+                farmer.Avatar = model.Avatar;
 
                 var rs = await _unitOfWork.FarmerRepository.UpdateAsync(farmer);
                 if (rs > 0)
