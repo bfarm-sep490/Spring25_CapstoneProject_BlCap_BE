@@ -30,6 +30,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetbyId([FromRoute] int id)
         {
@@ -43,6 +44,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> RemoveById([FromRoute] int id)
         {
@@ -56,6 +58,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatedPlant model)
         {
@@ -70,6 +73,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdatedPlant model, [FromRoute]int id)
         {
@@ -83,6 +87,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _seedService.UploadImage(image);
+            return Ok(rs);
         }
     }
 }

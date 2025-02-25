@@ -37,7 +37,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             return Ok(rs);
         }
 
-        [HttpPut("status/{id}")]
+        [HttpPut("{id}/status")]
         public async Task<IActionResult> SwitchStatus(int id)
         {
             var rs = await _service.SwitchStatus(id);

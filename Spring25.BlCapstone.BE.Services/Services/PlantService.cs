@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +20,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Create(PlantModel model);
         Task<IBusinessResult> Update(int id,PlantModel model);
         Task<IBusinessResult> Delete(int id);
-        
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
+
     public class PlantService : IPlantService
     {
         private readonly UnitOfWork _unitOfWork;
@@ -79,6 +82,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
             if (model.MinHumid >= model.MaxHumid) { throw new Exception("MinHumid must be < MaxHumicPoint"); }
             if (model.MinFertilizer >= model.MaxFertilizer) { throw new Exception("MinFertilizer must be < MaxFertilizer"); }
             if (model.MinTemp >= model.MaxTemp) { throw new Exception("MinTemp must be < MaxTemp"); }
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
         }
     }
 }
