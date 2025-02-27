@@ -37,6 +37,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int Id { get; set; }
         [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
+        [JsonPropertyName("plant_image")]
+        public string ImageUrl { get; set; }
     }
 
     public class YieldInformation
