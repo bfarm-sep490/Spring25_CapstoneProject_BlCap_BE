@@ -64,7 +64,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var plan = await _unitOfWork.PlanRepository.GetAllAsync();
+                var plan = await _unitOfWork.PlanRepository.GetAllPlans();
 
                 var rs = _mapper.Map<List<PlanForList>>(plan);
                 if (rs != null)
