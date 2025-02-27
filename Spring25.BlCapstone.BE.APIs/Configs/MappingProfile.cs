@@ -173,6 +173,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Yield, YieldInformation>()
                 .ReverseMap();
+            CreateMap<Plan, AssigningPlan>()
+                .ReverseMap();
         }
         void CaringProfile()
         {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -89,6 +90,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             try
             {
                 var res = await _planService.GetAllItems(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/tasks-assign")]
+        public async Task<IActionResult> AssignTask(int id, AssigningPlan model)
+        {
+            try
+            {
+                var res = await _planService.AssignTasks(id, model);
                 return Ok(res);
             }
             catch (Exception ex)
