@@ -17,5 +17,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Problem
         public string Status { get; set; }
         [JsonPropertyName("date")]
         public DateTime Date { get; set; }
+        [JsonPropertyName("problem_type")]
+        public string ProblemType { get; set; }
     }
 }
