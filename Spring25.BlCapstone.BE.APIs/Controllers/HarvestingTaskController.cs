@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -17,6 +18,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _harvestingTaskService = harvestingTaskService;
         }
+
         [HttpGet("harvesting-tasks")]
         public async Task<IActionResult> GetAllHarvestingTasks()
         {
@@ -30,6 +32,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("harvesting-tasks/{id}")]
         public async Task<IActionResult> GetHarvestingTaskById([FromRoute]int id)
         {
@@ -43,6 +46,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("harvesting-tasks/{id}/detail")]
         public async Task<IActionResult> GetDetailHarvestingTaskById([FromRoute] int id)
         {
@@ -55,6 +59,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("harvesting-tasks/images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _harvestingTaskService.UploadImage(image);
+            return Ok(rs);
+        }
+
+        [HttpPut("harvesting-tasks/{id}")]
+        public async Task<IActionResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model)
+        {
+            var rs = await _harvestingTaskService.UpdateHarvestingTask(id, model);
+            return Ok(rs);
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public YieldInfor YieldInfor { get; set; }
         [JsonPropertyName("caring_task_information")]
         public List<PlanCaringInfor> CaringTaskInfor { get; set; }
-        [JsonPropertyName("inspecting_form")]
+        [JsonPropertyName("inspecting_form_information")]
         public List<PlanInspectingInfor> InspectingInfors { get; set; }
         [JsonPropertyName("harvesting_task_information")]
         public List<PlanHarvestingInfor> HarvestingInfors { get; set; }
@@ -139,6 +139,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string TaskName { get; set; }
         [JsonPropertyName("task_type")]
         public string TaskType { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
         [JsonPropertyName("is_completed")]
         public bool IsCompleted { get; set; }
         [JsonPropertyName("is_available")]

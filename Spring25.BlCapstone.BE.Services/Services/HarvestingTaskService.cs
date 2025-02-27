@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +19,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetHarvestingTaskById(int id);
         Task<IBusinessResult> GetHarvestingTaskDetailById(int id);
         Task<IBusinessResult> CreateHarvestingTask(HarvestingTaskModel model);
-        Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskModel model);
+        Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model);
         Task<IBusinessResult> DeleteHarvestingTask(int id);
-
-
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -65,9 +67,71 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get harvesting tasks", result);
         }
 
-        public Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskModel model)
+        public async Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+                if (harvestingTask == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any Harvesting Task", Data = null };
+                }
+
+                _mapper.Map(model, harvestingTask);
+                await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
+
+                var images = await _unitOfWork.HarvestingImageRepository.GetHarvestingImagesByTaskId(id);
+                if (!images.Any() || images.Count > 0)
+                {
+                    foreach (var image in images)
+                    {
+                        await _unitOfWork.HarvestingImageRepository.RemoveAsync(image);
+                    }
+                }
+
+                if (model.Images != null && model.Images.Any())
+                {
+                    foreach (var image in model.Images)
+                    {
+                        await _unitOfWork.HarvestingImageRepository.CreateAsync(new Repositories.Models.HarvestingImage
+                        {
+                            TaskId = id,
+                            Url = image
+                        });
+                    }
+                }
+
+                return new BusinessResult { Status = 200, Message = "Update successfull" };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message };
+            }
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
         }
     }
 }

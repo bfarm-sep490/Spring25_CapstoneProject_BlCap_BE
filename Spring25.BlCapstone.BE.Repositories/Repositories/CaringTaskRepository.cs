@@ -17,13 +17,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         }
         public async Task<CaringTask> GetDetail(int id)
         {
-            return await _context.CaringTasks.Where(x => x.Id == id)
+            return await _context.CaringTasks
+                .Where(x => x.Id == id)
                 .Include(x => x.CaringItems)
                 .Include(x => x.CaringFertilizers)
                 .Include(x => x.CaringPesticides)
                 .Include(x => x.CaringImages)
                 .FirstOrDefaultAsync();
         }
-
     }
 }

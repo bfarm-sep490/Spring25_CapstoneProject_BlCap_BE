@@ -14,6 +14,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
@@ -163,6 +164,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Problem, ProblemInfor>()
                 .ReverseMap();
             CreateMap<Plan, PlanForList>()
+                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
+                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Expert.Account.Name))
                 .ReverseMap();
             CreateMap<Plan, PlanGeneral>()
                 .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
@@ -171,6 +175,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Plant, PlantInformation>()
                 .ReverseMap();
             CreateMap<Yield, YieldInformation>()
+                .ReverseMap();
+            CreateMap<Plan, AssigningPlan>()
                 .ReverseMap();
         }
         void CaringProfile()
@@ -196,7 +202,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<HarvestingImage, HarvestingImageModel>()
                 .ReverseMap();
             CreateMap<HarvestingItem, HarvestingItemModel>()
-                .ReverseMap();              
+                .ReverseMap();     
+            CreateMap<HarvestingTask, HarvestingTaskUpdate>()
+                .ReverseMap();
         }
 
         void IssueProfile()

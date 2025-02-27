@@ -22,6 +22,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllProblems(int planId);
         Task<IBusinessResult> GetAllFarmers(int planId);
         Task<IBusinessResult> GetAllItems(int planId);
+        Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
     }
 
     public class PlanService : IPlanService
@@ -63,7 +64,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var plan = await _unitOfWork.PlanRepository.GetAllAsync();
+                var plan = await _unitOfWork.PlanRepository.GetAllPlans();
 
                 var rs = _mapper.Map<List<PlanForList>>(plan);
                 if (rs != null)
@@ -205,6 +206,63 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
 
                 return new BusinessResult { Status = 200, Message = "Item in Plan", Data = rs };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> AssignTasks(int id, AssigningPlan model)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any Plans", Data = null };
+                }
+
+                _mapper.Map(model, plan);
+                await _unitOfWork.PlanRepository.UpdateAsync(plan);
+
+                if (model.AssignCaringTasks.Any() && model.AssignCaringTasks.Count > 0)
+                {
+                    foreach (var task in model.AssignCaringTasks)
+                    {
+                        var caring = await _unitOfWork.CaringTaskRepository.GetByIdAsync(task.Id);
+                        caring.FarmerId = task.FarmerId;
+                        caring.Status = task.Status;
+
+                        await _unitOfWork.CaringTaskRepository.UpdateAsync(caring);
+                    }
+                }
+
+                if (model.AssignHarvestingTasks.Any() && model.AssignHarvestingTasks.Count > 0)
+                {
+                    foreach (var task in model.AssignHarvestingTasks)
+                    {
+                        var harvesting = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(task.Id);
+                        harvesting.FarmerId = task.FarmerId;
+                        harvesting.Status = task.Status;
+
+                        await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvesting);
+                    }
+                }
+                
+                if (model.AssignInspectingTasks.Any() && model.AssignInspectingTasks.Count > 0)
+                {
+                    foreach (var task in model.AssignInspectingTasks)
+                    {
+                        var inspecting = await _unitOfWork.InspectingTaskRepository.GetByIdAsync(task.Id);
+                        inspecting.InspectorId = task.InspectorId;
+                        inspecting.Status = task.Status;
+
+                        await _unitOfWork.InspectingTaskRepository.UpdateAsync(inspecting);
+                    }
+                }
+
+                return new BusinessResult { Status = 200, Message = "Assign successfull!" };
             }
             catch (Exception ex)
             {
