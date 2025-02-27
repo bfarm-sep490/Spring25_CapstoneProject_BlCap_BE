@@ -14,18 +14,18 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
         public static void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>().HasData(
-                new Account { Id = 1, Name = "Nguyễn Văn A", Email = "nguyenvana@example.com", Role = "Inspector", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 2, Name = "Trần Thị B", Email = "farmer", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 3, Name = "Lê Quang C", Email = "lequangc@example.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 4, Name = "Phạm Minh D", Email = "phaminhd@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 5, Name = "Nguyễn Bình Phương Trâm", Email = "tramnbp@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 6, Name = "Nguyễn Thiện F", Email = "nguyenthienf@example.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 7, Name = "Trần Bích G", Email = "tranbichg@example.com", Role = "Farmer", Password = "1234", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 8, Name = "Lê Sơn H", Email = "inspector", Role = "Inspector", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 9, Name = "Phạm Tuan I", Email = "phamtuani@example.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 10, Name = "Hoàng Quỳnh J", Email = "expert", Role = "Expert", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 11, Name = "Trịnh Xuân Admin", Email = "farmowner", Role = "Farm Owner", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
-                new Account { Id = 12, Name = "Trịnh Hữu Tuấn", Email = "retailer", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 1, Name = "Nguyễn Văn A", Email = "nguyenvana@gmail.com", Role = "Inspector", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 2, Name = "Trần Thị B", Email = "farmer@gmail.com", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 3, Name = "Lê Quang C", Email = "lequangc@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 4, Name = "Phạm Minh D", Email = "phaminhd@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 5, Name = "Nguyễn Bình Phương Trâm", Email = "tramnbp@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 6, Name = "Nguyễn Thiện F", Email = "nguyenthienf@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 7, Name = "Trần Bích G", Email = "tranbichg@gmail.com", Role = "Farmer", Password = "1234", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 8, Name = "Lê Sơn H", Email = "inspector@gmail.com", Role = "Inspector", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 9, Name = "Phạm Tuan I", Email = "phamtuani@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 10, Name = "Hoàng Quỳnh J", Email = "expert@gmail.com", Role = "Expert", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 11, Name = "Trịnh Xuân Admin", Email = "farmowner@gmail.com", Role = "Farm Owner", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 12, Name = "Trịnh Hữu Tuấn", Email = "retailer@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
                 new Account { Id = 13, Name = "Vũ Hoàng Duy Khánh", Email = "khanhvhd@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
                 new Account { Id = 14, Name = "Lê Quốc Khánh", Email = "khanhlq@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now }
             );
