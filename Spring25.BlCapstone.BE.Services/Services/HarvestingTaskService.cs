@@ -54,7 +54,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetHarvestingTaskDetailById(int id)
         {
-            var obj = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+            var obj = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTaskById(id);
             if (obj == null) return new BusinessResult(400, "Not found this id");
             var result = _mapper.Map<HarvestingTaskModel>(obj);
             return new BusinessResult(200, "Get detail harvesting task by id", result);
