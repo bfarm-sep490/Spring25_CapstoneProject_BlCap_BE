@@ -191,13 +191,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                string password = PasswordHelper.GeneratePassword(model.Name, null);
                 var newAccount = new Account
                 {
                     Email = model.Email,
                     Name = model.Name,
                     Role = "Expert",
                     IsActive = true,
-                    Password = PasswordHelper.GeneratePassword(model.Name, null),
+                    Password = password,
                     CreatedAt = DateTime.Now
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);

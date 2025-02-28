@@ -216,6 +216,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                string password = PasswordHelper.GeneratePassword(model.Name, model.DOB);
                 var newAccount = new Account
                 {
                     Email = model.Email,
@@ -223,7 +224,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Role = "Farmer",
                     IsActive = true,
                     CreatedAt = DateTime.Now,
-                    Password = PasswordHelper.GeneratePassword(model.Name, model.DOB)
+                    Password = password
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
