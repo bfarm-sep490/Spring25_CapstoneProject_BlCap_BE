@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Auth;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -29,6 +30,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<IBusinessResult>> GetAccountInfobyId([FromRoute] int id)
         {
@@ -41,7 +43,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
 
+        [HttpPut("{id}/password")]
+        public async Task<IActionResult> ChangePassword(int id, AccountChangePassword model)
+        {
+            try
+            {
+                var rs = await _authencationService.ChangePassword(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
