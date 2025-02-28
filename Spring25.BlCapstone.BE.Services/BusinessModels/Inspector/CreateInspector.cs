@@ -14,8 +14,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Inspector
         public string Email { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
-        [JsonPropertyName("password")]
-        public string Password { get; set; }
         [JsonPropertyName("description")]
         public string? Description { get; set; }
         [JsonPropertyName("address")]

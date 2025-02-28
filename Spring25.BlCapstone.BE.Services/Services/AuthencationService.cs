@@ -18,6 +18,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> SignIn(string email, string password);
         //Task<IBusinessResult> SignInForFarmer(string email, string password);
         Task<IBusinessResult> GetAccountInfoById(int id);
+        Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
         Task<IBusinessResult> GetAllAccount();
     }
     public class AuthencationService : IAuthencationService
@@ -126,5 +127,36 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return signInModel;
         }
 
+        public async Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model)
+        {
+            try
+            {
+                var user = await _unitOfWork.AccountRepository.GetByIdAsync(id);
+                if (user == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any user", Data = null };
+                }
+
+                if (model.OldPassword != user.Password)
+                {
+                    return new BusinessResult { Status = 400, Message = "Your old password is incorrect !" };
+                }
+
+                user.Password = model.NewPassword;
+                var rs = await _unitOfWork.AccountRepository.UpdateAsync(user);
+                if (rs > 0)
+                {
+                    return new BusinessResult { Status = 200, Message = "Change password successfully!", Data = null };
+                } 
+                else
+                {
+                    return new BusinessResult { Status = 500, Message = "Change password failed!", Data = null };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
     }
 }
