@@ -19,7 +19,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
            return await _context.HarvestingTasks.Where(x=>x.Id == id)
                 .Include(x=>x.HarvestingImages)
-                .Include(x=>x.HarvestingItems)
+                .Include(x => x.HarvestingItems)
+                .Include(x => x.Farmer)
+                .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync();       
         }
     }

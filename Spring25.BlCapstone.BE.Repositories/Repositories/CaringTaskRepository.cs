@@ -23,6 +23,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(x => x.CaringFertilizers)
                 .Include(x => x.CaringPesticides)
                 .Include(x => x.CaringImages)
+                .Include(x => x.Farmer)
+                .ThenInclude(x=>x.Account)
                 .FirstOrDefaultAsync();
         }
     }

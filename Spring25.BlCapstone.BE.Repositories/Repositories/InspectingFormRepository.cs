@@ -20,6 +20,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.InspectingForms.Where(x =>x.Id == id)
                 .Include(x=>x.InspectingItems)
                 .Include(x=>x.InspectingImages)
+                .Include(x=>x.Inspector)
+                .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync();
         }
     }

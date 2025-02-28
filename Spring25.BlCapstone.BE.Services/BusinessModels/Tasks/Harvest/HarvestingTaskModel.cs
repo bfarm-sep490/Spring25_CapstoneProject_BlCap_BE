@@ -18,6 +18,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
 
         [JsonPropertyName("farmer_id")]
         public int? FarmerId { get; set; }
+        [JsonPropertyName("farmer_name")]
+        public string? FarmerName { get; set; }
 
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
