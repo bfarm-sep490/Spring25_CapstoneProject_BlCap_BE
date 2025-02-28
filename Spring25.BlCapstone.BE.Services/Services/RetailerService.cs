@@ -40,7 +40,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 Id = e.Id,
                 Email = e.Account.Email,
-                Password = e.Account.Password,
                 Name = e.Account.Name,
                 Phone = e.Phone,
                 Status = e.Status,
@@ -74,7 +73,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     {
                         Id = f.Id,
                         Email = f.Account.Email,
-                        Password = f.Account.Password,
                         Name = f.Account.Name,
                         Phone = f.Phone,
                         Status = f.Status,
@@ -223,9 +221,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Email = model.Email,
                     Name = model.Name,
                     Role = "Retailer",
-                    Password = model.Password,
                     IsActive = true,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now,
+                    Password = PasswordHelper.GeneratePassword(model.Name, model.DOB)
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
@@ -289,7 +287,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var account = await _unitOfWork.AccountRepository.GetByIdAsync(retailer.AccountId);
                 account.Name = model.Name;
                 account.Email = model.Email;
-                account.Password = model.Password;
                 account.UpdatedAt = DateTime.Now;
                 await _unitOfWork.AccountRepository.UpdateAsync(account);
 

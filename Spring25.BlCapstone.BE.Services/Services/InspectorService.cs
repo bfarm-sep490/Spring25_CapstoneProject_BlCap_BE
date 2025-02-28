@@ -196,8 +196,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Email = model.Email,
                     Name = model.Name,
                     Role = "Expert",
-                    Password = model.Password,
                     IsActive = true,
+                    Password = PasswordHelper.GeneratePassword(model.Name, null),
                     CreatedAt = DateTime.Now
                 };
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
@@ -261,7 +261,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var account = await _unitOfWork.AccountRepository.GetByIdAsync(ins.AccountId);
                 account.Name = model.Name;
                 account.Email = model.Email;
-                account.Password = model.Password;
                 account.UpdatedAt = DateTime.Now;
                 await _unitOfWork.AccountRepository.UpdateAsync(account);
 

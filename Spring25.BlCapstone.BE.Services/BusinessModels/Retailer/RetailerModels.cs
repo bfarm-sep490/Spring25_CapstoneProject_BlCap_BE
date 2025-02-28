@@ -15,9 +15,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Retailer
         [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [JsonPropertyName("password")]
-        public string Password { get; set; }
-
         [JsonPropertyName("name")]
         public string Name { get; set; }
 

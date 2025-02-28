@@ -119,7 +119,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<Inspector, InspectorModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Account.Password))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Account.IsActive))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Account.UpdatedAt))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Account.CreatedAt))
