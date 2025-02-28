@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         //Task<IBusinessResult> SignInForFarmer(string email, string password);
         Task<IBusinessResult> GetAccountInfoById(int id);
         Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
+        Task<IBusinessResult> GetAllAccount();
     }
     public class AuthencationService : IAuthencationService
     {
@@ -62,6 +63,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             return new BusinessResult(200, "Get information by account id", result);
 
+        }
+
+        public async Task<IBusinessResult> GetAllAccount()
+        {
+           var list = await _unitOfWork.AccountRepository.GetAllAsync();
+           return new BusinessResult(200, "List Accounts", list);
         }
 
         public async Task<IBusinessResult> SignIn(string email, string password)
