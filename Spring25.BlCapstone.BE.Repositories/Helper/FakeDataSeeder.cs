@@ -363,10 +363,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
             modelBuilder.Entity<FarmerPermission>().HasData(
                 new FarmerPermission { FarmerId = 4, PlanId = 2, IsActive = true },
+                new FarmerPermission { FarmerId = 1, PlanId = 2, IsActive = true },
+                new FarmerPermission { FarmerId = 5, PlanId = 2, IsActive = true },
                 new FarmerPermission { FarmerId = 2, PlanId = 1, IsActive = true },
                 new FarmerPermission { FarmerId = 3, PlanId = 2, IsActive = true },
-                new FarmerPermission { FarmerId = 1, PlanId = 3, IsActive = true },
-                new FarmerPermission { FarmerId = 5, PlanId = 3, IsActive = true }
+                new FarmerPermission { FarmerId = 1, PlanId = 1, IsActive = true },
+                new FarmerPermission { FarmerId = 3, PlanId = 1, IsActive = true },
+                new FarmerPermission { FarmerId = 5, PlanId = 1, IsActive = true }
                 );
 
             modelBuilder.Entity<CaringTask>().HasData(
@@ -616,22 +619,22 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<SampleSolution>().HasData(
-                new SampleSolution { Id = 1, IssueId = 1, FileUrl = "/solutions/sau-xanh.pdf" },
-                new SampleSolution { Id = 2, IssueId = 2, FileUrl = "/solutions/la-thung-lo.pdf" },
-                new SampleSolution { Id = 3, IssueId = 3, FileUrl = "/solutions/dat-kho.pdf" },
-                new SampleSolution { Id = 4, IssueId = 4, FileUrl = "/solutions/la-heo.pdf" },
-                new SampleSolution { Id = 5, IssueId = 5, FileUrl = "/solutions/thieu-kali.pdf" },
-                new SampleSolution { Id = 6, IssueId = 6, FileUrl = "/solutions/thieu-nito.pdf" },
-                new SampleSolution { Id = 7, IssueId = 7, FileUrl = "/solutions/nam-moc.pdf" },
-                new SampleSolution { Id = 8, IssueId = 8, FileUrl = "/solutions/la-vang.pdf" },
-                new SampleSolution { Id = 9, IssueId = 9, FileUrl = "/solutions/thieu-anh-sang.pdf" },
-                new SampleSolution { Id = 10, IssueId = 10, FileUrl = "/solutions/lo-tren-than.pdf" },
-                new SampleSolution { Id = 11, IssueId = 11, FileUrl = "/solutions/canh-kho.pdf" },
-                new SampleSolution { Id = 12, IssueId = 12, FileUrl = "/solutions/ngap-ung.pdf" },
-                new SampleSolution { Id = 13, IssueId = 13, FileUrl = "/solutions/thieu-vi-luong.pdf" },
-                new SampleSolution { Id = 14, IssueId = 14, FileUrl = "/solutions/dom-vang-bo-tri.pdf" },
-                new SampleSolution { Id = 15, IssueId = 15, FileUrl = "/solutions/la-xoan.pdf" },
-                new SampleSolution { Id = 16, IssueId = 16, FileUrl = "/solutions/la-chay-nang.pdf" }
+                new SampleSolution { Id = 1, IssueId = 1, FileUrl = "/solutions/sau-xanh.pdf", Description = "Có sâu xanh", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 2, IssueId = 2, FileUrl = "/solutions/la-thung-lo.pdf", Description = "Lá thủng lỗ", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 3, IssueId = 3, FileUrl = "/solutions/dat-kho.pdf", Description = "Đất khô", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 4, IssueId = 4, FileUrl = "/solutions/la-heo.pdf", Description = "Lá héo", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 5, IssueId = 5, FileUrl = "/solutions/thieu-kali.pdf", Description = "Thiếu Kali", TypeTask = "Fertilizing" },
+                new SampleSolution { Id = 6, IssueId = 6, FileUrl = "/solutions/thieu-nito.pdf", Description = "Thiếu nito", TypeTask = "Fertilizing" },
+                new SampleSolution { Id = 7, IssueId = 7, FileUrl = "/solutions/nam-moc.pdf", Description = "Nấm mốc", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 8, IssueId = 8, FileUrl = "/solutions/la-vang.pdf", Description = "Lá vàng", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 9, IssueId = 9, FileUrl = "/solutions/thieu-anh-sang.pdf", Description = "Thiếu ánh sáng", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 10, IssueId = 10, FileUrl = "/solutions/lo-tren-than.pdf", Description = "Lở trên thân", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 11, IssueId = 11, FileUrl = "/solutions/canh-kho.pdf", Description = "Cành khô", TypeTask = "Watering" },
+                new SampleSolution { Id = 12, IssueId = 12, FileUrl = "/solutions/ngap-ung.pdf", Description = "Ngập úng", TypeTask = "Watering" },
+                new SampleSolution { Id = 13, IssueId = 13, FileUrl = "/solutions/thieu-vi-luong.pdf", Description = "Thiếu vi lượng", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 14, IssueId = 14, FileUrl = "/solutions/dom-vang-bo-tri.pdf", Description = "Đốm vàng bố trí", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 15, IssueId = 15, FileUrl = "/solutions/la-xoan.pdf", Description = "Lá xoăn", TypeTask = "Nurturing" },
+                new SampleSolution { Id = 16, IssueId = 16, FileUrl = "/solutions/la-chay-nang.pdf", Description = "Lá cháy nắng", TypeTask = "Planting" }
             );
 
             modelBuilder.Entity<Device>().HasData(
