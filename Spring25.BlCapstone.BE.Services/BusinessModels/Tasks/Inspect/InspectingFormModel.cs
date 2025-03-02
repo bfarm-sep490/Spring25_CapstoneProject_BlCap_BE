@@ -85,8 +85,5 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
 
         [JsonPropertyName("inspecting_images")]
         public List<InspectingImageModel> InspectingImages { get; set; }
-
-        [JsonPropertyName("inspecting_items")]
-        public List<InspectingItemModel> InspectingItems { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +14,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface ICaringTaskService
     {
-        Task<IBusinessResult> GetAllCaringTask();
+        Task<IBusinessResult> GetAllCaringTask(int? planId);
         Task<IBusinessResult> GetCaringTaskById(int id);
         Task<IBusinessResult> GetDetailCaringTaskById(int id);
         Task<IBusinessResult> UpdateDetailCaringTask(CaringTaskModel result);
         Task<IBusinessResult> UpdateCaringFertilizerModel(CareFertilizerModel result);
         Task<IBusinessResult> UpdateCaringPesticideModel(CarePesticideModel result);
-        
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
     public class CaringTaskService : ICaringTaskService
     {
@@ -30,9 +32,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAllCaringTask()
+        public async Task<IBusinessResult> GetAllCaringTask(int? planId)
         {
-            var list = await _unitOfWork.CaringTaskRepository.GetAllAsync();
+            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId);
             var result = _mapper.Map<List<CaringTaskModel>>(list);
             return new BusinessResult(200, "List caring task", result);
         }
@@ -66,6 +68,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public Task<IBusinessResult> UpdateDetailCaringTask(CaringTaskModel result)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
         }
     }
 }

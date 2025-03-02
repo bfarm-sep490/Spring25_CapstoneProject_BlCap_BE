@@ -27,5 +27,32 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ThenInclude(x=>x.Account)
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId)
+        {
+            if (planId == null)
+            {
+                return await _context.CaringTasks
+                    .Include(x => x.CaringItems)
+                    .Include(x => x.CaringFertilizers)
+                    .Include(x => x.CaringPesticides)
+                    .Include(x => x.CaringImages)
+                    .Include(x => x.Farmer)
+                        .ThenInclude(x => x.Account)
+                    .ToListAsync();
+            }
+            else
+            {
+                return await _context.CaringTasks
+                    .Where(x => x.PlanId == planId)
+                    .Include(x => x.CaringItems)
+                    .Include(x => x.CaringFertilizers)
+                    .Include(x => x.CaringPesticides)
+                    .Include(x => x.CaringImages)
+                    .Include(x => x.Farmer)
+                        .ThenInclude(x => x.Account)
+                    .ToListAsync();
+            }
+        }
     }
 }

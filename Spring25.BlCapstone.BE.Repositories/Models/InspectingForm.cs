@@ -14,8 +14,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int PlanId { get; set; }
         public int? InspectorId { get; set; }
-        public string TaskName { get; set; }
-        public string TaskType { get; set; }
+        public string FormName { get; set; }
+        public string FormType { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

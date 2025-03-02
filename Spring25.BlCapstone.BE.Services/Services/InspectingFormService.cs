@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +15,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IInspectingFormService
     {
-        Task<IBusinessResult> GetAllInspectingForm();
+        Task<IBusinessResult> GetAllInspectingForm(int? planId);
         Task<IBusinessResult> GetInspectingFormById(int id);
         Task<IBusinessResult> GetDetailInspectingFormById(int id);
         Task<IBusinessResult> CreateInspectingForm(InspectingFormModel result);
         Task<IBusinessResult> UpdateInspectingForm(int id,InspectingFormModel result);
         Task<IBusinessResult> DeleteInspectingFormById(int id);
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
     public class InspectingFormService:IInspectingFormService
     {
@@ -40,9 +43,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IBusinessResult> GetAllInspectingForm()
+        public async Task<IBusinessResult> GetAllInspectingForm(int? planId)
         {
-            var list = await _unitOfWork.InspectingFormRepository.GetAllAsync();
+            var list = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId);
             var result = _mapper.Map<List<InspectingFormModel>>(list);
             return new BusinessResult(200,"Get all Inspecting forms",result);
         }
@@ -66,6 +69,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public Task<IBusinessResult> UpdateInspectingForm(int id, InspectingFormModel result)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult
+                {
+                    Status = 200,
+                    Message = "Upload success !",
+                    Data = url
+                };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult
+                {
+                    Status = 500,
+                    Message = ex.Message,
+                    Data = null
+                };
+            }
         }
     }
 }

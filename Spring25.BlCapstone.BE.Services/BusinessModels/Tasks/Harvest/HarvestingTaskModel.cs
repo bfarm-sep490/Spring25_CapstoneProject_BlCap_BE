@@ -24,9 +24,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
 
-        [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
-
         [JsonPropertyName("description")]
         public string Description { get; set; }
 

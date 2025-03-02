@@ -23,6 +23,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllFarmers(int planId);
         Task<IBusinessResult> GetAllItems(int planId);
         Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
+        Task<IBusinessResult> ApprovePlan(int id);
     }
 
     public class PlanService : IPlanService
@@ -169,6 +170,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var ci = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(planId);
                 var hi = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemByPlanId(planId);
+                var pi = await _unitOfWork.PackagingItemRepository.GetPackagingItemByPlanId(planId);
 
                 var caringItemPlans = ci.GroupBy(i => new { i.Id, i.Unit })
                                         .Select(group => new CaringItemPlan
@@ -188,11 +190,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                                                 InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
                                             }).ToList();
 
+                var packagingItemPlans = pi.GroupBy(i => new { i.Id, i.Unit })
+                                           .Select(group => new PackagingItemPlan
+                                           {
+                                               Id = group.Key.Id,
+                                               Unit = group.Key.Unit,
+                                               EstimatedQuantity = group.Where(i => i.PackagingTask.Status.ToLower() != "cancel").Sum(i => i.Quantity),
+                                               InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
+                                           }).ToList();
 
                 var rs = new ItemPlan
                 {
                     CaringItemPlans = caringItemPlans,
                     HarvestingItemPlans = harvestingItemPlans,
+                    PackagingItemPlans = packagingItemPlans,
                 };
 
                 return new BusinessResult { Status = 200, Message = "Item in Plan", Data = rs };
@@ -253,6 +264,69 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 return new BusinessResult { Status = 200, Message = "Assign successfull!" };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> ApprovePlan(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+
+                if (plan == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any plan!", Data = null };
+                }
+
+                plan.Status = "Pending";
+                _unitOfWork.PlanRepository.PrepareUpdate(plan);
+
+                var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(id);
+                if (caringTasks.Count > 0)
+                {
+                    foreach (var task in caringTasks)
+                    {
+                        task.Status = "Pending";
+                        await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
+                    }
+                }
+
+                var inspectingForms = await _unitOfWork.InspectingFormRepository.GetInspectingForms(id);
+                if (inspectingForms.Count > 0)
+                {
+                    foreach (var form in inspectingForms)
+                    {
+                        form.Status = "Pending";
+                        await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
+                    }
+                }
+
+                var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(id);
+                if (packagingTasks.Count > 0)
+                {
+                    foreach(var task in packagingTasks)
+                    {
+                        task.Status = "Pending";
+                        await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
+                    }
+                }
+
+                var harvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(id);
+                if (harvestingTasks.Count > 0)
+                {
+                    foreach(var task in harvestingTasks)
+                    {
+                        task.Status = "Pending";
+                        await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
+                    }
+                }
+
+                await _unitOfWork.PlanRepository.SaveAsync();
+                return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
             }
             catch (Exception ex)
             {

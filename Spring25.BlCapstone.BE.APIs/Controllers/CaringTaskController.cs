@@ -17,19 +17,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _caringTaskService = caringTaskService;
         }
+
         [HttpGet("caring-tasks")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int? planId)
         {
             try
             {
-                var result = await _caringTaskService.GetAllCaringTask();
+                var result = await _caringTaskService.GetAllCaringTask(planId);
                 return Ok(result);
             }
             catch (Exception ex) {
                 return BadRequest(ex.Message);
             }
-
         }
+
         [HttpGet("caring-tasks/{id}")]
         public async Task<IActionResult> GetById([FromRoute]int id)
         {
@@ -41,8 +42,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             catch (Exception ex) {
                 return BadRequest(ex.Message);
             }
-           
         }
+
         [HttpGet("caring-tasks/{id}/detail")]
         public async Task<IActionResult> GetDetailbyId([FromRoute] int id)
         {
@@ -55,7 +56,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
 
+        [HttpPost("caring-tasks/images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _caringTaskService.UploadImage(image);
+            return Ok(rs);
         }
     }
 }
