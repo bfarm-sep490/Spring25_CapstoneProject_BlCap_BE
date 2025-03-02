@@ -137,8 +137,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? FarmerId { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
-        [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("is_completed")]
