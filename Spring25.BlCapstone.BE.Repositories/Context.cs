@@ -31,13 +31,15 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<HarvestingTask> HarvestingTasks { get; set; }
         public virtual DbSet<InspectingForm> InspectingForms { get; set; }
         public virtual DbSet<InspectingImage> InspectingImages { get; set; }
-        public virtual DbSet<InspectingItem> InspectingItems { get; set; }
         public virtual DbSet<Inspector> Inspectors { get; set; }
         public virtual DbSet<Issue> Issues { get; set; }
         public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderPlan> OrderPlans { get; set; }
         public virtual DbSet<OrderPlant> OrderPlants { get; set; }
+        public virtual DbSet<PackagingImage> PackagingImages { get; set; }
+        public virtual DbSet<PackagingItem> PackagingItems { get; set; }
+        public virtual DbSet<PackagingTask> PackagingTasks { get; set; }
         public virtual DbSet<Pesticide> Pesticides { get; set; }
         public virtual DbSet<PesticideRange> PesticideRanges { get; set; }
         public virtual DbSet<Plan> Plans { get; set; }
@@ -295,18 +297,38 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
             
-            modelBuilder.Entity<InspectingItem>(entity =>
+            modelBuilder.Entity<PackagingTask>(entity =>
             {
-                entity.ToTable("InspectingItem");
-                entity.HasOne(ii => ii.Item)
-                      .WithMany(ii => ii.InspectingItems)
-                      .HasForeignKey(ii => ii.ItemId)
+                entity.ToTable("PackagingTask");
+                entity.HasOne(pt => pt.Plan)
+                      .WithMany(pt => pt.PackagingTasks)
+                      .HasForeignKey(pt => pt.PlanId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(ii => ii.InspectingForm)
-                      .WithMany(ii => ii.InspectingItems)
-                      .HasForeignKey(ii => ii.TaskId)
+                entity.HasOne(pt => pt.Farmer)
+                      .WithMany(pt => pt.PackagingTasks)
+                      .HasForeignKey(pt => pt.FarmerId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            modelBuilder.Entity<PackagingItem>(entity =>
+            {
+                entity.ToTable("PackagingItem");
+                entity.HasOne(pi => pi.Item)
+                      .WithMany(pi => pi.PackagingItems)
+                      .HasForeignKey(pi => pi.ItemId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(pi => pi.PackagingTask)
+                      .WithMany(pi => pi.PackagingItems)
+                      .HasForeignKey(pi => pi.TaskId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<PackagingImage>()
+                .ToTable("PackagingImage")
+                .HasOne(pi => pi.PackagingTask)
+                    .WithMany(pi => pi.PackagingImages)
+                    .HasForeignKey(pi => pi.TaskId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<SampleSolution>()
                 .ToTable("SampleSolution")
@@ -316,19 +338,21 @@ namespace Spring25.BlCapstone.BE.Repositories
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Issue>()
-                .ToTable("Issue")
-                .HasOne(i => i.Problem)
-                    .WithMany(i => i.Issues)
-                    .HasForeignKey(i => i.ProblemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                .ToTable("Issue");
 
-            modelBuilder.Entity<Problem>()
-                .ToTable("Problem")
-                .HasOne(p => p.Plan)
-                    .WithMany(p => p.Problems)
-                    .HasForeignKey(p => p.PlanId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
+            modelBuilder.Entity<Problem>(entity =>
+            {
+                entity.ToTable("Problem");
+                entity.HasOne(p => p.Plan)
+                      .WithMany(p => p.Problems)
+                      .HasForeignKey(p => p.PlanId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(p => p.Issue)
+                      .WithMany(p => p.Problems)
+                      .HasForeignKey(p => p.IssueId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+                
             modelBuilder.Entity<ProblemImage>()
                 .ToTable("ProblemImage")
                 .HasOne(p => p.Problem)

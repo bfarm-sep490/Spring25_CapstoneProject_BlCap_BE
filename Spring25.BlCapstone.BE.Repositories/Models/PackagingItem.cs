@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class InspectingItem
+    public class PackagingItem
     {
         [Key]
         public int Id { get; set; }
@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Quantity { get; set; }
         public string Unit { get; set; }
 
+        public PackagingTask PackagingTask { get; set; }
         public Item Item { get; set; }
-        public InspectingForm InspectingForm { get; set; }
     }
 }

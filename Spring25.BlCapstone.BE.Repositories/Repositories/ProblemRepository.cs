@@ -20,7 +20,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.Problems
                 .Include(p => p.ProblemImages)
-                .Include(p => p.Issues)
                 .ToListAsync();
         }
         
@@ -28,7 +27,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.Problems
                 .Include(p => p.ProblemImages)
-                .Include(p => p.Issues)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -37,7 +35,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.Problems
                 .Where(p => p.PlanId == planId)
                 .Include(p => p.ProblemImages)
-                .Include(p => p.Issues)
                 .ToListAsync();
         }
     }
