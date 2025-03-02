@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Item
         [JsonPropertyName("harvesting-items-in-plan")]
         public List<HarvestingItemPlan> HarvestingItemPlans { get; set; }
         [JsonPropertyName("inspecting-items-in-plan")]
-        public List<InspectingItemPlan> InspectingItemPlans { get; set; }
+        public List<PackagingItemPlan> PackagingItemPlans { get; set; }
     }
 
     public class CaringItemPlan
@@ -41,7 +41,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Item
         public string Unit { get; set; }
     }
 
-    public class InspectingItemPlan
+    public class PackagingItemPlan
     {
         [JsonPropertyName("item_id")]
         public int Id { get; set; }
