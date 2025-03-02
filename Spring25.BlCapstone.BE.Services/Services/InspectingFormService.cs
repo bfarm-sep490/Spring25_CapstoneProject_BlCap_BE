@@ -42,14 +42,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetAllInspectingForm()
         {
-            var list = await _unitOfWork.InspectingTaskRepository.GetAllAsync();
+            var list = await _unitOfWork.InspectingFormRepository.GetAllAsync();
             var result = _mapper.Map<List<InspectingFormModel>>(list);
             return new BusinessResult(200,"Get all Inspecting forms",result);
         }
 
         public async Task<IBusinessResult> GetDetailInspectingFormById(int id)
         {
-            var obj = await _unitOfWork.InspectingTaskRepository.GetDetailInspectingFormById(id);
+            var obj = await _unitOfWork.InspectingFormRepository.GetDetailInspectingFormById(id);
             if (obj == null) return new BusinessResult(400, "Not Found this object");
             var result = _mapper.Map<InspectingFormModel>(obj);
             return new BusinessResult(200, "Get detail Inspecting form by id", result);
@@ -57,7 +57,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetInspectingFormById(int id)
         {
-            var obj = await _unitOfWork.InspectingTaskRepository.GetByIdAsync(id);
+            var obj = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
             if (obj == null) return new BusinessResult(400, "Not Found this object");
             var result = _mapper.Map<InspectingFormModel>(obj);
             return new BusinessResult(200, "Get Inspecting form by id", result);

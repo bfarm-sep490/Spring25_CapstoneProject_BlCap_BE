@@ -169,7 +169,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var ci = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(planId);
                 var hi = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemByPlanId(planId);
-                var ii = await _unitOfWork.InspectingItemRepository.GetInspectingItemByPlanId(planId);
 
                 var caringItemPlans = ci.GroupBy(i => new { i.Id, i.Unit })
                                         .Select(group => new CaringItemPlan
@@ -189,20 +188,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                                                 InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
                                             }).ToList();
 
-                var inspectingItemPlan = ii.GroupBy(i => new { i.Id, i.Unit })
-                                            .Select(group => new InspectingItemPlan
-                                            {
-                                                Id = group.Key.Id,
-                                                Unit = group.Key.Unit,
-                                                EstimatedQuantity = group.Where(i => i.InspectingForm.Status.ToLower() != "cancel").Sum(i => i.Quantity),
-                                                InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
-                                            }).ToList();
 
                 var rs = new ItemPlan
                 {
                     CaringItemPlans = caringItemPlans,
                     HarvestingItemPlans = harvestingItemPlans,
-                    InspectingItemPlans = inspectingItemPlan
                 };
 
                 return new BusinessResult { Status = 200, Message = "Item in Plan", Data = rs };
@@ -254,11 +244,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     foreach (var task in model.AssignInspectingTasks)
                     {
-                        var inspecting = await _unitOfWork.InspectingTaskRepository.GetByIdAsync(task.Id);
+                        var inspecting = await _unitOfWork.InspectingFormRepository.GetByIdAsync(task.Id);
                         inspecting.InspectorId = task.InspectorId;
                         inspecting.Status = task.Status;
 
-                        await _unitOfWork.InspectingTaskRepository.UpdateAsync(inspecting);
+                        await _unitOfWork.InspectingFormRepository.UpdateAsync(inspecting);
                     }
                 }
 

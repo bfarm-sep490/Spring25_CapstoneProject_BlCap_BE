@@ -27,7 +27,9 @@ namespace Spring25.BlCapstone.BE.Repositories
         private HarvestingTaskRepository _harvestingTaskRepository;
         private InspectingFormRepository _inspectingFormRepository;
         private InspectingImageRepository _inspectingImageRepository;
-        private InspectingItemRepository _inspectingItemRepository;
+        private PackagingTaskRepository _packagingTaskRepository;
+        private PackagingItemRepository _packagingItemRepository;
+        private PackagingImageRepository _packagingImageRepository;
         private InspectorRepository _inspectorRepository;
         private IssueRepository _issueRepository;
         private ItemRepository _itemRepository;
@@ -71,7 +73,9 @@ namespace Spring25.BlCapstone.BE.Repositories
             _caringFertilizerRepository ??= new CaringFertilizerRepository();
             _caringItemRepository ??= new CaringItemRepository();
             _harvestingItemRepository ??= new HarvestingItemRepository();
-            _inspectingItemRepository ??= new InspectingItemRepository();
+            _packagingTaskRepository ??= new PackagingTaskRepository();
+            _packagingItemRepository ??= new PackagingItemRepository();
+            _packagingImageRepository ??= new PackagingImageRepository();
             _fertilizerRangeRepository ??= new FertilizerRangeRepository();
             _inspectorRepository ??= new InspectorRepository();
             _issueRepository ??= new IssueRepository();
@@ -95,7 +99,8 @@ namespace Spring25.BlCapstone.BE.Repositories
             PesticideRepository pesticideRepository, CaringPesticideRepository caringPesticideRepository,
             FertilizerRepository fertilizerRepository, CaringFertilizerRepository caringFertilizerRepository,
             CaringItemRepository caringItemRepository, HarvestingItemRepository harvestingItemRepository,
-            InspectingItemRepository inspectingItemRepository, FertilizerRangeRepository fertilizerRangeRepository,
+            PackagingTaskRepository packagingTaskRepository, FertilizerRangeRepository fertilizerRangeRepository,
+            PackagingItemRepository packagingItemRepository, PackagingImageRepository packagingImageRepository,
             InspectorRepository inspectorRepository, IssueRepository issueRepository, OrderPlanRepository orderPlanRepository,
             OrderPlantRepository orderPlantRepository, PesticideRangeRepository pesticideRangeRepository, ProblemImageRepository problemImageRepository,
             ProblemRepository problemRepository, SampleSolutionRepository sampleSolutionRepository)
@@ -124,7 +129,9 @@ namespace Spring25.BlCapstone.BE.Repositories
             _caringFertilizerRepository = caringFertilizerRepository;
             _caringItemRepository = caringItemRepository;
             _harvestingItemRepository = harvestingItemRepository;
-            _inspectingItemRepository = inspectingItemRepository;
+            _packagingTaskRepository = packagingTaskRepository;
+            _packagingItemRepository = packagingItemRepository;
+            _packagingImageRepository = packagingImageRepository;
             _fertilizerRangeRepository = fertilizerRangeRepository;
             _inspectorRepository = inspectorRepository;
             _issueRepository = issueRepository;
@@ -150,7 +157,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public FarmerPermissionRepository FarmerPermissionRepository { get { return _farmerPermissionRepository; } }
         public CaringTaskRepository CaringTaskRepository { get { return _caringTaskRepository; } }
         public HarvestingTaskRepository HarvestingTaskRepository { get {return _harvestingTaskRepository; } }
-        public InspectingFormRepository InspectingTaskRepository { get { return _inspectingFormRepository; } }
+        public InspectingFormRepository InspectingFormRepository { get { return _inspectingFormRepository; } }
         public CaringImageRepository CaringImageRepository { get { return _caringImageRepository; } }
         public HarvestingImageRepository HarvestingImageRepository { get { return _harvestingImageRepository; } }
         public InspectingImageRepository InspectingImageRepository { get { return _inspectingImageRepository; } }
@@ -160,7 +167,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public CaringFertilizerRepository CaringFertilizerRepository { get { return _caringFertilizerRepository; } }
         public CaringItemRepository CaringItemRepository { get { return _caringItemRepository; } }
         public HarvestingItemRepository HarvestingItemRepository { get { return _harvestingItemRepository; } }
-        public InspectingItemRepository InspectingItemRepository { get { return _inspectingItemRepository; } }
         public FertilizerRangeRepository FertilizerRangeRepository { get { return _fertilizerRangeRepository; } }
         public InspectorRepository InspectorRepository { get { return _inspectorRepository; } }
         public IssueRepository IssueRepository { get { return _issueRepository; } }
@@ -170,5 +176,8 @@ namespace Spring25.BlCapstone.BE.Repositories
         public ProblemImageRepository ProblemImageRepository { get { return _problemImageRepository; } }
         public ProblemRepository ProblemRepository { get { return _problemRepository; } }
         public SampleSolutionRepository SampleSolutionRepository { get { return _sampleSolutionRepository; } }
+        public PackagingTaskRepository PackagingTaskRepository { get { return _packagingTaskRepository; } }
+        public PackagingItemRepository PackagingItemRepository { get { return _packagingItemRepository; } }
+        public PackagingImageRepository PackagingImageRepository { get { return _packagingImageRepository; } }
     }
 }

@@ -7,15 +7,13 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class SampleSolution
+    public class PackagingImage
     {
         [Key]
         public int Id { get; set; }
-        public int IssueId { get; set; }
-        public string FileUrl { get; set; }
-        public string Description { get; set; }
-        public string TypeTask { get; set; }
+        public int TaskId { get; set; }
+        public string Url { get; set; }
 
-        public Issue Issue { get; set; }
+        public PackagingTask PackagingTask { get; set; }
     }
 }

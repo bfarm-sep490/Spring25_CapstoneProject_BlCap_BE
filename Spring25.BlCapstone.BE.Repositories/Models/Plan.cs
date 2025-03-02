@@ -19,10 +19,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime? CompleteDate { get; set; }
         public string Status { get; set; }
         public float EstimatedProduct { get; set; }
         public string EstimatedUnit { get; set; }
-        public int? AvailablePackagingQuantity { get; set; }
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
@@ -38,5 +38,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public ICollection<CaringTask> CaringTasks { get; set; }
         public ICollection<HarvestingTask> HarvestingTasks { get; set; }
         public ICollection<InspectingForm> InspectingForms { get; set; }
+        public ICollection<PackagingTask> PackagingTasks { get; set; }
     }
 }

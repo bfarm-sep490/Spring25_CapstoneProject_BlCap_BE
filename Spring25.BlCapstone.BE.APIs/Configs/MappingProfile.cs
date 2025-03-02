@@ -44,13 +44,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void InspectingProfile()
         {
             CreateMap<InspectingForm, InspectingFormModel>()
-                .ForMember(x => x.InspectingItems, otp => otp.MapFrom(x => x.InspectingItems))
                 .ForMember(x => x.InspectingImages, otp => otp.MapFrom(x => x.InspectingImages))
                 .ForMember(dest => dest.InspectorName, otp => otp.MapFrom(src => src.Inspector.Account.Name))
                 .ReverseMap();
             CreateMap<InspectingImage, InspectingImageModel>()
-                .ReverseMap();
-            CreateMap <InspectingItem, InspectingItemModel>()
                 .ReverseMap();
         }
 
@@ -131,7 +128,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<Problem, ProblemModel>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.ProblemImages))
-                .ForMember(dest => dest.ProblemIssues, opt => opt.MapFrom(src => src.Issues))
                 .ReverseMap();
             CreateMap<ProblemImage, Images>()
                 .ReverseMap();
