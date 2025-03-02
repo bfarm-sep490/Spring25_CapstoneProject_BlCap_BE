@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<PackagingTask>> GetPackagingTask(int? planId)
+        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId)
         {
             if (planId == null)
             {

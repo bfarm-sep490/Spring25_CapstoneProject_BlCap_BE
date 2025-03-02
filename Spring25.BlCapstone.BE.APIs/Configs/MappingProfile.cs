@@ -133,8 +133,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<ProblemImage, Images>()
                 .ReverseMap();
-            CreateMap<Issue, ProblemIssues>()
-                .ReverseMap();
             CreateMap<Problem, ProblemPlan>()
                 .ReverseMap();
         }

@@ -38,7 +38,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTask(planId);
+                var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId);
                 var rs = _mapper.Map<List<PackagingTaskModel>>(packs);
 
                 return new BusinessResult { Status = 200, Message = "List of packaging tasks:", Data = rs };
