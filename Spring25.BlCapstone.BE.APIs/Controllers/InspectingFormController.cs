@@ -15,6 +15,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _inspectingFormService = inspectingFormService;
         }
+
         [HttpGet("inspecting-forms")]
         public async Task<IActionResult> GetAllInpectingForms(int? planId)
         {
@@ -27,8 +28,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
+
         [HttpGet("inspecting-forms/{id}")]
         public async Task<IActionResult> GetInpectingFormById([FromRoute]int id)
         {
@@ -42,6 +43,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("inspecting-forms/{id}/detail")]
         public async Task<IActionResult> GetDetailInpectingFormById([FromRoute]int id)
         {
@@ -54,6 +56,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("inspecting-forms/images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _inspectingFormService.UploadImage(image);
+            return Ok(rs);
         }
     }
 }
