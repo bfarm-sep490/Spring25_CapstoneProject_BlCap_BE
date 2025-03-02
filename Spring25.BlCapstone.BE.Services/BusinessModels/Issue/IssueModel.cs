@@ -11,8 +11,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Issue
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonPropertyName("problem_id")]
-        public int ProblemId { get; set; }
         [JsonPropertyName("issue_name")]
         public string IssueName { get; set; }
         [JsonPropertyName("description")]

@@ -15,7 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IHarvestingTaskService
     {
-        Task<IBusinessResult> GetHarvestingTasks();
+        Task<IBusinessResult> GetHarvestingTasks(int? planId);
         Task<IBusinessResult> GetHarvestingTaskById(int id);
         Task<IBusinessResult> GetHarvestingTaskDetailById(int id);
         Task<IBusinessResult> CreateHarvestingTask(HarvestingTaskModel model);
@@ -60,9 +60,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get detail harvesting task by id", result);
         }
 
-        public async Task<IBusinessResult> GetHarvestingTasks()
+        public async Task<IBusinessResult> GetHarvestingTasks(int? planId)
         {
-            var obj = await _unitOfWork.HarvestingTaskRepository.GetAllAsync();
+            var obj = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(planId);
             var result = _mapper.Map<List<HarvestingTaskModel>>(obj);
             return new BusinessResult(200, "Get harvesting tasks", result);
         }

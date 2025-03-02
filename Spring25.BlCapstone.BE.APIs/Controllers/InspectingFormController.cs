@@ -16,11 +16,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _inspectingFormService = inspectingFormService;
         }
         [HttpGet("inspecting-forms")]
-        public async Task<IActionResult> GetAllInpectingForms()
+        public async Task<IActionResult> GetAllInpectingForms(int? planId)
         {
             try
             {
-                var result = await _inspectingFormService.GetAllInspectingForm();
+                var result = await _inspectingFormService.GetAllInspectingForm(planId);
                 return Ok(result);
             }
             catch (Exception ex)

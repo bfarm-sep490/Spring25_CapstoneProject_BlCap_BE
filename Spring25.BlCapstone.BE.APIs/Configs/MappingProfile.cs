@@ -17,6 +17,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -39,6 +40,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             HarvestingProfile();
             InspectingProfile();
             IssueProfile();
+            PackagingProfile();
        }
 
         private void InspectingProfile()
@@ -190,6 +192,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<CaringImage, CaringImageModel>()
                 .ReverseMap();
         }
+
         void HarvestingProfile()
         {
             CreateMap<HarvestingTask, HarvestingTaskModel>()
@@ -202,6 +205,19 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<HarvestingItem, HarvestingItemModel>()
                 .ReverseMap();     
             CreateMap<HarvestingTask, HarvestingTaskUpdate>()
+                .ReverseMap();
+        }
+
+        void PackagingProfile()
+        {
+            CreateMap<PackagingTask, PackagingTaskModel>()
+                .ForMember(dest => dest.PackageImages, opt => opt.MapFrom(src => src.PackagingImages))
+                .ForMember(dest => dest.PackageItems, opt => opt.MapFrom(src => src.PackagingItems))
+                .ForMember(dest => dest.FarmerName, opt => opt.MapFrom(src => src.Farmer.Account.Name))
+                .ReverseMap();
+            CreateMap<PackagingImage, PackagingImageModel>()
+                .ReverseMap();
+            CreateMap<PackagingItem, PackagingItemModel>()
                 .ReverseMap();
         }
 

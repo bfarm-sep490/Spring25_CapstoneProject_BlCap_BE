@@ -13,7 +13,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IInspectingFormService
     {
-        Task<IBusinessResult> GetAllInspectingForm();
+        Task<IBusinessResult> GetAllInspectingForm(int? planId);
         Task<IBusinessResult> GetInspectingFormById(int id);
         Task<IBusinessResult> GetDetailInspectingFormById(int id);
         Task<IBusinessResult> CreateInspectingForm(InspectingFormModel result);
@@ -40,9 +40,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IBusinessResult> GetAllInspectingForm()
+        public async Task<IBusinessResult> GetAllInspectingForm(int? planId)
         {
-            var list = await _unitOfWork.InspectingFormRepository.GetAllAsync();
+            var list = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId);
             var result = _mapper.Map<List<InspectingFormModel>>(list);
             return new BusinessResult(200,"Get all Inspecting forms",result);
         }

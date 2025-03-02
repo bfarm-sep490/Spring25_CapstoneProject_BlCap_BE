@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,29 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public PackagingTaskRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<List<PackagingTask>> GetPackagingTask(int? planId)
+        {
+            if (planId == null)
+            {
+                return await _context.PackagingTasks
+                    .Include(x => x.PackagingImages)
+                    .Include(x => x.PackagingItems)
+                    .Include(x => x.Farmer)
+                        .ThenInclude(x => x.Account)
+                    .ToListAsync();
+            } 
+            else
+            {
+                return await _context.PackagingTasks
+                    .Where(pt => pt.PlanId == planId)
+                    .Include(x => x.PackagingImages)
+                    .Include(x => x.PackagingItems)
+                    .Include(x => x.Farmer)
+                        .ThenInclude(x => x.Account)
+                    .ToListAsync();
+            }
         }
     }
 }

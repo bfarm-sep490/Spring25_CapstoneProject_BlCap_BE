@@ -18,11 +18,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _caringTaskService = caringTaskService;
         }
         [HttpGet("caring-tasks")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int? planId)
         {
             try
             {
-                var result = await _caringTaskService.GetAllCaringTask();
+                var result = await _caringTaskService.GetAllCaringTask(planId);
                 return Ok(result);
             }
             catch (Exception ex) {
