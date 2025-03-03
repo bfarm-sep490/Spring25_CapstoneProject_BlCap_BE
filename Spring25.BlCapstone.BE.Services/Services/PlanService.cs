@@ -263,6 +263,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                if (model.AssignPackagingTasks.Any() && model.AssignPackagingTasks.Count > 0)
+                {
+                    foreach (var task in model.AssignPackagingTasks)
+                    {
+                        var packaging = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(task.Id);
+                        packaging.FarmerId = task.FarmerId;
+                        packaging.Status = task.Status;
+
+                        await _unitOfWork.PackagingTaskRepository.UpdateAsync(packaging);
+                    }
+                }
+
                 return new BusinessResult { Status = 200, Message = "Assign successfull!" };
             }
             catch (Exception ex)
