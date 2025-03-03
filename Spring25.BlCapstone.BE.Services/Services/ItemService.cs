@@ -128,7 +128,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Description = item.Description,
                     Status = item.Status,
                     Type = item.Type,
-                    Image = item.Image
+                    Image = item.Image, 
+                    Quantity = item.Quantity,
+                    Unit = item.Unit,
                 };
 
                 var rs = await _unitOfWork.ItemRepository.CreateAsync(newItem);
@@ -183,6 +185,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 existedItem.Status = item.Status;
                 existedItem.Type = item.Type;
                 existedItem.Image = item.Image;
+                existedItem.Quantity = item.Quantity;
+                existedItem.Unit = item.Unit;
 
                 var rs = await _unitOfWork.ItemRepository.UpdateAsync(existedItem);
                 if (rs <= 0)

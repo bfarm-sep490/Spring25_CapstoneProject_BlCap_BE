@@ -14,6 +14,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Item
         public string Name { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; }
+        [JsonPropertyName("unit")]
+        public string Unit { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("type")]
