@@ -56,5 +56,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             var rs = await _itemService.UploadImage(image);
             return Ok(rs);
         }
+
+        [HttpPut("{id}/switch-active")]
+        public async Task<IActionResult> ToggleActiveInactiveItem(int id)
+        {
+            try
+            {
+                var rs = await _itemService.ToggleActiveInactive(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

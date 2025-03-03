@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateItem(CreatedItem item);
         Task<IBusinessResult> UpdateItem(int id, CreatedItem item);
         Task<IBusinessResult> RemoveItem(int id);
+        Task<IBusinessResult> ToggleActiveInactive(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
 
@@ -289,6 +290,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> ToggleActiveInactive(int id)
+        {
+            try
+            {
+                var item = await _unitOfWork.ItemRepository.GetByIdAsync(id);
+
+                if (item == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any Items !", Data = null };
+                }
+
+                item.Status = item.Status == "Inactive" ? "Active" : "Inactive";
+                var rs = await _unitOfWork.ItemRepository.UpdateAsync(item);
+
+                if (rs > 0)
+                {
+                    return new BusinessResult { Status = 200, Message = "Deactivate item successful", Data = null };
+                }
+                else
+                {
+                    return new BusinessResult { Status = 500, Message = "Deactivate failed !", Data = null };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
         }
     }
