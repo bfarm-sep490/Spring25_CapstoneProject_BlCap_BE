@@ -22,5 +22,7 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Fertilizer
         public string Unit { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
     }
 }

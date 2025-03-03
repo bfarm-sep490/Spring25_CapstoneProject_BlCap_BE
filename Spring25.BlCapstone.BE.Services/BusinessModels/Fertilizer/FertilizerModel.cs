@@ -31,9 +31,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer
         public float TotalQuantity { get; set; }
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
     }
 }
