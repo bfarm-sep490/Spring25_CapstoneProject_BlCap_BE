@@ -44,6 +44,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Name = i.Name,
                     Status = i.Status,
                     Type = i.Type,
+                    Quantity = i.Quantity,
+                    Unit = i.Unit,
                 }).ToList();
                 if (res.Count <= 0)
                 {
@@ -99,6 +101,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Name = item.Name,
                     Status = item.Status,
                     Type = item.Type,
+                    Quantity = item.Quantity,
+                    Unit = item.Unit,
                 };
 
                 return new BusinessResult
