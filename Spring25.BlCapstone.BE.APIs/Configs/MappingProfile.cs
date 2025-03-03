@@ -170,6 +170,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Plan, PlanGeneral>()
                 .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
                 .ForMember(dest => dest.YieldInformation, opt => opt.MapFrom(src => src.Yield))
+                .ForMember(dest => dest.ExpertInformation, opt => opt.MapFrom(src => src.Expert))
+                .ReverseMap();
+            CreateMap<Expert, ExpertInformation>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
                 .ReverseMap();
             CreateMap<Plant, PlantInformation>()
                 .ReverseMap();

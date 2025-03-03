@@ -13,10 +13,14 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int Id { get; set; }
         [JsonPropertyName("plan_name")]
         public string PlanName { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
         [JsonPropertyName("plant_information")]
         public PlantInformation PlantInformation { get; set; }
         [JsonPropertyName("yield_information")]
         public YieldInformation YieldInformation { get; set; }
+        [JsonPropertyName("expert_information")]
+        public ExpertInformation ExpertInformation { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
@@ -51,5 +55,13 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string AreaUnit { get; set; }
         [JsonPropertyName("area")]
         public double Area { get; set; }
+    }
+
+    public class ExpertInformation
+    {
+        [JsonPropertyName("expert_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("expert_name")]
+        public string Name { get; set; }
     }
 }
