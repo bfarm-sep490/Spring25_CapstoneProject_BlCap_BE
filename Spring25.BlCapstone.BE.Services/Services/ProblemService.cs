@@ -12,7 +12,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IProblemService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(int? planId);
         Task<IBusinessResult> GetById(int id);
     }
 
@@ -26,11 +26,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(int? planId)
         {
             try
             {
-                var problems = await _unitOfWork.ProblemRepository.GetProblems();
+                var problems = await _unitOfWork.ProblemRepository.GetProblems(planId);
 
                 var res = _mapper.Map<List<ProblemModel>>(problems);
                 if (res.Any())
