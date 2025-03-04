@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
@@ -18,11 +19,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllInspectingForm(int? planId, int? inspectorId);
         Task<IBusinessResult> GetInspectingFormById(int id);
         Task<IBusinessResult> GetDetailInspectingFormById(int id);
-        Task<IBusinessResult> CreateInspectingForm(InspectingFormModel result);
+        Task<IBusinessResult> CreateInspectingForm(CreateInspectingPlan model);
         Task<IBusinessResult> UpdateInspectingForm(int id,InspectingFormModel result);
         Task<IBusinessResult> DeleteInspectingFormById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
+
     public class InspectingFormService:IInspectingFormService
     {
         private readonly IMapper _mapper;
@@ -33,9 +35,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<IBusinessResult> CreateInspectingForm(InspectingFormModel result)
+        public async Task<IBusinessResult> CreateInspectingForm(CreateInspectingPlan model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var form = _mapper.Map<InspectingForm>(model);
+
+                form.Status = "Draft";
+                form.Priority = 0;
+                form.CanHarvest = false;
+                form.CreatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.InspectingFormRepository.CreateAsync(form);
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "Create form successfull", rs);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Create failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
 
         public Task<IBusinessResult> DeleteInspectingFormById(int id)

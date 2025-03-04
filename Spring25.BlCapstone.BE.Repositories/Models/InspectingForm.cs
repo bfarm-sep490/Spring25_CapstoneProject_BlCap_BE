@@ -20,17 +20,17 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? ResultContent { get; set; }
-        public float BrixPoint { get; set; }
-        public float Temperature { get; set; }
-        public float Humidity { get; set; }
-        public float Moisture { get; set; }
-        public string ShellColor { get; set; }
-        public string TestGTKitColor { get; set; }
-        public int InspectingQuantity { get; set; }
-        public string Unit { get; set; }
+        public float? BrixPoint { get; set; }
+        public float? Temperature { get; set; }
+        public float? Humidity { get; set; }
+        public float? Moisture { get; set; }
+        public string? ShellColor { get; set; }
+        public string? TestGTKitColor { get; set; }
+        public int? InspectingQuantity { get; set; }
+        public string? Unit { get; set; }
         public float? IssuePercent { get; set; }
         public bool CanHarvest { get; set; }
-        public DateTime CompletedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
         public string Status { get; set; }
         public int Priority { get; set; }
         public DateTime CreatedAt { get; set; }
