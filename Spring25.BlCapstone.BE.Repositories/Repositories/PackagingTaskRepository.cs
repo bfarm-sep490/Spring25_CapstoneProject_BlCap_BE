@@ -16,27 +16,26 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId)
+        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId = null, int? farmerId = null)
         {
-            if (planId == null)
+            var query = _context.PackagingTasks
+                                .Include(x => x.PackagingImages)
+                                .Include(x => x.PackagingItems)
+                                .Include(x => x.Farmer)
+                                    .ThenInclude(x => x.Account)
+                                .AsQueryable();
+
+            if (planId.HasValue)
             {
-                return await _context.PackagingTasks
-                    .Include(x => x.PackagingImages)
-                    .Include(x => x.PackagingItems)
-                    .Include(x => x.Farmer)
-                        .ThenInclude(x => x.Account)
-                    .ToListAsync();
+                query = query.Where(pt => pt.PlanId == planId);
             } 
-            else
+
+            if (farmerId.HasValue) 
             {
-                return await _context.PackagingTasks
-                    .Where(pt => pt.PlanId == planId)
-                    .Include(x => x.PackagingImages)
-                    .Include(x => x.PackagingItems)
-                    .Include(x => x.Farmer)
-                        .ThenInclude(x => x.Account)
-                    .ToListAsync();
+                query = query.Where(pt => pt.FarmerId == farmerId);
             }
+
+            return await query.ToListAsync();
         }
     }
 }
