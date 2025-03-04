@@ -241,6 +241,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<PackagingTask, UpdatePackaging>()
                 .ReverseMap();
+            CreateMap<PackagingTask, CreatePackagingPlan>()
+                .ReverseMap();
         }
 
         private void IssueProfile()

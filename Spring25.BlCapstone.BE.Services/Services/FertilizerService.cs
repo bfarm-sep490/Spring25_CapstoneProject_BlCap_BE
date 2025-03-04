@@ -51,7 +51,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
             var result = _mapper.Map<List<FertilizerModel>>(list);
-            return new BusinessResult(1, "List Fertilizer", result);
+            return new BusinessResult(200, "List Fertilizer", result);
         }
         public async Task<IBusinessResult> GetById(int id)
         {
@@ -67,8 +67,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper.Map(model, obj);
             obj.Id = id;
             var result = await _unitOfWork.FertilizerRepository.UpdateAsync(obj);
-            if (result != 0) { return new BusinessResult(1, "Update Fertilizer successfully", obj); }
-            else return new BusinessResult(200, "Update Fertilizer Fail");
+            if (result != 0) { return new BusinessResult(200, "Update Fertilizer successfully", obj); }
+            else return new BusinessResult(500, "Update Fertilizer Fail");
         }
     }
 }

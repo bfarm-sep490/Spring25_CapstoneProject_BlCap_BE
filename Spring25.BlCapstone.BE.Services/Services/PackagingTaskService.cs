@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -14,6 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPackagingTaskService
     {
+        Task<IBusinessResult> CreatePackagingTask(CreatePackagingPlan model);
         Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
@@ -152,6 +154,45 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 else
                 {
                     return new BusinessResult(500, "Update failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> CreatePackagingTask(CreatePackagingPlan model)
+        {
+            try
+            {
+                var task = _mapper.Map<PackagingTask>(model);
+                task.Status = "Draft";
+                task.CreatedAt = DateTime.Now;
+                task.Priority = 0;
+
+                var rs = await _unitOfWork.PackagingTaskRepository.CreateAsync(task);
+                if (model.Items != null)
+                {
+                    foreach (var i in model.Items)
+                    {
+                        await _unitOfWork.PackagingItemRepository.CreateAsync(new PackagingItem
+                        {
+                            TaskId = task.Id,
+                            ItemId = i.ItemId,
+                            Quantity = i.Quantity,
+                            Unit = i.Unit,
+                        });
+                    }
+                }
+
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "Create task successfull", rs);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Create failed!");
                 }
             }
             catch (Exception ex)
