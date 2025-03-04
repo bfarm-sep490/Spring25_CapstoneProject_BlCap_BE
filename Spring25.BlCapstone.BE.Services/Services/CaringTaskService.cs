@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -17,6 +18,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId);
         Task<IBusinessResult> GetCaringTaskById(int id);
         Task<IBusinessResult> GetDetailCaringTaskById(int id);
+        Task<IBusinessResult> CreateCaringTask(CreateCaringPlan model);
         Task<IBusinessResult> UpdateDetailCaringTask(CaringTaskModel result);
         Task<IBusinessResult> UpdateCaringFertilizerModel(CareFertilizerModel result);
         Task<IBusinessResult> UpdateCaringPesticideModel(CarePesticideModel result);
@@ -92,6 +94,75 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> CreateCaringTask(CreateCaringPlan model)
+        {
+            try
+            {
+                var task = _mapper.Map<CaringTask>(model);
+                task.IsCompleted = false;
+                task.IsAvailable = true;
+                task.Priority = 0;
+                task.Status = "Draft";
+                task.CreatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.CaringTaskRepository.CreateAsync(task);
+                if (model.Fertilizers != null)
+                {
+                    foreach (var f in model.Fertilizers)
+                    {
+                        await _unitOfWork.CaringFertilizerRepository.CreateAsync(new CaringFertilizer
+                        {
+                            TaskId = task.Id,
+                            FertilizerId = f.FertilizerId,
+                            Quantity = f.Quantity,
+                            Unit = f.Unit,
+                        });
+                    }
+                }
+
+                if (model.Pesticides != null)
+                {
+                    foreach (var p in model.Pesticides)
+                    {
+                        await _unitOfWork.CaringPesticideRepository.CreateAsync(new CaringPesticide
+                        {
+                            TaskId = task.Id,
+                            PesticideId = p.PesticideId,
+                            Quantity = p.Quantity,
+                            Unit = p.Unit,
+                        });
+                    }
+                }
+
+                if (model.Items != null)
+                {
+                    foreach (var i in model.Items)
+                    {
+                        await _unitOfWork.CaringItemRepository.CreateAsync(new CaringItem
+                        {
+                            TaskId = task.Id,
+                            ItemId = i.ItemId,
+                            Quantity = i.Quantity,
+                            Unit = i.Unit,
+                        });
+                    }
+                }
+
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "Create task successfull", rs);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Create failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

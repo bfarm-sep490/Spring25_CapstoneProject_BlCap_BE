@@ -203,6 +203,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<CaringImage, CaringImageModel>()
                 .ReverseMap();
+            CreateMap<CaringTask, CreateCaringPlan>()
+                .ReverseMap();
         }
 
         private void HarvestingProfile()

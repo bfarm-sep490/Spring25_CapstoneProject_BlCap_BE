@@ -2,6 +2,7 @@
 using MailKit.Net.Imap;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -63,6 +64,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _caringTaskService.UploadImage(image);
             return Ok(rs);
+        }
+
+        [HttpPost("caring-tasks")]
+        public async Task<IActionResult> Create(CreateCaringPlan model)
+        {
+            try
+            {
+                var rs = await _caringTaskService.CreateCaringTask(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
