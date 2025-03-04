@@ -370,7 +370,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new FarmerPermission { FarmerId = 1, PlanId = 1, IsActive = true },
                 new FarmerPermission { FarmerId = 3, PlanId = 1, IsActive = true },
                 new FarmerPermission { FarmerId = 5, PlanId = 1, IsActive = true }
-                );
+            );
 
             modelBuilder.Entity<CaringTask>().HasData(
                 new CaringTask { Id = 1, PlanId = 1, ProblemId = 1, FarmerId = 1, TaskName = "Tưới nước cho cà chua", TaskType = "Watering", StartDate = new DateTime(2024, 1, 12), EndDate = new DateTime(2024, 1, 15), IsCompleted = false, IsAvailable = true, Priority = 1, Status = "Pending", CreatedAt = DateTime.Now },
@@ -421,7 +421,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     IssuePercent = 2.5f,
                     CanHarvest = true,
                     CompletedDate = DateTime.Now.AddDays(-4),
-                    Status = "Hoàn thành",
+                    Status = "Completed",
                     Priority = 1,
                     CreatedAt = DateTime.Now.AddDays(-6)
                 },
@@ -448,7 +448,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     IssuePercent = 3.0f,
                     CanHarvest = true,
                     CompletedDate = DateTime.Now.AddDays(-5),
-                    Status = "Hoàn thành",
+                    Status = "Completed",
                     Priority = 2,
                     CreatedAt = DateTime.Now.AddDays(-7)
                 },
@@ -475,7 +475,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     IssuePercent = 5.0f,
                     CanHarvest = false,
                     CompletedDate = DateTime.Now.AddDays(-6),
-                    Status = "Chờ xử lý",
+                    Status = "Pending",
                     Priority = 1,
                     CreatedAt = DateTime.Now.AddDays(-8)
                 },
@@ -502,7 +502,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     IssuePercent = 2.0f,
                     CanHarvest = true,
                     CompletedDate = DateTime.Now.AddDays(-7),
-                    Status = "Hoàn thành",
+                    Status = "Completed",
                     Priority = 3,
                     CreatedAt = DateTime.Now.AddDays(-9)
                 },
@@ -529,7 +529,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     IssuePercent = 4.5f,
                     CanHarvest = false,
                     CompletedDate = DateTime.Now.AddDays(-8),
-                    Status = "Cần theo dõi",
+                    Status = "Completed",
                     Priority = 2,
                     CreatedAt = DateTime.Now.AddDays(-10)
                 },
@@ -556,7 +556,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     IssuePercent = 1.5f,
                     CanHarvest = true,
                     CompletedDate = DateTime.Now.AddDays(-9),
-                    Status = "Hoàn thành",
+                    Status = "Completed",
                     Priority = 1,
                     CreatedAt = DateTime.Now.AddDays(-11)
                 }
@@ -647,25 +647,25 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new Device { Id = 7, YieldId = 4, Name = "Cảm biến độ mặn", Type = "Salinity Sensor", Location = "Khu D", Status = "Inactive", DeviceCode = "SALIN-007", InstallationDate = DateTime.Parse("2023-07-08"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
                 new Device { Id = 8, YieldId = 5, Name = "Cảm biến gió", Type = "Wind Sensor", Location = "Khu E", Status = "Active", DeviceCode = "WIND-008", InstallationDate = DateTime.Parse("2023-08-22"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
                 new Device { Id = 9, YieldId = 6, Name = "Cảm biến lượng mưa", Type = "Rain Gauge", Location = "Khu F", Status = "Active", DeviceCode = "RAIN-009", InstallationDate = DateTime.Parse("2023-09-15"), CreatedAt = DateTime.Now, CreatedBy = "Admin" },
-                new Device { Id = 10, YieldId = 7, Name = "Cảm biến Nitrogen", Type = "Nitrogen Sensor", Location = "Khu G", Status = "Active", DeviceCode = "NITRO-010", InstallationDate = DateTime.Parse("2023-10-30"), CreatedAt = DateTime.Now, CreatedBy = "Admin" }
+                new Device { Id = 10, YieldId = 7, Name = "Cảm biến Nitrogen", Type = "Nitrogen Sensor", Location = "Khu G", Status = "Error", DeviceCode = "NITRO-010", InstallationDate = DateTime.Parse("2023-10-30"), CreatedAt = DateTime.Now, CreatedBy = "Admin" }
             );
 
             modelBuilder.Entity<Item>().HasData(
                 // (Caring Task)
-                new Item { Id = 1, Name = "Bình tưới cây", Description = "Bình tưới nước dung tích 5L", Quantity = 100, Unit = "Cái", Image = "https://product.hstatic.net/200000199113/product/7220965_7709e84c2e3f40cf8111c44225c96646_large.jpg", Status = "Available", Type = "Caring" },
-                new Item { Id = 2, Name = "Kéo cắt tỉa", Description = "Kéo chuyên dụng để cắt tỉa cành", Quantity = 100, Unit = "Cái", Image = "https://fact-depot.com/tmp/cache/images/_thumbs/720x720/media/product/30542/Keo-cat-tia-cong-vien-cay-xanh-HM044-cat-tia-co-la.png", Status = "Available", Type = "Caring" },
-                new Item {Id = 3, Name = "Bón phân hữu cơ", Description = "Dụng cụ bón phân dạng viên", Quantity = 100, Unit = "Hộp", Image = "https://vn-live-01.slatic.net/p/eab87be47ffa092ca1becbc00ff06ed2.jpg", Status = "Available", Type = "Caring" },
-                new Item {Id = 4, Name = "Máy đo độ ẩm đất", Description = "Dụng cụ đo độ ẩm của đất", Quantity = 100, Unit = "Cái", Image = "https://thbvn.com/cdn/images/may-do-do-am/dung-cu-do-do-am-dat-tot-1.jpg", Status = "Available", Type = "Caring" },
+                new Item { Id = 1, Name = "Bình tưới cây", Description = "Bình tưới nước dung tích 5L", Quantity = 100, Unit = "Cái", Image = "https://product.hstatic.net/200000199113/product/7220965_7709e84c2e3f40cf8111c44225c96646_large.jpg", Status = "Active", Type = "Caring" },
+                new Item { Id = 2, Name = "Kéo cắt tỉa", Description = "Kéo chuyên dụng để cắt tỉa cành", Quantity = 100, Unit = "Cái", Image = "https://fact-depot.com/tmp/cache/images/_thumbs/720x720/media/product/30542/Keo-cat-tia-cong-vien-cay-xanh-HM044-cat-tia-co-la.png", Status = "Active", Type = "Caring" },
+                new Item {Id = 3, Name = "Bón phân hữu cơ", Description = "Dụng cụ bón phân dạng viên", Quantity = 100, Unit = "Hộp", Image = "https://vn-live-01.slatic.net/p/eab87be47ffa092ca1becbc00ff06ed2.jpg", Status = "In-stock", Type = "Caring" },
+                new Item {Id = 4, Name = "Máy đo độ ẩm đất", Description = "Dụng cụ đo độ ẩm của đất", Quantity = 100, Unit = "Cái", Image = "https://thbvn.com/cdn/images/may-do-do-am/dung-cu-do-do-am-dat-tot-1.jpg", Status = "Active", Type = "Caring" },
                 // (Harvesting Task)
-                new Item { Id = 5, Name = "Dao thu hoạch", Description = "Dao chuyên dụng để cắt trái cây", Quantity = 100, Unit = "Cái", Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMlW2sl4uFDnr7wiHZo420jhTUDtPZmPQkqw&s", Status = "Available", Type = "Harvesting" },
-                new Item {Id = 6, Name = "Giỏ đựng nông sản", Description = "Giỏ chứa nông sản sau thu hoạch", Quantity = 100, Unit = "Giỏ", Image = "https://ecohub.vn/wp-content/uploads/2021/08/thung-go-luu-tru-nong-san-do-dung-1.jpg", Status = "Available", Type = "Harvesting" },
-                new Item { Id = 7, Name = "Máy cắt lúa", Description = "Máy gặt đập liên hợp mini", Quantity = 100, Unit = "Máy", Image = "https://mayxaydungmlk.vn/wp-content/uploads/2022/07/may-gat-DC60.jpg", Status = "In Use", Type = "Harvesting" },
+                new Item { Id = 5, Name = "Dao thu hoạch", Description = "Dao chuyên dụng để cắt trái cây", Quantity = 100, Unit = "Cái", Image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMlW2sl4uFDnr7wiHZo420jhTUDtPZmPQkqw&s", Status = "In-stock", Type = "Harvesting" },
+                new Item {Id = 6, Name = "Giỏ đựng nông sản", Description = "Giỏ chứa nông sản sau thu hoạch", Quantity = 100, Unit = "Giỏ", Image = "https://ecohub.vn/wp-content/uploads/2021/08/thung-go-luu-tru-nong-san-do-dung-1.jpg", Status = "In-stock", Type = "Harvesting" },
+                new Item { Id = 7, Name = "Máy cắt lúa", Description = "Máy gặt đập liên hợp mini", Quantity = 100, Unit = "Máy", Image = "https://mayxaydungmlk.vn/wp-content/uploads/2022/07/may-gat-DC60.jpg", Status = "In-stock", Type = "Harvesting" },
                 // (Packaging Task)
-                new Item { Id = 8, Name = "Máy đóng gói tự động", Unit = "Máy", Description = "Máy đóng gói tốc độ cao cho nông sản.", Image = "https://dienmayviteko.com/pic/Product/VPM-BZJ600-4_1029_HasThumb.webp", Quantity = 5, Status = "Available", Type = "Packaging" },
-                new Item { Id = 9, Name = "Máy hút chân không", Unit = "Máy", Description = "Thiết bị bảo quản sản phẩm bằng cách hút chân không.", Image = "https://dbk.vn/uploads/ckfinder/images/may-hut-chan-khong/may-hut-chan-khong-cong-nghiep-Magic-Air-MZ600.jpg", Quantity = 8, Status = "Available", Type = "Packaging" },
-                new Item { Id = 10, Name = "Cân điện tử đóng gói", Unit = "Máy", Description = "Cân chính xác dùng trong quy trình đóng gói.", Image = "https://cokhitanminh.com/may-dong-goi/wp-content/uploads/2021/11/may-dong-goi-can-dien-tu-3-bien-tmdg-2f14-ckmdg-1.jpg", Quantity = 10, Status = "Available", Type = "Packaging" },
-                new Item { Id = 11, Name = "Máy đóng gói túi", Unit = "Máy", Description = "Máy đóng gói túi ni lông hoặc túi giấy cho sản phẩm nông nghiệp.", Image = "https://cnva.vn/wp-content/uploads/2024/02/may-dong-goi-tui-roi-tui-zip.jpg", Quantity = 7, Status = "Available", Type = "Packaging" },
-                new Item { Id = 12, Name = "Dây chuyền đóng gói", Unit = "Dây", Description = "Dây chuyền đóng gói tự động hỗ trợ quy trình sản xuất.", Image = "https://mayduoctiendat.com/upload/filemanager/files/day-chuyen-dong-goi-bot-hop-thiec-tu-dong.jpg", Quantity = 2, Status = "Available", Type = "Packaging" }
+                new Item { Id = 8, Name = "Máy đóng gói tự động", Unit = "Máy", Description = "Máy đóng gói tốc độ cao cho nông sản.", Image = "https://dienmayviteko.com/pic/Product/VPM-BZJ600-4_1029_HasThumb.webp", Quantity = 5, Status = "Active", Type = "Packaging" },
+                new Item { Id = 9, Name = "Máy hút chân không", Unit = "Máy", Description = "Thiết bị bảo quản sản phẩm bằng cách hút chân không.", Image = "https://dbk.vn/uploads/ckfinder/images/may-hut-chan-khong/may-hut-chan-khong-cong-nghiep-Magic-Air-MZ600.jpg", Quantity = 8, Status = "Active", Type = "Packaging" },
+                new Item { Id = 10, Name = "Cân điện tử đóng gói", Unit = "Máy", Description = "Cân chính xác dùng trong quy trình đóng gói.", Image = "https://cokhitanminh.com/may-dong-goi/wp-content/uploads/2021/11/may-dong-goi-can-dien-tu-3-bien-tmdg-2f14-ckmdg-1.jpg", Quantity = 10, Status = "Active", Type = "Packaging" },
+                new Item { Id = 11, Name = "Máy đóng gói túi", Unit = "Máy", Description = "Máy đóng gói túi ni lông hoặc túi giấy cho sản phẩm nông nghiệp.", Image = "https://cnva.vn/wp-content/uploads/2024/02/may-dong-goi-tui-roi-tui-zip.jpg", Quantity = 7, Status = "In-stock", Type = "Packaging" },
+                new Item { Id = 12, Name = "Dây chuyền đóng gói", Unit = "Dây", Description = "Dây chuyền đóng gói tự động hỗ trợ quy trình sản xuất.", Image = "https://mayduoctiendat.com/upload/filemanager/files/day-chuyen-dong-goi-bot-hop-thiec-tu-dong.jpg", Quantity = 2, Status = "Out-stock", Type = "Packaging" }
             );
 
             modelBuilder.Entity<CaringItem>().HasData(
