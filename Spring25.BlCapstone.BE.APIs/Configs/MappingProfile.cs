@@ -222,6 +222,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingTask, UpdateHarvestingTask>()
                 .ReverseMap();
+            CreateMap<HarvestingTask, CreateHarvestingPlan>()
+                .ReverseMap();
         }
 
         private void PackagingProfile()
