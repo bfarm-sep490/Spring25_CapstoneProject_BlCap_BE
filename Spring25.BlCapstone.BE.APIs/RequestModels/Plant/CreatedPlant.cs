@@ -6,7 +6,7 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
     public class CreatedPlant
     {
         [JsonPropertyName("plant_name")]
-        public string SeedName { get; set; }
+        public string PlantName { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("min_temp")]
