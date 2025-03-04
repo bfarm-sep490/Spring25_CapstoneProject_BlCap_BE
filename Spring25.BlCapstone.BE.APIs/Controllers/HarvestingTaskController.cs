@@ -69,10 +69,24 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("harvesting-tasks/{id}/task-report")]
-        public async Task<IActionResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model)
+        public async Task<IActionResult> UpdateHarvestingTask(int id, HarvestingTaskReport model)
         {
-            var rs = await _harvestingTaskService.UpdateHarvestingTask(id, model);
+            var rs = await _harvestingTaskService.ReportHarvestingTask(id, model);
             return Ok(rs);
+        }
+
+        [HttpPut("harvesting-tasks/{id}")]
+        public async Task<IActionResult> Update(int id, UpdateHarvestingTask model)
+        {
+            try
+            {
+                var rs = await _harvestingTaskService.UpdateTask(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

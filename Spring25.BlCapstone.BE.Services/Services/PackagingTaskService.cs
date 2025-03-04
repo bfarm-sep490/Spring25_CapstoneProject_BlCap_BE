@@ -16,6 +16,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
+        Task<IBusinessResult> UpdatePackagingTask(int id, UpdatePackaging model);
     }
     public class PackagingTaskService : IPackagingTaskService
     {
@@ -75,6 +77,86 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model)
+        {
+            try
+            {
+                var task = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any Packaging tasks");
+                }
+
+                _mapper.Map(model, task);
+                task.UpdatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
+
+                var images = await _unitOfWork.PackagingImageRepository.GetPackagingImagesByTaskId(id);
+                if (!images.Any() || images.Count > 0)
+                {
+                    foreach (var image in images)
+                    {
+                        await _unitOfWork.PackagingImageRepository.RemoveAsync(image);
+                    }
+                }
+
+                if (model.Images != null && model.Images.Any())
+                {
+                    foreach (var image in model.Images)
+                    {
+                        await _unitOfWork.PackagingImageRepository.CreateAsync(new Repositories.Models.PackagingImage
+                        {
+                            TaskId = id,
+                            Url = image
+                        });
+                    }
+                }
+
+                if (rs > 0)
+                {
+                    return new BusinessResult(200, "Update successfully!", task);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Update failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> UpdatePackagingTask(int id, UpdatePackaging model)
+        {
+            try
+            {
+                var task = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any Packaging tasks");
+                }
+
+                _mapper.Map(model, task);
+                task.UpdatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
+                if (rs > 0)
+                {
+                    return new BusinessResult(200, "Update successfully!", task);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Update failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

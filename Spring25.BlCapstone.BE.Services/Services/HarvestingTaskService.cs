@@ -19,7 +19,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetHarvestingTaskById(int id);
         Task<IBusinessResult> GetHarvestingTaskDetailById(int id);
         Task<IBusinessResult> CreateHarvestingTask(HarvestingTaskModel model);
-        Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model);
+        Task<IBusinessResult> ReportHarvestingTask(int id, HarvestingTaskReport model);
+        Task<IBusinessResult> UpdateTask(int id, UpdateHarvestingTask model);
         Task<IBusinessResult> DeleteHarvestingTask(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
@@ -67,7 +68,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get harvesting tasks", result);
         }
 
-        public async Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model)
+        public async Task<IBusinessResult> ReportHarvestingTask(int id, HarvestingTaskReport model)
         {
             try
             {
@@ -78,6 +79,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 _mapper.Map(model, harvestingTask);
+                harvestingTask.UpdatedAt = DateTime.Now;
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
 
                 var images = await _unitOfWork.HarvestingImageRepository.GetHarvestingImagesByTaskId(id);
@@ -101,7 +103,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                return new BusinessResult { Status = 200, Message = "Update successfull" };
+                return new BusinessResult { Status = 200, Message = "Update successfull", Data = harvestingTask };
             }
             catch (Exception ex)
             {
@@ -131,6 +133,33 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> UpdateTask(int id, UpdateHarvestingTask model)
+        {
+            try
+            {
+                var task = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any harvesting tasks");
+                }
+
+                _mapper.Map(model, task);
+                task.UpdatedAt = DateTime.Now;
+                var rs = await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
+                if (rs > 0)
+                {
+                    return new BusinessResult(200, "Update successfull", task);
+                } else
+                {
+                    return new BusinessResult(500, "Update failed !");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

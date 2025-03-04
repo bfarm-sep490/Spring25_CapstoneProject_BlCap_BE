@@ -214,7 +214,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingItem, HarvestingItemModel>()
                 .ReverseMap();     
-            CreateMap<HarvestingTask, HarvestingTaskUpdate>()
+            CreateMap<HarvestingTask, HarvestingTaskReport>()
+                .ReverseMap();
+            CreateMap<HarvestingTask, UpdateHarvestingTask>()
                 .ReverseMap();
         }
 
@@ -228,6 +230,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingImage, PackagingImageModel>()
                 .ReverseMap();
             CreateMap<PackagingItem, PackagingItemModel>()
+                .ReverseMap();
+            CreateMap<PackagingTask, PackagingReport>()
+                .ReverseMap();
+            CreateMap<PackagingTask, UpdatePackaging>()
                 .ReverseMap();
         }
 
