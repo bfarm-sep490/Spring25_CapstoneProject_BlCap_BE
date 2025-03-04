@@ -7,6 +7,10 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
     {
         [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
+        [JsonPropertyName("quantity")]
+        public float Quantity { get; set; }
+        [JsonPropertyName("unit")]
+        public string Unit { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("min_temp")]
