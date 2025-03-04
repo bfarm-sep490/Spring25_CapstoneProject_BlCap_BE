@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Create(PesticideModel model);
         Task<IBusinessResult> Delete(int id);
         Task<IBusinessResult> GetById(int id);
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
     public class PesticideService : IPesticideService
     {
@@ -69,6 +72,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var result = await _unitOfWork.PesticideRepository.UpdateAsync(obj);
             if (result != 0) { return new BusinessResult(200, "Update Pesticide successfully", obj); }
             else return new BusinessResult(500, "Update Pesticide Fail");
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult(200, "Upload success !", url);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }

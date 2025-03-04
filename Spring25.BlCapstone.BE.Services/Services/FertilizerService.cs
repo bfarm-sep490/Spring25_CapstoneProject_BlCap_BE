@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Update(int id, FertilizerModel model);
         Task<IBusinessResult> DeleteById(int id);
         Task<IBusinessResult> Create(FertilizerModel model);
+        Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
     public class FertilizerService : IFertilizerService
     {
@@ -69,6 +72,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var result = await _unitOfWork.FertilizerRepository.UpdateAsync(obj);
             if (result != 0) { return new BusinessResult(200, "Update Fertilizer successfully", obj); }
             else return new BusinessResult(500, "Update Fertilizer Fail");
+        }
+
+        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        {
+            try
+            {
+                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var url = image.Select(x => x.Url).ToList();
+
+                return new BusinessResult(200, "Upload success !", url);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }
