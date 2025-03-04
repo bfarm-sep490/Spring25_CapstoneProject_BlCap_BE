@@ -4,8 +4,12 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
 {
     public class UpdatedPlant
     {
-        [JsonPropertyName("seed_name")]
-        public string SeedName { get; set; }
+        [JsonPropertyName("plant_name")]
+        public string PlantName { get; set; }
+        [JsonPropertyName("quantity")]
+        public float Quantity { get; set; }
+        [JsonPropertyName("unit")]
+        public string Unit { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("is_available")]
@@ -40,5 +44,7 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
         public double MaxBrixPoint { get; set; }
         [JsonPropertyName("gt_test_kit_color")]
         public string GTTestKitColor { get; set; }
+        [JsonPropertyName("image_url")]
+        public string ImageUrl { get; set; }
     }
 }
