@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPackagingTaskService
     {
-        Task<IBusinessResult> GetPackagingTasks(int? planId);
+        Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
     public class PackagingTaskService : IPackagingTaskService
@@ -28,7 +28,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _unitOfWork ??= new UnitOfWork();
         }
 
-        public async Task<IBusinessResult> GetPackagingTasks(int? planId)
+        public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId);
+                var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId, farmerId);
                 var rs = _mapper.Map<List<PackagingTaskModel>>(packs);
 
                 return new BusinessResult { Status = 200, Message = "List of packaging tasks:", Data = rs };

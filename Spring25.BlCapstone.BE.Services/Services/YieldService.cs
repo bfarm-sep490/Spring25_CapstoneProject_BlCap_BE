@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
@@ -16,7 +17,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAll();
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(YieldModel model);
-        Task<IBusinessResult> Update(YieldModel model);
+        Task<IBusinessResult> Update(int id, YieldModel model);
         Task<IBusinessResult> Delete(int id);
     }
     public class YieldService : IYieldService
@@ -29,9 +30,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public Task<IBusinessResult> Create(YieldModel model)
+        public async Task<IBusinessResult> Create(YieldModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var obj = _mapper.Map<Yield>(model);
+                obj.IsAvailable = true;
+                var rs = await _unitOfWork.YieldRepository.CreateAsync(obj);
+
+                return new BusinessResult(200, "Create successfully !", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message };
+            }
         }
 
         public Task<IBusinessResult> Delete(int id)
@@ -54,9 +66,26 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get Yield by Id", result);
         }
 
-        public Task<IBusinessResult> Update(YieldModel model)
+        public async Task<IBusinessResult> Update(int id, YieldModel model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var yield = await _unitOfWork.YieldRepository.GetByIdAsync(id);
+                if (yield == null)
+                {
+                    return new BusinessResult(404, "Not found any yields");
+                }
+
+                _mapper.Map(model, yield);
+                yield.Id = id;
+
+                var rs = await _unitOfWork.YieldRepository.UpdateAsync(yield);
+                return new BusinessResult(200, "Update successfully!", yield);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }

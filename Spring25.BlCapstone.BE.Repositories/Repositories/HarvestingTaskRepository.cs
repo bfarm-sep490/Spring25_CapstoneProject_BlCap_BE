@@ -25,27 +25,25 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync();       
         }
 
-        public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId)
+        public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId = null, int? farmerId = null)
         {
-            if (planId == null)
+            var query = _context.HarvestingTasks
+                                .Include(x => x.HarvestingImages)
+                                .Include(x => x.HarvestingItems)
+                                .Include(x => x.Farmer)
+                                    .ThenInclude(x => x.Account)
+                                .AsQueryable();
+            if (planId.HasValue)
             {
-                return await _context.HarvestingTasks
-                .Include(x => x.HarvestingImages)
-                .Include(x => x.HarvestingItems)
-                .Include(x => x.Farmer)
-                .ThenInclude(x => x.Account)
-                .ToListAsync();
+                query = query.Where(ht => ht.PlanId == planId);
             } 
-            else
+
+            if (farmerId.HasValue)
             {
-                return await _context.HarvestingTasks
-                .Where(ht => ht.PlanId == planId)
-                .Include(x => x.HarvestingImages)
-                .Include(x => x.HarvestingItems)
-                .Include(x => x.Farmer)
-                .ThenInclude(x => x.Account)
-                .ToListAsync();
+                query = query.Where(ht => ht.FarmerId == farmerId);
             }
+
+            return await query.ToListAsync();
         }
     }
 }

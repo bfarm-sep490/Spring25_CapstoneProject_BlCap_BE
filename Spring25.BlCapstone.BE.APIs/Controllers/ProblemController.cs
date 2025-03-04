@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -25,6 +26,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _problemService.GetById(id);
             return Ok(rs);
+        }
+
+        [HttpPut("{id}/result-content")]
+        public async Task<IActionResult> UpdateRC(int id, UpdateResult model)
+        {
+            try
+            {
+                var rs = await _problemService.UpdateResult(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
