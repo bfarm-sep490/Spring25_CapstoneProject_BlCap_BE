@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -34,6 +36,27 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _service.UploadImage(image);
             return Ok(rs);
+        }
+
+        [HttpPut("{id}/task-report")]
+        public async Task<IActionResult> ReportTask(int id, PackagingReport model)
+        {
+            var rs = await _service.ReportPackagingTask(id, model);
+            return Ok(rs);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateTask(int id, UpdatePackaging model)
+        {
+            try
+            {
+                var rs = await _service.UpdatePackagingTask(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
