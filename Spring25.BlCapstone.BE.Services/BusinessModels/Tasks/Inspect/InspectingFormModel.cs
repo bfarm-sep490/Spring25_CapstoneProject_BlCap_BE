@@ -69,7 +69,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         public bool CanHarvest { get; set; }
 
         [JsonPropertyName("completed_date")]
-        public DateTime CompletedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
 
         [JsonPropertyName("status")]
         public string Status { get; set; }

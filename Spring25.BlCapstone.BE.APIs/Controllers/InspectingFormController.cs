@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -63,6 +64,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _inspectingFormService.UploadImage(image);
             return Ok(rs);
+        }
+
+        [HttpPost("inspecting-forms")]
+        public async Task<IActionResult> Create(CreateInspectingPlan model)
+        {
+            try
+            {
+                var rs = await _inspectingFormService.CreateInspectingForm(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
