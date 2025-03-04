@@ -135,6 +135,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Problem, ProblemPlan>()
                 .ReverseMap();
+            CreateMap<Problem, CreateProblem>()
+                .ReverseMap();
+            CreateMap<Problem, UpdateProblem>()
+                .ReverseMap();
         }
 
         private void PlanProfile()

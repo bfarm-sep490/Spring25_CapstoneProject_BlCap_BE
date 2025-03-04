@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,20 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public ProblemImageRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<List<ProblemImage>> GetImages(int? problemId = null)
+        {
+            var query = _context.ProblemImages
+                                .Include(pi => pi.Problem)
+                                .AsQueryable();
+
+            if (problemId.HasValue)
+            {
+                query = query.Where(pi => pi.ProblemId == problemId);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }
