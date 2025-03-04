@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IO.Ably;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
@@ -24,6 +25,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllItems(int planId);
         Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
         Task<IBusinessResult> ApprovePlan(int id);
+        Task<IBusinessResult> Create(CreatePlan model);
     }
 
     public class PlanService : IPlanService
@@ -339,6 +341,43 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await _unitOfWork.PlanRepository.SaveAsync();
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> Create(CreatePlan model)
+        {
+            try
+            {
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(model.PlantId);
+                if (plant == null)
+                {
+                    return new BusinessResult(404, "Not found any plant!");
+                }
+
+                var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId);
+                if (yield == null)
+                {
+                    return new BusinessResult(404, "Not found any yield!");
+                }
+
+                var expert = await _unitOfWork.ExpertRepository.GetExpert(model.ExpertId);
+                if (expert == null)
+                {
+                    return new BusinessResult(404, "Not found any expert!");
+                }
+
+                var plan = _mapper.Map<Plan>(model);
+                plan.Status = "Draft";
+                plan.CreatedAt = DateTime.Now;
+                plan.CreatedBy = expert.Account.Name;
+                plan.IsApproved = false;
+                var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
+
+                return new BusinessResult(200, "Create plan successfully!", rs);
             }
             catch (Exception ex)
             {

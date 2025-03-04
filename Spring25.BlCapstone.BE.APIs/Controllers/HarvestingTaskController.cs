@@ -88,5 +88,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("harvesting-tasks")]
+        public async Task<IActionResult> Create(CreateHarvestingPlan model)
+        {
+            try
+            {
+                var rs = await _harvestingTaskService.CreateHarvestingTask(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

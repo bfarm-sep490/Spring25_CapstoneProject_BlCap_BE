@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
@@ -18,7 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetHarvestingTasks(int? planId, int? farmerId);
         Task<IBusinessResult> GetHarvestingTaskById(int id);
         Task<IBusinessResult> GetHarvestingTaskDetailById(int id);
-        Task<IBusinessResult> CreateHarvestingTask(HarvestingTaskModel model);
+        Task<IBusinessResult> CreateHarvestingTask(CreateHarvestingPlan model);
         Task<IBusinessResult> ReportHarvestingTask(int id, HarvestingTaskReport model);
         Task<IBusinessResult> UpdateTask(int id, UpdateHarvestingTask model);
         Task<IBusinessResult> DeleteHarvestingTask(int id);
@@ -35,9 +36,44 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _unitOfWork = unitOfWork;
         }
 
-        public Task<IBusinessResult> CreateHarvestingTask(HarvestingTaskModel model)
+        public async Task<IBusinessResult> CreateHarvestingTask(CreateHarvestingPlan model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var task = _mapper.Map<HarvestingTask>(model);
+                task.IsAvailable = true;
+                task.Status = "Draft";
+                task.Priority = 0;
+                task.CreatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.HarvestingTaskRepository.CreateAsync(task);
+                if (model.Items != null)
+                {
+                    foreach (var i in model.Items)
+                    {
+                        await _unitOfWork.HarvestingItemRepository.CreateAsync(new HarvestingItem
+                        {
+                            TaskId = task.Id,
+                            ItemId = i.ItemId,
+                            Quantity = i.Quantity,
+                            Unit = i.Unit,
+                        });
+                    }
+                }
+
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "Create task successfull", rs);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Create failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
 
         public Task<IBusinessResult> DeleteHarvestingTask(int id)

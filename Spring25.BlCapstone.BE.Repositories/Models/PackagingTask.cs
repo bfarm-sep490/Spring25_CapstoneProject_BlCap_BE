@@ -23,7 +23,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Status { get; set; }
         public DateTime? CompleteDate { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public int Priority { get; set; }
 
         public Farmer Farmer { get; set; }

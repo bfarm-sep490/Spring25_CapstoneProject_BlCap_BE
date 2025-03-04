@@ -185,6 +185,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Plan, AssigningPlan>()
                 .ReverseMap();
+            CreateMap<Plan, CreatePlan>()
+                .ReverseMap();
         }
 
         private void CaringProfile()
@@ -200,6 +202,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<CarePesticideModel, CaringPesticide>()
                 .ReverseMap();
             CreateMap<CaringImage, CaringImageModel>()
+                .ReverseMap();
+            CreateMap<CaringTask, CreateCaringPlan>()
                 .ReverseMap();
         }
 
@@ -218,6 +222,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingTask, UpdateHarvestingTask>()
                 .ReverseMap();
+            CreateMap<HarvestingTask, CreateHarvestingPlan>()
+                .ReverseMap();
         }
 
         private void PackagingProfile()
@@ -234,6 +240,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingTask, PackagingReport>()
                 .ReverseMap();
             CreateMap<PackagingTask, UpdatePackaging>()
+                .ReverseMap();
+            CreateMap<PackagingTask, CreatePackagingPlan>()
                 .ReverseMap();
         }
 
