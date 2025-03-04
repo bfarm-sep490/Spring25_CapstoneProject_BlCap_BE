@@ -185,6 +185,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Plan, AssigningPlan>()
                 .ReverseMap();
+            CreateMap<Plan, CreatePlan>()
+                .ReverseMap();
         }
 
         private void CaringProfile()

@@ -41,6 +41,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
 
             return token;
         }
+
         public static ClaimsPrincipal DecodeToken(string jwtKey, string audience, string issuer,string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
