@@ -229,7 +229,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 _mapper.Map(model, plan);
                 await _unitOfWork.PlanRepository.UpdateAsync(plan);
 
-                if (model.AssignCaringTasks.Any() && model.AssignCaringTasks.Count > 0)
+                var farmers = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
+                foreach (var farmer in farmers)
+                {
+                    await _unitOfWork.FarmerPermissionRepository.RemoveAsync(farmer);
+                }
+
+                if (model.AssignCaringTasks != null)
                 {
                     foreach (var task in model.AssignCaringTasks)
                     {
@@ -238,10 +244,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         caring.Status = task.Status;
 
                         await _unitOfWork.CaringTaskRepository.UpdateAsync(caring);
+
+
+                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            PlanId = id,
+                            IsActive = true,
+                        });
                     }
                 }
 
-                if (model.AssignHarvestingTasks.Any() && model.AssignHarvestingTasks.Count > 0)
+                if (model.AssignHarvestingTasks != null)
                 {
                     foreach (var task in model.AssignHarvestingTasks)
                     {
@@ -250,10 +264,17 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         harvesting.Status = task.Status;
 
                         await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvesting);
+
+                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            PlanId = id,
+                            IsActive = true,
+                        });
                     }
                 }
                 
-                if (model.AssignInspectingTasks.Any() && model.AssignInspectingTasks.Count > 0)
+                if (model.AssignInspectingTasks != null)
                 {
                     foreach (var task in model.AssignInspectingTasks)
                     {
@@ -265,7 +286,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                if (model.AssignPackagingTasks.Any() && model.AssignPackagingTasks.Count > 0)
+                if (model.AssignPackagingTasks != null)
                 {
                     foreach (var task in model.AssignPackagingTasks)
                     {
@@ -274,6 +295,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         packaging.Status = task.Status;
 
                         await _unitOfWork.PackagingTaskRepository.UpdateAsync(packaging);
+
+                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            PlanId = id,
+                            IsActive = true,
+                        });
                     }
                 }
 

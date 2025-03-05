@@ -53,6 +53,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<InspectingForm, CreateInspectingPlan>()
                 .ReverseMap();
+            CreateMap<InspectingForm, UpdateInspectingForm>()
+                .ReverseMap();
         }
 
         private void AuthProfile()

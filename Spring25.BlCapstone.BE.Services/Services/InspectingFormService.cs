@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetInspectingFormById(int id);
         Task<IBusinessResult> GetDetailInspectingFormById(int id);
         Task<IBusinessResult> CreateInspectingForm(CreateInspectingPlan model);
-        Task<IBusinessResult> UpdateInspectingForm(int id,InspectingFormModel result);
+        Task<IBusinessResult> UpdateInspectingForm(int id, UpdateInspectingForm model);
         Task<IBusinessResult> DeleteInspectingFormById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
@@ -90,9 +90,33 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get Inspecting form by id", result);
         }
 
-        public Task<IBusinessResult> UpdateInspectingForm(int id, InspectingFormModel result)
+        public async Task<IBusinessResult> UpdateInspectingForm(int id, UpdateInspectingForm model)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var form = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
+                if (form == null)
+                {
+                    return new BusinessResult(404, "Not found any Inspecting form");
+                }
+
+                _mapper.Map(model, form);
+                form.UpdatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "Update successfully!", rs);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Update failed!");
+                }
+            } 
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
 
         public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
