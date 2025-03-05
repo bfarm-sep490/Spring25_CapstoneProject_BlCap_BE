@@ -20,11 +20,11 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         [JsonPropertyName("inspector_name")]
         public string? InspectorName { get; set; }
 
-        [JsonPropertyName("task_name")]
-        public string TaskName { get; set; }
+        [JsonPropertyName("form_name")]
+        public string FormName { get; set; }
 
-        [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
+        [JsonPropertyName("form_type")]
+        public string FormType { get; set; }
 
         [JsonPropertyName("description")]
         public string Description { get; set; }
