@@ -309,7 +309,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             catch (Exception ex)
             {
-                return new BusinessResult { Status = 500, Message = ex.InnerException.Message, Data = null };
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
         }
 

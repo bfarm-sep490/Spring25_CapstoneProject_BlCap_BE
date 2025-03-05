@@ -79,5 +79,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("inspecting-forms/{id}")]
+        public async Task<IActionResult> Update(int id, UpdateInspectingForm model)
+        {
+            try
+            {
+                var rs = await _inspectingFormService.UpdateInspectingForm(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
