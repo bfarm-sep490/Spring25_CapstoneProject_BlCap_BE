@@ -79,5 +79,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("caring-tasks/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var rs = await _caringTaskService.DeleteCaringTask(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

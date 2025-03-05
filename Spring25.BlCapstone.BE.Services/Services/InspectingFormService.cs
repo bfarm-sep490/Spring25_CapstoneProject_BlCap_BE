@@ -23,9 +23,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateInspectingForm(int id, UpdateInspectingForm model);
         Task<IBusinessResult> DeleteInspectingFormById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> DeleteForm(int id);
     }
 
-    public class InspectingFormService:IInspectingFormService
+    public class InspectingFormService : IInspectingFormService
     {
         private readonly IMapper _mapper;
         private readonly UnitOfWork _unitOfWork;
@@ -141,6 +142,32 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> DeleteForm(int id)
+        {
+            try
+            {
+                var inspectingForm = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
+                if (inspectingForm == null)
+                {
+                    return new BusinessResult(404, "Not found any Inspecting Form");
+                }
+
+                var rs = await _unitOfWork.InspectingFormRepository.RemoveAsync(inspectingForm);
+                if (rs)
+                {
+                    return new BusinessResult(200, "Remove successfully!");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Remove failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

@@ -24,6 +24,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateTask(int id, UpdateHarvestingTask model);
         Task<IBusinessResult> DeleteHarvestingTask(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> DeleteTask(int id);
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -212,6 +213,38 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 } else
                 {
                     return new BusinessResult(500, "Update failed !");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> DeleteTask(int id)
+        {
+            try
+            {
+                var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+                if (harvestingTask == null)
+                {
+                    return new BusinessResult(404, "Not found any harvesting task!");
+                }
+
+                var harvestingItems = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemsByTaskId(id);
+                foreach (var item in harvestingItems)
+                {
+                    await _unitOfWork.HarvestingItemRepository.RemoveAsync(item);
+                }
+
+                var rs = await _unitOfWork.HarvestingTaskRepository.RemoveAsync(harvestingTask);
+                if (rs)
+                {
+                    return new BusinessResult(200, "Remove successfully!");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Remove failed!");
                 }
             }
             catch (Exception ex)

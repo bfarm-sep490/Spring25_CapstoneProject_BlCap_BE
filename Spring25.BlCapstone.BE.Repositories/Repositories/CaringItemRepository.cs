@@ -25,5 +25,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Where(ci => ci.CaringTask.PlanId == planId)
                 .ToListAsync();
         }
+
+        public async Task<List<CaringItem>> GetCaringItemsByTaskId(int taskId)
+        {
+            return await _context.CaringItems
+                                 .Where(ci => ci.TaskId == taskId)
+                                 .ToListAsync();
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
         Task<IBusinessResult> UpdatePackagingTask(int id, UpdatePackaging model);
+        Task<IBusinessResult> DeleteTask(int id);
     }
     public class PackagingTaskService : IPackagingTaskService
     {
@@ -214,6 +215,38 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 else
                 {
                     return new BusinessResult(500, "Create failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> DeleteTask(int id)
+        {
+            try
+            {
+                var packagingTask = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
+                if (packagingTask == null)
+                {
+                    return new BusinessResult(404, "Not found any packaging task");
+                }
+
+                var packagingItems = await _unitOfWork.PackagingItemRepository.GetPackagingItemsByTaskId(id);
+                foreach (var packagingItem in packagingItems)
+                {
+                    await _unitOfWork.PackagingItemRepository.RemoveAsync(packagingItem);
+                }
+
+                var rs = await _unitOfWork.PackagingTaskRepository.RemoveAsync(packagingTask);
+                if (rs)
+                {
+                    return new BusinessResult(200, "Delete successfully");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Remove failed");
                 }
             }
             catch (Exception ex)

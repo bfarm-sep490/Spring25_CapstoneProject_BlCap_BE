@@ -23,6 +23,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateCaringFertilizerModel(CareFertilizerModel result);
         Task<IBusinessResult> UpdateCaringPesticideModel(CarePesticideModel result);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> DeleteCaringTask(int id);
     }
     public class CaringTaskService : ICaringTaskService
     {
@@ -159,6 +160,51 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(500, "Create failed!");
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> DeleteCaringTask(int id)
+        {
+            try
+            {
+                var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
+                if (caringTask == null)
+                {
+                    return new BusinessResult(404, "Not found any Caring Tasks");   
+                }
+
+                var caringFers = await _unitOfWork.CaringFertilizerRepository.GetCaringFertilizersByTaskId(id);
+                foreach (var fer in caringFers)
+                {
+                    await _unitOfWork.CaringFertilizerRepository.RemoveAsync(fer);
+                }
+
+                var caringPes = await _unitOfWork.CaringPesticideRepository.GetCaringPesticidesByTaskId(id);
+                foreach (var pes in caringPes)
+                {
+                    await _unitOfWork.CaringPesticideRepository.RemoveAsync(pes);
+                }
+
+                var caringItems = await _unitOfWork.CaringItemRepository.GetCaringItemsByTaskId(id);
+                foreach (var item in caringItems)
+                {
+                    await _unitOfWork.CaringItemRepository.RemoveAsync(item);
+                }
+
+                var rs = await _unitOfWork.CaringTaskRepository.RemoveAsync(caringTask);
+                if (rs)
+                {
+                    return new BusinessResult(200, "Remove caring task successfully !");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Remove failed!");
+                }
+
             }
             catch (Exception ex)
             {
