@@ -185,6 +185,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 _mapper.Map(model, task);
                 task.UpdatedAt = DateTime.Now;
                 var rs = await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
+
+                var items = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemsByTaskId(id);
+                foreach ( var item in items )
+                {
+                    await _unitOfWork.HarvestingItemRepository.RemoveAsync(item);
+                }
+
+                if (model.Items != null)
+                {
+                    foreach (var i in model.Items)
+                    {
+                        await _unitOfWork.HarvestingItemRepository.CreateAsync(new HarvestingItem
+                        {
+                            TaskId = task.Id,
+                            ItemId = i.ItemId,
+                            Quantity = i.Quantity,
+                            Unit = i.Unit,
+                        });
+                    }
+                }
+
                 if (rs > 0)
                 {
                     return new BusinessResult(200, "Update successfull", task);
