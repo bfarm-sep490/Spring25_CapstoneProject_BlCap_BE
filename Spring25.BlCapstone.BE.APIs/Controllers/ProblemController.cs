@@ -15,9 +15,9 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(int? planId)
+        public async Task<IActionResult> GetAll(int? plan_id)
         {
-            var rs = await _problemService.GetAll(planId);
+            var rs = await _problemService.GetAll(plan_id);
             return Ok(rs);
         }
 
