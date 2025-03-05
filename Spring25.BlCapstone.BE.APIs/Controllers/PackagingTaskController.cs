@@ -31,11 +31,32 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("images/upload")]
-        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            var rs = await _service.UploadImage(image);
-            return Ok(rs);
+            try
+            {
+                var rs = await _service.GetPackagingTaskById(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreatePackagingPlan model)
+        {
+            try
+            {
+                var rs = await _service.CreatePackagingTask(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException.Message);
+            }
         }
 
         [HttpPut("{id}/task-report")]
@@ -59,20 +80,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(CreatePackagingPlan model)
-        {
-            try
-            {
-                var rs = await _service.CreatePackagingTask(model);
-                return Ok(rs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.InnerException.Message);
-            }
-        }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
@@ -85,6 +92,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        [HttpPost("images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _service.UploadImage(image);
+            return Ok(rs);
         }
     }
 }

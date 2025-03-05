@@ -93,5 +93,33 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("caring-tasks/{id}")]
+        public async Task<IActionResult> Update(int id, UpdateCaringTask model)
+        {
+            try
+            {
+                var rs = await _caringTaskService.UpdateDetailCaringTask(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("caring-tasks/{id}/task-report")]
+        public async Task<IActionResult> Report(int id, CaringTaskReport model)
+        {
+            try
+            {
+                var rs = await _caringTaskService.TaskReport(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

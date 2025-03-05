@@ -49,5 +49,21 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public List<CarePesticideModel> CarePesticides {  get; set; }
         [JsonPropertyName("care_fertilizers")]
         public List<CareFertilizerModel> CareFertilizers { get; set; }
+        [JsonPropertyName("care_items")]
+        public List<CareItemsModel> CareItems { get; set; }
+    }
+
+    public class CareItemsModel
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("item_id")]
+        public int ItemId { get; set; }
+        [JsonPropertyName("task_id")]
+        public int TaskId { get; set; }
+        [JsonPropertyName("quantity")]
+        public int Quantity { get; set; }
+        [JsonPropertyName("unit")]
+        public string Unit { get; set; }
     }
 }

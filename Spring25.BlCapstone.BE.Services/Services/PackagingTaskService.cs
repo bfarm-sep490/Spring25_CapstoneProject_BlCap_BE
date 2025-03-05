@@ -17,6 +17,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> CreatePackagingTask(CreatePackagingPlan model);
         Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId);
+        Task<IBusinessResult> GetPackagingTaskById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
         Task<IBusinessResult> UpdatePackagingTask(int id, UpdatePackaging model);
@@ -36,19 +37,28 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId)
         {
             try
-            {
-                if (planId != null)
-                {
-                    var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId.Value);
-
-                    if (plan == null)
-                    {
-                        return new BusinessResult { Status = 404, Message = "Not found any Plan", Data = null };
-                    }
-                }
-
+            { 
                 var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId, farmerId);
                 var rs = _mapper.Map<List<PackagingTaskModel>>(packs);
+
+                return new BusinessResult { Status = 200, Message = "List of packaging tasks:", Data = rs };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> GetPackagingTaskById(int id)
+        {
+            try
+            {
+                var task = await _unitOfWork.PackagingTaskRepository.GetPackagingTaskById(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any Packaging Task");
+                }
+                var rs = _mapper.Map<PackagingTaskModel>(task);
 
                 return new BusinessResult { Status = 200, Message = "List of packaging tasks:", Data = rs };
             }

@@ -199,6 +199,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest=>dest.CarePesticides,otp=>otp.MapFrom(src=>src.CaringPesticides))
                 .ForMember(dest=>dest.CareImages,otp=>otp.MapFrom(src=>src.CaringImages))
                 .ForMember(dest=>dest.CareFertilizers,otp=>otp.MapFrom(src=>src.CaringFertilizers))
+                .ForMember(dest => dest.CareItems, opt => opt.MapFrom(src => src.CaringItems))
                 .ForMember(dest => dest.FarmerName,otp => otp.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<CareFertilizerModel, CaringFertilizer>()
@@ -208,6 +209,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<CaringImage, CaringImageModel>()
                 .ReverseMap();
             CreateMap<CaringTask, CreateCaringPlan>()
+                .ReverseMap();
+            CreateMap<CaringItem, CareItemsModel>()
+                .ReverseMap();
+            CreateMap<CaringTask, UpdateCaringTask>()
+                .ReverseMap();
+            CreateMap<CaringTask, CaringTaskReport>()
                 .ReverseMap();
         }
 

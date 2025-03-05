@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public CaringImageRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<List<CaringImage>> GetCaringImagesByTaskId(int taskId)
+        {
+            return await _context.CaringImages
+                                 .Where(c => c.TaskId == taskId)
+                                 .ToListAsync();
         }
     }
 }
