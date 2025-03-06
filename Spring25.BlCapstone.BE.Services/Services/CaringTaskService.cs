@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
@@ -25,6 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> DeleteCaringTask(int id);
         Task<IBusinessResult> TaskReport(int id, CaringTaskReport model);
+        Task<IBusinessResult> DashboardCaringTasks();
     }
     public class CaringTaskService : ICaringTaskService
     {
@@ -338,6 +340,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+
+        public async Task<IBusinessResult> DashboardCaringTasks()
+        {
+            var obj = await _unitOfWork.CaringTaskRepository.GetDashboardCaringTasks();
+            var data = new List<AdminData>();
+            if (obj != null && obj.Count > 1)
+            {
+                for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
+                {
+                    if (!obj.Any(x => x.Date == i.Date))
+                    {
+                        data.Add(new AdminData { Date = i.Date, Value = 0 });
+                    }
+                }
+                foreach (var task in obj)
+                {
+                    data.Add(new AdminData { Date = task.Date, Value = task.Value });
+                }
+                data = data.OrderBy(c => c.Date).ToList();
+
+            }
+            return new BusinessResult(200, "Dashboard Caring Tasks", data);
         }
     }
 }

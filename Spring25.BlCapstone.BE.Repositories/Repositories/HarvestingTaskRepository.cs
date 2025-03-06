@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync();       
         }
+        public async Task<List<AdminData>> GetDashboardHarvestingTasks()
+        {
+            var data = await _context.HarvestingTasks.Where(x => x.CompleteDate.HasValue).ToListAsync();
+            
+            var result = data.GroupBy(x => x.CompleteDate.Value.Date).OrderBy(x => x.Key)
+                .Select(g => new AdminData
+                {
+                    Date = g.Key,
+                    Value = g.Count()
+                })
+                .ToList();
+            return result;
+        }
+        
+
 
         public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId = null, int? farmerId = null)
         {

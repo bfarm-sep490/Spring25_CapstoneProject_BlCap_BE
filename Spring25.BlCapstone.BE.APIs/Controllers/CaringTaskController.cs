@@ -121,5 +121,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("caring-tasks/dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            try
+            {
+                var result = await _caringTaskService.DashboardCaringTasks();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

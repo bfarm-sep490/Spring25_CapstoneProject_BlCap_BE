@@ -58,7 +58,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet]
+        [HttpGet()]
         public async Task<ActionResult> GetAll()
         {
             try
