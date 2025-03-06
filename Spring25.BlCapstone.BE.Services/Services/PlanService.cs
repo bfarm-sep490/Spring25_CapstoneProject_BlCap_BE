@@ -26,6 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
         Task<IBusinessResult> ApprovePlan(int id);
         Task<IBusinessResult> Create(CreatePlan model);
+        Task<IBusinessResult> UpdateStatus(int id, string status);
     }
 
     public class PlanService : IPlanService
@@ -324,7 +325,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult { Status = 404, Message = "Not found any plan!", Data = null };
                 }
 
+                var invalidFields = new Dictionary<object, string>
+                {
+                    { plan.YieldId, "Plan does not have any yield. Can not approve!" },
+                    { plan.PlanName, "Plan does not have a name. Can not approve!" },
+                    { plan.Description, "Plan does not have a description. Can not approve!" },
+                    { plan.StartDate, "Plan does not have a start date. Can not approve!" },
+                    { plan.EndDate, "Plan does not have an end date. Can not approve!" },
+                    { plan.EstimatedProduct, "Plan does not have an estimated product. Can not approve!" },
+                    { plan.EstimatedUnit, "Plan does not have an estimated unit. Can not approve!" }
+                };
+
+                foreach (var field in invalidFields)
+                {
+                    if (field.Key == null)
+                    {
+                        return new BusinessResult(404, field.Value);
+                    }
+                }
+
                 plan.Status = "Pending";
+                plan.IsApproved = true;
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
 
                 var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(id);
@@ -386,12 +407,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any plant!");
                 }
 
-                var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId);
-                if (yield == null)
+                if (model.YieldId != null)
                 {
-                    return new BusinessResult(404, "Not found any yield!");
+                    var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId.Value);
+                    if (yield == null)
+                    {
+                        return new BusinessResult(404, "Not found any yield!");
+                    }
                 }
-
+                
                 var expert = await _unitOfWork.ExpertRepository.GetExpert(model.ExpertId);
                 if (expert == null)
                 {
@@ -406,6 +430,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
 
                 return new BusinessResult(200, "Create plan successfully!", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> UpdateStatus(int id, string status)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plans !");
+                }
+
+                plan.Status = status;
+                plan.UpdatedAt = DateTime.Now;
+                var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
+
+                if(rs != null)
+                {
+                    return new BusinessResult(200, "Update status successfully");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Update failed!");
+                }
             }
             catch (Exception ex)
             {

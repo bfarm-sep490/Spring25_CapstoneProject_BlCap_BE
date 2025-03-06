@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
@@ -132,6 +133,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             try
             {
                 var rs = await _planService.Create(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [Required] string status)
+        {
+            try
+            {
+                var rs = await _planService.UpdateStatus(id, status);
                 return Ok(rs);
             }
             catch (Exception ex)

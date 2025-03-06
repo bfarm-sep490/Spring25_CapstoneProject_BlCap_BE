@@ -13,16 +13,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         [Key]
         public int Id { get; set; }
         public int PlantId { get; set; }
-        public int YieldId {  get; set; }
+        public int? YieldId {  get; set; }
         public int ExpertId { get; set; }
-        public string PlanName { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public string? PlanName { get; set; }
+        public string? Description { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public DateTime? CompleteDate { get; set; }
         public string Status { get; set; }
-        public float EstimatedProduct { get; set; }
-        public string EstimatedUnit { get; set; }
+        public float? EstimatedProduct { get; set; }
+        public string? EstimatedUnit { get; set; }
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
