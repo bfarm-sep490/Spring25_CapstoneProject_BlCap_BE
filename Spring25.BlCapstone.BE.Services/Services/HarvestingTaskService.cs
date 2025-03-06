@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
@@ -22,6 +24,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model);
         Task<IBusinessResult> DeleteHarvestingTask(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> DashboardHarvest();
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -39,6 +42,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IBusinessResult> DashboardHarvest()
+        {
+            var obj = await _unitOfWork.HarvestingTaskRepository.GetDashboardHarvestingTasks();
+            var data = new List<AdminData>();
+            if (data != null && data.Count > 1)
+            {
+                for (var i = DateTime.Now.Date; i.Date >= data.Min(x => x.Date); i = i.AddDays(-1))
+                {
+                    if (!data.Any(x => x.Date == i.Date))
+                    {
+                        data.Add(new AdminData { Date = i.Date, Value = 0 });
+                    }
+                }
+
+                data = data.OrderBy(c => c.Date).ToList();
+            }
+            return new BusinessResult(200, "Dashboard Harvesting Tasks", data);
+        }
         public Task<IBusinessResult> DeleteHarvestingTask(int id)
         {
             throw new NotImplementedException();

@@ -74,5 +74,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             var rs = await _harvestingTaskService.UpdateHarvestingTask(id, model);
             return Ok(rs);
         }
+        [HttpGet("harvesting-tasks/dashboard")]
+        public async Task<IActionResult> GetdashboardHarvestingTasks()
+        {
+            try
+            {
+                var result = await _harvestingTaskService.DashboardHarvest();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

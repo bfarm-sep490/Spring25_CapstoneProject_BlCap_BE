@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
 
         }
-        [HttpGet]
+        [HttpGet()]
         public async Task<ActionResult> GetAll()
         {
             try
