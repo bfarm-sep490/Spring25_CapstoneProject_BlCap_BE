@@ -33,6 +33,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public List<AssignHarvestingTask>? AssignHarvestingTasks { get; set; }
         [JsonPropertyName("inspecting_forms")]
         public List<AssignInspectingForm>? AssignInspectingTasks { get; set; }
+        [JsonPropertyName("packaging_tasks")]
+        public List<AssignPackagingTask>? AssignPackagingTasks { get; set; }
     }
 
     public class AssignCaringTask
@@ -61,6 +63,16 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int Id { get; set; }
         [JsonPropertyName("inspector_id")]
         public int? InspectorId { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
+    }
+
+    public class AssignPackagingTask
+    {
+        [JsonPropertyName("task_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("farmer_id")]
+        public int? FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
     }

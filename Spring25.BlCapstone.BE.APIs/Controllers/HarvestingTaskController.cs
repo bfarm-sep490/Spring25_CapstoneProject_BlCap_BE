@@ -20,11 +20,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("harvesting-tasks")]
-        public async Task<IActionResult> GetAllHarvestingTasks()
+        public async Task<IActionResult> GetAllHarvestingTasks(int? plan_id, int? farmer_id)
         {
             try
             {
-                var result = await _harvestingTaskService.GetHarvestingTasks();
+                var result = await _harvestingTaskService.GetHarvestingTasks(plan_id, farmer_id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -68,10 +68,10 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             return Ok(rs);
         }
 
-        [HttpPut("harvesting-tasks/{id}")]
-        public async Task<IActionResult> UpdateHarvestingTask(int id, HarvestingTaskUpdate model)
+        [HttpPut("harvesting-tasks/{id}/task-report")]
+        public async Task<IActionResult> UpdateHarvestingTask(int id, HarvestingTaskReport model)
         {
-            var rs = await _harvestingTaskService.UpdateHarvestingTask(id, model);
+            var rs = await _harvestingTaskService.ReportHarvestingTask(id, model);
             return Ok(rs);
         }
         [HttpGet("harvesting-tasks/dashboard")]
@@ -87,6 +87,45 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("harvesting-tasks/{id}")]
+        public async Task<IActionResult> Update(int id, UpdateHarvestingTask model)
+        {
+            try
+            {
+                var rs = await _harvestingTaskService.UpdateTask(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("harvesting-tasks")]
+        public async Task<IActionResult> Create(CreateHarvestingPlan model)
+        {
+            try
+            {
+                var rs = await _harvestingTaskService.CreateHarvestingTask(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
+        [HttpDelete("harvesting-tasks/{id}")]
+        public async Task<IActionResult> DeleteTask(int id)
+        {
+            try
+            {
+                var rs = await _harvestingTaskService.DeleteTask(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

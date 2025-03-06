@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest
 {
-    public class HarvestingTaskUpdate
+    public class HarvestingTaskReport
     {
         [JsonPropertyName("status")]
         public string Status { get; set; }

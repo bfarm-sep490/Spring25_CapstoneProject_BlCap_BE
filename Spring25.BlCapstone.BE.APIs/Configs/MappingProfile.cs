@@ -17,6 +17,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using System.Xml.Serialization;
 
@@ -24,8 +25,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 {
     public class MappingProfile : Profile
     {
-       public MappingProfile()
-       {
+        public MappingProfile()
+        {
             PesticideProfie();
             FertilizerProfile();
             FarmerProfile();
@@ -39,18 +40,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             HarvestingProfile();
             InspectingProfile();
             IssueProfile();
-       }
+            PackagingProfile();
+        }
 
         private void InspectingProfile()
         {
             CreateMap<InspectingForm, InspectingFormModel>()
-                .ForMember(x => x.InspectingItems, otp => otp.MapFrom(x => x.InspectingItems))
                 .ForMember(x => x.InspectingImages, otp => otp.MapFrom(x => x.InspectingImages))
                 .ForMember(dest => dest.InspectorName, otp => otp.MapFrom(src => src.Inspector.Account.Name))
                 .ReverseMap();
             CreateMap<InspectingImage, InspectingImageModel>()
                 .ReverseMap();
-            CreateMap <InspectingItem, InspectingItemModel>()
+            CreateMap<InspectingForm, CreateInspectingPlan>()
+                .ReverseMap();
+            CreateMap<InspectingForm, UpdateInspectingForm>()
                 .ReverseMap();
         }
 
@@ -67,27 +70,27 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 
         }
 
-        void PesticideProfie()
-       {
+        private void PesticideProfie()
+        {
             CreateMap<PesticideModel,CreatedPesticide>()
                 .ReverseMap();
             CreateMap<PesticideModel,UpdatedPesticide>()
                 .ReverseMap();
             CreateMap<PesticideModel, Pesticide>()
                 .ReverseMap();
-       }
+        }
 
-       void FertilizerProfile()
-       {
+        private void FertilizerProfile()
+        {
             CreateMap<FertilizerModel, CreatedFertilizer>()
                 .ReverseMap();
             CreateMap<FertilizerModel, UpdatedFertilizer>()
                 .ReverseMap();
             CreateMap<FertilizerModel, Fertilizer>()
                 .ReverseMap();
-       }
+        }
 
-        void FarmerProfile()
+        private void FarmerProfile()
         {
             CreateMap<Farmer, FarmerModel>()
                 .ReverseMap();
@@ -96,7 +99,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
         }
 
-        void SeedProfile()
+        private void SeedProfile()
         {
             CreateMap<Plant, PlantModel>()
                 .ReverseMap();
@@ -106,7 +109,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
         }
 
-        void YieldProfile()
+        private void YieldProfile()
         {
             CreateMap<YieldModel, Yield>()
                 .ReverseMap();
@@ -116,11 +119,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
         }
 
-        void InspectorProfile()
+        private void InspectorProfile()
         {
             CreateMap<Inspector, InspectorModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
-                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Account.Password))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Account.IsActive))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Account.UpdatedAt))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Account.CreatedAt))
@@ -128,21 +130,22 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
         }
 
-        void ProblemProfile()
+        private void ProblemProfile()
         {
             CreateMap<Problem, ProblemModel>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.ProblemImages))
-                .ForMember(dest => dest.ProblemIssues, opt => opt.MapFrom(src => src.Issues))
                 .ReverseMap();
             CreateMap<ProblemImage, Images>()
                 .ReverseMap();
-            CreateMap<Issue, ProblemIssues>()
-                .ReverseMap();
             CreateMap<Problem, ProblemPlan>()
+                .ReverseMap();
+            CreateMap<Problem, CreateProblem>()
+                .ReverseMap();
+            CreateMap<Problem, UpdateProblem>()
                 .ReverseMap();
         }
 
-        void PlanProfile()
+        private void PlanProfile()
         {
             CreateMap<Plan, PlanModel>()
                 .ForMember(dest => dest.PlantInfor, opt => opt.MapFrom(src => src.Plant))
@@ -150,6 +153,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.CaringTaskInfor, opt => opt.MapFrom(src => src.CaringTasks))
                 .ForMember(dest => dest.InspectingInfors, opt => opt.MapFrom(src => src.InspectingForms))
                 .ForMember(dest => dest.HarvestingInfors, opt => opt.MapFrom(src => src.HarvestingTasks))
+                .ForMember(dest => dest.PackagingInfors, opt => opt.MapFrom(src => src.PackagingTasks))
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
                 .ReverseMap();
             CreateMap<Yield, YieldInfor>()
@@ -162,6 +166,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingTask, PlanHarvestingInfor>()
                 .ReverseMap();
+            CreateMap<PackagingTask, PlanPackagingInfor>()
+                .ReverseMap();
             CreateMap<Problem, ProblemInfor>()
                 .ReverseMap();
             CreateMap<Plan, PlanForList>()
@@ -172,6 +178,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Plan, PlanGeneral>()
                 .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
                 .ForMember(dest => dest.YieldInformation, opt => opt.MapFrom(src => src.Yield))
+                .ForMember(dest => dest.ExpertInformation, opt => opt.MapFrom(src => src.Expert))
+                .ReverseMap();
+            CreateMap<Expert, ExpertInformation>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
                 .ReverseMap();
             CreateMap<Plant, PlantInformation>()
                 .ReverseMap();
@@ -179,13 +189,17 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<Plan, AssigningPlan>()
                 .ReverseMap();
+            CreateMap<Plan, CreatePlan>()
+                .ReverseMap();
         }
-        void CaringProfile()
+
+        private void CaringProfile()
         {
             CreateMap<CaringTask,CaringTaskModel>()
                 .ForMember(dest=>dest.CarePesticides,otp=>otp.MapFrom(src=>src.CaringPesticides))
                 .ForMember(dest=>dest.CareImages,otp=>otp.MapFrom(src=>src.CaringImages))
                 .ForMember(dest=>dest.CareFertilizers,otp=>otp.MapFrom(src=>src.CaringFertilizers))
+                .ForMember(dest => dest.CareItems, opt => opt.MapFrom(src => src.CaringItems))
                 .ForMember(dest => dest.FarmerName,otp => otp.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<CareFertilizerModel, CaringFertilizer>()
@@ -194,8 +208,17 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<CaringImage, CaringImageModel>()
                 .ReverseMap();
+            CreateMap<CaringTask, CreateCaringPlan>()
+                .ReverseMap();
+            CreateMap<CaringItem, CareItemsModel>()
+                .ReverseMap();
+            CreateMap<CaringTask, UpdateCaringTask>()
+                .ReverseMap();
+            CreateMap<CaringTask, CaringTaskReport>()
+                .ReverseMap();
         }
-        void HarvestingProfile()
+
+        private void HarvestingProfile()
         {
             CreateMap<HarvestingTask, HarvestingTaskModel>()
                 .ForMember(dest => dest.HarvestImages, otp => otp.MapFrom(src => src.HarvestingImages))
@@ -206,11 +229,34 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingItem, HarvestingItemModel>()
                 .ReverseMap();     
-            CreateMap<HarvestingTask, HarvestingTaskUpdate>()
+            CreateMap<HarvestingTask, HarvestingTaskReport>()
+                .ReverseMap();
+            CreateMap<HarvestingTask, UpdateHarvestingTask>()
+                .ReverseMap();
+            CreateMap<HarvestingTask, CreateHarvestingPlan>()
                 .ReverseMap();
         }
 
-        void IssueProfile()
+        private void PackagingProfile()
+        {
+            CreateMap<PackagingTask, PackagingTaskModel>()
+                .ForMember(dest => dest.PackageImages, opt => opt.MapFrom(src => src.PackagingImages))
+                .ForMember(dest => dest.PackageItems, opt => opt.MapFrom(src => src.PackagingItems))
+                .ForMember(dest => dest.FarmerName, opt => opt.MapFrom(src => src.Farmer.Account.Name))
+                .ReverseMap();
+            CreateMap<PackagingImage, PackagingImageModel>()
+                .ReverseMap();
+            CreateMap<PackagingItem, PackagingItemModel>()
+                .ReverseMap();
+            CreateMap<PackagingTask, PackagingReport>()
+                .ReverseMap();
+            CreateMap<PackagingTask, UpdatePackaging>()
+                .ReverseMap();
+            CreateMap<PackagingTask, CreatePackagingPlan>()
+                .ReverseMap();
+        }
+
+        private void IssueProfile()
         {
             CreateMap<Issue, IssueModel>()
                 .ReverseMap();

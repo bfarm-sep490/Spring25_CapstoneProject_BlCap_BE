@@ -16,19 +16,27 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<Problem>> GetProblems()
+        public async Task<List<Problem>> GetProblems(int? planId)
         {
-            return await _context.Problems
-                .Include(p => p.ProblemImages)
-                .Include(p => p.Issues)
-                .ToListAsync();
+            if (planId == null)
+            {
+                return await _context.Problems
+                    .Include(p => p.ProblemImages)
+                    .ToListAsync();
+            } 
+            else
+            {
+                return await _context.Problems
+                    .Where(p => p.PlanId == planId)
+                    .Include(p => p.ProblemImages)
+                    .ToListAsync();
+            }
         }
         
         public async Task<Problem> GetProblem(int id)
         {
             return await _context.Problems
                 .Include(p => p.ProblemImages)
-                .Include(p => p.Issues)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -37,7 +45,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.Problems
                 .Where(p => p.PlanId == planId)
                 .Include(p => p.ProblemImages)
-                .Include(p => p.Issues)
                 .ToListAsync();
         }
     }

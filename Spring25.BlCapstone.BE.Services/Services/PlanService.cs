@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IO.Ably;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
@@ -23,6 +24,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllFarmers(int planId);
         Task<IBusinessResult> GetAllItems(int planId);
         Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
+        Task<IBusinessResult> ApprovePlan(int id);
+        Task<IBusinessResult> Create(CreatePlan model);
     }
 
     public class PlanService : IPlanService
@@ -169,7 +172,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var ci = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(planId);
                 var hi = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemByPlanId(planId);
-                var ii = await _unitOfWork.InspectingItemRepository.GetInspectingItemByPlanId(planId);
+                var pi = await _unitOfWork.PackagingItemRepository.GetPackagingItemByPlanId(planId);
 
                 var caringItemPlans = ci.GroupBy(i => new { i.Id, i.Unit })
                                         .Select(group => new CaringItemPlan
@@ -189,20 +192,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                                                 InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
                                             }).ToList();
 
-                var inspectingItemPlan = ii.GroupBy(i => new { i.Id, i.Unit })
-                                            .Select(group => new InspectingItemPlan
-                                            {
-                                                Id = group.Key.Id,
-                                                Unit = group.Key.Unit,
-                                                EstimatedQuantity = group.Where(i => i.InspectingForm.Status.ToLower() != "cancel").Sum(i => i.Quantity),
-                                                InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
-                                            }).ToList();
+                var packagingItemPlans = pi.GroupBy(i => new { i.Id, i.Unit })
+                                           .Select(group => new PackagingItemPlan
+                                           {
+                                               Id = group.Key.Id,
+                                               Unit = group.Key.Unit,
+                                               EstimatedQuantity = group.Where(i => i.PackagingTask.Status.ToLower() != "cancel").Sum(i => i.Quantity),
+                                               InUseQuantity = group.Where(i => i.Item.Status.ToLower() == "in-use").Sum(i => i.Quantity)
+                                           }).ToList();
 
                 var rs = new ItemPlan
                 {
                     CaringItemPlans = caringItemPlans,
                     HarvestingItemPlans = harvestingItemPlans,
-                    InspectingItemPlans = inspectingItemPlan
+                    PackagingItemPlans = packagingItemPlans,
                 };
 
                 return new BusinessResult { Status = 200, Message = "Item in Plan", Data = rs };
@@ -226,7 +229,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 _mapper.Map(model, plan);
                 await _unitOfWork.PlanRepository.UpdateAsync(plan);
 
-                if (model.AssignCaringTasks.Any() && model.AssignCaringTasks.Count > 0)
+                var farmers = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
+                foreach (var farmer in farmers)
+                {
+                    await _unitOfWork.FarmerPermissionRepository.RemoveAsync(farmer);
+                }
+
+                if (model.AssignCaringTasks != null)
                 {
                     foreach (var task in model.AssignCaringTasks)
                     {
@@ -235,10 +244,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         caring.Status = task.Status;
 
                         await _unitOfWork.CaringTaskRepository.UpdateAsync(caring);
+
+
+                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            PlanId = id,
+                            IsActive = true,
+                        });
                     }
                 }
 
-                if (model.AssignHarvestingTasks.Any() && model.AssignHarvestingTasks.Count > 0)
+                if (model.AssignHarvestingTasks != null)
                 {
                     foreach (var task in model.AssignHarvestingTasks)
                     {
@@ -247,22 +264,148 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         harvesting.Status = task.Status;
 
                         await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvesting);
+
+                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            PlanId = id,
+                            IsActive = true,
+                        });
                     }
                 }
                 
-                if (model.AssignInspectingTasks.Any() && model.AssignInspectingTasks.Count > 0)
+                if (model.AssignInspectingTasks != null)
                 {
                     foreach (var task in model.AssignInspectingTasks)
                     {
-                        var inspecting = await _unitOfWork.InspectingTaskRepository.GetByIdAsync(task.Id);
+                        var inspecting = await _unitOfWork.InspectingFormRepository.GetByIdAsync(task.Id);
                         inspecting.InspectorId = task.InspectorId;
                         inspecting.Status = task.Status;
 
-                        await _unitOfWork.InspectingTaskRepository.UpdateAsync(inspecting);
+                        await _unitOfWork.InspectingFormRepository.UpdateAsync(inspecting);
+                    }
+                }
+
+                if (model.AssignPackagingTasks != null)
+                {
+                    foreach (var task in model.AssignPackagingTasks)
+                    {
+                        var packaging = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(task.Id);
+                        packaging.FarmerId = task.FarmerId;
+                        packaging.Status = task.Status;
+
+                        await _unitOfWork.PackagingTaskRepository.UpdateAsync(packaging);
+
+                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            PlanId = id,
+                            IsActive = true,
+                        });
                     }
                 }
 
                 return new BusinessResult { Status = 200, Message = "Assign successfull!" };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> ApprovePlan(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+
+                if (plan == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any plan!", Data = null };
+                }
+
+                plan.Status = "Pending";
+                _unitOfWork.PlanRepository.PrepareUpdate(plan);
+
+                var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(id);
+                if (caringTasks.Count > 0)
+                {
+                    foreach (var task in caringTasks)
+                    {
+                        task.Status = "Pending";
+                        await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
+                    }
+                }
+
+                var inspectingForms = await _unitOfWork.InspectingFormRepository.GetInspectingForms(id);
+                if (inspectingForms.Count > 0)
+                {
+                    foreach (var form in inspectingForms)
+                    {
+                        form.Status = "Pending";
+                        await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
+                    }
+                }
+
+                var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(id);
+                if (packagingTasks.Count > 0)
+                {
+                    foreach(var task in packagingTasks)
+                    {
+                        task.Status = "Pending";
+                        await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
+                    }
+                }
+
+                var harvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(id);
+                if (harvestingTasks.Count > 0)
+                {
+                    foreach(var task in harvestingTasks)
+                    {
+                        task.Status = "Pending";
+                        await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
+                    }
+                }
+
+                await _unitOfWork.PlanRepository.SaveAsync();
+                return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> Create(CreatePlan model)
+        {
+            try
+            {
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(model.PlantId);
+                if (plant == null)
+                {
+                    return new BusinessResult(404, "Not found any plant!");
+                }
+
+                var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId);
+                if (yield == null)
+                {
+                    return new BusinessResult(404, "Not found any yield!");
+                }
+
+                var expert = await _unitOfWork.ExpertRepository.GetExpert(model.ExpertId);
+                if (expert == null)
+                {
+                    return new BusinessResult(404, "Not found any expert!");
+                }
+
+                var plan = _mapper.Map<Plan>(model);
+                plan.Status = "Draft";
+                plan.CreatedAt = DateTime.Now;
+                plan.CreatedBy = expert.Account.Name;
+                plan.IsApproved = false;
+                var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
+
+                return new BusinessResult(200, "Create plan successfully!", rs);
             }
             catch (Exception ex)
             {

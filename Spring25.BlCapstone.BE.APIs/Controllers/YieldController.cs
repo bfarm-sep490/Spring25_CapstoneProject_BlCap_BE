@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -48,6 +50,36 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 var result = await _yieldService.Delete(id);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreatedYield model)
+        {
+            try
+            {
+                var obj = _mapper.Map<YieldModel>(model);
+                var rs = await _yieldService.Create(obj);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Create(int id, UpdatedYield model)
+        {
+            try
+            {
+                var obj = _mapper.Map<YieldModel>(model);
+                var rs = await _yieldService.Update(id, obj);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

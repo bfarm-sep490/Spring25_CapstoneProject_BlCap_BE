@@ -27,8 +27,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Problem
         public string? ResultContent { get; set; }
         [JsonPropertyName("problem_images")]
         public List<Images> Images { get; set; }
-        [JsonPropertyName("issues")]
-        public List<ProblemIssues> ProblemIssues { get; set; }
     }
 
     public class Images
@@ -37,17 +35,5 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Problem
         public int Id { get; set; }
         [JsonPropertyName("url")]
         public string Url { get; set; }
-    }
-
-    public class ProblemIssues
-    {
-        [JsonPropertyName("issue_id")]
-        public int Id { get; set; }
-        [JsonPropertyName("issue_name")]
-        public string IssueName { get; set; }
-        [JsonPropertyName("description")]
-        public string Description { get; set; }
-        [JsonPropertyName("is_active")]
-        public bool IsActive { get; set; }
     }
 }

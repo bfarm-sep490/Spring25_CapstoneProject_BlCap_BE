@@ -20,6 +20,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string TaskType { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime? CompleteDate { get; set; }
         public bool IsCompleted { get; set; }
         public bool IsAvailable { get; set; }
         public int Priority { get; set; }

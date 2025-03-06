@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -14,9 +15,9 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int? plan_id)
         {
-            var rs = await _problemService.GetAll();
+            var rs = await _problemService.GetAll(plan_id);
             return Ok(rs);
         }
 
@@ -25,6 +26,55 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _problemService.GetById(id);
             return Ok(rs);
+        }
+
+        [HttpPut("{id}/result-content")]
+        public async Task<IActionResult> UpdateRC(int id, UpdateResult model)
+        {
+            try
+            {
+                var rs = await _problemService.UpdateResult(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateProblem model)
+        {
+            try
+            {
+                var rs = await _problemService.Create(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("images/upload")]
+        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        {
+            var rs = await _problemService.UploadImage(image);
+            return Ok(rs);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, UpdateProblem model)
+        {
+            try
+            {
+                var rs = await _problemService.Update(id, model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

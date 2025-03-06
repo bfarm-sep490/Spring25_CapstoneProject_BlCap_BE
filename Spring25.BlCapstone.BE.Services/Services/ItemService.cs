@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateItem(CreatedItem item);
         Task<IBusinessResult> UpdateItem(int id, CreatedItem item);
         Task<IBusinessResult> RemoveItem(int id);
+        Task<IBusinessResult> ToggleActiveInactive(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
     }
 
@@ -43,6 +44,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Name = i.Name,
                     Status = i.Status,
                     Type = i.Type,
+                    Quantity = i.Quantity,
+                    Unit = i.Unit,
                 }).ToList();
                 if (res.Count <= 0)
                 {
@@ -98,6 +101,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Name = item.Name,
                     Status = item.Status,
                     Type = item.Type,
+                    Quantity = item.Quantity,
+                    Unit = item.Unit,
                 };
 
                 return new BusinessResult
@@ -128,7 +133,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Description = item.Description,
                     Status = item.Status,
                     Type = item.Type,
-                    Image = item.Image
+                    Image = item.Image, 
+                    Quantity = item.Quantity,
+                    Unit = item.Unit,
                 };
 
                 var rs = await _unitOfWork.ItemRepository.CreateAsync(newItem);
@@ -183,6 +190,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 existedItem.Status = item.Status;
                 existedItem.Type = item.Type;
                 existedItem.Image = item.Image;
+                existedItem.Quantity = item.Quantity;
+                existedItem.Unit = item.Unit;
 
                 var rs = await _unitOfWork.ItemRepository.UpdateAsync(existedItem);
                 if (rs <= 0)
@@ -285,6 +294,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> ToggleActiveInactive(int id)
+        {
+            try
+            {
+                var item = await _unitOfWork.ItemRepository.GetByIdAsync(id);
+
+                if (item == null)
+                {
+                    return new BusinessResult { Status = 404, Message = "Not found any Items !", Data = null };
+                }
+
+                item.Status = item.Status == "Inactive" ? "Active" : "Inactive";
+                var rs = await _unitOfWork.ItemRepository.UpdateAsync(item);
+
+                if (rs > 0)
+                {
+                    return new BusinessResult { Status = 200, Message = "Deactivate item successful", Data = null };
+                }
+                else
+                {
+                    return new BusinessResult { Status = 500, Message = "Deactivate failed !", Data = null };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
         }
     }

@@ -21,5 +21,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public ICollection<FarmerPermission> FarmerPermissions { get; set; }
         public ICollection<CaringTask> CaringTasks { get; set; }
         public ICollection<HarvestingTask> HarvestingTasks { get; set; }
+        public ICollection<PackagingTask> PackagingTasks { get; set; }
     }
 }

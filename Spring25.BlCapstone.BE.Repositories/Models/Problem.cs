@@ -11,6 +11,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
     {
         [Key]
         public int Id { get; set; }
+        public int? IssueId { get; set; }
         public int PlanId { get; set; }
         public string ProblemName { get; set; }
         public string Description { get; set; }
@@ -20,7 +21,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? ResultContent { get; set; }
 
         public Plan Plan { get; set; }
-        public ICollection<Issue> Issues { get; set; }
+        public Issue Issue { get; set; }
         public ICollection<ProblemImage> ProblemImages { get; set; }
         public ICollection<CaringTask> CaringTasks { get; set; }
     }

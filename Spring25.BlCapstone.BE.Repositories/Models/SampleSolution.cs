@@ -13,8 +13,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int IssueId { get; set; }
         public string FileUrl { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
+        public string Description { get; set; }
+        public string TypeTask { get; set; }
 
         public Issue Issue { get; set; }
     }

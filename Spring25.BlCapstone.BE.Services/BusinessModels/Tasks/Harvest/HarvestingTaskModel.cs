@@ -24,17 +24,15 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
 
-        [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
-
         [JsonPropertyName("description")]
         public string Description { get; set; }
 
         [JsonPropertyName("result_content")]
         public string? ResultContent { get; set; }
-
-        [JsonPropertyName("harvest_date")]
-        public DateTime? HarvestDate { get; set; }
+        [JsonPropertyName("start_date")]
+        public DateTime StartDate { get; set; }
+        [JsonPropertyName("end_date")]
+        public DateTime EndDate { get; set; }
 
         [JsonPropertyName("complete_date")]
         public DateTime? CompleteDate { get; set; }
@@ -44,9 +42,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
 
         [JsonPropertyName("harvested_unit")]
         public string? HarvestedUnit { get; set; }
-
-        [JsonPropertyName("is_completed")]
-        public bool IsCompleted { get; set; }
 
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }

@@ -27,8 +27,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public float EstimatedProduct { get; set; }
         [JsonPropertyName("estimated_unit")]
         public string EstimatedUnit { get; set; }
-        [JsonPropertyName("available_packaging_quantity")]
-        public int? AvailablePackagingQuantity { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]
@@ -49,6 +47,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public List<PlanInspectingInfor> InspectingInfors { get; set; }
         [JsonPropertyName("harvesting_task_information")]
         public List<PlanHarvestingInfor> HarvestingInfors { get; set; }
+        [JsonPropertyName("packaging_task_information")]
+        public List<PlanPackagingInfor> PackagingInfors { get; set; }
         [JsonPropertyName("problem_information")]
         public List<ProblemInfor> ProblemInfors { get; set; }
     }
@@ -137,14 +137,32 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? FarmerId { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
-        [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("is_completed")]
         public bool IsCompleted { get; set; }
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }
+        [JsonPropertyName("priority")]
+        public int Priority { get; set; }
+    }
+
+    public class PlanPackagingInfor
+    {
+        [JsonPropertyName("task_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("farmer_id")]
+        public int? FarmerId { get; set; }
+        [JsonPropertyName("task_name")]
+        public string TaskName { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+        [JsonPropertyName("start_date")]
+        public DateTime StartDate { get; set; }
+        [JsonPropertyName("end_date")]
+        public DateTime EndDate { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
         [JsonPropertyName("priority")]
         public int Priority { get; set; }
     }

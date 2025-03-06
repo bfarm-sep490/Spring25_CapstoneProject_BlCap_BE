@@ -21,10 +21,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         public string? InspectorName { get; set; }
 
         [JsonPropertyName("task_name")]
-        public string TaskName { get; set; }
-
+        public string FormName { get; set; }
         [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
+        public string FormType { get; set; }
 
         [JsonPropertyName("description")]
         public string Description { get; set; }
@@ -69,7 +68,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         public bool CanHarvest { get; set; }
 
         [JsonPropertyName("completed_date")]
-        public DateTime CompletedDate { get; set; }
+        public DateTime? CompletedDate { get; set; }
 
         [JsonPropertyName("status")]
         public string Status { get; set; }
@@ -85,8 +84,5 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
 
         [JsonPropertyName("inspecting_images")]
         public List<InspectingImageModel> InspectingImages { get; set; }
-
-        [JsonPropertyName("inspecting_items")]
-        public List<InspectingItemModel> InspectingItems { get; set; }
     }
 }

@@ -1,24 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
+namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class InspectingItemModel
+    public class PackagingItem
     {
-        [JsonPropertyName("item_id")]
+        [Key]
+        public int Id { get; set; }
         public int ItemId { get; set; }
-
-        [JsonPropertyName("task_id")]
         public int TaskId { get; set; }
-
-        [JsonPropertyName("quantity")]
         public int Quantity { get; set; }
-
-        [JsonPropertyName("unit")]
         public string Unit { get; set; }
+
+        public PackagingTask PackagingTask { get; set; }
+        public Item Item { get; set; }
     }
 }

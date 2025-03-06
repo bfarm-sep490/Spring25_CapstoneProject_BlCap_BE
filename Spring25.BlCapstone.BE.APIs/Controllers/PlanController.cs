@@ -111,5 +111,33 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("{id}/plan-approval")]
+        public async Task<IActionResult> ApprovePlan(int id)
+        {
+            try
+            {
+                var rs = await _planService.ApprovePlan(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreatePlan model)
+        {
+            try
+            {
+                var rs = await _planService.Create(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
