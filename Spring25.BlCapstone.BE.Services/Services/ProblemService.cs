@@ -121,6 +121,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                if (model.IssueId != null)
+                {
+                    var issue = await _unitOfWork.IssueRepository.GetByIdAsync(model.IssueId.Value);
+                    if (issue == null)
+                    {
+                        return new BusinessResult(404, "Issue not found");
+                    }
+                }
                 var problem = _mapper.Map<Problem>(model);
                 problem.Status = "Pending";
                 var rs = await _unitOfWork.ProblemRepository.CreateAsync(problem);
