@@ -125,7 +125,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 problem.Status = "Pending";
                 var rs = await _unitOfWork.ProblemRepository.CreateAsync(problem);
 
-                if (model.ImageUrl.Count > 0)
+                if (model.ImageUrl != null)
                 {
                     foreach (var image in model.ImageUrl)
                     {
