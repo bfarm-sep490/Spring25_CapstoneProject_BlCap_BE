@@ -38,6 +38,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                     .ThenInclude(e => e.Account)
                 .Include(p => p.Plant)
                 .Include(p => p.Yield)
+                .OrderBy(p => p.Id)
                 .ToListAsync();
         }
     }
