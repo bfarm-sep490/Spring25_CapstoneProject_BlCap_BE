@@ -14,19 +14,19 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("expert_id")]
         public int ExpertId { get; set; }
         [JsonPropertyName("plan_name")]
-        public string PlanName { get; set; }
+        public string? PlanName { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("start_date")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [JsonPropertyName("end_date")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("estimated_product")]
-        public float EstimatedProduct { get; set; }
+        public float? EstimatedProduct { get; set; }
         [JsonPropertyName("estimated_unit")]
-        public string EstimatedUnit { get; set; }
+        public string? EstimatedUnit { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]
@@ -40,17 +40,17 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("plant_information")]
         public PlantInfor PlantInfor { get; set; }
         [JsonPropertyName("yield_information")]
-        public YieldInfor YieldInfor { get; set; }
+        public YieldInfor? YieldInfor { get; set; }
         [JsonPropertyName("caring_task_information")]
-        public List<PlanCaringInfor> CaringTaskInfor { get; set; }
+        public List<PlanCaringInfor>? CaringTaskInfor { get; set; }
         [JsonPropertyName("inspecting_form_information")]
-        public List<PlanInspectingInfor> InspectingInfors { get; set; }
+        public List<PlanInspectingInfor>? InspectingInfors { get; set; }
         [JsonPropertyName("harvesting_task_information")]
-        public List<PlanHarvestingInfor> HarvestingInfors { get; set; }
+        public List<PlanHarvestingInfor>? HarvestingInfors { get; set; }
         [JsonPropertyName("packaging_task_information")]
-        public List<PlanPackagingInfor> PackagingInfors { get; set; }
+        public List<PlanPackagingInfor>? PackagingInfors { get; set; }
         [JsonPropertyName("problem_information")]
-        public List<ProblemInfor> ProblemInfors { get; set; }
+        public List<ProblemInfor>? ProblemInfors { get; set; }
     }
 
     public class PlantInfor

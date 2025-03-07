@@ -325,23 +325,39 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult { Status = 404, Message = "Not found any plan!", Data = null };
                 }
 
-                var invalidFields = new Dictionary<object, string>
+                if (plan.YieldId.HasValue)
                 {
-                    { plan.YieldId, "Plan does not have any yield. Can not approve!" },
-                    { plan.PlanName, "Plan does not have a name. Can not approve!" },
-                    { plan.Description, "Plan does not have a description. Can not approve!" },
-                    { plan.StartDate, "Plan does not have a start date. Can not approve!" },
-                    { plan.EndDate, "Plan does not have an end date. Can not approve!" },
-                    { plan.EstimatedProduct, "Plan does not have an estimated product. Can not approve!" },
-                    { plan.EstimatedUnit, "Plan does not have an estimated unit. Can not approve!" }
-                };
+                    return new BusinessResult(404, "Plan does not have any yield. Can not approve!");
+                }
 
-                foreach (var field in invalidFields)
+                if (string.IsNullOrEmpty(plan.PlanName))
                 {
-                    if (field.Key == null)
-                    {
-                        return new BusinessResult(404, field.Value);
-                    }
+                    return new BusinessResult(404, "Plan does not have a name. Can not approve!");
+                }
+
+                if (string.IsNullOrEmpty(plan.Description))
+                {
+                    return new BusinessResult(404, "Plan does not have a description. Can not approve!");
+                }
+
+                if (plan.StartDate.HasValue)
+                {
+                    return new BusinessResult(404, "Plan does not have a start date. Can not approve!");
+                }
+
+                if (plan.EndDate.HasValue)
+                {
+                    return new BusinessResult(404, "Plan does not have an end date. Can not approve!");
+                }
+
+                if (plan.EstimatedProduct.HasValue)
+                {
+                    return new BusinessResult(404, "Plan does not have an estimated product. Can not approve!");
+                }
+
+                if (string.IsNullOrEmpty(plan.EstimatedUnit))
+                {
+                    return new BusinessResult(404, "Plan does not have an estimated unit. Can not approve!");
                 }
 
                 plan.Status = "Pending";

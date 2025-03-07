@@ -16,27 +16,27 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
         [JsonPropertyName("yield_id")]
-        public int YieldId { get; set; }
+        public int? YieldId { get; set; }
         [JsonPropertyName("yield_name")]
-        public string YieldName { get; set; }
+        public string? YieldName { get; set; }
         [JsonPropertyName("expert_id")]
         public int ExpertId { get; set; }
         [JsonPropertyName("expert_name")]
         public string Name { get; set; }
         [JsonPropertyName("plan_name")]
-        public string PlanName { get; set; }
+        public string? PlanName { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("start_date")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         [JsonPropertyName("end_date")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("estimated_product")]
-        public float EstimatedProduct { get; set; }
+        public float? EstimatedProduct { get; set; }
         [JsonPropertyName("estimated_unit")]
-        public string EstimatedUnit { get; set; }
+        public string? EstimatedUnit { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]
