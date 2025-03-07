@@ -11,7 +11,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
 {
     public class JWTHelper
     {
-        public static JwtSecurityToken GetToken(string jwtKey, string audience, string issuer, string role, int? id, string name, string email, int day, Guid? guid)
+        public static JwtSecurityToken GetToken(string jwtKey, string audience, string issuer, string role, int? id, string name, string email, int day, Guid? guid, string? avatar)
         {
 
             if (string.IsNullOrEmpty(jwtKey)) throw new ArgumentNullException("not found jwt key");
@@ -22,11 +22,16 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             {
                  new Claim(ClaimTypes.Name, name),
                  new Claim(ClaimTypes.Email, email),
-                 new Claim(ClaimTypes.Role, role),
+                 new Claim(ClaimTypes.Role, role)
             };
 
             if (id.HasValue) authClaims.Add(new Claim(ClaimTypes.NameIdentifier, id.Value.ToString()));
             else if (guid.HasValue) authClaims.Add(new Claim(ClaimTypes.NameIdentifier, guid.Value.ToString()));
+
+            if (!string.IsNullOrEmpty(avatar))
+            {
+                authClaims.Add(new Claim(ClaimTypes.Uri, avatar));
+            }
 
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
 

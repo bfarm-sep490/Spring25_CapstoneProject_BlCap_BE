@@ -67,7 +67,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<InfomationModel, Inspector>()
                 .ReverseMap();
-
+            CreateMap<InfomationModel, Expert>()
+                .ReverseMap();
         }
 
         private void PesticideProfie()
