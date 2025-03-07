@@ -61,5 +61,25 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+        public async Task<List<AdminData>> GetDashboardHarvestingTasksByPlanId(int id)
+        {
+            var data = await _context.HarvestingTasks.Where(x => x.CompleteDate.HasValue && x.PlanId==id).ToListAsync();
+
+            var result = data.GroupBy(x => x.CompleteDate.Value.Date).OrderBy(x => x.Key)
+                .Select(g => new AdminData
+                {
+                    Date = g.Key,
+                    Value = g.Count()
+                })
+                .ToList();
+            return result;
+        }     
+        public async Task<HavestedTask> GetHavestedTaskDashboardByPlanId(int planId)
+        {
+            var data = await _context.HarvestingTasks.Where(x=>x.PlanId==planId && x.Status.ToLower() == "completed").ToListAsync();
+            var kg = data.Where(x => x.HarvestedUnit.ToLower() == "kg").Sum(x => x.HarvestedQuantity.Value);
+            var tan = data.Where(x => x.HarvestedUnit.ToLower() == "tấn").Sum(x => x.HarvestedQuantity.Value);
+            return new HavestedTask { HavestedValue = (tan + kg / 1000) , Unit= "tấn" };
+        }
     }
 }

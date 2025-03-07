@@ -127,5 +127,31 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("harvesting-tasks/dashboard/plan/{id}")]
+        public async Task<IActionResult> GetdashboardHarvestingTasksByPlanId([FromRoute]int id)
+        {
+            try
+            {
+                var result = await _harvestingTaskService.DashboardHarvestByPlanId(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("harvesting-tasks/completed/plan/{id}")]
+        public async Task<IActionResult> GetHarvestdTasksDashboardByPlanId([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _harvestingTaskService.GetHavestedTasksDashboardByPlanId(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
