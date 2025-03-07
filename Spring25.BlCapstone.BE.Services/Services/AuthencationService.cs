@@ -20,6 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAccountInfoById(int id);
         Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
         Task<IBusinessResult> GetAllAccount();
+        Task<IBusinessResult> DecodeToken(string token);
     }
     public class AuthencationService : IAuthencationService
     {
@@ -104,9 +105,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = "this account is not Active",
                     Status = 400
                 };
-            }    
-           
-            var signInModel = GenarateToken(user.Id, user.Role, user.Name, user.Email);
+            }
+
+            var obj = await _unitOfWork.AccountRepository.GetByIdAsync(user.Id);
+            int id;
+            switch (obj.Role.ToLower())
+            {
+                case "farmer":
+                    var farmer = await _unitOfWork.FarmerRepository.GetFarmerbyAccountId(user.Id);
+                    id = farmer.Id;
+                    break;
+
+                case "retailer":
+                    var retailer = await _unitOfWork.RetailerRepository.GetRetailerbyAccountId(user.Id);
+                    id = retailer.Id;
+                    break;
+
+                case "inspector":
+                    var inspector = await _unitOfWork.InspectorRepository.GetInspectorbyAccountId(user.Id);
+                    id = inspector.Id;
+                    break;
+                case "farm owner":
+                    id = user.Id;
+                    break;
+
+                default:
+                    return new BusinessResult(400, "Do not get your role", obj.Role);
+            }
+
+            var signInModel = GenarateToken(id, user.Role, user.Name, user.Email);
             return new BusinessResult()
             {
                 Data = signInModel,
@@ -114,15 +141,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 Message = "signing in successfully."
             };
         }
+
         private object GenarateToken(int Id, string Role, string Name, string Email)
         {
-            JwtSecurityToken accessJwtSecurityToken = JWTHelper.GetToken(_configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], Role, Id, Email,Email, 1, null);
+            JwtSecurityToken accessJwtSecurityToken = JWTHelper.GetToken(_configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], Role, Id, Name, Email, 1, null);
 
             object signInModel = new
             {
-                AccessToken = new JwtSecurityTokenHandler().WriteToken(accessJwtSecurityToken),
-                Role = Role,
-                id = Id
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(accessJwtSecurityToken)
             };
             return signInModel;
         }
