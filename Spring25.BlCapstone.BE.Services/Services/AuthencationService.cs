@@ -20,7 +20,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAccountInfoById(int id);
         Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
         Task<IBusinessResult> GetAllAccount();
-        Task<IBusinessResult> DecodeToken(string token);
     }
     public class AuthencationService : IAuthencationService
     {
