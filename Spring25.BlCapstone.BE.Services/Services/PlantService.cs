@@ -15,7 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPlantService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(bool? isAvailable);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(PlantModel model);
         Task<IBusinessResult> Update(int id,PlantModel model);
@@ -49,9 +49,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Remove successfully", result);
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(bool? isAvailable)
         {
-           var list = await _unitOfWork.PlantRepository.GetAllAsync();
+           var list = await _unitOfWork.PlantRepository.GetPlants(isAvailable);
            var result = _mapper.Map<List<PlantModel>>(list);
            return new BusinessResult(200, "Get all plants", result);
         }

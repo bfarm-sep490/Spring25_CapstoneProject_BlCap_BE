@@ -17,12 +17,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _yieldService = yieldService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? status)
         {
             try
             {
-                var result = await _yieldService.GetAll();
+                var result = await _yieldService.GetAll(status);
                 return Ok(result);
             }
             catch (Exception ex)

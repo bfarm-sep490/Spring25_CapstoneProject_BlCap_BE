@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IYieldService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(string? status);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(YieldModel model);
         Task<IBusinessResult> Update(int id, YieldModel model);
@@ -51,9 +51,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             throw new NotImplementedException();
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(string? status)
         {
-           var list = await _unitOfWork.YieldRepository.GetAllAsync();
+           var list = await _unitOfWork.YieldRepository.GetYields(status);
            var result= _mapper.Map<List<YieldModel>>(list);
             return new BusinessResult(200,"List Yields",result);
             
