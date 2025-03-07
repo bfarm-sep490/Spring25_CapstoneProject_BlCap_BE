@@ -26,6 +26,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Yield
 
         [JsonPropertyName("type")]
         public string Type { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
 
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }

@@ -327,13 +327,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Yield>().HasData(
-                new Yield { Id = 1, YieldName = "Đồng lúa A", AreaUnit = "hectare", Area = 2.5, Description = "Đồng lúa trồng lúa nước", Type = "Lúa", IsAvailable = true, Size = "Lớn" },
-                new Yield { Id = 2, YieldName = "Vườn rau B", AreaUnit = "square meter", Area = 500, Description = "Vườn rau hữu cơ", Type = "Rau", IsAvailable = true, Size = "Nhỏ" },
-                new Yield { Id = 3, YieldName = "Nông trại C", AreaUnit = "hectare", Area = 5, Description = "Nông trại đa cây", Type = "Tổng hợp", IsAvailable = true, Size = "Lớn" },
-                new Yield { Id = 4, YieldName = "Trang trại D", AreaUnit = "hectare", Area = 3, Description = "Trang trại cây ăn quả", Type = "Trái cây", IsAvailable = false, Size = "Vừa" },
-                new Yield { Id = 5, YieldName = "Vùng trồng E", AreaUnit = "square meter", Area = 800, Description = "Vùng trồng rau sạch", Type = "Rau", IsAvailable = true, Size = "Nhỏ" },
-                new Yield { Id = 6, YieldName = "Cánh đồng F", AreaUnit = "hectare", Area = 4, Description = "Cánh đồng trồng ngô", Type = "Ngô", IsAvailable = true, Size = "Vừa" },
-                new Yield { Id = 7, YieldName = "Đất trống G", AreaUnit = "hectare", Area = 6, Description = "Đất trống chờ canh tác", Type = "Khác", IsAvailable = false, Size = "Lớn" }
+                new Yield { Id = 1, YieldName = "Đồng lúa A", AreaUnit = "hectare", Status = "In-use", Area = 2.5, Description = "Đồng lúa trồng lúa nước", Type = "Lúa", IsAvailable = true, Size = "Lớn" },
+                new Yield { Id = 2, YieldName = "Vườn rau B", AreaUnit = "square meter", Status = "In-use", Area = 500, Description = "Vườn rau hữu cơ", Type = "Rau", IsAvailable = true, Size = "Nhỏ" },
+                new Yield { Id = 3, YieldName = "Nông trại C", AreaUnit = "hectare", Status = "In-use", Area = 5, Description = "Nông trại đa cây", Type = "Tổng hợp", IsAvailable = true, Size = "Lớn" },
+                new Yield { Id = 4, YieldName = "Trang trại D", AreaUnit = "hectare", Status = "In-use", Area = 3, Description = "Trang trại cây ăn quả", Type = "Trái cây", IsAvailable = false, Size = "Vừa" },
+                new Yield { Id = 5, YieldName = "Vùng trồng E", AreaUnit = "square meter", Status = "Available", Area = 800, Description = "Vùng trồng rau sạch", Type = "Rau", IsAvailable = true, Size = "Nhỏ" },
+                new Yield { Id = 6, YieldName = "Cánh đồng F", AreaUnit = "hectare", Status = "In-use", Area = 4, Description = "Cánh đồng trồng ngô", Type = "Ngô", IsAvailable = true, Size = "Vừa" },
+                new Yield { Id = 7, YieldName = "Đất trống G", AreaUnit = "hectare", Status = "In-use", Area = 6, Description = "Đất trống chờ canh tác", Type = "Khác", IsAvailable = false, Size = "Lớn" }
             );
 
             modelBuilder.Entity<Fertilizer>().HasData(
