@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Dashboards
 {
-    public class AdminData
+    public class HavestedTask
     {
-        [JsonPropertyName("date")]
-        public DateTime Date {  get; set; }
-        [JsonPropertyName("value")]
-        public double Value {  get; set; }
+       
+        [JsonPropertyName("havested-value")]
+        public float HavestedValue { get; set; }
+        [JsonPropertyName("unit")]
+        public string Unit { get; set; }
     }
 }

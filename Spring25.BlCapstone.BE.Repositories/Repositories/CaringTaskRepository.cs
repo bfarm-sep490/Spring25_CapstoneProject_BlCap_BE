@@ -65,5 +65,19 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToList();
             return result;
         }
+
+        public async Task<List<AdminData>> GetDashboardCaringTasksByPlanId(int id)
+        {
+            var data = await _context.CaringTasks.Where(x => x.CompleteDate.HasValue && x.PlanId==id).ToListAsync();
+
+            var result = data.GroupBy(x => x.CompleteDate.Value.Date).OrderBy(x => x.Key)
+                .Select(g => new AdminData
+                {
+                    Date = g.Key,
+                    Value = g.Count()
+                })
+                .ToList();
+            return result;
+        }
     }
 }

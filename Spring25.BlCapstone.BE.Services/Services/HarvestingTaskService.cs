@@ -28,6 +28,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> DashboardHarvest();
         Task<IBusinessResult> DeleteTask(int id);
+        Task<IBusinessResult> DashboardHarvestByPlanId(int id);
+        Task<IBusinessResult> GetHavestedTasksDashboardByPlanId(int id);
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -84,7 +86,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             var obj = await _unitOfWork.HarvestingTaskRepository.GetDashboardHarvestingTasks();
             var data = new List<AdminData>();
-            if (obj != null && obj.Count > 1)
+            if (obj != null && obj.Count >= 1)
             {
                 for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
                 {
@@ -276,6 +278,39 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+
+        public async Task<IBusinessResult> DashboardHarvestByPlanId(int id)
+        {
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+            if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
+            var obj = await _unitOfWork.HarvestingTaskRepository.GetDashboardHarvestingTasksByPlanId(id);
+            var data = new List<AdminData>();
+            if (obj != null && obj.Count >= 1)
+            {
+                for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
+                {
+                    if (!obj.Any(x => x.Date == i.Date))
+                    {
+                        data.Add(new AdminData { Date = i.Date, Value = 0 });
+                    }
+                }
+                foreach (var task in obj)
+                {
+                    data.Add(new AdminData { Date = task.Date, Value = task.Value });
+                }
+                data = data.OrderBy(c => c.Date).ToList();
+
+            }
+            return new BusinessResult(200, "Dashboard Harvesting Tasks by Plan Id", data);
+        }
+
+        public async Task<IBusinessResult> GetHavestedTasksDashboardByPlanId(int id)
+        {
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+            if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
+            var result = await _unitOfWork.HarvestingTaskRepository.GetHavestedTaskDashboardByPlanId(plan.Id);
+            return new BusinessResult(200,"Get Havested Task by Plan Id",result);
         }
     }
 }
