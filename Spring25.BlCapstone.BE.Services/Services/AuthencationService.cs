@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IO.Ably;
 using Microsoft.Extensions.Configuration;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -53,8 +54,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 case "inspector":
                     var inspector = await _unitOfWork.InspectorRepository.GetInspectorbyAccountId(id);
-                    result.Infomation = _mapper.Map<InfomationModel> (inspector);
-                break;
+                    result.Infomation = _mapper.Map<InfomationModel>(inspector);
+                    break;
+
+                case "expert":
+                    var expert = await _unitOfWork.ExpertRepository.GetExpertbyAccountId(id);
+                    result.Infomation = _mapper.Map<InfomationModel>(expert);
+                    break;
+
                 case "farm owner":
                     return new BusinessResult(200, "You are crazy??? U are a farm owner... OKE ????", null);
                    
@@ -108,31 +115,43 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             var obj = await _unitOfWork.AccountRepository.GetByIdAsync(user.Id);
             int id;
+            string ava;
             switch (obj.Role.ToLower())
             {
                 case "farmer":
                     var farmer = await _unitOfWork.FarmerRepository.GetFarmerbyAccountId(user.Id);
                     id = farmer.Id;
+                    ava = farmer.Avatar == null ? null : farmer.Avatar;
                     break;
 
                 case "retailer":
                     var retailer = await _unitOfWork.RetailerRepository.GetRetailerbyAccountId(user.Id);
                     id = retailer.Id;
+                    ava = retailer.Avatar == null ? null : retailer.Avatar;
                     break;
 
                 case "inspector":
                     var inspector = await _unitOfWork.InspectorRepository.GetInspectorbyAccountId(user.Id);
                     id = inspector.Id;
+                    ava = inspector.ImageUrl == null ? null : inspector.ImageUrl;
                     break;
+
+                case "expert":
+                    var expert = await _unitOfWork.ExpertRepository.GetExpertbyAccountId(user.Id);
+                    id = expert.Id;
+                    ava = expert.Avatar == null ? null : expert.Avatar;
+                    break;
+
                 case "farm owner":
                     id = user.Id;
+                    ava = "https://i.pravatar.cc/150";
                     break;
 
                 default:
                     return new BusinessResult(400, "Do not get your role", obj.Role);
             }
 
-            var signInModel = GenarateToken(id, user.Role, user.Name, user.Email);
+            var signInModel = GenarateToken(id, user.Role, user.Name, user.Email, ava);
             return new BusinessResult()
             {
                 Data = signInModel,
@@ -141,9 +160,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             };
         }
 
-        private object GenarateToken(int Id, string Role, string Name, string Email)
+        private object GenarateToken(int Id, string Role, string Name, string Email, string avatar)
         {
-            JwtSecurityToken accessJwtSecurityToken = JWTHelper.GetToken(_configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], Role, Id, Name, Email, 1, null);
+            JwtSecurityToken accessJwtSecurityToken = JWTHelper.GetToken(_configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], Role, Id, Name, Email, 1, null, avatar);
 
             object signInModel = new
             {
