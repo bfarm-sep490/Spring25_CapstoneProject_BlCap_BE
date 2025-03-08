@@ -42,5 +42,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var gam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "gam").Sum(x => x.Quantity);
             return kilogam + gam / 1000;
         }
+
+        public async Task<List<CaringPesticide>> GetCarePesticidesByPlanId(int planId)
+        {
+            return await _context.CaringPesticides
+                                 .Include(cp => cp.CaringTask)
+                                 .Where(cp => cp.CaringTask.PlanId == planId)
+                                 .ToListAsync();
+        }
     }
 }

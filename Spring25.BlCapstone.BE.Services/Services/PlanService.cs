@@ -27,6 +27,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> ApprovePlan(int id);
         Task<IBusinessResult> Create(CreatePlan model);
         Task<IBusinessResult> UpdateStatus(int id, string status);
+        Task<IBusinessResult> DeletePlan(int id);
     }
 
     public class PlanService : IPlanService
@@ -474,6 +475,91 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 else
                 {
                     return new BusinessResult(500, "Update failed!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> DeletePlan(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                if (!string.Equals(plan.Status, "draft", StringComparison.OrdinalIgnoreCase))
+                {
+                    return new BusinessResult(400, "You just can delete plan have draft status !");
+                }
+
+                var inspecPlan = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId: id);
+                foreach (var form in inspecPlan)
+                {
+                    await _unitOfWork.InspectingFormRepository.RemoveAsync(form);
+                }
+
+                var harItems = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemByPlanId(id);
+                foreach (var harItem in harItems)
+                {
+                    await _unitOfWork.HarvestingItemRepository.RemoveAsync(harItem);
+                }
+
+                var harvestPlan = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(planId: id);
+                foreach (var task in harvestPlan)
+                {
+                    await _unitOfWork.HarvestingTaskRepository.RemoveAsync(task);
+                }
+
+                var careFer = await _unitOfWork.CaringFertilizerRepository.GetCareFertilizersByPlanId(id);
+                foreach (var fer in careFer)
+                {
+                    await _unitOfWork.CaringFertilizerRepository.RemoveAsync(fer);
+                }
+
+                var carePes = await _unitOfWork.CaringPesticideRepository.GetCarePesticidesByPlanId(id);
+                foreach (var pes in carePes)
+                {
+                    await _unitOfWork.CaringPesticideRepository.RemoveAsync(pes);
+                }
+
+                var careItems = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(id);
+                foreach (var item in careItems)
+                {
+                    await _unitOfWork.CaringItemRepository.RemoveAsync(item);
+                }
+
+                var packItems = await _unitOfWork.PackagingItemRepository.GetPackagingItemByPlanId(planId: id);
+                foreach (var item in packItems)
+                {
+                    await _unitOfWork.PackagingItemRepository.RemoveAsync(item);
+                }
+
+                var packagePlan = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId: id);
+                foreach (var package in packagePlan)
+                {
+                    await _unitOfWork.PackagingTaskRepository.RemoveAsync(package);
+                }
+
+                var carePlan = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId: id);
+                foreach (var task in carePlan)
+                {
+                    await _unitOfWork.CaringTaskRepository.RemoveAsync(task);
+                }
+
+                var rs = await _unitOfWork.PlanRepository.RemoveAsync(plan);
+                if (rs)
+                {
+                    return new BusinessResult(200, "Delete plan successfull");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Delete failed !");
                 }
             }
             catch (Exception ex)

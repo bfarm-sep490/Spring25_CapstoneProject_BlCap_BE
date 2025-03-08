@@ -154,5 +154,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlan(int id)
+        {
+            try
+            {
+                var rs = await _planService.DeletePlan(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
