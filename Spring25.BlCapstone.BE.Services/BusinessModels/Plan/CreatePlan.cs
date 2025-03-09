@@ -19,9 +19,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string? PlanName { get; set; }
         [JsonPropertyName("description")]
         public string? Description { get; set; }
-        [JsonPropertyName("started_date")]
+        [JsonPropertyName("start_date")]
         public DateTime? StartDate { get; set; }
-        [JsonPropertyName("ended_date")]
+        [JsonPropertyName("end_date")]
         public DateTime? EndDate { get; set; }
         [JsonPropertyName("estimated_product")]
         public float? EstimatedProduct { get; set; }
