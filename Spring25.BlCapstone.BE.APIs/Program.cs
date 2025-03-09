@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using Spring25.BlCapstone.BE.APIs.Configs;
+using Spring25.BlCapstone.BE.BackgroundServices.SignalR.Hubs;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
@@ -96,9 +97,11 @@ builder.Services.AddScoped<IInspectingFormService, InspectingFormService>();
 builder.Services.AddScoped<IPackagingTaskService, PackagingTaskService>();
 builder.Services.AddScoped<IIssueService, IssueService>();
 builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddSignalR(options => { options.KeepAliveInterval = TimeSpan.FromSeconds(5); }).AddMessagePackProtocol();
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
+// Configure the HTTP reques zt pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -106,6 +109,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowAll");
+app.MapGroup("/signalR")
+    .MapHub<SignalrHub>("/signalR");
+
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

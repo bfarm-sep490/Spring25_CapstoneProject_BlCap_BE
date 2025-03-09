@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BE.Repositories", "Spring25.BlCapstone.BE.Repositories\Spring25.BlCapstone.BE.Repositories.csproj", "{4CC997C2-0DA5-42BE-B650-0280E267E2C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring25.BlCapstone.BE.Repositories", "Spring25.BlCapstone.BE.Repositories\Spring25.BlCapstone.BE.Repositories.csproj", "{4CC997C2-0DA5-42BE-B650-0280E267E2C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BE.Services", "Spring25.BlCapstone.BE.Services\Spring25.BlCapstone.BE.Services.csproj", "{D16CFE58-C845-4B6A-A31D-2CCD7710E900}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring25.BlCapstone.BE.Services", "Spring25.BlCapstone.BE.Services\Spring25.BlCapstone.BE.Services.csproj", "{D16CFE58-C845-4B6A-A31D-2CCD7710E900}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BE.APIs", "Spring25.BlCapstone.BE.APIs\Spring25.BlCapstone.BE.APIs.csproj", "{D609C316-7C4D-462B-99D1-3605B831A872}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Spring25.BlCapstone.BE.APIs", "Spring25.BlCapstone.BE.APIs\Spring25.BlCapstone.BE.APIs.csproj", "{D609C316-7C4D-462B-99D1-3605B831A872}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA} = {7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BE.BackgroundServices", "Spring25.BlCapstone.BE.BackgroundServices\Spring25.BlCapstone.BE.BackgroundServices.csproj", "{7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +32,10 @@ Global
 		{D609C316-7C4D-462B-99D1-3605B831A872}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D609C316-7C4D-462B-99D1-3605B831A872}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D609C316-7C4D-462B-99D1-3605B831A872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B81FB7F-EBCD-4B59-AE0E-12A5E0A05BDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
