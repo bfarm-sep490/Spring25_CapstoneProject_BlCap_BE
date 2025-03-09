@@ -141,12 +141,26 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdateStatus(int id, [Required] string status)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePlan(int id, [Required] string status)
         {
             try
             {
                 var rs = await _planService.UpdateStatus(id, status);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdatePlan model)
+        {
+            try
+            {
+                var rs = await _planService.UpdatePlan(id, model);
                 return Ok(rs);
             }
             catch (Exception ex)

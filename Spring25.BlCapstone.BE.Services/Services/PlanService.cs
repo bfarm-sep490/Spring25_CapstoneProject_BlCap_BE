@@ -26,6 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
         Task<IBusinessResult> ApprovePlan(int id);
         Task<IBusinessResult> Create(CreatePlan model);
+        Task<IBusinessResult> UpdatePlan(int id, UpdatePlan model);
         Task<IBusinessResult> UpdateStatus(int id, string status);
         Task<IBusinessResult> DeletePlan(int id);
     }
@@ -560,6 +561,45 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 else
                 {
                     return new BusinessResult(500, "Delete failed !");
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> UpdatePlan(int id, UpdatePlan model)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plans !");
+                }
+
+                plan.YieldId = model.YieldId;
+                plan.PlantId = model.PlantId;
+                plan.PlanName = model.PlanName;
+                plan.Description = model.Description;
+                plan.EstimatedProduct = model.EstimatedProduct;
+                plan.EstimatedUnit = model.EstimatedUnit;
+                plan.ExpertId = model.ExpertId;
+                plan.StartDate = model.StartDate;
+                plan.EndDate = model.EndDate;
+                plan.UpdatedAt = DateTime.Now;
+                plan.UpdatedBy = model.UpdateBy;
+
+                var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
+
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "Update status successfully");
+                }
+                else
+                {
+                    return new BusinessResult(500, "Update failed!");
                 }
             }
             catch (Exception ex)
