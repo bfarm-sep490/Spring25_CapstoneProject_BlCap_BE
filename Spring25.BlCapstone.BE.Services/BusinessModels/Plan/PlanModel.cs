@@ -73,8 +73,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string YieldName { get; set; }
         [JsonPropertyName("is_completed")]
         public bool IsAvailable { get; set; }
-        //[JsonPropertyName("data_environment_url")]
-        //public string DataEnvironmentUrl { get; set; }
         [JsonPropertyName("area_unit")]
         public string AreaUnit { get; set; }
         [JsonPropertyName("area")]
@@ -85,8 +83,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
     {
         [JsonPropertyName("task_id")]
         public int Id { get; set; }
-        [JsonPropertyName("yield_id")]
-        public int YieldId { get; set; }
         [JsonPropertyName("farmer_id")]
         public int? FarmerId { get; set; }
         [JsonPropertyName("problem_id")]
@@ -111,12 +107,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int Id { get; set; }
         [JsonPropertyName("inspector_id")]
         public int? InspectorId { get; set; }
-        [JsonPropertyName("yield_id")]
-        public int YieldId { get; set; }
         [JsonPropertyName("task_name")]
-        public string TaskName { get; set; }
+        public string FormName { get; set; }
         [JsonPropertyName("task_type")]
-        public string TaskType { get; set; }
+        public string FormType { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
@@ -131,16 +125,16 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
     {
         [JsonPropertyName("task_id")]
         public int Id { get; set; }
-        [JsonPropertyName("yield_id")]
-        public int YieldId { get; set; }
         [JsonPropertyName("farmer_id")]
         public int? FarmerId { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("is_completed")]
-        public bool IsCompleted { get; set; }
+        [JsonPropertyName("start_date")]
+        public DateTime StartDate { get; set; }
+        [JsonPropertyName("end_date")]
+        public DateTime EndDate { get; set; }
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }
         [JsonPropertyName("priority")]
