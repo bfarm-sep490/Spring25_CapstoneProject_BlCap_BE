@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
 {
-    public class CreatePlan
+    public class UpdatePlan
     {
         [JsonPropertyName("plant_id")]
         public int PlantId { get; set; }
@@ -27,5 +27,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public float? EstimatedProduct { get; set; }
         [JsonPropertyName("estimated_unit")]
         public string? EstimatedUnit { get; set; }
+        [JsonPropertyName("update_by")]
+        public string? UpdateBy { get; set; }
     }
 }
