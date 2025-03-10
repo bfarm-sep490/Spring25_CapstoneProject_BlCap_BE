@@ -446,7 +446,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.IsApproved = false;
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
 
-                return new BusinessResult(200, "Create plan successfully!", rs);
+                if (rs != null)
+                {
+                    var result = _mapper.Map<PlanModel>(rs);
+                    return new BusinessResult(200, "Create plan successfully!", result);
+                }
+                else
+                {
+                    return new BusinessResult(500, "Create plan failed !");
+                }
             }
             catch (Exception ex)
             {
