@@ -4,6 +4,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -311,6 +312,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
             var result = await _unitOfWork.HarvestingTaskRepository.GetHavestedTaskDashboardByPlanId(plan.Id);
             return new BusinessResult(200,"Get Havested Task by Plan Id",result);
-        }
+        }       
     }
 }

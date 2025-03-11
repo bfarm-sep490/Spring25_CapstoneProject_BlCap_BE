@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using IO.Ably;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
@@ -29,6 +31,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdatePlan(int id, UpdatePlan model);
         Task<IBusinessResult> UpdateStatus(int id, string status);
         Task<IBusinessResult> DeletePlan(int id);
+        Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id);
     }
 
     public class PlanService : IPlanService
@@ -614,6 +617,17 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
+        }
+        public async Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id)
+        {
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+            if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
+            var result = new TasksDashboardModel();
+            result.Id = plan.Id;
+            result.CaringTask = await _unitOfWork.CaringTaskRepository.GetTasksStatusDashboardByPlanId(id);
+            result.HarvestingTask = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasksStatusDashboardByPlanId(id);
+            result.PackagingTask = await _unitOfWork.PackagingTaskRepository.GetPackagingTasksStatusDashboardByPlanId(id);
+            return new BusinessResult(200, "Get Tasks Dashboard", result);
         }
     }
 }

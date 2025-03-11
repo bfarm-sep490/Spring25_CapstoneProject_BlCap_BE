@@ -182,5 +182,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{id}/dashboard")]
+        public async Task<IActionResult> GetStatusTasksDashboardByPlanId([FromRoute]int id)
+        {
+            try
+            {
+                var res = await _planService.GetStatusTasksDashboardByPlanId(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

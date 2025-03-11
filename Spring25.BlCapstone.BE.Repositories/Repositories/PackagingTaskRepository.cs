@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,19 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(x => x.Farmer)
                                      .ThenInclude(x => x.Account)
                                  .FirstOrDefaultAsync(pt => pt.Id == taskId);
+        }
+        public async Task<TasksDashboard> GetPackagingTasksStatusDashboardByPlanId(int planId)
+        {
+            var data = await _context.PackagingTasks.Where(x => x.PlanId == planId).ToListAsync();
+            var result = new TasksDashboard();
+            result.TotalTasks = data.Count();
+            result.IncompleteTasks = data.Where(x => x.Status.ToLower() == "incomplete").Count();
+            result.CompleteTasks = data.Where(x => x.Status.ToLower() == "complete").Count();
+            result.CancelTasks = data.Where(x => x.Status.ToLower() == "cancel").Count();
+            result.OnGoingTasks = data.Where(x => x.Status.ToLower() == "ongoing").Count();
+            result.PendingTasks = data.Where(x => x.Status.ToLower() == "pending").Count();
+            return result;
+
         }
     }
 }
