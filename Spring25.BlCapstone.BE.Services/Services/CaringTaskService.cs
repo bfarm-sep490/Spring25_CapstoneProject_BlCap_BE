@@ -427,5 +427,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             return new BusinessResult(200, "Get Infomation Of Pesticide Tasks By PlanId", result);
         }
+
     }
 }

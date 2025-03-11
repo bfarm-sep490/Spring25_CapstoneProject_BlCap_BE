@@ -38,9 +38,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToList();
             return result;
         }
-        
-
-
         public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId = null, int? farmerId = null)
         {
             var query = _context.HarvestingTasks
@@ -80,6 +77,19 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var kg = data.Where(x => x.HarvestedUnit.ToLower() == "kg").Sum(x => x.HarvestedQuantity.Value);
             var tan = data.Where(x => x.HarvestedUnit.ToLower() == "tấn").Sum(x => x.HarvestedQuantity.Value);
             return new HavestedTask { HavestedValue = (tan + kg / 1000) , Unit= "tấn" };
+        }
+        public async Task<TasksDashboard> GetHarvestingTasksStatusDashboardByPlanId(int planId)
+        {
+            var data = await _context.HarvestingTasks.Where(x => x.PlanId == planId).ToListAsync();
+            var result = new TasksDashboard();
+            result.TotalTasks = data.Count();
+            result.IncompleteTasks = data.Where(x => x.Status.ToLower() == "incomplete").Count();
+            result.CompleteTasks = data.Where(x => x.Status.ToLower() == "complete").Count();
+            result.CancelTasks = data.Where(x => x.Status.ToLower() == "cancel").Count();
+            result.OnGoingTasks = data.Where(x => x.Status.ToLower() == "ongoing").Count();
+            result.PendingTasks = data.Where(x => x.Status.ToLower() == "pending").Count();
+            return result;
+
         }
     }
 }

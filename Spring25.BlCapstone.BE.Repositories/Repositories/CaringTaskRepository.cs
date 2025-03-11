@@ -79,5 +79,18 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToList();
             return result;
         }
+        public async Task<TasksDashboard> GetTasksStatusDashboardByPlanId(int planId)
+        {
+            var data = await _context.CaringTasks.Where(x => x.PlanId == planId).ToListAsync();
+            var result = new TasksDashboard();
+            result.TotalTasks = data.Count();
+            result.IncompleteTasks = data.Where(x => x.Status.ToLower() == "incomplete").Count();
+            result.CompleteTasks = data.Where(x => x.Status.ToLower() == "complete").Count();
+            result.CancelTasks = data.Where(x => x.Status.ToLower() == "cancel").Count();
+            result.OnGoingTasks = data.Where(x => x.Status.ToLower() == "ongoing").Count();
+            result.PendingTasks = data.Where(x => x.Status.ToLower() == "pending").Count();
+            return result;
+
+        }
     }
 }
