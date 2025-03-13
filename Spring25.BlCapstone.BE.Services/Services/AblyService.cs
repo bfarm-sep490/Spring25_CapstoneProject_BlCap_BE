@@ -13,6 +13,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> SendNotification(string title, string body);
         Task<IBusinessResult> SendMessageWithTopic(string title, string body, string topic);
+        Task<IBusinessResult> SendMessageToDeviceToken(string title, string body, string tokenDevice);
     }
 
     public class AblyService : IAblyService
@@ -66,6 +67,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = "Have bug?",
                     Data = ex.Message
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> SendMessageToDeviceToken(string title, string body, string tokenDevice)
+        {
+            try
+            {
+                var res = await _ably.SendMessageToDevice(title, body, tokenDevice);
+                return new BusinessResult(200, res, null);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, "Have bugs?", ex.Message);
             }
         }
     }
