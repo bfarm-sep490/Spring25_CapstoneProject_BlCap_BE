@@ -12,6 +12,7 @@ pipeline {
                         string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT'),
                         string(credentialsId: 'REDIS_USER', variable: 'REDIS_USER'),
                         string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
+                        string(credentialsId: 'ABLY_API_KEY', variable: 'ABLY_API_KEY'),
                         
                     ]) {
                         env.CLOUDINARY_URL = "${CLOUDINARY_URL}"
@@ -20,6 +21,7 @@ pipeline {
                         env.REDIS_PORT = "${REDIS_PORT}"
                         env.REDIS_USER = "${REDIS_USER}"
                         env.REDIS_PASSWORD = "${REDIS_PASSWORD}"
+                        env.ABLY_API_KEY = "${ABLY_API_KEY}"
                     }
                 }
             }
@@ -51,7 +53,8 @@ pipeline {
                    "-e REDIS_HOST=${env.REDIS_HOST} " +
                    "-e REDIS_PORT=${env.REDIS_PORT} " +
                    "-e REDIS_USER=${env.REDIS_USER} " + 
-                   "-e REDIS_PASSWORD=${env.REDIS_PASSWORD} "+
+                   "-e REDIS_PASSWORD=${env.REDIS_PASSWORD} " +
+                   "-e ABLY_API_KEY=${env.ABLY_API_KEY} " +
                    'tuanhuu3264/blcapstone'
             }
         }
