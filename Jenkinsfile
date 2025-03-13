@@ -14,12 +14,12 @@ pipeline {
                         string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
                         
                     ]) {
-                        env.CLOUDINARY_URL = "${CLOUDINARY_URL}",
-                        env.REDIS_URL = "${REDIS_URL}",
-                        env.REDIS_HOST = "${REDIS_HOST}",
-                        env.REDIS_PORT = "${REDIS_PORT}",
-                        env.REDIS_USER = "${REDIS_USER}",
-                        env.REDIS_PASSWORD = "${REDIS_PASSWORD"}
+                        env.CLOUDINARY_URL = "${CLOUDINARY_URL}"
+                        env.REDIS_URL = "${REDIS_URL}"
+                        env.REDIS_HOST = "${REDIS_HOST}"
+                        env.REDIS_PORT = "${REDIS_PORT}"
+                        env.REDIS_USER = "${REDIS_USER}"
+                        env.REDIS_PASSWORD = "${REDIS_PASSWORD}"
                     }
                 }
             }
