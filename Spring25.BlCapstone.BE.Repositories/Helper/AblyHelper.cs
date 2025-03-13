@@ -1,4 +1,8 @@
-﻿using IO.Ably;
+﻿using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
+using IO.Ably;
+using IO.Ably.Push;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +34,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 var channel = _ablyClient.Channels.Get(_channelNotification);
                 await channel.PublishAsync("Notification", new
                 {
-                    title = title,
-                    body = body
+                    Title = title,
+                    Body = body
                 });
 
                 return "Push notifications successfully!";
@@ -61,6 +65,33 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 return "Push notifications successfully!";
             }
             catch (AblyException ex)
+            {
+                return $"Push notifications failed: {ex.Message}";
+            }
+        }
+
+        public async Task<string> SendMessageToDevice(string title, string body, string tokenDevice)
+        {
+            try
+            {
+                var notification = new JObject
+                {
+                    ["notification"] = new JObject
+                    {
+                        { "title", title },
+                        { "body", body }
+                    }
+                };
+
+                var recipient = new JObject
+                {
+                    { "deviceId", tokenDevice },
+                };
+
+                await _ablyClient.Push.Admin.PublishAsync(recipient, notification);
+                return "Push notifications successfully!";
+            }
+            catch (Exception ex)
             {
                 return $"Push notifications failed: {ex.Message}";
             }
