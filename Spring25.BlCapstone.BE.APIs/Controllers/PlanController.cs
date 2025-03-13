@@ -195,5 +195,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("farmer/{farmer_id}")]
+        public async Task<IActionResult> GetPlansFarmerAssignedTo(int farmer_id)
+        {
+            try
+            {
+                var res = await _planService.GetAllPlanFarmerAssigned(farmer_id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

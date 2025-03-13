@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
 {
-    public class PlanForList
+    public class PlanListFarmerAssignTo
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -25,6 +25,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string Name { get; set; }
         [JsonPropertyName("plan_name")]
         public string? PlanName { get; set; }
+        [JsonPropertyName("is_active_in_plan")]
+        public bool IsActive { get; set; }
         [JsonPropertyName("description")]
         public string? Description { get; set; }
         [JsonPropertyName("start_date")]

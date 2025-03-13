@@ -32,6 +32,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateStatus(int id, string status);
         Task<IBusinessResult> DeletePlan(int id);
         Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id);
+        Task<IBusinessResult> GetAllPlanFarmerAssigned(int id);
     }
 
     public class PlanService : IPlanService
@@ -628,6 +629,34 @@ namespace Spring25.BlCapstone.BE.Services.Services
             result.HarvestingTask = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasksStatusDashboardByPlanId(id);
             result.PackagingTask = await _unitOfWork.PackagingTaskRepository.GetPackagingTasksStatusDashboardByPlanId(id);
             return new BusinessResult(200, "Get Tasks Dashboard", result);
+        }
+
+        public async Task<IBusinessResult> GetAllPlanFarmerAssigned(int id)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found any farmers !");
+                }
+
+                var plans = await _unitOfWork.PlanRepository.GetPlanFarmerAssign(id);
+                var rs = _mapper.Map<List<PlanListFarmerAssignTo>>(plans);
+
+                if (rs.Count <= 0)
+                {
+                    return new BusinessResult(404, "Not found any plans !");
+                }
+                else
+                {
+                    return new BusinessResult(200, "Plans that farmer assigned in : ", rs);
+                }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }
