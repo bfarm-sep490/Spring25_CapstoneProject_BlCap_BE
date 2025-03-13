@@ -31,15 +31,26 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<List<Plan>> GetAllPlans()
+        public async Task<List<Plan>> GetAllPlans(int? expertId = null, string? status = null)
         {
-            return await _context.Plans
-                .Include(p => p.Expert)
-                    .ThenInclude(e => e.Account)
-                .Include(p => p.Plant)
-                .Include(p => p.Yield)
-                .OrderBy(p => p.Id)
-                .ToListAsync();
+            var query = _context.Plans
+                                .Include(p => p.Expert)
+                                    .ThenInclude(e => e.Account)
+                                .Include(p => p.Plant)
+                                .Include(p => p.Yield)
+                                .AsQueryable();
+
+            if (expertId != null)
+            {
+                query = query.Where(p => p.ExpertId == expertId);
+            }
+
+            if (status != null)
+            {
+                query = query.Where(p => p.Status.ToLower() == status.ToLower());
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

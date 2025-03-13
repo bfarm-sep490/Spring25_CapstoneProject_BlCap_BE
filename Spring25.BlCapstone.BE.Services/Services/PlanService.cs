@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IPlanService
     {
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(int? expertId, string? status);
         Task<IBusinessResult> GetGeneralPlan(int id);
         Task<IBusinessResult> GetAllProblems(int planId);
         Task<IBusinessResult> GetAllFarmers(int planId);
@@ -69,11 +69,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(int? expertId, string? status)
         {
             try
             {
-                var plan = await _unitOfWork.PlanRepository.GetAllPlans();
+                var plan = await _unitOfWork.PlanRepository.GetAllPlans(expertId, status);
 
                 var rs = _mapper.Map<List<PlanForList>>(plan);
                 if (rs != null)
