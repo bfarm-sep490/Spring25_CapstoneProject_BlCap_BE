@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
+using IO.Ably;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
@@ -27,10 +31,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public PlantService(UnitOfWork unitOfWork,IMapper mapper)
+        private readonly RedisManagement _redisManagerment;
+        public PlantService(UnitOfWork unitOfWork,IMapper mapper, RedisManagement redis)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _redisManagerment = redis;
         }
 
         public async Task<IBusinessResult> Create(PlantModel model)
@@ -51,9 +57,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetAll(bool? isAvailable)
         {
-           var list = await _unitOfWork.PlantRepository.GetPlants(isAvailable);
-           var result = _mapper.Map<List<PlantModel>>(list);
-           return new BusinessResult(200, "Get all plants", result);
+      
+           var key = "ListPlants";
+           string productListJson = _redisManagerment.GetData(key);
+            var result = new List<PlantModel>();
+            if (productListJson == null || productListJson == "[]")
+            {
+                var list = await _unitOfWork.PlantRepository.GetAllAsync();
+                result = _mapper.Map<List<PlantModel>>(list);
+                productListJson = JsonConvert.SerializeObject(result);
+                _redisManagerment.SetData(key, productListJson);
+            }
+            else
+            {
+                result = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
+            }
+            if(isAvailable.HasValue)
+            {
+                var obj = result.Where(x=>x.IsAvailable==isAvailable).ToList();
+                return new BusinessResult(200, "Get all plants", obj);
+            }
+            return new BusinessResult(200, "Get all plants", result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
