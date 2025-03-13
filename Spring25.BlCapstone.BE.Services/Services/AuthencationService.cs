@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using IO.Ably;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
@@ -21,18 +25,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAccountInfoById(int id);
         Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
         Task<IBusinessResult> GetAllAccount();
+        Task<IBusinessResult> AddFarmerDevice(int id,string token);
+        Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id);
     }
     public class AuthencationService : IAuthencationService
     {
         private UnitOfWork _unitOfWork;
         private IConfiguration _configuration;
         private IMapper _mapper;
+        private readonly RedisManagement _redisManagerment;
 
-        public AuthencationService(IConfiguration configuration,IMapper mapper)
+        public AuthencationService(IConfiguration configuration,IMapper mapper,RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _configuration = configuration;
             _mapper = mapper;
+            _redisManagerment = redisManagement;
         }
 
         public async Task<IBusinessResult> GetAccountInfoById(int id)
@@ -201,6 +209,42 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
+        }
+
+        public async Task<IBusinessResult> AddFarmerDevice(int id, string token)
+        {
+            var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
+            if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
+            var key = $"DeviceTokens{id}";
+            string productListJson = _redisManagerment.GetData(key);
+            var result = new DeviceTokenModel();
+            if (productListJson == null || productListJson == "[]")
+            {     
+                result.Id = id;
+                result.Tokens = new List<string>();
+            }
+            else
+            {
+                result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+            }  
+            result.Tokens.Add(token);              
+            productListJson = JsonConvert.SerializeObject(result);
+            _redisManagerment.SetData(key, productListJson);
+            return new BusinessResult(200, "Set Device Token successfully", result);
+
+        }
+        public async Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id)
+        {
+            var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
+            if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
+            var key = $"DeviceTokens{id}";
+            string productListJson = _redisManagerment.GetData(key);
+            if (productListJson == null || productListJson == "[]")
+            {
+                return new BusinessResult(400, "This Farmer do not have DeviceToken");
+            }
+            var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+            return new BusinessResult(200, "Farmer device token", result);
         }
     }
 }
