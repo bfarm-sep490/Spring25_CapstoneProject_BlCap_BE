@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using Spring25.BlCapstone.BE.APIs.Configs;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Services;
 using System.Security;
@@ -104,6 +105,7 @@ builder.Services.AddScoped<IInspectingFormService, InspectingFormService>();
 builder.Services.AddScoped<IPackagingTaskService, PackagingTaskService>();
 builder.Services.AddScoped<IIssueService, IssueService>();
 builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddSingleton<RedisManagement>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
