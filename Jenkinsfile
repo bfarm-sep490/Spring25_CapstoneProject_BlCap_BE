@@ -7,6 +7,12 @@ pipeline {
                 script {
                     withCredentials([
                         string(credentialsId: 'CLOUDINARY_URL', variable: 'CLOUDINARY_URL'),
+                        string(credentialsId: 'REDIS_URL', variable: 'REDIS_URL'),
+                        string(credentialsId: 'REDIS_HOST', variable: 'REDIS_HOST'),
+                        string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT'),
+                        string(credentialsId: 'REDIS_USER', variable: 'REDIS_USER'),
+                        string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
+                        
                     ]) {
                         env.CLOUDINARY_URL = "${CLOUDINARY_URL}"
                     }
@@ -36,6 +42,11 @@ pipeline {
                 sh 'echo y | docker system prune'
                 sh 'docker container run -d --name blcapstone -p 7777:8080 -p 7778:8081 ' +
                    "-e CLOUDINARY_URL=${env.CLOUDINARY_URL} " +
+                   "-e REDIS_URL=${env.REDIS_URL} " +
+                   "-e REDIS_HOST=${env.REDIS_HOST} " +
+                   "-e REDIS_PORT=${env.REDIS_PORT} " +
+                   "-e REDIS_USER=${env.REDIS_USER} " + 
+                   "-e REDIS_PASSWORD=${env.REDIS_PASSWORD} "+
                    'tuanhuu3264/blcapstone'
             }
         }
