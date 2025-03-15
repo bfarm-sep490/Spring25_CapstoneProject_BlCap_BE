@@ -44,7 +44,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Redis
             _cache.StringSet(key, value, TimeSpan.FromDays(2));
         }
 
-
         public string GetData(string key)
         {
             return _cache.StringGet(key);
@@ -54,6 +53,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Redis
         {
             _cache.KeyDelete(key);
         }
+
         public void Dispose()
         {
             _redis?.Dispose();
@@ -83,6 +83,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Redis
             var sub = _redis.GetSubscriber();
             await sub.PublishAsync(channel, message);
         }
+
         private string GetEnvironmentVariable(string key)
         {
             var value = Environment.GetEnvironmentVariable(key);
@@ -92,6 +93,5 @@ namespace Spring25.BlCapstone.BE.Repositories.Redis
             }
             return value;
         }
-
     }
 }

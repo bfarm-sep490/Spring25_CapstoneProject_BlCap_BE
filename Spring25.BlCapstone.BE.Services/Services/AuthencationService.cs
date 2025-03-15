@@ -231,8 +231,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
             productListJson = JsonConvert.SerializeObject(result);
             _redisManagerment.SetData(key, productListJson);
             return new BusinessResult(200, "Set Device Token successfully", result);
-
         }
+
         public async Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id)
         {
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
