@@ -18,10 +18,12 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
     
         [JsonPropertyName("description")]
         public string Description { get; set; }
+
         [JsonPropertyName("base_price")]
         public float BasePrice { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
+
         [JsonPropertyName("image_url")]
         public string ImageUrl { get; set; }
         [JsonPropertyName("delta_one")]

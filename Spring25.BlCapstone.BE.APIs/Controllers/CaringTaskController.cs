@@ -45,20 +45,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/{id}/detail")]
-        public async Task<IActionResult> GetDetailbyId([FromRoute] int id)
-        {
-            try
-            {
-                var result = await _caringTaskService.GetDetailCaringTaskById(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("caring-tasks/images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
@@ -147,6 +133,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("caring-tasks/fertilizers/plan/{id}")]
         public async Task<IActionResult> GetFertilizersByPlanId([FromRoute] int id)
         {
@@ -160,6 +147,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("caring-tasks/pesticides/plan/{id}")]
         public async Task<IActionResult> GetPesticidesByPlanId([FromRoute] int id)
         {

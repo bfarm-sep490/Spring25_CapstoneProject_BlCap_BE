@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int PlanId { get; set; }
         public string TaskName { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public string? ResultContent { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }

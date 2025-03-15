@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPlantService
     {
-        Task<IBusinessResult> GetAll(string? isAvailable);
+        Task<IBusinessResult> GetAll(string? status);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(PlantModel model);
         Task<IBusinessResult> Update(int id,PlantModel model);
@@ -78,16 +78,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     result = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
                 }
             }
-            catch(Exception ex) 
+            catch(Exception ex)  
             {
                 var list = await _unitOfWork.PlantRepository.GetAllAsync();
                 result = _mapper.Map<List<PlantModel>>(list);
             }
-          
-            if(status!=null)
+
+            if (status != null)
             {
-                result = result.Where(x=>x.Status.ToLower()==status.ToLower()).ToList();
-              
+                result = result.Where(x => x.Status.ToLower() == status.ToLower()).ToList();
             }
             return new BusinessResult(200, "Get all plants", result);
         }
@@ -128,9 +127,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper.Map(model,obj);
             obj.Id = id;
             var result = await _unitOfWork.PlantRepository.UpdateAsync(obj);
+            model.Id = id;
             await this.ResetPlantsRedis();
             return new BusinessResult(200,"Update successfully",model);
         }
+
         public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
         {
             try
