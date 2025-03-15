@@ -11,30 +11,26 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Retailer
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-
         [JsonPropertyName("email")]
         public string Email { get; set; }
-
         [JsonPropertyName("name")]
         public string Name { get; set; }
-
         [JsonPropertyName("phone")]
-        public string Phone { get; set; }
-
-        [JsonPropertyName("status")]
-        public string Status { get; set; }
-
+        public string? Phone { get; set; }
         [JsonPropertyName("avatar_image")]
-        public string Avatar { get; set; }
-
+        public string? Avatar { get; set; }
+        [JsonPropertyName("dob")]
+        public DateTime? DOB { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
-        [JsonPropertyName("long_&_lat")]
-        public string LongxLat { get; set; }
+        [JsonPropertyName("longitude")]
+        public float? Longitude { get; set; }
+        [JsonPropertyName("latitude")]
+        public float? Latitude { get; set; }
         [JsonPropertyName("address")]
-        public string Address { get; set; }
+        public string? Address { get; set; }
         [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
     }

@@ -23,10 +23,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         [JsonPropertyName("task_name")]
         public string FormName { get; set; }
         [JsonPropertyName("task_type")]
-        public string FormType { get; set; }
+        public string Type { get; set; }
 
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
@@ -36,53 +36,36 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
 
         [JsonPropertyName("result_content")]
         public string? ResultContent { get; set; }
-
-        [JsonPropertyName("brix_point")]
-        public float BrixPoint { get; set; }
-
-        [JsonPropertyName("temperature")]
-        public float Temperature { get; set; }
-
-        [JsonPropertyName("humidity")]
-        public float Humidity { get; set; }
-
-        [JsonPropertyName("moisture")]
-        public float Moisture { get; set; }
-
-        [JsonPropertyName("shell_color")]
-        public string ShellColor { get; set; }
-
-        [JsonPropertyName("test_gt_kit_color")]
-        public string TestGTKitColor { get; set; }
-
-        [JsonPropertyName("inspecting_quantity")]
-        public int InspectingQuantity { get; set; }
-
-        [JsonPropertyName("unit")]
-        public string Unit { get; set; }
-
-        [JsonPropertyName("issue_percent")]
-        public float? IssuePercent { get; set; }
-
+        [JsonPropertyName("number_of_sample")]
+        public int? NumberOfSample { get; set; }
+        [JsonPropertyName("sample_weight")]
+        public float? SampleWeight { get; set; }
         [JsonPropertyName("can_harvest")]
         public bool CanHarvest { get; set; }
 
-        [JsonPropertyName("completed_date")]
-        public DateTime? CompletedDate { get; set; }
-
+        [JsonPropertyName("complete_date")]
+        public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
-
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
-
+        [JsonPropertyName("created_by")]
+        public string CreatedBy { get; set; }
         [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
+        [JsonPropertyName("updated_by")]
+        public string? UpdatedBy { get; set; }
+        [JsonPropertyName("inspecting_results")]
+        public List<InspectingResultLess> InspectingResults { get; set; }
+    }
 
-        [JsonPropertyName("inspecting_images")]
-        public List<InspectingImageModel> InspectingImages { get; set; }
+    public class InspectingResultLess
+    {
+        [JsonPropertyName("result_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("evaluated_result")]
+        public string EvaluatedResult { get; set; }
+        [JsonPropertyName("result_images")]
+        public List<InspectingImageModel> InspectingImageModels { get; set; }
     }
 }

@@ -11,10 +11,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-
-        [JsonPropertyName("task_id")]
-        public int TaskId { get; set; }
-
+        [JsonPropertyName("result_id")]
+        public int ResultId { get; set; }
         [JsonPropertyName("url")]
         public string Url { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories;
+﻿using AutoMapper;
+using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Device;
@@ -24,9 +25,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public class DeviceService : IDeviceService
     {
         private readonly UnitOfWork _unitOfWork;
-        public DeviceService()
+        private readonly IMapper _mapper;
+
+        public DeviceService(IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
+            _mapper = mapper;
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -34,20 +38,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var devices = await _unitOfWork.DeviceRepository.GetAllAsync();
-                var res = devices.Select(d => new DeviceModels
-                {
-                    Id = d.Id,
-                    YieldId = d.YieldId,
-                    Name = d.Name,
-                    Status = d.Status,
-                    DeviceCode = d.DeviceCode,
-                    CreatedAt = d.CreatedAt,
-                    CreatedBy = d.CreatedBy,
-                    UpdatedAt = d.UpdatedAt,
-                    UpdatedBy = d.UpdatedBy,
+                var res = _mapper.Map<List<DeviceModels>>(devices);
 
-                }).ToList();
-                if (res.Count <= 0)
+                if (devices.Count <= 0)
                 {
                     return new BusinessResult
                     {
@@ -93,18 +86,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                var res = new DeviceModels
-                {
-                    Id = device.Id,
-                    YieldId = device.YieldId,
-                    Name = device.Name,
-                    Status = device.Status,
-                    DeviceCode = device.DeviceCode,
-                    CreatedAt = device.CreatedAt,
-                    CreatedBy = device.CreatedBy,
-                    UpdatedAt = device.UpdatedAt,
-                    UpdatedBy = device.UpdatedBy,
-                };
+                var res = _mapper.Map<DeviceModels>(device);
 
                 return new BusinessResult
                 {
@@ -176,28 +158,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId);
-                if (yield == null)
+                if (model.YieldId.HasValue)
                 {
-                    return new BusinessResult
+                    var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId.Value);
+                    if (yield == null)
                     {
-                        Status = 404,
-                        Message = "Yield not found !",
-                        Data = null
-                    };
+                        return new BusinessResult
+                        {
+                            Status = 404,
+                            Message = "Yield not found !",
+                            Data = null
+                        };
+                    }
                 }
-
-                var newDevice = new Device
-                {
-                    YieldId = model.YieldId,
-                    Name = model.Name,
-                    Status = model.Status,
-                    DeviceCode = model.DeviceCode,
-                    CreatedAt = DateTime.Now,
-                    CreatedBy = model.CreatedBy,
-                    UpdatedAt = DateTime.Now,
-                    UpdatedBy = model.CreatedBy
-                };
+                
+                var newDevice = _mapper.Map<Device>(model);
+                newDevice.CreatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.DeviceRepository.CreateAsync(newDevice);
 
@@ -246,21 +222,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId);
-                if (yield == null)
+                if (model.YieldId.HasValue)
                 {
-                    return new BusinessResult
+                    var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId.Value);
+                    if (yield == null)
                     {
-                        Status = 404,
-                        Message = "Yield not found !",
-                        Data = null
-                    };
+                        return new BusinessResult
+                        {
+                            Status = 404,
+                            Message = "Yield not found !",
+                            Data = null
+                        };
+                    }
                 }
 
-                existedDevice.YieldId = model.YieldId;
-                existedDevice.Name = model.Name;
-                existedDevice.Status = model.Status;
-                existedDevice.DeviceCode = model.DeviceCode;
+                _mapper.Map(model, existedDevice);
                 existedDevice.UpdatedAt = DateTime.Now;
                 existedDevice.UpdatedBy = model.UpdatedBy;
 
@@ -280,7 +256,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     {
                         Status = 200,
                         Message = "Update success!",
-                        Data = null
+                        Data = existedDevice
                     };
                 }
             }

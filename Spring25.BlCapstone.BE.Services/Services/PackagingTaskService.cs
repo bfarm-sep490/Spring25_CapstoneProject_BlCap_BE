@@ -53,12 +53,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var task = await _unitOfWork.PackagingTaskRepository.GetPackagingTaskById(id);
-                if (task == null)
+                var task = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(taskId: id);
+                if (task.Count <= 0)
                 {
                     return new BusinessResult(404, "Not found any Packaging Task");
                 }
-                var rs = _mapper.Map<PackagingTaskModel>(task);
+                var rs = _mapper.Map<List<PackagingTaskModel>>(task);
 
                 return new BusinessResult { Status = 200, Message = "List of packaging tasks:", Data = rs };
             }
@@ -104,6 +104,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 _mapper.Map(model, task);
+                task.CompleteDate = DateTime.Now;
                 task.UpdatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);

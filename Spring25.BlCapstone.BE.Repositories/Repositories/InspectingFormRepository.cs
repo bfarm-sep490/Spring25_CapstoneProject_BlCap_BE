@@ -19,16 +19,18 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<InspectingForm> GetDetailInspectingFormById(int id)
         {
             return await _context.InspectingForms.Where(x =>x.Id == id)
-                //.Include(x=>x.InspectingImages)
+                .Include(x=>x.InspectingResults)
+                    .ThenInclude(x => x.InspectingImages)
                 .Include(x=>x.Inspector)
                 .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<InspectingForm>> GetInspectingForms(int? planId = null, int? inspectorId = null)
+        public async Task<List<InspectingForm>> GetInspectingForms(int? planId = null, int? inspectorId = null, int? formId = null)
         {
             var query = _context.InspectingForms
-                                //.Include(x => x.InspectingImages)
+                                .Include(x => x.InspectingResults)
+                                    .ThenInclude(x => x.InspectingImages)
                                 .Include(x => x.Inspector)
                                     .ThenInclude(x => x.Account)
                                 .AsQueryable();
@@ -40,6 +42,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (inspectorId.HasValue)
             {
                 query = query.Where(ifs => ifs.InspectorId == inspectorId);
+            }
+
+            if (formId.HasValue)
+            {
+                query = query.Where(ifs => ifs.Id == formId);
             }
 
             return await query.ToListAsync();

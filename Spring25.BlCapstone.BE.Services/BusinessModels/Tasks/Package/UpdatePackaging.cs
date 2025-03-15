@@ -9,16 +9,18 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
 {
     public class UpdatePackaging
     {
+        [JsonPropertyName("packaging_type_id")]
+        public int? PackagingTypeId { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
+        [JsonPropertyName("updated_by")]
+        public string? UpdatedBy { get; set; }
         [JsonPropertyName("items")]
         public List<PackageItem>? Items { get; set; }
     }

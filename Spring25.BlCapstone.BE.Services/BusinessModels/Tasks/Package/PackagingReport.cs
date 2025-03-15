@@ -9,16 +9,14 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
 {
     public class PackagingReport
     {
-        [JsonPropertyName("packed_unit")]
-        public string? PackedUnit { get; set; }
         [JsonPropertyName("packed_quantity")]
         public int? PackedQuantity { get; set; }
         [JsonPropertyName("result_content")]
         public string? ResultContent { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("complete_date")]
-        public DateTime? CompleteDate { get; set; }
+        [JsonPropertyName("report_by")]
+        public string? UpdatedBy { get; set; }
         [JsonPropertyName("list_of_image_urls")]
         public List<string> Images { get; set; }
     }

@@ -43,7 +43,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var list = await _unitOfWork.InspectorRepository.GetInspectors();
-
                 var result = _mapper.Map<List<InspectorModel>>(list);
 
                 if (result.Any())
@@ -69,7 +68,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var inss = await _unitOfWork.InspectorRepository.GetInspector(id);
-
                 var res = _mapper.Map<InspectorModel>(inss);
                 if (inss != null)
                 {
@@ -93,7 +91,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var ins = await _unitOfWork.InspectorRepository.GetInspector(id);
+                var ins = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
                 if (ins == null)
                 {
                     return new BusinessResult
@@ -104,8 +102,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                ins.Account.IsActive = !ins.Account.IsActive;
-                var rs = await _unitOfWork.InspectorRepository.UpdateAsync(ins);
+                var account = await _unitOfWork.AccountRepository.GetByIdAsync(ins.AccountId);
+
+                account.IsActive = !account.IsActive;
+                var rs = await _unitOfWork.AccountRepository.UpdateAsync(account);
 
                 if (rs > 0)
                 {
@@ -192,24 +192,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 string password = PasswordHelper.GeneratePassword(model.Name, null);
-                var newAccount = new Account
-                {
-                    Email = model.Email,
-                    Name = model.Name,
-                    Role = "Expert",
-                    IsActive = true,
-                    Password = password,
-                    CreatedAt = DateTime.Now
-                };
+                var newAccount = _mapper.Map<Account>(CreateInspector);
+                newAccount.Role = "Expert";
+                newAccount.IsActive = true;
+                newAccount.Password = password;
+                newAccount.CreatedAt = DateTime.Now;
+
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
-                var newIns = new Inspector
-                {
-                    AccountId = newAccount.Id,
-                    Description = model.Description,
-                    Address = model.Address,
-                    ImageUrl = model.ImageUrl != null ? model.ImageUrl : null,
-                };
+                var newIns = _mapper.Map<Inspector>(model);
+                newIns.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.InspectorRepository.CreateAsync(newIns);
 
                 if (rsf == null)
@@ -266,6 +258,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 ins.Description = model.Description;
                 ins.Address = ins.Address;
                 ins.ImageUrl = model.ImageUrl;
+                ins.Hotline = model.Hotline;
 
                 var rs = await _unitOfWork.InspectorRepository.UpdateAsync(ins);
                 if (rs > 0)

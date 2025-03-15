@@ -29,7 +29,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> ApprovePlan(int id);
         Task<IBusinessResult> Create(CreatePlan model);
         Task<IBusinessResult> UpdatePlan(int id, UpdatePlan model);
-        Task<IBusinessResult> UpdateStatus(int id, string status);
+        Task<IBusinessResult> UpdateStatus(int id, string status, string? reportBy);
         Task<IBusinessResult> DeletePlan(int id);
         Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id);
         Task<IBusinessResult> GetAllPlanFarmerAssigned(int id);
@@ -119,7 +119,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
                     return new BusinessResult { Status = 404, Message = "Plan not existed !", Data = null };
@@ -145,7 +145,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
                     return new BusinessResult { Status = 404, Message = "Plan not existed !", Data = null };
@@ -242,6 +242,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     await _unitOfWork.FarmerPermissionRepository.RemoveAsync(farmer);
                 }
 
+                var farmersCaringTask = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasksByPlanId(id);
+                foreach (var farmer in farmersCaringTask)
+                {
+                    await _unitOfWork.FarmerCaringTaskRepository.RemoveAsync(farmer);
+                }
+
+                var farmersHarvestingTask = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasksByPlanId(id);
+                foreach (var farmer in farmersHarvestingTask)
+                {
+                    await _unitOfWork.FarmerHarvestingTaskRepository.RemoveAsync(farmer);
+                }
+
+                var farmerPackagingTask = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasksByPlanId(id);
+                foreach (var farmer in farmerPackagingTask)
+                {
+                    await _unitOfWork.FarmerPackagingTaskRepository.RemoveAsync(farmer);
+                }
+
                 if (model.AssignCaringTasks != null)
                 {
                     foreach (var task in model.AssignCaringTasks)
@@ -256,6 +274,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         {
                             FarmerId = task.FarmerId.Value,
                             PlanId = id,
+                        });
+
+                        await _unitOfWork.FarmerCaringTaskRepository.CreateAsync(new FarmerCaringTask
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            TaskId = task.Id,
+                            Description = task.Description,
+                            Status = "Active",
+                            ExpiredDate = task.ExpiredDate,
                         });
                     }
                 }
@@ -273,6 +300,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         {
                             FarmerId = task.FarmerId.Value,
                             PlanId = id,
+                        });
+
+                        await _unitOfWork.FarmerHarvestingTaskRepository.CreateAsync(new FarmerHarvestingTask
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            TaskId = task.Id,
+                            Description = task.Description,
+                            Status = "Active",
+                            ExpiredDate = task.ExpiredDate,
                         });
                     }
                 }
@@ -303,6 +339,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             FarmerId = task.FarmerId.Value,
                             PlanId = id
                         });
+
+                        await _unitOfWork.FarmerPackagingTaskRepository.CreateAsync(new FarmerPackagingTask
+                        {
+                            FarmerId = task.FarmerId.Value,
+                            TaskId = task.Id,
+                            Description = task.Description,
+                            Status = "Active",
+                            ExpiredDate = task.ExpiredDate,
+                        });
                     }
                 }
 
@@ -325,7 +370,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult { Status = 404, Message = "Not found any plan!", Data = null };
                 }
 
-                if (plan.YieldId.HasValue)
+                if (!plan.YieldId.HasValue)
                 {
                     return new BusinessResult(404, "Plan does not have any yield. Can not approve!");
                 }
@@ -340,17 +385,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Plan does not have a description. Can not approve!");
                 }
 
-                if (plan.StartDate.HasValue)
+                if (!plan.StartDate.HasValue)
                 {
                     return new BusinessResult(404, "Plan does not have a start date. Can not approve!");
                 }
 
-                if (plan.EndDate.HasValue)
+                if (!plan.EndDate.HasValue)
+                {
+                    return new BusinessResult(404, "Plan does not have an end date. Can not approve!");
+                }
+                
+                if (!plan.CompleteDate.HasValue)
                 {
                     return new BusinessResult(404, "Plan does not have an end date. Can not approve!");
                 }
 
-                if (plan.EstimatedProduct.HasValue)
+                if (!plan.EstimatedProduct.HasValue)
                 {
                     return new BusinessResult(404, "Plan does not have an estimated product. Can not approve!");
                 }
@@ -358,6 +408,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 if (string.IsNullOrEmpty(plan.EstimatedUnit))
                 {
                     return new BusinessResult(404, "Plan does not have an estimated unit. Can not approve!");
+                }
+
+                if (!plan.SeedQuantity.HasValue)
+                {
+                    return new BusinessResult(404, "Plan does not have a seed quantity. Can not approve!");
                 }
 
                 plan.Status = "Pending";
@@ -461,7 +516,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> UpdateStatus(int id, string status)
+        public async Task<IBusinessResult> UpdateStatus(int id, string status, string? reportBy)
         {
             try
             {
@@ -473,6 +528,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 plan.Status = status;
                 plan.UpdatedAt = DateTime.Now;
+                plan.UpdatedBy = reportBy;
                 var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
 
                 if(rs != null)
@@ -596,6 +652,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.EndDate = model.EndDate;
                 plan.UpdatedAt = DateTime.Now;
                 plan.UpdatedBy = model.UpdateBy;
+                plan.SeedQuantity = model.SeedQuantity;
 
                 var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
 

@@ -21,7 +21,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetHarvestingTasks(int? planId, int? farmerId);
         Task<IBusinessResult> GetHarvestingTaskById(int id);
-        Task<IBusinessResult> GetHarvestingTaskDetailById(int id);
         Task<IBusinessResult> CreateHarvestingTask(CreateHarvestingPlan model);
         Task<IBusinessResult> ReportHarvestingTask(int id, HarvestingTaskReport model);
         Task<IBusinessResult> UpdateTask(int id, UpdateHarvestingTask model);
@@ -110,18 +109,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetHarvestingTaskById(int id)
         {
-            var obj = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
-            if (obj == null) return new BusinessResult(400, "Not found this id");
-            var result = _mapper.Map<HarvestingTaskModel>(obj);
+            var obj = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(taskId: id);
+            if (!(obj.Count > 0)) return new BusinessResult(400, "Not found any harvesting task !");
+            var result = _mapper.Map<List<HarvestingTaskModel>>(obj);
             return new BusinessResult(200, "Get harvesting task by id", result);
-        }
-
-        public async Task<IBusinessResult> GetHarvestingTaskDetailById(int id)
-        {
-            var obj = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTaskById(id);
-            if (obj == null) return new BusinessResult(400, "Not found this id");
-            var result = _mapper.Map<HarvestingTaskModel>(obj);
-            return new BusinessResult(200, "Get detail harvesting task by id", result);
         }
 
         public async Task<IBusinessResult> GetHarvestingTasks(int? planId, int? farmerId)
@@ -143,6 +134,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 _mapper.Map(model, harvestingTask);
                 harvestingTask.UpdatedAt = DateTime.Now;
+                harvestingTask.CompleteDate = DateTime.Now;
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
 
                 var images = await _unitOfWork.HarvestingImageRepository.GetHarvestingImagesByTaskId(id);

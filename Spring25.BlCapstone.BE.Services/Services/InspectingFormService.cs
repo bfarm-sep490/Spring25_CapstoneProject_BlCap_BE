@@ -18,10 +18,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetAllInspectingForm(int? planId, int? inspectorId);
         Task<IBusinessResult> GetInspectingFormById(int id);
-        Task<IBusinessResult> GetDetailInspectingFormById(int id);
         Task<IBusinessResult> CreateInspectingForm(CreateInspectingPlan model);
         Task<IBusinessResult> UpdateInspectingForm(int id, UpdateInspectingForm model);
-        Task<IBusinessResult> DeleteInspectingFormById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> DeleteForm(int id);
     }
@@ -62,11 +60,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public Task<IBusinessResult> DeleteInspectingFormById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IBusinessResult> GetAllInspectingForm(int? planId, int? inspectorId)
         {
             var list = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId, inspectorId);
@@ -74,19 +67,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200,"Get all Inspecting forms",result);
         }
 
-        public async Task<IBusinessResult> GetDetailInspectingFormById(int id)
-        {
-            var obj = await _unitOfWork.InspectingFormRepository.GetDetailInspectingFormById(id);
-            if (obj == null) return new BusinessResult(400, "Not Found this object");
-            var result = _mapper.Map<InspectingFormModel>(obj);
-            return new BusinessResult(200, "Get detail Inspecting form by id", result);
-        }
-
         public async Task<IBusinessResult> GetInspectingFormById(int id)
         {
-            var obj = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
-            if (obj == null) return new BusinessResult(400, "Not Found this object");
-            var result = _mapper.Map<InspectingFormModel>(obj);
+            var obj = await _unitOfWork.InspectingFormRepository.GetInspectingForms(formId: id);
+            if (obj.Count <= 0) return new BusinessResult(400, "Not Found this object");
+            var result = _mapper.Map<List<InspectingFormModel>>(obj);
             return new BusinessResult(200, "Get Inspecting form by id", result);
         }
 

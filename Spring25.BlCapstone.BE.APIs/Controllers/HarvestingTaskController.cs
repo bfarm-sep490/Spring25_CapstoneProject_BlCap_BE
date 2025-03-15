@@ -47,20 +47,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("harvesting-tasks/{id}/detail")]
-        public async Task<IActionResult> GetDetailHarvestingTaskById([FromRoute] int id)
-        {
-            try
-            {
-                var result = await _harvestingTaskService.GetHarvestingTaskDetailById(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("harvesting-tasks/images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {

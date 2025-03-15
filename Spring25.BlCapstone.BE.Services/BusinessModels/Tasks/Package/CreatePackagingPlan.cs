@@ -13,12 +13,16 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public int PlanId { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
+        [JsonPropertyName("packaging_type_id")]
+        public int? PackagingTypeId { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
+        [JsonPropertyName("created_by")]
+        public string CreatedBy { get; set; }
         [JsonPropertyName("items")]
         public List<PackageItem>? Items { get; set; }
     }

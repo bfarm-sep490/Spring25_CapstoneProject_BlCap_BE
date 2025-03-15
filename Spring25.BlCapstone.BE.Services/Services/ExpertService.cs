@@ -28,29 +28,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public class ExpertService : IExpertService
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ExpertService()
+        public ExpertService(IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
+            _mapper = mapper;
         }
 
         public async Task<IBusinessResult> GetAll()
         {
             var list = await _unitOfWork.ExpertRepository.GetExperts();
-            var result = list.Select(e => new FarmerModel
-            {
-                Id = e.Id,
-                Email = e.Account.Email,
-                Name = e.Account.Name,
-                Phone = e.Phone,
-                Avatar = e.Avatar,
-                IsActive = e.Account.IsActive,
-                UpdatedAt = e.Account.UpdatedAt,
-                CreatedAt = e.Account.CreatedAt,
-            })
-            .ToList();
+            var result = _mapper.Map<List<FarmerModel>>(list);
 
-            if(result.Count > 0)
+            if(list.Count > 0)
             {
                 return new BusinessResult(200, "List Experts", result);
             }
@@ -64,23 +55,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var users = await _unitOfWork.ExpertRepository.GetExperts();
-                var result = users
-                    .Where(u => u.Id == id)
-                    .Select(f => new FarmerModel
-                    {
-                        Id = f.Id,
-                        Email = f.Account.Email,
-                        Name = f.Account.Name,
-                        Phone = f.Phone,
-                        Avatar = f.Avatar,
-                        IsActive = f.Account.IsActive,
-                        UpdatedAt = f.Account.UpdatedAt,
-                        CreatedAt = f.Account.CreatedAt,
-                    })
-                .ToList();
+                var users = await _unitOfWork.ExpertRepository.GetExperts(id);
+                var result = _mapper.Map<List<FarmerModel>>(users);
 
-                if (result == null || !result.Any())
+                if (users.Count <= 0)
                 {
                     return new BusinessResult
                     {
@@ -112,9 +90,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var experts = await _unitOfWork.ExpertRepository.GetExperts();
-                var updatedExpert = experts.FirstOrDefault(f => f.Id == id);
-                if (updatedExpert == null)
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
+                if (expert == null)
                 {
                     return new BusinessResult
                     {
@@ -124,8 +101,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                updatedExpert.Account.IsActive = !updatedExpert.Account.IsActive;
-                var rs = await _unitOfWork.ExpertRepository.UpdateAsync(updatedExpert);
+                var updatedExpert = await _unitOfWork.AccountRepository.GetByIdAsync(expert.AccountId);
+                updatedExpert.IsActive = !updatedExpert.IsActive;
+                var rs = await _unitOfWork.AccountRepository.UpdateAsync(updatedExpert);
 
                 if (rs > 0)
                 {
@@ -212,24 +190,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 string password = PasswordHelper.GeneratePassword(model.Name, model.DOB);
-                var newAccount = new Account
-                {
-                    Email = model.Email,
-                    Name = model.Name,
-                    Role = "Expert",
-                    IsActive = true,
-                    CreatedAt = DateTime.Now,
-                    Password = password
-                };
+                var newAccount = _mapper.Map<Account>(model);
+                newAccount.Role = "Expert";
+                newAccount.IsActive = true;
+                newAccount.Password = password;
+                newAccount.CreatedAt = DateTime.Now;
+
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
-                var newExpert = new Expert
-                {
-                    AccountId = newAccount.Id,
-                    DOB = model.DOB != null ? model.DOB : null,
-                    Phone = model.Phone != null ? model.Phone : null,
-                    Avatar = model.Avatar != null ? model.Avatar : null,
-                };
+                var newExpert = _mapper.Map<Expert>(model);
+                newExpert.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.ExpertRepository.CreateAsync(newExpert);
 
                 if (rsf == null)

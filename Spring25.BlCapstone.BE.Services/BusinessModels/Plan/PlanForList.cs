@@ -31,12 +31,18 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public DateTime? StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime? EndDate { get; set; }
+        [JsonPropertyName("complete_date")]
+        public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("estimated_product")]
         public float? EstimatedProduct { get; set; }
         [JsonPropertyName("estimated_unit")]
         public string? EstimatedUnit { get; set; }
+        [JsonPropertyName("qr_code")]
+        public string? QRCode { get; set; }
+        [JsonPropertyName("seed_quantity")]
+        public int? SeedQuantity { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]

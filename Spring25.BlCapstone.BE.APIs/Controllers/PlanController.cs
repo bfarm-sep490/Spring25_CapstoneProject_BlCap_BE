@@ -142,11 +142,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> UpdatePlan(int id, [Required] string status)
+        public async Task<IActionResult> UpdatePlan(int id, [Required] string status, string report_by)
         {
             try
             {
-                var rs = await _planService.UpdateStatus(id, status);
+                var rs = await _planService.UpdateStatus(id, status, report_by);
                 return Ok(rs);
             }
             catch (Exception ex)
