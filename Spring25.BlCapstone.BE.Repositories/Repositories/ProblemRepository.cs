@@ -45,6 +45,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.Problems
                 .Where(p => p.PlanId == planId)
                 .Include(p => p.ProblemImages)
+                .Include(p => p.Farmer)
+                    .ThenInclude(f => f.Account)
                 .ToListAsync();
         }
     }

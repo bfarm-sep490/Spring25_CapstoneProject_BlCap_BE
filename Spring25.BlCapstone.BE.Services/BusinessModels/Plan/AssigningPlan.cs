@@ -45,6 +45,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+        [JsonPropertyName("expired_date")]
+        public DateTime ExpiredDate { get; set; }
     }
 
     public class AssignHarvestingTask
@@ -55,6 +59,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+        [JsonPropertyName("expired_date")]
+        public DateTime ExpiredDate { get; set; }
     }
 
     public class AssignInspectingForm
@@ -75,5 +83,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
+        [JsonPropertyName("expired_date")]
+        public DateTime ExpiredDate { get; set; }
     }
 }
