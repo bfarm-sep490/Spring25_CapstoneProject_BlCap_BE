@@ -100,5 +100,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        [HttpDelete("{farmer_id}/device-token")]
+        public async Task<ActionResult<IBusinessResult>> RemoveDeviceTokensByFarmerId([FromRoute] int farmer_id)
+        {
+            try
+            {
+                var result = await _authencationService.RemoveDeviceTokensbyFarmerId(farmer_id);
+                return StatusCode(200, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

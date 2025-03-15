@@ -14,11 +14,8 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide
         [JsonPropertyName("image")]
         public string Image { get; set; }
 
-        [JsonPropertyName("available_quantity")]
-        public float AvailableQuantity { get; set; }
-        [JsonPropertyName("total_quantity")]
-        public float TotalQuantity { get; set; }
-        [JsonPropertyName("unit")]
+        [JsonPropertyName("quantity")]
+        public float Quantity { get; set; }
         public string Unit { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }

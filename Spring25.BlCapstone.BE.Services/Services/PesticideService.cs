@@ -35,7 +35,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> Create(PesticideModel model)
         {
             var obj = _mapper.Map<Pesticide>(model);
-            obj.Status = "true";
+            obj.Status = "Available";
             var result = await _unitOfWork.PesticideRepository.CreateAsync(obj);
             return new BusinessResult(200, "Create Pesticide successfully", result);
         }

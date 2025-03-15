@@ -23,11 +23,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide
         [JsonPropertyName("image")]
         public string Image { get; set; }
 
-        [JsonPropertyName("available_quantity")]
-        public float AvailableQuantity { get; set; }
-        [JsonPropertyName("total_quantity")]
-        public float TotalQuantity { get; set; }
-        [JsonPropertyName("unit")]
+        [JsonPropertyName("quantity")]
+        public float Quantity { get; set; }
         public string Unit { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
