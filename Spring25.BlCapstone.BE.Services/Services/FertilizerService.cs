@@ -37,7 +37,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> Create(FertilizerModel model)
         {
             var obj = _mapper.Map<Fertilizer>(model);
-            obj.Status = "true";
+            obj.Status = "Available";
             var result = await _unitOfWork.FertilizerRepository.CreateAsync(obj);
             return new BusinessResult(200, "Create Fertilizer successfully", result);
         }

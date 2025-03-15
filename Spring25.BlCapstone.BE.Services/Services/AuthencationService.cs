@@ -27,20 +27,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllAccount();
         Task<IBusinessResult> AddFarmerDevice(int id,string token);
         Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id);
+        Task<IBusinessResult> RemoveDeviceTokensbyFarmerId(int farmer_id);
     }
     public class AuthencationService : IAuthencationService
     {
         private UnitOfWork _unitOfWork;
         private IConfiguration _configuration;
         private IMapper _mapper;
-        private readonly RedisManagement _redisManagerment;
+        private readonly RedisManagement _redisManagement;
 
         public AuthencationService(IConfiguration configuration,IMapper mapper,RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _configuration = configuration;
             _mapper = mapper;
-            _redisManagerment = redisManagement;
+            _redisManagement = redisManagement;
         }
 
         public async Task<IBusinessResult> GetAccountInfoById(int id)
@@ -216,21 +217,30 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
             if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
             var key = $"DeviceTokens{id}";
-            string productListJson = _redisManagerment.GetData(key);
-            var result = new DeviceTokenModel();
-            if (productListJson == null || productListJson == "[]")
-            {     
-                result.Id = id;
-                result.Tokens = new List<string>();
-            }
-            else
+            try
             {
-                result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
-            }  
-            result.Tokens.Add(token);              
-            productListJson = JsonConvert.SerializeObject(result);
-            _redisManagerment.SetData(key, productListJson);
-            return new BusinessResult(200, "Set Device Token successfully", result);
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                var result = new DeviceTokenModel();
+                if (productListJson == null || productListJson == "[]")
+                {
+                    result.Id = id;
+                    result.Tokens = new List<string>();
+                }
+                else
+                {
+                    result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                }
+                result.Tokens.Add(token);
+                productListJson = JsonConvert.SerializeObject(result);
+                _redisManagement.SetData(key, productListJson);
+                return new BusinessResult(200, "Set Device Token successfully", result);
+            }
+            catch 
+            { 
+                return new BusinessResult(400, "Redis is fail"); 
+            }
+          
         }
 
         public async Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id)
@@ -238,13 +248,41 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
             if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
             var key = $"DeviceTokens{id}";
-            string productListJson = _redisManagerment.GetData(key);
-            if (productListJson == null || productListJson == "[]")
+            try
             {
-                return new BusinessResult(400, "This Farmer do not have DeviceToken");
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    return new BusinessResult(400, "This Farmer do not have DeviceToken");
+                }
+                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                return new BusinessResult(200, "Farmer device token", result);
             }
-            var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
-            return new BusinessResult(200, "Farmer device token", result);
+            catch (Exception ex)
+            {
+                return new BusinessResult(400, "Redis is Fail");
+            }
+           
+        }
+
+        public async Task<IBusinessResult> RemoveDeviceTokensbyFarmerId(int farmer_id)
+        {
+            var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmer_id);
+            if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                var key = $"DeviceTokens{farmer_id}";
+                _redisManagement.DeleteData(key);
+                return new BusinessResult(200, "Removed Farmer device token");
+
+            }
+            catch (Exception ex) 
+            { 
+                return new BusinessResult(400,"Redis is Fail");
+            }
+           
         }
     }
 }
