@@ -11,10 +11,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
     {
         [JsonPropertyName("result_content")]
         public string? ResultContent { get; set; }
-        [JsonPropertyName("complete_date")]
-        public DateTime? CompleteDate { get; set; }
-        [JsonPropertyName("is_complete")]
-        public bool IsCompleted { get; set; }
+        [JsonPropertyName("report_by")]
+        public string? UpdatedBy { get; set; }
         [JsonPropertyName("list_of_image_urls")]
         public List<string> Images { get; set; }
     }

@@ -18,11 +18,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId);
         Task<IBusinessResult> GetCaringTaskById(int id);
-        Task<IBusinessResult> GetDetailCaringTaskById(int id);
         Task<IBusinessResult> CreateCaringTask(CreateCaringPlan model);
         Task<IBusinessResult> UpdateDetailCaringTask(int id, UpdateCaringTask model);
-        Task<IBusinessResult> UpdateCaringFertilizerModel(CareFertilizerModel result);
-        Task<IBusinessResult> UpdateCaringPesticideModel(CarePesticideModel result);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> DeleteCaringTask(int id);
         Task<IBusinessResult> TaskReport(int id, CaringTaskReport model);
@@ -50,28 +47,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetCaringTaskById(int id)
         {
-            var obj = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
-            if (obj == null) return new BusinessResult(404, "Not found this object", null);
-            var result =_mapper.Map<CaringTaskModel>(obj);
-            return new BusinessResult(200,"Get caring task by id",result);
-        }
-
-        public async Task<IBusinessResult> GetDetailCaringTaskById(int id)
-        {
-            var obj = await _unitOfWork.CaringTaskRepository.GetDetail(id);
-            if (obj == null) return new BusinessResult(404, "Not found this object", null);
-            var result = _mapper.Map<CaringTaskModel>(obj);
-            return new BusinessResult(200, "Get detail caring task by id", result);
-        }
-
-        public Task<IBusinessResult> UpdateCaringFertilizerModel(CareFertilizerModel result)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IBusinessResult> UpdateCaringPesticideModel(CarePesticideModel result)
-        {
-            throw new NotImplementedException();
+            var obj = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(taskId: id);
+            if (obj.Count <= 0) return new BusinessResult(404, "Not found caring tasks !", null);
+            var result = _mapper.Map<List<CaringTaskModel>>(obj);
+            return new BusinessResult(200,"Get caring task by id", result);
         }
 
         public async Task<IBusinessResult> UpdateDetailCaringTask(int id, UpdateCaringTask model)
@@ -311,6 +290,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 _mapper.Map(model, caringTask);
                 caringTask.UpdatedAt = DateTime.Now;
+                caringTask.CompleteDate = DateTime.Now;
                 await _unitOfWork.CaringTaskRepository.UpdateAsync(caringTask);
 
                 var images = await _unitOfWork.CaringImageRepository.GetCaringImagesByTaskId(id);

@@ -27,13 +27,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId = null, int? farmerId = null)
+        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId = null, int? farmerId = null, int? taskId = null)
         {
             var query = _context.CaringTasks
                                       .Include(x => x.CaringItems)
                                       .Include(x => x.CaringFertilizers)
                                       .Include(x => x.CaringPesticides)
                                       .Include(x => x.CaringImages)
+                                      .Include(x => x.FarmerCaringTasks)
+                                            .ThenInclude(x => x.Farmer)
+                                            .ThenInclude(x => x.Account)
                                       .AsQueryable();  
 
             if (planId.HasValue)
@@ -41,8 +44,19 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(ct => ct.PlanId == planId);
             }
 
+            if (farmerId.HasValue)
+            {
+                query = query.Where(ct => ct.FarmerCaringTasks.Any(c => c.FarmerId == farmerId));
+            }
+
+            if (taskId.HasValue)
+            {
+                query = query.Where(ct => ct.Id == taskId);
+            }
+
             return await query.ToListAsync();
         }
+        
         public async Task<List<AdminData>> GetDashboardCaringTasks()
         {
             var data = await _context.CaringTasks.Where(x => x.CompleteDate.HasValue).ToListAsync();
