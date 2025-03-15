@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         [JsonPropertyName("task_type")]
         public string TaskType { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
