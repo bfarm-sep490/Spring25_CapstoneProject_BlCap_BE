@@ -11,31 +11,23 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Inspector
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-
         [JsonPropertyName("email")]
         public string Email { get; set; }
-
         [JsonPropertyName("name")]
         public string Name { get; set; }
-
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("address")]
-        public string Address { get; set; }
-
-        [JsonPropertyName("status")]
-        public string Status { get; set; }
-
+        public string? Address { get; set; }
         [JsonPropertyName("image_url")]
-        public string ImageUrl { get; set; }
-
+        public string? ImageUrl { get; set; }
+        [JsonPropertyName("hotline")]
+        public string? Hotline { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
         [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
-        [JsonPropertyName("is_available")]
-        public bool IsAvailable { get; set; }
     }
 }

@@ -20,8 +20,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Retailer
         public string? Phone { get; set; }
         [JsonPropertyName("avatar_url")]
         public string? Avatar { get; set; }
-        [JsonPropertyName("long_&_lat")]
-        public string? LongxLat { get; set; }
+        [JsonPropertyName("longitude")]
+        public float? Longitude { get; set; }
+        [JsonPropertyName("latitude")]
+        public float? Latitude { get; set; }
         [JsonPropertyName("address")]
         public string? Address { get; set; }
     }

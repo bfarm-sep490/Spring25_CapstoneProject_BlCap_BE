@@ -16,12 +16,19 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<Expert>> GetExperts()
+        public async Task<List<Expert>> GetExperts(int? id = null)
         {
-            return await _context.Experts
-                .Include(f => f.Account)
-                .ToListAsync();
+            var query = _context.Experts
+                                .Include(f => f.Account)
+                                .AsQueryable();
+            if (id.HasValue)
+            {
+                query = query.Where(e => e.Id == id);
+            }
+
+            return await query.ToListAsync();
         }
+
         public async Task<Expert> GetExpertbyAccountId(int id)
         {
             return await _context.Experts

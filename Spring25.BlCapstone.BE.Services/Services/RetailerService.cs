@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -27,30 +28,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public class RetailerService : IRetailerService
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public RetailerService()
+        public RetailerService(IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
+            _mapper = mapper;
         }
 
         public async Task<IBusinessResult> GetAll()
         {
             var list = await _unitOfWork.RetailerRepository.GetRetailers();
-            var result = list.Select(e => new RetailerModels
-            {
-                Id = e.Id,
-                Email = e.Account.Email,
-                Name = e.Account.Name,
-                Phone = e.Phone,
-                Avatar = e.Avatar,
-                CreatedAt = e.Account.CreatedAt,
-                UpdatedAt = e.Account.UpdatedAt,
-                IsActive = e.Account.IsActive,
-                Address = e.Address,
-            })
-            .ToList();
+            var result = _mapper.Map<List<RetailerModels>>(list);
 
-            if (result.Count > 0)
+            if (list.Count > 0)
             {
                 return new BusinessResult(200, "List Retailers", result);
             }
@@ -65,23 +56,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var users = await _unitOfWork.RetailerRepository.GetRetailers();
-                var result = users
-                    .Where(u => u.Id == id)
-                    .Select(f => new RetailerModels
-                    {
-                        Id = f.Id,
-                        Email = f.Account.Email,
-                        Name = f.Account.Name,
-                        Phone = f.Phone,
-                        Avatar = f.Avatar,
-                        IsActive = f.Account.IsActive,
-                        CreatedAt = f.Account.CreatedAt,
-                        UpdatedAt = f.Account.UpdatedAt,
-                        Address = f.Address,
-                    })
-                .ToList();
+                var result = _mapper.Map<List<RetailerModels>>(users);
 
-                if (result == null || !result.Any())
+                if (!(users.Count > 0))
                 {
                     return new BusinessResult
                     {
@@ -113,9 +90,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var retailers = await _unitOfWork.RetailerRepository.GetRetailers();
-                var updatedRetailer = retailers.FirstOrDefault(f => f.Id == id);
-                if (updatedRetailer == null)
+                var retailers = await _unitOfWork.RetailerRepository.GetByIdAsync(id);
+                if (retailers == null)
                 {
                     return new BusinessResult
                     {
@@ -125,8 +101,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                updatedRetailer.Account.IsActive = !updatedRetailer.Account.IsActive;
-                var rs = await _unitOfWork.RetailerRepository.UpdateAsync(updatedRetailer);
+                var updatedRetailer = await _unitOfWork.AccountRepository.GetByIdAsync(retailers.AccountId);
+                updatedRetailer.IsActive = !updatedRetailer.IsActive;
+                var rs = await _unitOfWork.AccountRepository.UpdateAsync(updatedRetailer);
 
                 if (rs > 0)
                 {
@@ -213,25 +190,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 string password = PasswordHelper.GeneratePassword(model.Name, model.DOB);
-                var newAccount = new Account
-                {
-                    Email = model.Email,
-                    Name = model.Name,
-                    Role = "Retailer",
-                    IsActive = true,
-                    CreatedAt = DateTime.Now,
-                    Password = password
-                };
+                var newAccount = _mapper.Map<Account>(model);
+                newAccount.Password = password;
+                newAccount.IsActive = true;
+                newAccount.Password = password;
+                newAccount.CreatedAt = DateTime.Now;
+
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
-                var newRetailer = new Retailer
-                {
-                    AccountId = newAccount.Id,
-                    DOB = model.DOB != null ? model.DOB : null,
-                    Phone = model.Phone != null ? model.Phone : "",
-                    Avatar = model.Avatar != null ? model.Avatar : null,
-                    Address = model.Address != null ? model.Address : "Somewhere..."
-                };
+                var newRetailer = _mapper.Map<Retailer>(model);
+                newRetailer.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.RetailerRepository.CreateAsync(newRetailer);
 
                 if (rsf == null)
@@ -285,11 +253,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 account.UpdatedAt = DateTime.Now;
                 await _unitOfWork.AccountRepository.UpdateAsync(account);
 
-                retailer.DOB = model.DOB;
-                retailer.Phone = model.Phone != null ? model.Phone : null;
-                retailer.Avatar = model.Avatar != null ? model.Avatar : null;
-                retailer.Address = model.Address != null ? model.Address : "Somewhere...";
-
+                _mapper.Map(model, retailer);
                 var rs = await _unitOfWork.RetailerRepository.UpdateAsync(retailer);
                 if (rs > 0)
                 {
