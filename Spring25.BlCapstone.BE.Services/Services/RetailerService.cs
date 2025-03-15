@@ -42,12 +42,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 Email = e.Account.Email,
                 Name = e.Account.Name,
                 Phone = e.Phone,
-                Status = e.Status,
                 Avatar = e.Avatar,
                 CreatedAt = e.Account.CreatedAt,
                 UpdatedAt = e.Account.UpdatedAt,
                 IsActive = e.Account.IsActive,
-                LongxLat = e.LongxLat,
                 Address = e.Address,
             })
             .ToList();
@@ -75,12 +73,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Email = f.Account.Email,
                         Name = f.Account.Name,
                         Phone = f.Phone,
-                        Status = f.Status,
                         Avatar = f.Avatar,
                         IsActive = f.Account.IsActive,
                         CreatedAt = f.Account.CreatedAt,
                         UpdatedAt = f.Account.UpdatedAt,
-                        LongxLat = f.LongxLat,
                         Address = f.Address,
                     })
                 .ToList();
@@ -233,9 +229,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     AccountId = newAccount.Id,
                     DOB = model.DOB != null ? model.DOB : null,
                     Phone = model.Phone != null ? model.Phone : "",
-                    Status = "?",
                     Avatar = model.Avatar != null ? model.Avatar : null,
-                    LongxLat = model.LongxLat != null ? model.LongxLat : "0",
                     Address = model.Address != null ? model.Address : "Somewhere..."
                 };
                 var rsf = await _unitOfWork.RetailerRepository.CreateAsync(newRetailer);
@@ -294,7 +288,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 retailer.DOB = model.DOB;
                 retailer.Phone = model.Phone != null ? model.Phone : null;
                 retailer.Avatar = model.Avatar != null ? model.Avatar : null;
-                retailer.LongxLat = model.LongxLat != null ? model.LongxLat : "0";
                 retailer.Address = model.Address != null ? model.Address : "Somewhere...";
 
                 var rs = await _unitOfWork.RetailerRepository.UpdateAsync(retailer);

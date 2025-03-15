@@ -20,7 +20,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         private ExpertRepository _expertRepository;
         private FarmerPermissionRepository _farmerPermissionRepository;
         private FarmerRepository _farmerRepository;
-        private FertilizerRangeRepository _fertilizerRangeRepository;
         private FertilizerRepository _fertilizerRepository;
         private HarvestingImageRepository _harvestingImageRepository;
         private HarvestingItemRepository _harvestingItemRepository;
@@ -31,21 +30,28 @@ namespace Spring25.BlCapstone.BE.Repositories
         private PackagingItemRepository _packagingItemRepository;
         private PackagingImageRepository _packagingImageRepository;
         private InspectorRepository _inspectorRepository;
-        private IssueRepository _issueRepository;
         private ItemRepository _itemRepository;
-        private OrderPlanRepository _orderPlanRepository;
-        private OrderPlantRepository _orderPlantRepository;
         private OrderRepository _orderRepository;
-        private PesticideRangeRepository _pesticideRangeRepository;
         private PesticideRepository _pesticideRepository;
         private PlanRepository _planRepository;
         private PlantRepository _plantRepository;
         private ProblemImageRepository _problemImageRepository;
         private ProblemRepository _problemRepository;
         private RetailerRepository _retailerRepository;
-        private SampleSolutionRepository _sampleSolutionRepository;
         private TransactionRepository _transactionRepository;
         private YieldRepository _yieldRepository;
+        private DataEnvironmentRepository _dataEnvironmentRepository;   
+        private FarmerCaringTaskRepository _farmerCaringTaskRepository;
+        private FarmerHarvestingTaskRepository _farmerHarvestingTaskRepository;
+        private FarmerPackagingTaskRepository _farmerPackagingTaskRepository;
+        private InspectingResultRepository _inspectingResultRepository;
+        private NotificationExpertRepository _notificationExpertRepository;
+        private NotificationFarmerRepository _notificationFarmerRepository;
+        private NotificationOwnerRepository _notificationOwnerRepository;
+        private NotificationRetailerRepository _notificationRetailerRepository;
+        private PackagingProductRepository _packagingProductRepository;
+        private PackagingTypeRepository _packagingTypeRepository;
+        private PlantYieldRepository _plantYieldRepository;
 
         public UnitOfWork()
         {
@@ -76,15 +82,21 @@ namespace Spring25.BlCapstone.BE.Repositories
             _packagingTaskRepository ??= new PackagingTaskRepository();
             _packagingItemRepository ??= new PackagingItemRepository();
             _packagingImageRepository ??= new PackagingImageRepository();
-            _fertilizerRangeRepository ??= new FertilizerRangeRepository();
             _inspectorRepository ??= new InspectorRepository();
-            _issueRepository ??= new IssueRepository();
-            _orderPlanRepository ??= new OrderPlanRepository();
-            _orderPlantRepository ??= new OrderPlantRepository();
-            _pesticideRangeRepository ??= new PesticideRangeRepository();
             _problemImageRepository ??= new ProblemImageRepository();
             _problemRepository ??= new ProblemRepository();
-            _sampleSolutionRepository ??= new SampleSolutionRepository();
+            _dataEnvironmentRepository ??= new DataEnvironmentRepository();
+            _farmerCaringTaskRepository ??= new FarmerCaringTaskRepository();
+            _farmerHarvestingTaskRepository ??= new FarmerHarvestingTaskRepository();
+            _farmerPackagingTaskRepository ??= new FarmerPackagingTaskRepository();
+            _inspectingResultRepository ??= new InspectingResultRepository();
+            _notificationExpertRepository ??= new NotificationExpertRepository();
+            _notificationFarmerRepository ??= new NotificationFarmerRepository();
+            _notificationOwnerRepository ??= new NotificationOwnerRepository();
+            _notificationRetailerRepository ??= new NotificationRetailerRepository();
+            _packagingProductRepository ??= new PackagingProductRepository();
+            _packagingTypeRepository ??= new PackagingTypeRepository();
+            _plantYieldRepository ??= new PlantYieldRepository();
         }
 
         public UnitOfWork(AccountRepository accountRepository, FarmerRepository farmerRepository,
@@ -92,18 +104,19 @@ namespace Spring25.BlCapstone.BE.Repositories
             PlantRepository plantRepository, RetailerRepository retailerRepository,
             OrderRepository orderRepository, TransactionRepository transactionRepository, PlanRepository planRepository,
             DeviceRepository deviceRepository, FarmerPermissionRepository farmerPermissionRepository,
-            CaringTaskRepository caringTaskRepository,
-            HarvestingTaskRepository harvestingTaskRepository,
+            CaringTaskRepository caringTaskRepository, DataEnvironmentRepository dataEnvironmentRepository,
+            HarvestingTaskRepository harvestingTaskRepository, FarmerCaringTaskRepository farmerCaringTaskRepository,
             InspectingFormRepository inspectingFormRepository, CaringImageRepository caringImageRepository,
             HarvestingImageRepository harvestingImageRepository, InspectingImageRepository inspectingImageRepository,
             PesticideRepository pesticideRepository, CaringPesticideRepository caringPesticideRepository,
             FertilizerRepository fertilizerRepository, CaringFertilizerRepository caringFertilizerRepository,
             CaringItemRepository caringItemRepository, HarvestingItemRepository harvestingItemRepository,
-            PackagingTaskRepository packagingTaskRepository, FertilizerRangeRepository fertilizerRangeRepository,
-            PackagingItemRepository packagingItemRepository, PackagingImageRepository packagingImageRepository,
-            InspectorRepository inspectorRepository, IssueRepository issueRepository, OrderPlanRepository orderPlanRepository,
-            OrderPlantRepository orderPlantRepository, PesticideRangeRepository pesticideRangeRepository, ProblemImageRepository problemImageRepository,
-            ProblemRepository problemRepository, SampleSolutionRepository sampleSolutionRepository)
+            PackagingTaskRepository packagingTaskRepository, FarmerHarvestingTaskRepository farmerHarvestingTaskRepository,
+            PackagingItemRepository packagingItemRepository, PackagingImageRepository packagingImageRepository, FarmerPackagingTaskRepository farmerPackagingTaskRepository,
+            InspectorRepository inspectorRepository, InspectingResultRepository inspectingResultRepository, NotificationExpertRepository notificationExpertRepository,
+            ProblemImageRepository problemImageRepository, NotificationFarmerRepository notificationFarmerRepository, NotificationOwnerRepository notificationOwnerRepository, NotificationRetailerRepository notificationRetailerRepository,
+            ProblemRepository problemRepository, PackagingProductRepository packagingProductRepository, PackagingTypeRepository packagingTypeRepository,
+            PlantYieldRepository plantYieldRepository)
         {
             _accountRepository = accountRepository;
             _farmerRepository = farmerRepository;
@@ -132,15 +145,21 @@ namespace Spring25.BlCapstone.BE.Repositories
             _packagingTaskRepository = packagingTaskRepository;
             _packagingItemRepository = packagingItemRepository;
             _packagingImageRepository = packagingImageRepository;
-            _fertilizerRangeRepository = fertilizerRangeRepository;
             _inspectorRepository = inspectorRepository;
-            _issueRepository = issueRepository;
-            _orderPlanRepository = orderPlanRepository;
-            _orderPlantRepository = orderPlantRepository;
-            _pesticideRangeRepository = pesticideRangeRepository;
             _problemImageRepository = problemImageRepository;
             _problemRepository = problemRepository;
-            _sampleSolutionRepository = sampleSolutionRepository;
+            _dataEnvironmentRepository = dataEnvironmentRepository;
+            _farmerCaringTaskRepository = farmerCaringTaskRepository;
+            _farmerHarvestingTaskRepository = farmerHarvestingTaskRepository;
+            _farmerPackagingTaskRepository = farmerPackagingTaskRepository;
+            _inspectingResultRepository = inspectingResultRepository;
+            _notificationExpertRepository = notificationExpertRepository;
+            _notificationFarmerRepository = notificationFarmerRepository;
+            _notificationOwnerRepository = notificationOwnerRepository;
+            _notificationRetailerRepository = notificationRetailerRepository;
+            _packagingProductRepository = packagingProductRepository;
+            _packagingTypeRepository = packagingTypeRepository;
+            _plantYieldRepository = plantYieldRepository;
         }
 
         public AccountRepository AccountRepository { get { return _accountRepository; } }
@@ -167,17 +186,23 @@ namespace Spring25.BlCapstone.BE.Repositories
         public CaringFertilizerRepository CaringFertilizerRepository { get { return _caringFertilizerRepository; } }
         public CaringItemRepository CaringItemRepository { get { return _caringItemRepository; } }
         public HarvestingItemRepository HarvestingItemRepository { get { return _harvestingItemRepository; } }
-        public FertilizerRangeRepository FertilizerRangeRepository { get { return _fertilizerRangeRepository; } }
         public InspectorRepository InspectorRepository { get { return _inspectorRepository; } }
-        public IssueRepository IssueRepository { get { return _issueRepository; } }
-        public OrderPlanRepository OrderPlanRepository { get { return _orderPlanRepository; } }
-        public OrderPlantRepository OrderPlantRepository { get { return _orderPlantRepository; } }
-        public PesticideRangeRepository PesticideRangeRepository { get { return _pesticideRangeRepository; } }
         public ProblemImageRepository ProblemImageRepository { get { return _problemImageRepository; } }
         public ProblemRepository ProblemRepository { get { return _problemRepository; } }
-        public SampleSolutionRepository SampleSolutionRepository { get { return _sampleSolutionRepository; } }
         public PackagingTaskRepository PackagingTaskRepository { get { return _packagingTaskRepository; } }
         public PackagingItemRepository PackagingItemRepository { get { return _packagingItemRepository; } }
         public PackagingImageRepository PackagingImageRepository { get { return _packagingImageRepository; } }
+        public DataEnvironmentRepository DataEnvironmentRepository { get { return _dataEnvironmentRepository; } }
+        public FarmerCaringTaskRepository FarmerCaringTaskRepository { get { return _farmerCaringTaskRepository; } }
+        public FarmerHarvestingTaskRepository FarmerHarvestingTaskRepository { get { return _farmerHarvestingTaskRepository; } }
+        public FarmerPackagingTaskRepository FarmerPackagingTaskRepository { get { return _farmerPackagingTaskRepository; } }
+        public InspectingResultRepository InspectingResultRepository { get { return _inspectingResultRepository; } }
+        public NotificationExpertRepository NotificationExpertRepository { get { return _notificationExpertRepository; } }
+        public NotificationFarmerRepository NotificationFarmerRepository { get { return _notificationFarmerRepository; } }
+        public NotificationOwnerRepository NotificationOwnerRepository { get { return _notificationOwnerRepository; } }
+        public NotificationRetailerRepository NotificationRetailerRepository { get { return _notificationRetailerRepository; } }
+        public PackagingProductRepository PackagingProductRepository { get { return _packagingProductRepository; } }
+        public PackagingTypeRepository PackagingTypeRepository { get { return _packagingTypeRepository; } }
+        public PlantYieldRepository PlantYieldRepository { get { return _plantYieldRepository; } }
     }
 }

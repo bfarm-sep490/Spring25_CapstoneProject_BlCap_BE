@@ -48,9 +48,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var task = _mapper.Map<HarvestingTask>(model);
-                task.IsAvailable = true;
                 task.Status = "Draft";
-                task.Priority = 0;
                 task.CreatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.HarvestingTaskRepository.CreateAsync(task);

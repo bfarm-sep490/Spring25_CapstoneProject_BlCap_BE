@@ -15,29 +15,23 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int PlanId { get; set; }
         public int? InspectorId { get; set; }
         public string FormName { get; set; }
-        public string FormType { get; set; }
+        public string Type { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string? ResultContent { get; set; }
-        public float? BrixPoint { get; set; }
-        public float? Temperature { get; set; }
-        public float? Humidity { get; set; }
-        public float? Moisture { get; set; }
-        public string? ShellColor { get; set; }
-        public string? TestGTKitColor { get; set; }
-        public int? InspectingQuantity { get; set; }
-        public string? Unit { get; set; }
-        public float? IssuePercent { get; set; }
+        public int? NumberOfSample { get; set; }
+        public float? SampleWeight { get; set; }
+        public DateTime? CompleteDate { get; set; }
         public bool CanHarvest { get; set; }
-        public DateTime? CompletedDate { get; set; }
         public string Status { get; set; }
-        public int Priority { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string CreatedBy { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public string? UpdatedBy { get; set; }
+        
         public Plan Plan { get; set; }
         public Inspector Inspector { get; set; }
-        public ICollection<InspectingImage> InspectingImages { get; set; }
+        public ICollection<InspectingResult> InspectingResults { get; set; }
     }
 }

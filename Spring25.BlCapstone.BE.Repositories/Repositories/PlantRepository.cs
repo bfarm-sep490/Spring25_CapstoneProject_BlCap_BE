@@ -23,11 +23,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             var query = _context.Plants.AsQueryable();
 
-            if (isAvailable != null)
-            {
-                query = query.Where(p => p.IsAvailable == isAvailable);
-            }
-
             return await query.ToListAsync();
         }
     }

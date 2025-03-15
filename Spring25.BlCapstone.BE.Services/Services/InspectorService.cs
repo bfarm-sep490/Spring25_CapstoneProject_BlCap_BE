@@ -208,9 +208,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     AccountId = newAccount.Id,
                     Description = model.Description,
                     Address = model.Address,
-                    Status = "?",
                     ImageUrl = model.ImageUrl != null ? model.ImageUrl : null,
-                    IsAvailable = true,
                 };
                 var rsf = await _unitOfWork.InspectorRepository.CreateAsync(newIns);
 
@@ -268,7 +266,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 ins.Description = model.Description;
                 ins.Address = ins.Address;
                 ins.ImageUrl = model.ImageUrl;
-                ins.Status = model.Status;
 
                 var rs = await _unitOfWork.InspectorRepository.UpdateAsync(ins);
                 if (rs > 0)

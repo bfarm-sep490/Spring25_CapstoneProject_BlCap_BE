@@ -103,7 +103,6 @@ builder.Services.AddScoped<ICaringTaskService, CaringTaskService>();
 builder.Services.AddScoped<IHarvestingTaskService, HarvestingTaskService>();
 builder.Services.AddScoped<IInspectingFormService, InspectingFormService>();
 builder.Services.AddScoped<IPackagingTaskService, PackagingTaskService>();
-builder.Services.AddScoped<IIssueService, IssueService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddSingleton<RedisManagement>();
 var app = builder.Build();

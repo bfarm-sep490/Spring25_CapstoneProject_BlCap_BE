@@ -44,7 +44,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 Email = f.Account.Email,
                 Name = f.Account.Name,
                 Phone = f.Phone,
-                Status = f.Status,
                 Avatar = f.Avatar,
                 IsActive = f.Account.IsActive,
                 UpdatedAt = f.Account.UpdatedAt,
@@ -75,7 +74,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Email = f.Account.Email,
                         Name = f.Account.Name,
                         Phone = f.Phone,
-                        Status = f.Status,
                         Avatar = f.Avatar,
                         IsActive = f.Account.IsActive,
                         UpdatedAt= f.Account.UpdatedAt,
@@ -233,7 +231,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     AccountId = newAccount.Id,
                     DOB = model.DOB != null ? model.DOB : null,
                     Phone = model.Phone != null ? model.Phone : null,
-                    Status = "?",
                     Avatar = model.Avatar != null ? model.Avatar : null,
                 };
                 var rsf = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);

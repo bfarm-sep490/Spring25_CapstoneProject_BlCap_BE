@@ -201,7 +201,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = _mapper.Map<PackagingTask>(model);
                 task.Status = "Draft";
                 task.CreatedAt = DateTime.Now;
-                task.Priority = 0;
 
                 var rs = await _unitOfWork.PackagingTaskRepository.CreateAsync(task);
                 if (model.Items != null)

@@ -35,7 +35,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var obj = _mapper.Map<Yield>(model);
-                obj.IsAvailable = true;
                 var rs = await _unitOfWork.YieldRepository.CreateAsync(obj);
 
                 return new BusinessResult(200, "Create successfully !", rs);

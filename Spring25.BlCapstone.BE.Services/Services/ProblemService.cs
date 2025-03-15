@@ -121,15 +121,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                if (model.IssueId != null)
-                {
-                    var issue = await _unitOfWork.IssueRepository.GetByIdAsync(model.IssueId.Value);
-                    if (issue == null)
-                    {
-                        return new BusinessResult(404, "Issue not found");
-                    }
-                }
-
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(model.PlanId);
                 if (plan == null)
                 {

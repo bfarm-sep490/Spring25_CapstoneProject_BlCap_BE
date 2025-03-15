@@ -39,11 +39,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Id = d.Id,
                     YieldId = d.YieldId,
                     Name = d.Name,
-                    Type = d.Type,
-                    Location = d.Location,
                     Status = d.Status,
                     DeviceCode = d.DeviceCode,
-                    InstallationDate = d.InstallationDate,
                     CreatedAt = d.CreatedAt,
                     CreatedBy = d.CreatedBy,
                     UpdatedAt = d.UpdatedAt,
@@ -101,11 +98,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Id = device.Id,
                     YieldId = device.YieldId,
                     Name = device.Name,
-                    Type = device.Type,
-                    Location = device.Location,
                     Status = device.Status,
                     DeviceCode = device.DeviceCode,
-                    InstallationDate = device.InstallationDate,
                     CreatedAt = device.CreatedAt,
                     CreatedBy = device.CreatedBy,
                     UpdatedAt = device.UpdatedAt,
@@ -197,11 +191,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     YieldId = model.YieldId,
                     Name = model.Name,
-                    Type = model.Type,
-                    Location = model.Location,
                     Status = model.Status,
                     DeviceCode = model.DeviceCode,
-                    InstallationDate = model.InstallationDate,
                     CreatedAt = DateTime.Now,
                     CreatedBy = model.CreatedBy,
                     UpdatedAt = DateTime.Now,
@@ -268,11 +259,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 existedDevice.YieldId = model.YieldId;
                 existedDevice.Name = model.Name;
-                existedDevice.Type = model.Type;
-                existedDevice.Location = model.Location;
                 existedDevice.Status = model.Status;
                 existedDevice.DeviceCode = model.DeviceCode;
-                existedDevice.InstallationDate = model.InstallationDate;
                 existedDevice.UpdatedAt = DateTime.Now;
                 existedDevice.UpdatedBy = model.UpdatedBy;
 

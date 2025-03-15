@@ -247,7 +247,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach (var task in model.AssignCaringTasks)
                     {
                         var caring = await _unitOfWork.CaringTaskRepository.GetByIdAsync(task.Id);
-                        caring.FarmerId = task.FarmerId;
                         caring.Status = task.Status;
 
                         await _unitOfWork.CaringTaskRepository.UpdateAsync(caring);
@@ -257,7 +256,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         {
                             FarmerId = task.FarmerId.Value,
                             PlanId = id,
-                            IsActive = true,
                         });
                     }
                 }
@@ -267,7 +265,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach (var task in model.AssignHarvestingTasks)
                     {
                         var harvesting = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(task.Id);
-                        harvesting.FarmerId = task.FarmerId;
                         harvesting.Status = task.Status;
 
                         await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvesting);
@@ -276,7 +273,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         {
                             FarmerId = task.FarmerId.Value,
                             PlanId = id,
-                            IsActive = true,
                         });
                     }
                 }
@@ -298,7 +294,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach (var task in model.AssignPackagingTasks)
                     {
                         var packaging = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(task.Id);
-                        packaging.FarmerId = task.FarmerId;
                         packaging.Status = task.Status;
 
                         await _unitOfWork.PackagingTaskRepository.UpdateAsync(packaging);
@@ -306,8 +301,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
                         {
                             FarmerId = task.FarmerId.Value,
-                            PlanId = id,
-                            IsActive = true,
+                            PlanId = id
                         });
                     }
                 }

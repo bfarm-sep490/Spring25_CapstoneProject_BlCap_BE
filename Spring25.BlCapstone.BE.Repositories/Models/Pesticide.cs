@@ -16,12 +16,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Description { get; set; }
         public string? Image { get; set; }
         public string Unit { get; set; }
-        public float AvailableQuantity { get; set; }
-        public float TotalQuantity { get; set; }
+        public float Quantity { get; set; }
         public string Status { get; set; }
         public string Type { get; set; }
 
         public ICollection<CaringPesticide> CaringPesticides { get; set; }
-        public ICollection<PesticideRange> PesticideRanges { get; set; }
     }
 }

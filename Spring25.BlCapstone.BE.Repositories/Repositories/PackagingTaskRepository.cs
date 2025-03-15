@@ -22,19 +22,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var query = _context.PackagingTasks
                                 .Include(x => x.PackagingImages)
                                 .Include(x => x.PackagingItems)
-                                .Include(x => x.Farmer)
-                                    .ThenInclude(x => x.Account)
+                                //.Include(x => x.Farmer)
+                                //    .ThenInclude(x => x.Account)
                                 .AsQueryable();
 
             if (planId.HasValue)
             {
                 query = query.Where(pt => pt.PlanId == planId);
             } 
-
-            if (farmerId.HasValue) 
-            {
-                query = query.Where(pt => pt.FarmerId == farmerId);
-            }
 
             return await query.ToListAsync();
         }
@@ -44,8 +39,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.PackagingTasks
                                  .Include(x => x.PackagingImages)
                                  .Include(x => x.PackagingItems)
-                                 .Include(x => x.Farmer)
-                                     .ThenInclude(x => x.Account)
+                                 //.Include(x => x.Farmer)
+                                  //   .ThenInclude(x => x.Account)
                                  .FirstOrDefaultAsync(pt => pt.Id == taskId);
         }
         public async Task<TasksDashboard> GetPackagingTasksStatusDashboardByPlanId(int planId)

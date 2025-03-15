@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Repositories
 {
-    public class FertilizerRangeRepository : GenericRepository<FertilizerRange>
+    public class InspectingResultRepository : GenericRepository<InspectingResult>
     {
-        public FertilizerRangeRepository() { }
-        public FertilizerRangeRepository(Context context)
+        public InspectingResultRepository() { }
+        public InspectingResultRepository(Context context)
         {
             _context = context;
         }

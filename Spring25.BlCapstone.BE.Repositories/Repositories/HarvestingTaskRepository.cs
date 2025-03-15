@@ -21,8 +21,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
            return await _context.HarvestingTasks.Where(x=>x.Id == id)
                 .Include(x=>x.HarvestingImages)
                 .Include(x => x.HarvestingItems)
-                .Include(x => x.Farmer)
-                .ThenInclude(x => x.Account)
+                //.Include(x => x.Farmer)
+                //    .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync();       
         }
         public async Task<List<AdminData>> GetDashboardHarvestingTasks()
@@ -43,18 +43,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var query = _context.HarvestingTasks
                                 .Include(x => x.HarvestingImages)
                                 .Include(x => x.HarvestingItems)
-                                .Include(x => x.Farmer)
-                                    .ThenInclude(x => x.Account)
+                                //.Include(x => x.Farmer)
+                                //    .ThenInclude(x => x.Account)
                                 .AsQueryable();
             if (planId.HasValue)
             {
                 query = query.Where(ht => ht.PlanId == planId);
             } 
-
-            if (farmerId.HasValue)
-            {
-                query = query.Where(ht => ht.FarmerId == farmerId);
-            }
 
             return await query.ToListAsync();
         }
@@ -74,9 +69,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<HavestedTask> GetHavestedTaskDashboardByPlanId(int planId)
         {
             var data = await _context.HarvestingTasks.Where(x=>x.PlanId==planId && x.Status.ToLower() == "completed").ToListAsync();
-            var kg = data.Where(x => x.HarvestedUnit.ToLower() == "kg").Sum(x => x.HarvestedQuantity.Value);
-            var tan = data.Where(x => x.HarvestedUnit.ToLower() == "tấn").Sum(x => x.HarvestedQuantity.Value);
-            return new HavestedTask { HavestedValue = (tan + kg / 1000) , Unit= "tấn" };
+            //var kg = data.Where(x => x.HarvestedUnit.ToLower() == "kg").Sum(x => x.HarvestedQuantity.Value);
+            //var tan = data.Where(x => x.HarvestedUnit.ToLower() == "tấn").Sum(x => x.HarvestedQuantity.Value);
+            //return new HavestedTask { HavestedValue = (tan + kg / 1000) , Unit= "tấn" };
+            return null;
         }
         public async Task<TasksDashboard> GetHarvestingTasksStatusDashboardByPlanId(int planId)
         {

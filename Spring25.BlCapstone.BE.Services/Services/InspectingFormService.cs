@@ -43,7 +43,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var form = _mapper.Map<InspectingForm>(model);
 
                 form.Status = "Draft";
-                form.Priority = 0;
                 form.CanHarvest = false;
                 form.CreatedAt = DateTime.Now;
 
