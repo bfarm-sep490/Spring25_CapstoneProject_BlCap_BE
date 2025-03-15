@@ -285,6 +285,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<HarvestingTask, HarvestingTaskModel>()
                 .ForMember(dest => dest.HarvestImages, otp => otp.MapFrom(src => src.HarvestingImages))
                 .ForMember(dest => dest.HarvestingItems, otp => otp.MapFrom(src => src.HarvestingItems))
+                .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerHarvestingTasks))
+                .ReverseMap();
+            CreateMap<FarmerInfor, FarmerHarvestingTask>()
+                .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ReverseMap();
             CreateMap<HarvestingImage, HarvestingImageModel>()
                 .ReverseMap();

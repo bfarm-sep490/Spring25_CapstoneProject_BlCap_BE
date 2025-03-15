@@ -38,18 +38,30 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToList();
             return result;
         }
-        public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId = null, int? farmerId = null)
+        public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId = null, int? farmerId = null, int? taskId = null)
         {
             var query = _context.HarvestingTasks
                                 .Include(x => x.HarvestingImages)
                                 .Include(x => x.HarvestingItems)
-                                //.Include(x => x.Farmer)
-                                //    .ThenInclude(x => x.Account)
+                                .Include(x => x.FarmerHarvestingTasks)
+                                    .ThenInclude(x => x.Farmer)
+                                    .ThenInclude(x => x.Account)
                                 .AsQueryable();
+
             if (planId.HasValue)
             {
                 query = query.Where(ht => ht.PlanId == planId);
-            } 
+            }
+
+            if (farmerId.HasValue)
+            {
+                query = query.Where(ct => ct.FarmerHarvestingTasks.Any(c => c.FarmerId == farmerId));
+            }
+
+            if (taskId.HasValue)
+            {
+                query = query.Where(ct => ct.Id == taskId);
+            }
 
             return await query.ToListAsync();
         }

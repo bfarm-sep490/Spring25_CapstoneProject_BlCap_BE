@@ -19,7 +19,11 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest
         public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("harvested_quantity")]
         public float? HarvestedQuantity { get; set; }
-        [JsonPropertyName("harvested_unit")]
-        public string? HarvestedUnit { get; set; }
+        [JsonPropertyName("product_expired_date")]
+        public DateTime? ProductExpiredDate { get; set; }
+        [JsonPropertyName("fail_quantity")]
+        public float? FailQuantity { get; set; }
+        [JsonPropertyName("updated_by")]
+        public string? UpdatedBy { get; set; }
     }
 }

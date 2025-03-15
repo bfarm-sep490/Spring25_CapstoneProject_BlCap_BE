@@ -17,8 +17,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
+        [JsonPropertyName("updated_by")]
+        public string? UpdatedBy { get; set; }
         [JsonPropertyName("items")]
         public List<HarvestItem>? Items { get; set; }
     }
