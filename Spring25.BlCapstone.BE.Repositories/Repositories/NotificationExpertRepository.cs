@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Repositories
 {
-    public class SampleSolutionRepository : GenericRepository<SampleSolution>
+    public class NotificationExpertRepository : GenericRepository<NotificationExpert>
     {
-        public SampleSolutionRepository() { }
-        public SampleSolutionRepository(Context context)
+        public NotificationExpertRepository() { }
+        public NotificationExpertRepository(Context context)
         {
             _context = context;
         }

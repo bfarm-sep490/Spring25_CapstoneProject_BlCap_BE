@@ -58,7 +58,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet()]
+
+        [HttpGet]
         public async Task<ActionResult> GetAll()
         {
             try
@@ -71,6 +72,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         [HttpPost("{farmer_id}/device-token")]
         public async Task<ActionResult<IBusinessResult>> CreateDeviceToken([FromRoute]int farmer_id, [FromBody]string token)
         {
@@ -84,6 +86,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
         [HttpGet("{farmer_id}/device-token")]
         public async Task<ActionResult<IBusinessResult>> GetDeviceTokensByFarmerId([FromRoute] int farmer_id)
         {

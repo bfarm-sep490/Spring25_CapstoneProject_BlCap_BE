@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Models
 {
-    public class FarmerPermission
+    public class FarmerHarvestingTask
     {
         public int FarmerId { get; set; }
-        public int PlanId { get; set; }
+        public int TaskId { get; set; }
+        public string Description { get; set; }
         public string Status { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime ExpiredDate { get; set; }
 
         public Farmer Farmer { get; set; }
-        public Plan Plan { get; set; }
+        public HarvestingTask HarvestingTask { get; set; }
     }
 }

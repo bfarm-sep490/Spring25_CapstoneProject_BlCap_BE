@@ -22,7 +22,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Auth
         public int Id { get; set; }
         public DateTime? DOB { get; set; }
         public string? Phone { get; set; }
-        public string? Status { get; set; }
         public string? Avatar { get; set; }
     }
 }

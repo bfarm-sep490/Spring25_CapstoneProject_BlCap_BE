@@ -193,9 +193,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var task = _mapper.Map<CaringTask>(model);
-                task.IsCompleted = false;
-                task.IsAvailable = true;
-                task.Priority = 0;
                 task.Status = "Draft";
                 task.CreatedAt = DateTime.Now;
 

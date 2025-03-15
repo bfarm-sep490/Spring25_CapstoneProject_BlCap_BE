@@ -11,9 +11,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
     {
         [Key]
         public int Id { get; set; }
-        public int TaskId { get; set; }
+        public int ResultId { get; set; }
         public string Url { get; set; }
 
-        public InspectingForm InspectingForm { get; set; }
+        public InspectingResult InspectingResult { get; set; }
     }
 }

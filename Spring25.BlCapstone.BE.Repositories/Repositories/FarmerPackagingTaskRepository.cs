@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Repositories
 {
-    public class IssueRepository : GenericRepository<Issue>
+    public class FarmerPackagingTaskRepository : GenericRepository<FarmerPackagingTask>
     {
-        public IssueRepository() { }
-        public IssueRepository(Context context)
+        public FarmerPackagingTaskRepository() { }
+        public FarmerPackagingTaskRepository(Context context)
         {
             _context = context;
         }

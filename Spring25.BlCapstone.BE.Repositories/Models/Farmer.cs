@@ -14,13 +14,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int AccountId { get; set; }
         public DateTime? DOB { get; set; }
         public string? Phone { get; set; }
-        public string? Status { get; set; }
         public string? Avatar { get; set; }
 
         public Account Account { get; set; }
         public ICollection<FarmerPermission> FarmerPermissions { get; set; }
-        public ICollection<CaringTask> CaringTasks { get; set; }
-        public ICollection<HarvestingTask> HarvestingTasks { get; set; }
-        public ICollection<PackagingTask> PackagingTasks { get; set; }
+        public ICollection<NotificationFarmer> NotificationFarmers { get; set; }
+        public ICollection<Problem> Problems { get; set; }
+        public ICollection<FarmerCaringTask> FarmerCaringTasks { get; set; }
+        public ICollection<FarmerHarvestingTask> FarmerHarvestingTasks { get; set; }
+        public ICollection<FarmerPackagingTask> FarmerPackagingTasks { get; set; }
     }
 }

@@ -14,9 +14,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int AccountId { get; set; }
         public string? Description { get; set; }
         public string? Address { get; set; }
-        public string? Status { get; set; }
         public string? ImageUrl { get; set; }
-        public bool IsAvailable { get; set; }
+        public string? Hotline { get; set; }
 
         public Account Account { get; set; }
         public ICollection<InspectingForm> InspectingForms { get; set; }

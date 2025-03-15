@@ -11,17 +11,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
     {
         [Key]
         public int Id { get; set; }
-        public int? IssueId { get; set; }
         public int PlanId { get; set; }
+        public int FarmerId { get; set; }
         public string ProblemName { get; set; }
         public string Description { get; set; }
-        public DateTime Date { get; set; }
-        public string ProblemType { get; set; }
         public string Status { get; set; }
         public string? ResultContent { get; set; }
+        public DateTime CreatedDate { get; set; }
 
         public Plan Plan { get; set; }
-        public Issue Issue { get; set; }
+        public Farmer Farmer { get; set; }
         public ICollection<ProblemImage> ProblemImages { get; set; }
         public ICollection<CaringTask> CaringTasks { get; set; }
     }
