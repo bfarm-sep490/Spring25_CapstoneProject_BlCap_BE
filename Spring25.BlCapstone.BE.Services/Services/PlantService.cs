@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IO.Ably;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
@@ -19,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPlantService
     {
-        Task<IBusinessResult> GetAll(bool? isAvailable);
+        Task<IBusinessResult> GetAll(string? isAvailable);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(PlantModel model);
         Task<IBusinessResult> Update(int id,PlantModel model);
@@ -31,19 +32,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly RedisManagement _redisManagerment;
+        private readonly RedisManagement _redisManagement;
+        private readonly string key = "ListPlants";
         public PlantService(UnitOfWork unitOfWork,IMapper mapper, RedisManagement redis)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _redisManagerment = redis;
+            _redisManagement = redis;
         }
 
         public async Task<IBusinessResult> Create(PlantModel model)
-        {
-           CheckModel(model);
+        {   
            var obj = _mapper.Map<Plant>(model);
-           var result = await _unitOfWork.PlantRepository.CreateAsync(obj);
+           obj.Status = "Available";
+           var plant = await _unitOfWork.PlantRepository.CreateAsync(obj);
+           await this.ResetPlantsRedis();
+           var result = _mapper.Map<PlantModel>(plant);
            return new BusinessResult(200,"Create successfully",result);
         }
 
@@ -52,62 +56,81 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
             if (obj == null) return new BusinessResult(400, "Not found this Plant", null);
             var result = await _unitOfWork.PlantRepository.RemoveAsync(obj);
+            await this.ResetPlantsRedis();
             return new BusinessResult(200, "Remove successfully", result);
         }
 
-        public async Task<IBusinessResult> GetAll(bool? isAvailable)
+        public async Task<IBusinessResult> GetAll(string? status)
         {
-      
-           var key = "ListPlants";
-           string productListJson = _redisManagerment.GetData(key);
             var result = new List<PlantModel>();
-            if (productListJson == null || productListJson == "[]")
+            try 
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception(); 
+                string productListJson = _redisManagement.GetData(key);          
+                if (productListJson == null || productListJson == "[]")
+                {
+                    var list = await _unitOfWork.PlantRepository.GetAllAsync();
+                    result = _mapper.Map<List<PlantModel>>(list);
+                    _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
+                }
+                else
+                {
+                    result = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
+                }
+            }
+            catch(Exception ex) 
             {
                 var list = await _unitOfWork.PlantRepository.GetAllAsync();
                 result = _mapper.Map<List<PlantModel>>(list);
-                productListJson = JsonConvert.SerializeObject(result);
-                _redisManagerment.SetData(key, productListJson);
             }
-            else
+          
+            if(status!=null)
             {
-                result = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
-            }
-            if(isAvailable.HasValue)
-            {
-                var obj = result.Where(x=>x.IsAvailable==isAvailable).ToList();
-                return new BusinessResult(200, "Get all plants", obj);
+                result = result.Where(x=>x.Status.ToLower()==status.ToLower()).ToList();
+              
             }
             return new BusinessResult(200, "Get all plants", result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
         {
-            var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
-            var result = _mapper.Map<PlantModel>(obj);
-            return new BusinessResult(200, "Get Plant by Id", result);
+            var list = new List<PlantModel>();
+            var obj = new PlantModel();
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    var plants = await _unitOfWork.PlantRepository.GetAllAsync();
+                    list = _mapper.Map<List<PlantModel>>(plants);
+                    _redisManagement.SetData(key, JsonConvert.SerializeObject(list));
+                }
+                else
+                {
+                    list = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
+                }
+                obj= list.Where(x => x.Id == id).FirstOrDefault();
+                if(obj == null) throw new Exception();
+            }
+            catch (Exception ex) {
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+                if (plant == null) return new BusinessResult(400, "Not found this Plant", null);
+                obj = _mapper.Map<PlantModel>(plant);
+            }
+            return new BusinessResult(200, "Get Plant by Id", obj);
         }
 
         public async Task<IBusinessResult> Update(int id, PlantModel model)
         {
-           CheckModel(model);
             var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
             if (obj == null) return new BusinessResult(400, "Not found this Plant", null);
             _mapper.Map(model,obj);
             obj.Id = id;
             var result = await _unitOfWork.PlantRepository.UpdateAsync(obj);
-            return new BusinessResult(200,"Update successfully",obj);
-
+            await this.ResetPlantsRedis();
+            return new BusinessResult(200,"Update successfully",model);
         }
-        private void CheckModel(PlantModel model)
-        {
-            if (model.MinMoisture >= model.MaxMoisture) { throw new Exception("MinMoisture must be < MaxMoistrure"); }
-            if (model.MinPesticide >= model.MaxPesticide) { throw new Exception("MinPesticide must be < MaxPesticide"); }
-            if (model.MinBrixPoint >= model.MaxBrixPoint) { throw new Exception("MinBrixPoint must be < MaxBrixPoint"); }
-            if (model.MinHumid >= model.MaxHumid) { throw new Exception("MinHumid must be < MaxHumicPoint"); }
-            if (model.MinFertilizer >= model.MaxFertilizer) { throw new Exception("MinFertilizer must be < MaxFertilizer"); }
-            if (model.MinTemp >= model.MaxTemp) { throw new Exception("MinTemp must be < MaxTemp"); }
-        }
-
         public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
         {
             try
@@ -130,6 +153,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+        private async Task ResetPlantsRedis()
+        {
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis is fail");
+                _redisManagement.DeleteData(key);
+                var plants = await _unitOfWork.PlantRepository.GetAllAsync();
+                var list = _mapper.Map<List<PlantModel>>(plants);
+                _redisManagement.SetData(key, JsonConvert.SerializeObject(list));
+            }
+            catch(Exception ex)
+            {
+                
             }
         }
     }
