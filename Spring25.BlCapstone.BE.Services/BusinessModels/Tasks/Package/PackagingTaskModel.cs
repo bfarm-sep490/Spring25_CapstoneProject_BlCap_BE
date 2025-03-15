@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
+﻿using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,12 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public int Id { get; set; }
         [JsonPropertyName("plan_id")]
         public int PlanId { get; set; }
-        [JsonPropertyName("farmer_id")]
-        public int? FarmerId { get; set; }
-        [JsonPropertyName("farmer_name")]
-        public string? FarmerName { get; set; }
+        [JsonPropertyName("packaging_type_id")]
+        public int? PackagingTypeId { get; set; }
+        [JsonPropertyName("farmer_information")]
+        public List<FarmerInfor> FarmerInfor { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
-        [JsonPropertyName("packed_unit")]
-        public string PackedUnit { get; set; }
         [JsonPropertyName("packed_quantity")]
         public int PackedQuantity { get; set; }
         [JsonPropertyName("description")]
@@ -38,10 +37,12 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
+        [JsonPropertyName("created_by")]
+        public string CreatedBy { get; set; }
         [JsonPropertyName("updated_at")]
         public DateTime UpdatedAt { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
+        [JsonPropertyName("updated_by")]
+        public string? UpdatedBy { get; set; }
         [JsonPropertyName("packaging_images")]
         public List<PackagingImageModel> PackageImages { get; set; }
 

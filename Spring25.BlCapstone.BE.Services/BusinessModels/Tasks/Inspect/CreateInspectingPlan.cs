@@ -14,12 +14,14 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         [JsonPropertyName("task_name")]
         public string FormName { get; set; }
         [JsonPropertyName("task_type")]
-        public string FormType { get; set; }
+        public string Type { get; set; }
         [JsonPropertyName("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
+        [JsonPropertyName("created_by")]
+        public string CreatedBy { get; set; }
     }
 }

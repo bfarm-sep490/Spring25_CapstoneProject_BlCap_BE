@@ -45,20 +45,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("inspecting-forms/{id}/detail")]
-        public async Task<IActionResult> GetDetailInpectingFormById([FromRoute]int id)
-        {
-            try
-            {
-                var result = await _inspectingFormService.GetDetailInspectingFormById(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost("inspecting-forms/images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {

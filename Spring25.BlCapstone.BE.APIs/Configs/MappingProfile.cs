@@ -75,12 +75,21 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<InspectingForm, InspectingFormModel>()
                 .ForMember(dest => dest.InspectorName, otp => otp.MapFrom(src => src.Inspector.Account.Name))
+                .ForMember(dest => dest.InspectingResults, opt => opt.MapFrom(src => src.InspectingResults))
                 .ReverseMap();
-            CreateMap<InspectingImage, InspectingImageModel>()
+            CreateMap<InspectingResult, InspectingResultLess>()
+                .ForMember(dest => dest.InspectingImageModels, opt => opt.MapFrom(src => src.InspectingImages))
+                .ReverseMap();
+            CreateMap<InspectingImage, InspectingResultModel>()
                 .ReverseMap();
             CreateMap<InspectingForm, CreateInspectingPlan>()
                 .ReverseMap();
             CreateMap<InspectingForm, UpdateInspectingForm>()
+                .ReverseMap();
+            CreateMap<InspectingResult, InspectingResultModel>()
+                .ForMember(dest => dest.InspectingImageModels, opt => opt.MapFrom(src => src.InspectingImages))
+                .ReverseMap();
+            CreateMap<InspectingImage, InspectingImageModel>()
                 .ReverseMap();
         }
 
@@ -308,6 +317,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingTask, PackagingTaskModel>()
                 .ForMember(dest => dest.PackageImages, opt => opt.MapFrom(src => src.PackagingImages))
                 .ForMember(dest => dest.PackageItems, opt => opt.MapFrom(src => src.PackagingItems))
+                .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerPackagingTasks))
+                .ReverseMap();
+            CreateMap<FarmerInfor, FarmerPackagingTask>()
+                .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ReverseMap();
             CreateMap<PackagingImage, PackagingImageModel>()
                 .ReverseMap();

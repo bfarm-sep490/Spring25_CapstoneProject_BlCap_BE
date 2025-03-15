@@ -134,6 +134,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 _mapper.Map(model, harvestingTask);
                 harvestingTask.UpdatedAt = DateTime.Now;
+                harvestingTask.CompleteDate = DateTime.Now;
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
 
                 var images = await _unitOfWork.HarvestingImageRepository.GetHarvestingImagesByTaskId(id);
