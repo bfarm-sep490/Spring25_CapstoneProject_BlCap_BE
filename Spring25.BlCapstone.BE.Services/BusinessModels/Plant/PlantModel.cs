@@ -19,8 +19,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
         public string Unit { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
-        [JsonPropertyName("is_available")]
-        public bool IsAvailable { get; set; }
         [JsonPropertyName("min_temp")]
         public double MinTemp { get; set; }
         [JsonPropertyName("max_temp")]

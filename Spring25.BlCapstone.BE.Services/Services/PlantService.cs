@@ -55,13 +55,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Remove successfully", result);
         }
 
-        public async Task<IBusinessResult> GetAll(bool? isAvailable)
+        public async Task<IBusinessResult> GetAll()
         {
       
            var key = "ListPlants";
            string productListJson = _redisManagerment.GetData(key);
-            var result = new List<PlantModel>();
-            if (productListJson == null || productListJson == "[]")
+           var result = new List<PlantModel>();
+           if (productListJson == null || productListJson == "[]")
             {
                 var list = await _unitOfWork.PlantRepository.GetAllAsync();
                 result = _mapper.Map<List<PlantModel>>(list);
@@ -72,11 +72,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 result = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
             }
-            if(isAvailable.HasValue)
-            {
-                var obj = result.Where(x=>x.IsAvailable==isAvailable).ToList();
-                return new BusinessResult(200, "Get all plants", obj);
-            }
+
             return new BusinessResult(200, "Get all plants", result);
         }
 
