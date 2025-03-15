@@ -43,6 +43,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             DeviceProfile();
             ExpertProfile();
             RetailerProfile();
+            InspectingResultProfile();
         }
 
         private void ExpertProfile()
@@ -333,6 +334,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingTask, UpdatePackaging>()
                 .ReverseMap();
             CreateMap<PackagingTask, CreatePackagingPlan>()
+                .ReverseMap();
+        }
+
+        private void InspectingResultProfile()
+        {
+            CreateMap<InspectingResult, InspectingResultModel>()
+                .ForMember(dest => dest.InspectingImageModels, opt => opt.MapFrom(src => src.InspectingImages))
                 .ReverseMap();
         }
     }
