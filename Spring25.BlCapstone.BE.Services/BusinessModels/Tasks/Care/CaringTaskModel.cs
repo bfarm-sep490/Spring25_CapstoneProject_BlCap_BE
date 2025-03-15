@@ -13,14 +13,14 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int Id { get; set; }
         [JsonPropertyName("plan_id")]
         public int PlanId { get; set; }
-        [JsonPropertyName("farmer_id")]
-        public int? FarmerId { get; set; }
-        [JsonPropertyName("farmer_name")]
-        public string? FarmerName { get; set; }
+        [JsonPropertyName("farmer_information")]
+        public List<FarmerInfor> FarmerInfor { get; set; }
         [JsonPropertyName("problem_id")]
         public int? ProblemId { get; set; }
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
         [JsonPropertyName("result_content")]
         public string? ResultContent { get; set; }
         [JsonPropertyName("task_type")]
@@ -31,18 +31,16 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public DateTime EndDate { get; set; }
         [JsonPropertyName("complete_date")]
         public DateTime? CompleteDate { get; set; }
-        [JsonPropertyName("is_completed")]
-        public bool IsCompleted { get; set; }
-        [JsonPropertyName("is_available")]
-        public bool IsAvailable { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("create_at")]
         public DateTime CreatedAt { get; set; }
+        [JsonPropertyName("create_by")]
+        public string CreatedBy { get; set; }
         [JsonPropertyName("update_at")]
         public DateTime? UpdatedAt { get; set; }
+        [JsonPropertyName("update_by")]
+        public string? UpdatedBy { get; set; }
         [JsonPropertyName("care_images")]
         public List<CaringImageModel> CareImages { get; set; }
         [JsonPropertyName("care_pesticides")]
@@ -65,5 +63,13 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int Quantity { get; set; }
         [JsonPropertyName("unit")]
         public string Unit { get; set; }
+    }
+
+    public class FarmerInfor
+    {
+        [JsonPropertyName("farmer_id")]
+        public int? FarmerId { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
     }
 }
