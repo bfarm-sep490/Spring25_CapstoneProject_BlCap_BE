@@ -18,11 +18,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _seedService = seedService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? status)
         {
             try
             {
-                var result = await _seedService.GetAll();
+                var result = await _seedService.GetAll(status);
                 return Ok(result);
             }
             catch (Exception ex)

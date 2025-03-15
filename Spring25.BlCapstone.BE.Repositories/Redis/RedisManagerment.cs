@@ -13,24 +13,34 @@ namespace Spring25.BlCapstone.BE.Repositories.Redis
     {
         private readonly StackExchange.Redis.IDatabase _cache;
         private readonly ConnectionMultiplexer _redis;
+        public bool IsConnected = false;
         public RedisManagement()
         {
-            string redisUrl = GetEnvironmentVariable("REDIS_URL");
-            string redisPort = GetEnvironmentVariable("REDIS_PORT");
-            string redisUser = GetEnvironmentVariable("REDIS_USER");
-            string redisPassword = GetEnvironmentVariable("REDIS_PASSWORD");
-
-            string connectionString = $"{redisUser}:{redisPassword}@{redisUrl}:{redisPort}";
-
-            _redis = ConnectionMultiplexer.Connect(new ConfigurationOptions
+            try
             {
-                EndPoints = { $"{redisUrl}:{redisPort}" },
-                User = redisUser,
-                Password = redisPassword,
-                AbortOnConnectFail = false
-            });
+                string redisUrl = GetEnvironmentVariable("REDIS_URL");
+                string redisPort = GetEnvironmentVariable("REDIS_PORT");
+                string redisUser = GetEnvironmentVariable("REDIS_USER");
+                string redisPassword = GetEnvironmentVariable("REDIS_PASSWORD");
 
-            _cache = _redis.GetDatabase();
+                string connectionString = $"{redisUser}:{redisPassword}@{redisUrl}:{redisPort}";
+
+                _redis = ConnectionMultiplexer.Connect(new ConfigurationOptions
+                {
+                    EndPoints = { $"{redisUrl}:{redisPort}" },
+                    User = redisUser,
+                    Password = redisPassword,
+                  
+                    AbortOnConnectFail = false
+                });       
+                _cache = _redis.GetDatabase();
+                IsConnected = true;
+            }
+            catch (Exception ex) {
+                _redis = null;
+                IsConnected = false;
+            }
+          
         }
 
         public RedisManagement(ConnectionMultiplexer redis)
