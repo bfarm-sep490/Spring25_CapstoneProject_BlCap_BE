@@ -67,41 +67,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
             List<FertilizerModel> result;
             try
             {
-                if (_redisManagement.IsConnected)
+                if (!_redisManagement.IsConnected) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
                 {
-                    var listJson = _redisManagement.GetData(key);
-                    if (!string.IsNullOrEmpty(listJson))
-                    {
-                        result = JsonConvert.DeserializeObject<List<FertilizerModel>>(listJson);
-                        if (!string.IsNullOrEmpty(status))
-                        {
-                            result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
-                        }
-                        return new BusinessResult(200, "List Fertilizer (From Cache)", result);
-                    }
-                }
-                var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
-                result = _mapper.Map<List<FertilizerModel>>(list);
-
-                if (!string.IsNullOrEmpty(status))
-                {
-                    result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
-                }
-
-                if (_redisManagement.IsConnected)
-                {
+                    var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
+                    result = _mapper.Map<List<FertilizerModel>>(list);
                     _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
                 }
+                else
+                {
+                    result = JsonConvert.DeserializeObject<List<FertilizerModel>>(productListJson);
+                }      
             }
             catch (Exception ex)
             {
                 var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
-                result = _mapper.Map<List<FertilizerModel>>(list);
-
-                if (!string.IsNullOrEmpty(status))
-                {
-                    result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
-                }
+                result = _mapper.Map<List<FertilizerModel>>(list);    
+            }
+            if (!string.IsNullOrEmpty(status))
+            {
+                result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
             }
             return new BusinessResult(200, "List Fertilizer", result);
         }
@@ -118,10 +104,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     obj = list.FirstOrDefault(x => x.Id == id);
                     if (obj != null) return new BusinessResult(200, "Fertilizer (From Cache)", obj);
                 }
-                else
-                {
-                    throw new Exception();
-                }
+                throw new Exception();
             }
             catch (Exception ex)
             {
