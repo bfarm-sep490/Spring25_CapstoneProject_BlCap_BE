@@ -20,11 +20,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
         }
         [HttpGet("fertilizers")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? status)
         {
             try
             {
-                var result = await _fertilizerService.GetAll();
+                var result = await _fertilizerService.GetAll(status);
                 return Ok(result);
             }
             catch (Exception ex)

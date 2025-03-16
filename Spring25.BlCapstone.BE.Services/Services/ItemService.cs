@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -14,7 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IItemService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(string? status);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> CreateItem(CreatedItem item);
         Task<IBusinessResult> UpdateItem(int id, CreatedItem item);
@@ -26,28 +27,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public class ItemService : IItemService
     {
         private readonly UnitOfWork _unitOfWork;
-        public ItemService()
+        private readonly IMapper _mapper;
+        public ItemService(IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
+            _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(string? status)
         {
             try
             {
-                var items = await _unitOfWork.ItemRepository.GetAllAsync();
-                var res = items.Select(i => new ItemModels
-                {
-                    Id = i.Id,
-                    Description = i.Description,
-                    Image = i.Image,
-                    Name = i.Name,
-                    Status = i.Status,
-                    Type = i.Type,
-                    Quantity = i.Quantity,
-                    Unit = i.Unit,
-                }).ToList();
-                if (res.Count <= 0)
+                var items = await _unitOfWork.ItemRepository.GetItems(status);
+                var res = _mapper.Map<List<ItemModels>>(items);
+                if (items.Count <= 0)
                 {
                     return new BusinessResult
                     {
@@ -82,7 +75,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var item = await _unitOfWork.ItemRepository.GetByIdAsync(id);
-
                 if (item == null)
                 {
                     return new BusinessResult
@@ -93,18 +85,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                var res = new ItemModels
-                {
-                    Id = item.Id,
-                    Description = item.Description,
-                    Image = item.Image,
-                    Name = item.Name,
-                    Status = item.Status,
-                    Type = item.Type,
-                    Quantity = item.Quantity,
-                    Unit = item.Unit,
-                };
-
+                var res = _mapper.Map<ItemModels>(item);
                 return new BusinessResult
                 {
                     Status = 200,

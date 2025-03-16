@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
@@ -22,6 +23,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
         Task<IBusinessResult> UpdatePackagingTask(int id, UpdatePackaging model);
         Task<IBusinessResult> DeleteTask(int id);
+        Task<IBusinessResult> GetHistoryFarmers(int id);
     }
     public class PackagingTaskService : IPackagingTaskService
     {
@@ -258,6 +260,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(500, "Remove failed");
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetHistoryFarmers(int id)
+        {
+            try
+            {
+                var task = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any Packaging Task");
+                }
+
+                var history = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasks(id);
+                if (history.Count <= 0)
+                {
+                    return new BusinessResult(404, "There are not any farmers in task !");
+                }
+
+                var res = _mapper.Map<List<HistoryFarmersTask>>(history);
+                return new BusinessResult(200, "List of history: ", res);
             }
             catch (Exception ex)
             {

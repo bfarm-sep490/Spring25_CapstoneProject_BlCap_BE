@@ -18,7 +18,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPesticideService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(string? status);
         Task<IBusinessResult> Update(int id, PesticideModel model);
         Task<IBusinessResult> Create(PesticideModel model);
         Task<IBusinessResult> Delete(int id);
@@ -60,7 +60,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             return new BusinessResult(500, "Remove Pesticide fail!", result);
         }
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(string? status)
         {
            var result = new List<PesticideModel>();
 
@@ -72,11 +72,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (!string.IsNullOrEmpty(listJson))
                     {
                         result = JsonConvert.DeserializeObject<List<PesticideModel>>(listJson);
+
+                        if (!string.IsNullOrEmpty(status))
+                        {
+                            result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+                        }
                         return new BusinessResult(200, "List Pesticides (From Cache)", result);
                     }
                 }
                 var list = await _unitOfWork.PesticideRepository.GetAllAsync();
                 result = _mapper.Map<List<PesticideModel>>(list);
+                if (!string.IsNullOrEmpty(status))
+                {
+                    result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+                }
                 if (_redisManagement.IsConnected)
                 {
                     _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
@@ -86,6 +95,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var list = await _unitOfWork.PesticideRepository.GetAllAsync();
                 result = _mapper.Map<List<PesticideModel>>(list);
+                if (!string.IsNullOrEmpty(status))
+                {
+                    result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+                }
             }
 
             return new BusinessResult(200, "List Pesticides", result);

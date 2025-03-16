@@ -21,7 +21,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IFertilizerService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(string? status);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Update(int id, FertilizerModel model);
         Task<IBusinessResult> DeleteById(int id);
@@ -62,7 +62,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Remove Fertilizer fail!", result);
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(string? status)
         {
             List<FertilizerModel> result;
             try
@@ -73,11 +73,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (!string.IsNullOrEmpty(listJson))
                     {
                         result = JsonConvert.DeserializeObject<List<FertilizerModel>>(listJson);
+                        if (!string.IsNullOrEmpty(status))
+                        {
+                            result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+                        }
                         return new BusinessResult(200, "List Fertilizer (From Cache)", result);
                     }
                 }
                 var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
                 result = _mapper.Map<List<FertilizerModel>>(list);
+
+                if (!string.IsNullOrEmpty(status))
+                {
+                    result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+                }
+
                 if (_redisManagement.IsConnected)
                 {
                     _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
@@ -87,6 +97,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
                 result = _mapper.Map<List<FertilizerModel>>(list);
+
+                if (!string.IsNullOrEmpty(status))
+                {
+                    result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+                }
             }
             return new BusinessResult(200, "List Fertilizer", result);
         }

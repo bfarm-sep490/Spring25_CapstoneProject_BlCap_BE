@@ -100,5 +100,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             var rs = await _service.UploadImage(image);
             return Ok(rs);
         }
+
+        [HttpGet("{id}/assigned-farmers")]
+        public async Task<IActionResult> GetHistoryFarmers(int id)
+        {
+            try
+            {
+                var res = await _service.GetHistoryFarmers(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

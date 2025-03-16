@@ -161,5 +161,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("caring-tasks/{id}/assigned-farmers")]
+        public async Task<IActionResult> GetHistoryFarmers(int id)
+        {
+            try
+            {
+                var res = await _caringTaskService.GetHistoryFarmers(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

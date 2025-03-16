@@ -18,11 +18,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
         }
         [HttpGet("pesticides")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(string? status)
         {
             try
             {
-                var result = await _pesticideService.GetAll();
+                var result = await _pesticideService.GetAll(status);
                 return Ok(result);
             }
             catch (Exception ex)

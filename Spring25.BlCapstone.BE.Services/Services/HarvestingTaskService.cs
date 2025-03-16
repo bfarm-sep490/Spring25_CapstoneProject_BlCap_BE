@@ -5,6 +5,7 @@ using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -29,6 +30,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DashboardHarvest();
         Task<IBusinessResult> DeleteTask(int id);
         Task<IBusinessResult> DashboardHarvestByPlanId(int id);
+        Task<IBusinessResult> GetHistoryFarmers(int id);
         Task<IBusinessResult> GetHavestedTasksDashboardByPlanId(int id);
     }
     public class HarvestingTaskService : IHarvestingTaskService
@@ -302,6 +304,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
             if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
             var result = await _unitOfWork.HarvestingTaskRepository.GetHavestedTaskDashboardByPlanId(plan.Id);
             return new BusinessResult(200,"Get Havested Task by Plan Id",result);
-        }       
+        }
+
+        public async Task<IBusinessResult> GetHistoryFarmers(int id)
+        {
+            try
+            {
+                var task = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any Harvesting Task");
+                }
+
+                var history = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasks(id);
+                if (history.Count <= 0)
+                {
+                    return new BusinessResult(404, "There are not any farmers in task !");
+                }
+
+                var res = _mapper.Map<List<HistoryFarmersTask>>(history);
+                return new BusinessResult(200, "List of history: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
     }
 }

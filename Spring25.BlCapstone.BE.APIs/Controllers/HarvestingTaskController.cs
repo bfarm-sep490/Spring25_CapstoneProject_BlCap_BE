@@ -60,6 +60,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             var rs = await _harvestingTaskService.ReportHarvestingTask(id, model);
             return Ok(rs);
         }
+
         [HttpGet("harvesting-tasks/dashboard")]
         public async Task<IActionResult> GetdashboardHarvestingTasks()
         {
@@ -73,6 +74,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("harvesting-tasks/{id}")]
         public async Task<IActionResult> Update(int id, UpdateHarvestingTask model)
         {
@@ -86,6 +88,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost("harvesting-tasks")]
         public async Task<IActionResult> Create(CreateHarvestingPlan model)
         {
@@ -113,6 +116,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("harvesting-tasks/dashboard/plan/{id}")]
         public async Task<IActionResult> GetdashboardHarvestingTasksByPlanId([FromRoute]int id)
         {
@@ -126,6 +130,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("harvesting-tasks/completed/plan/{id}")]
         public async Task<IActionResult> GetHarvestdTasksDashboardByPlanId([FromRoute] int id)
         {
@@ -133,6 +138,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 var result = await _harvestingTaskService.GetHavestedTasksDashboardByPlanId(id);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("harvesting-tasks/{id}/assigned-farmers")]
+        public async Task<IActionResult> GetHistoryFarmers(int id)
+        {
+            try
+            {
+                var res = await _harvestingTaskService.GetHistoryFarmers(id);
+                return Ok(res);
             }
             catch (Exception ex)
             {

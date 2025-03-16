@@ -56,7 +56,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         [JsonPropertyName("updated_by")]
         public string? UpdatedBy { get; set; }
         [JsonPropertyName("inspecting_results")]
-        public List<InspectingResultLess> InspectingResults { get; set; }
+        public InspectingResultLess InspectingResults { get; set; }
     }
 
     public class InspectingResultLess

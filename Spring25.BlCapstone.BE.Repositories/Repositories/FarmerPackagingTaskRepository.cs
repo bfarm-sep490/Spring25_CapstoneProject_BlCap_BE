@@ -23,5 +23,18 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Where(fp => fp.PackagingTask.PlanId == planId)
                                  .ToListAsync();
         }
+
+        public async Task<List<FarmerPackagingTask>> GetFarmerPackagingTasks(int? taskId = null)
+        {
+            var query = _context.FarmerPackagingTasks
+                                .AsQueryable();
+
+            if (taskId.HasValue)
+            {
+                query = query.Where(i => i.TaskId == taskId);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

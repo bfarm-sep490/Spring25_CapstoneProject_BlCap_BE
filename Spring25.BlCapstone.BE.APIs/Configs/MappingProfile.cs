@@ -9,11 +9,13 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Device;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Retailer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
@@ -44,6 +46,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             ExpertProfile();
             RetailerProfile();
             InspectingResultProfile();
+            HistoryFarmerProfile();
+            ItemProfile();
         }
 
         private void ExpertProfile()
@@ -341,6 +345,22 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<InspectingResult, InspectingResultModel>()
                 .ForMember(dest => dest.InspectingImageModels, opt => opt.MapFrom(src => src.InspectingImages))
+                .ReverseMap();
+        }
+
+        private void HistoryFarmerProfile()
+        {
+            CreateMap<FarmerCaringTask, HistoryFarmersTask>()
+                .ReverseMap();
+            CreateMap<FarmerHarvestingTask, HistoryFarmersTask>()
+                .ReverseMap();
+            CreateMap<FarmerPackagingTask, HistoryFarmersTask>()
+                .ReverseMap();
+        }
+
+        private void ItemProfile()
+        {
+            CreateMap<Item, ItemModels>()
                 .ReverseMap();
         }
     }

@@ -4,6 +4,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
@@ -27,6 +28,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DashboardCaringTasksByPlanId(int id);
         Task<IBusinessResult> GetInfomationOfFertilizerTasksByPlanId(int id);
         Task<IBusinessResult> GetInfomationOfPesticideTasksByPlanId(int id);
+        Task<IBusinessResult> GetHistoryFarmers(int id);
     }
     public class CaringTaskService : ICaringTaskService
     {
@@ -405,5 +407,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get Infomation Of Pesticide Tasks By PlanId", result);
         }
 
+        public async Task<IBusinessResult> GetHistoryFarmers(int id)
+        {
+            try
+            {
+                var task = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
+                if (task == null)
+                {
+                    return new BusinessResult(404, "Not found any Caring Task");
+                }
+
+                var history = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasks(id);
+                if (history.Count <= 0)
+                {
+                    return new BusinessResult(404, "There are not any farmers in task !");
+                }
+
+                var res = _mapper.Map<List<HistoryFarmersTask>>(history);
+                return new BusinessResult(200, "List of history: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
     }
 }
