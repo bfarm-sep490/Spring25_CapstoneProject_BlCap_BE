@@ -32,6 +32,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         
         public Plan Plan { get; set; }
         public Inspector Inspector { get; set; }
-        public ICollection<InspectingResult> InspectingResults { get; set; }
+        public InspectingResult InspectingResult { get; set; }
     }
 }

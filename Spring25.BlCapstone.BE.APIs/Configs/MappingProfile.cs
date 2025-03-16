@@ -76,7 +76,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<InspectingForm, InspectingFormModel>()
                 .ForMember(dest => dest.InspectorName, otp => otp.MapFrom(src => src.Inspector.Account.Name))
-                .ForMember(dest => dest.InspectingResults, opt => opt.MapFrom(src => src.InspectingResults))
+                .ForMember(dest => dest.InspectingResults, opt => opt.MapFrom(src => src.InspectingResult))
                 .ReverseMap();
             CreateMap<InspectingResult, InspectingResultLess>()
                 .ForMember(dest => dest.InspectingImageModels, opt => opt.MapFrom(src => src.InspectingImages))

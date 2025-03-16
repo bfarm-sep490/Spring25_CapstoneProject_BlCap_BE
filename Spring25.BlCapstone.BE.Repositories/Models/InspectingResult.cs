@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
     public class InspectingResult
     {
         [Key]
+        [ForeignKey("InspectingForm")]
         public int Id { get; set; }
-        public int FormId { get; set; }
         public float Arsen { get; set; }
         public float Plumbum { get; set; }
         public float Cadmi { get; set; }

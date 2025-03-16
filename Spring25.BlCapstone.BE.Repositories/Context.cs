@@ -241,14 +241,14 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(it => it.InspectingForms)
                       .HasForeignKey(it => it.InspectorId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(it => it.InspectingResult)
+                      .WithOne(it => it.InspectingForm)
+                      .HasForeignKey<InspectingResult>(it => it.Id)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<InspectingResult>()
-                .ToTable("InspectingResult")
-                .HasOne(ir => ir.InspectingForm)
-                    .WithMany(ir => ir.InspectingResults)
-                    .HasForeignKey(ir => ir.FormId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                .ToTable("InspectingResult");
 
             modelBuilder.Entity<InspectingImage>()
                 .ToTable("InspectingImage")

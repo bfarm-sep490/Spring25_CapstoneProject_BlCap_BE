@@ -19,9 +19,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<InspectingForm> GetDetailInspectingFormById(int id)
         {
             return await _context.InspectingForms.Where(x =>x.Id == id)
-                .Include(x=>x.InspectingResults)
+                .Include(x => x.InspectingResult)
                     .ThenInclude(x => x.InspectingImages)
-                .Include(x=>x.Inspector)
+                .Include(x => x.Inspector)
                 .ThenInclude(x => x.Account)
                 .FirstOrDefaultAsync();
         }
@@ -29,7 +29,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<List<InspectingForm>> GetInspectingForms(int? planId = null, int? inspectorId = null, int? formId = null)
         {
             var query = _context.InspectingForms
-                                .Include(x => x.InspectingResults)
+                                .Include(x => x.InspectingResult)
                                     .ThenInclude(x => x.InspectingImages)
                                 .Include(x => x.Inspector)
                                     .ThenInclude(x => x.Account)
