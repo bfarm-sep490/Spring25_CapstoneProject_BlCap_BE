@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
@@ -40,6 +41,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{id}/result-report")]
+        public async Task<IActionResult> Report(int id, CreateInspectingResult model)
+        {
+            try
+            {
+                var res = await _service.ReportForm(id, model);
+                return Ok(res);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
     }

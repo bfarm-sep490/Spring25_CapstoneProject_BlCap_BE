@@ -96,6 +96,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<InspectingImage, InspectingImageModel>()
                 .ReverseMap();
+            CreateMap<InspectingResult, CreateInspectingResult>()
+                .ReverseMap();
         }
 
         private void DeviceProfile()
@@ -275,9 +277,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.CareItems, opt => opt.MapFrom(src => src.CaringItems))
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerCaringTasks))
                 .ReverseMap();
-            CreateMap<FarmerInfor, FarmerCaringTask>()
+            CreateMap<FarmerCaringTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<CareFertilizerModel, CaringFertilizer>()
                 .ReverseMap();
@@ -302,9 +305,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.HarvestingItems, otp => otp.MapFrom(src => src.HarvestingItems))
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerHarvestingTasks))
                 .ReverseMap();
-            CreateMap<FarmerInfor, FarmerHarvestingTask>()
+            CreateMap<FarmerHarvestingTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<HarvestingImage, HarvestingImageModel>()
                 .ReverseMap();
@@ -325,9 +329,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PackageItems, opt => opt.MapFrom(src => src.PackagingItems))
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerPackagingTasks))
                 .ReverseMap();
-            CreateMap<FarmerInfor, FarmerPackagingTask>()
+            CreateMap<FarmerPackagingTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<PackagingImage, PackagingImageModel>()
                 .ReverseMap();

@@ -50,5 +50,4 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest
         [JsonPropertyName("harvesting_items")]
         public List<HarvestingItemModel> HarvestingItems { get; set; }
     }
-
 }

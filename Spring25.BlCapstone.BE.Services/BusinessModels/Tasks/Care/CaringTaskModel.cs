@@ -33,13 +33,13 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("create_at")]
+        [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
-        [JsonPropertyName("create_by")]
+        [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
-        [JsonPropertyName("update_at")]
+        [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
-        [JsonPropertyName("update_by")]
+        [JsonPropertyName("updated_by")]
         public string? UpdatedBy { get; set; }
         [JsonPropertyName("care_images")]
         public List<CaringImageModel> CareImages { get; set; }
@@ -71,5 +71,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int? FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("farmer_name")]
+        public string Name { get; set; }
     }
 }
