@@ -7,6 +7,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -93,28 +94,26 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetById(int id)
         {
-            var list = new List<PlantModel>();
             var obj = new PlantModel();
             try
             {
                 if (_redisManagement.IsConnected == false) throw new Exception();
-                string productListJson = _redisManagement.GetData(key);
-                if (productListJson == null || productListJson == "[]")
+                var listJson = _redisManagement.GetData(key);
+                if (!string.IsNullOrEmpty(listJson))
                 {
-                    var plants = await _unitOfWork.PlantRepository.GetAllAsync();
-                    list = _mapper.Map<List<PlantModel>>(plants);
-                    _redisManagement.SetData(key, JsonConvert.SerializeObject(list));
+                    var list = JsonConvert.DeserializeObject<List<PlantModel>>(listJson);
+                    obj = list.FirstOrDefault(x => x.Id == id);
+                    if (obj != null) return new BusinessResult(200, "Plant (From Cache)", obj);
                 }
                 else
                 {
-                    list = JsonConvert.DeserializeObject<List<PlantModel>>(productListJson);
+                    throw new Exception();
                 }
-                obj= list.Where(x => x.Id == id).FirstOrDefault();
-                if(obj == null) throw new Exception();
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(id);
-                if (plant == null) return new BusinessResult(400, "Not found this Plant", null);
+                if (plant == null) return new BusinessResult(400, "Not Found this Plant");
                 obj = _mapper.Map<PlantModel>(plant);
             }
             return new BusinessResult(200, "Get Plant by Id", obj);
