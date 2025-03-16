@@ -14,6 +14,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
 
         [JsonPropertyName("plan_id")]
         public int PlanId { get; set; }
+        [JsonPropertyName("plan_name")]
+        public string? PlanName { get; set; }
 
         [JsonPropertyName("inspector_id")]
         public int? InspectorId { get; set; }

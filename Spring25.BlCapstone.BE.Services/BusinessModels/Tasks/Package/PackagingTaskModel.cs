@@ -15,6 +15,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public int Id { get; set; }
         [JsonPropertyName("plan_id")]
         public int PlanId { get; set; }
+        [JsonPropertyName("plan_name")]
+        public string? PlanName { get; set; }
         [JsonPropertyName("packaging_type_id")]
         public int? PackagingTypeId { get; set; }
         [JsonPropertyName("farmer_information")]

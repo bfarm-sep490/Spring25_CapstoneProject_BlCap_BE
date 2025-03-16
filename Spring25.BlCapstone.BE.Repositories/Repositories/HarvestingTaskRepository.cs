@@ -16,15 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             _context = context;
         }
-        public async Task<HarvestingTask> GetHarvestingTaskById(int id)
-        {
-           return await _context.HarvestingTasks.Where(x=>x.Id == id)
-                .Include(x=>x.HarvestingImages)
-                .Include(x => x.HarvestingItems)
-                //.Include(x => x.Farmer)
-                //    .ThenInclude(x => x.Account)
-                .FirstOrDefaultAsync();       
-        }
+
         public async Task<List<AdminData>> GetDashboardHarvestingTasks()
         {
             var data = await _context.HarvestingTasks.Where(x => x.CompleteDate.HasValue).ToListAsync();
@@ -38,6 +30,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToList();
             return result;
         }
+
         public async Task<List<HarvestingTask>> GetHarvestingTasks(int? planId = null, int? farmerId = null, int? taskId = null)
         {
             var query = _context.HarvestingTasks
@@ -46,6 +39,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(x => x.FarmerHarvestingTasks)
                                     .ThenInclude(x => x.Farmer)
                                     .ThenInclude(x => x.Account)
+                                .Include(x => x.Plan)
                                 .AsQueryable();
 
             if (planId.HasValue)

@@ -37,6 +37,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                       .Include(x => x.FarmerCaringTasks)
                                             .ThenInclude(x => x.Farmer)
                                             .ThenInclude(x => x.Account)
+                                      .Include(x => x.Problem)
+                                      .Include(x => x.Plan)
                                       .AsQueryable();  
 
             if (planId.HasValue)

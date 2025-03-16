@@ -25,6 +25,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(x => x.FarmerPackagingTasks)
                                     .ThenInclude(x => x.Farmer)
                                     .ThenInclude(x => x.Account)
+                                .Include(x => x.Plan)
                                 .AsQueryable();
 
             if (planId.HasValue)
@@ -45,15 +46,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<PackagingTask> GetPackagingTaskById(int taskId)
-        {
-            return await _context.PackagingTasks
-                                 .Include(x => x.PackagingImages)
-                                 .Include(x => x.PackagingItems)
-                                 //.Include(x => x.Farmer)
-                                  //   .ThenInclude(x => x.Account)
-                                 .FirstOrDefaultAsync(pt => pt.Id == taskId);
-        }
         public async Task<TasksDashboard> GetPackagingTasksStatusDashboardByPlanId(int planId)
         {
             var data = await _context.PackagingTasks.Where(x => x.PlanId == planId).ToListAsync();

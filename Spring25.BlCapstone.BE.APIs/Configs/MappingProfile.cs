@@ -276,6 +276,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.CareFertilizers,otp=>otp.MapFrom(src=>src.CaringFertilizers))
                 .ForMember(dest => dest.CareItems, opt => opt.MapFrom(src => src.CaringItems))
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerCaringTasks))
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
+                .ForMember(dest => dest.ProblemName, opt => opt.MapFrom(src => src.Problem.ProblemName))
                 .ReverseMap();
             CreateMap<FarmerCaringTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
@@ -304,6 +306,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.HarvestImages, otp => otp.MapFrom(src => src.HarvestingImages))
                 .ForMember(dest => dest.HarvestingItems, otp => otp.MapFrom(src => src.HarvestingItems))
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerHarvestingTasks))
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ReverseMap();
             CreateMap<FarmerHarvestingTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
@@ -328,6 +331,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PackageImages, opt => opt.MapFrom(src => src.PackagingImages))
                 .ForMember(dest => dest.PackageItems, opt => opt.MapFrom(src => src.PackagingItems))
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerPackagingTasks))
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ReverseMap();
             CreateMap<FarmerPackagingTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
