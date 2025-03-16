@@ -15,9 +15,9 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(int? plan_id)
+        public async Task<IActionResult> GetAll(int? plan_id, int? farmer_id)
         {
-            var rs = await _problemService.GetAll(plan_id);
+            var rs = await _problemService.GetAll(plan_id, farmer_id);
             return Ok(rs);
         }
 
@@ -61,20 +61,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _problemService.UploadImage(image);
             return Ok(rs);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, UpdateProblem model)
-        {
-            try
-            {
-                var rs = await _problemService.Update(id, model);
-                return Ok(rs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
     }
 }
