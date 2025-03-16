@@ -11,7 +11,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest
     {
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("result-content")]
+        [JsonPropertyName("result_content")]
         public string? ResultContent { get; set; }
         [JsonPropertyName("list_of_image_urls")]
         public List<string> Images { get; set; }

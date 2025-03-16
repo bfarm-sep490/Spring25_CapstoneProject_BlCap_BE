@@ -351,6 +351,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<InspectingResult, InspectingResultModel>()
                 .ForMember(dest => dest.InspectingImageModels, opt => opt.MapFrom(src => src.InspectingImages))
                 .ReverseMap();
+            CreateMap<InspectingResult, CreateInspectingResult>()
+                .ReverseMap();
         }
 
         private void HistoryFarmerProfile()

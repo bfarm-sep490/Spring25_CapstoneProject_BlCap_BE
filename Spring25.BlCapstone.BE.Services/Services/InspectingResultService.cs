@@ -87,8 +87,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 string res = await ClassifyResult(model, plant.Id);
                 result.EvaluatedResult = res;
+                await _unitOfWork.InspectingResultRepository.CreateAsync(result);
+                if (model.Images != null && model.Images.Any())
+                {
+                    foreach (var image in model.Images)
+                    {
+                        await _unitOfWork.InspectingImageRepository.CreateAsync(new InspectingImage
+                        {
+                            ResultId = id,
+                            Url = image
+                        });
+                    }
+                }
 
-                return new BusinessResult(200, "Create inspecting result success !", result);
+                var re = _mapper.Map<InspectingResultModel>(result);
+
+                return new BusinessResult(200, "Create inspecting result success !", re);
             }
             catch (Exception ex)
             {
@@ -136,47 +150,54 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return "Không có dữ liệu cho loại cây này";
                 }
 
-                var limits = _contaminantLimits[plant.Type];
-                int violationCount = 0;
-                bool hasSevereViolation = false;
+                var limits = _contaminantLimits.ContainsKey(plant.Type) ? _contaminantLimits[plant.Type] : new Dictionary<string, float>();
+                int minorViolations = 0; 
+                int majorViolations = 0;
 
                 void CheckLimit(string contaminant, float value)
                 {
                     if (!limits.ContainsKey(contaminant)) return;
                     float limit = limits[contaminant];
 
-                    if (value > 1.3 * limit)
-                    {
-                        hasSevereViolation = true;
-                        violationCount++;
-                    }
-                    else if (value > limit)
-                    {
-                        violationCount++;
-                    }
+                    if (value >= 1.3 * limit)
+                        majorViolations++;  
+                    else if (value > limit && value < (1.3 * limit))
+                        minorViolations++;
+                }
+
+                void CheckLimitGlobal(string contaminant, float value)
+                {
+                    if (!_globalLimits.ContainsKey(contaminant)) return;
+                    float limit = _globalLimits[contaminant];
+
+                    if (value >= 1.3 * limit)
+                        majorViolations++;
+                    else if (value > limit && value < (1.3 * limit))
+                        minorViolations++;
                 }
 
                 CheckLimit("Cadmi", model.Cadmi);
                 CheckLimit("Plumbum", model.Plumbum);
                 CheckLimit("Hydrargyrum", model.Hydrargyrum);
                 CheckLimit("Arsen", model.Arsen);
-                CheckLimit("SulfurDioxide", model.SulfurDioxide);
-                CheckLimit("Nitrat", model.Nitrat);
-                CheckLimit("NaNO3_KNO3", model.NaNO3_KNO3);
-                CheckLimit("Glyphosate_Glufosinate", model.Glyphosate_Glufosinate);
-                CheckLimit("MethylBromide", model.MethylBromide);
-                CheckLimit("HydrogenPhosphide", model.HydrogenPhosphide);
-                CheckLimit("Dithiocarbamate", model.Dithiocarbamate);
-                CheckLimit("Chlorate", model.Chlorate);
-                CheckLimit("Perchlorate", model.Perchlorate);
 
-                if (hasSevereViolation || violationCount > 3)
-                    return "Grade 1";
+                CheckLimitGlobal("SulfurDioxide", model.SulfurDioxide);
+                CheckLimitGlobal("Nitrat", model.Nitrat);
+                CheckLimitGlobal("NaNO3_KNO3", model.NaNO3_KNO3);
+                CheckLimitGlobal("Glyphosate_Glufosinate", model.Glyphosate_Glufosinate);
+                CheckLimitGlobal("MethylBromide", model.MethylBromide);
+                CheckLimitGlobal("HydrogenPhosphide", model.HydrogenPhosphide);
+                CheckLimitGlobal("Dithiocarbamate", model.Dithiocarbamate);
+                CheckLimitGlobal("Chlorate", model.Chlorate);
+                CheckLimitGlobal("Perchlorate", model.Perchlorate);
 
-                if (violationCount > 0)
-                    return "Grade 2";
+                if (majorViolations > 0 || minorViolations > 3)
+                    return "Grade 3";
 
-                return "Grade 3";
+                if (minorViolations > 0 && minorViolations <= 3)
+                    return "Grade 2"; 
+
+                return "Grade 1";
             }
             catch (Exception ex)
             {

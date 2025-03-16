@@ -42,6 +42,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
         [JsonPropertyName("perchlorate")]
         public float Perchlorate { get; set; }
         [JsonPropertyName("inspect_images")]
-        public List<string>? InspectingImages { get; set; }
+        public List<string>? Images { get; set; }
     }
 }
