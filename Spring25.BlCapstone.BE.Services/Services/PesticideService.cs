@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -26,17 +29,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public PesticideService(IMapper mapper)
+        private readonly RedisManagement _redisManagement;
+        private readonly string key = "ListFertilizers";
+        public PesticideService(IMapper mapper,RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _redisManagement = redisManagement;
         }
 
         public async Task<IBusinessResult> Create(PesticideModel model)
         {
             var obj = _mapper.Map<Pesticide>(model);
             obj.Status = "Available";
-            var result = await _unitOfWork.PesticideRepository.CreateAsync(obj);
+            var pesticide = await _unitOfWork.PesticideRepository.CreateAsync(obj);
+            var result = _mapper.Map<PesticideModel>(pesticide);
+            await this.ResetPesticidesRedis();
             return new BusinessResult(200, "Create Pesticide successfully", result);
         }
 
@@ -45,22 +53,70 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var obj = await _unitOfWork.PesticideRepository.GetByIdAsync(id);
             if (obj == null) { return new BusinessResult(404, "Do not have this Pesticide"); }
             var result = await _unitOfWork.PesticideRepository.RemoveAsync(obj);
-            if (result) { return new BusinessResult(200, "Remove Pesticide successfully", result); }
+            if (result) 
+            {
+                await this.ResetPesticidesRedis();
+                return new BusinessResult(200, "Remove Pesticide successfully", result); 
+            }
             return new BusinessResult(500, "Remove Pesticide fail!", result);
         }
         public async Task<IBusinessResult> GetAll()
         {
-            var list = await _unitOfWork.PesticideRepository.GetAllAsync();
-            var result = _mapper.Map<List<PesticideModel>>(list);
+           var result = new List<PesticideModel>();
+
+            try
+            {
+                if (_redisManagement.IsConnected)
+                {
+                    var listJson = _redisManagement.GetData(key);
+                    if (!string.IsNullOrEmpty(listJson))
+                    {
+                        result = JsonConvert.DeserializeObject<List<PesticideModel>>(listJson);
+                        return new BusinessResult(200, "List Pesticides (From Cache)", result);
+                    }
+                }
+                var list = await _unitOfWork.PesticideRepository.GetAllAsync();
+                result = _mapper.Map<List<PesticideModel>>(list);
+                if (_redisManagement.IsConnected)
+                {
+                    _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                var list = await _unitOfWork.PesticideRepository.GetAllAsync();
+                result = _mapper.Map<List<PesticideModel>>(list);
+            }
+
             return new BusinessResult(200, "List Pesticides", result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
         {
-            var obj = await _unitOfWork.PesticideRepository.GetByIdAsync(id);
-            if (obj == null) { return new BusinessResult(2, "Not found this Pesticide"); }
-            var result = _mapper.Map<PesticideModel>(obj);
-            return new BusinessResult(200,"Get Perticide by id",result);
+            var obj = new PesticideModel();
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception(); 
+                var listJson = _redisManagement.GetData(key);
+                if (!string.IsNullOrEmpty(listJson))
+                {
+                    var list = JsonConvert.DeserializeObject<List<PesticideModel>>(listJson);
+                    obj = list.FirstOrDefault(x => x.Id == id);
+                    if (obj != null) return new BusinessResult(200, "Pesticide (From Cache)", obj);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                var pesticide = await _unitOfWork.PesticideRepository.GetByIdAsync(id);
+                if (pesticide == null) return new BusinessResult(400, "Not Found this Pesticide");
+                obj = _mapper.Map<PesticideModel>(pesticide);
+            }
+
+            return new BusinessResult(200, "Pesticide", obj);
         }
 
         public async Task<IBusinessResult> Update(int id, PesticideModel model)
@@ -70,7 +126,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper.Map(model, obj);
             obj.Id = id;
             var result = await _unitOfWork.PesticideRepository.UpdateAsync(obj);
-            if (result != 0) { return new BusinessResult(200, "Update Pesticide successfully", obj); }
+            if (result != 0) 
+            { 
+                model.Id = id;
+                await this.ResetPesticidesRedis();
+                return new BusinessResult(200, "Update Pesticide successfully", model); 
+        }
             else return new BusinessResult(500, "Update Pesticide Fail");
         }
 
@@ -86,6 +147,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, ex.Message);
+            }
+        }
+        private async Task ResetPesticidesRedis()
+        {
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis is fail");
+                _redisManagement.DeleteData(key);
+                var pesticides = await _unitOfWork.PesticideRepository.GetAllAsync();
+                var list = _mapper.Map<List<Pesticide>>(pesticides);
+                _redisManagement.SetData(key, JsonConvert.SerializeObject(list));
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

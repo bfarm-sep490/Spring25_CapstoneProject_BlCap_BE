@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -28,17 +32,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public FertilizerService(IMapper mapper)
+        private readonly RedisManagement _redisManagement;
+        private readonly string key = "ListFertilizers";
+        public FertilizerService(IMapper mapper,RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _redisManagement = redisManagement;
         }
 
         public async Task<IBusinessResult> Create(FertilizerModel model)
         {
             var obj = _mapper.Map<Fertilizer>(model);
             obj.Status = "Available";
-            var result = await _unitOfWork.FertilizerRepository.CreateAsync(obj);
+            var fertilizer = await _unitOfWork.FertilizerRepository.CreateAsync(obj);
+            var result = _mapper.Map<FertilizerModel>(fertilizer);
             return new BusinessResult(200, "Create Fertilizer successfully", result);
         }
         public async Task<IBusinessResult> DeleteById(int id)
@@ -46,22 +54,67 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var obj = await _unitOfWork.FertilizerRepository.GetByIdAsync(id);
             if (obj == null) { return new BusinessResult(404, "Do not have this Fertilizer"); }
             var result = await _unitOfWork.FertilizerRepository.RemoveAsync(obj);
-            if (result) { return new BusinessResult(1, "Remove Fertilizer successfully", result); }
+            if (result)
+            {
+                await this.ResetFertilizersRedis();
+                return new BusinessResult(1, "Remove Fertilizer successfully", result);
+            }
             return new BusinessResult(200, "Remove Fertilizer fail!", result);
         }
 
         public async Task<IBusinessResult> GetAll()
         {
-            var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
-            var result = _mapper.Map<List<FertilizerModel>>(list);
+            List<FertilizerModel> result;
+            try
+            {
+                if (_redisManagement.IsConnected)
+                {
+                    var listJson = _redisManagement.GetData(key);
+                    if (!string.IsNullOrEmpty(listJson))
+                    {
+                        result = JsonConvert.DeserializeObject<List<FertilizerModel>>(listJson);
+                        return new BusinessResult(200, "List Fertilizer (From Cache)", result);
+                    }
+                }
+                var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
+                result = _mapper.Map<List<FertilizerModel>>(list);
+                if (_redisManagement.IsConnected)
+                {
+                    _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
+                }
+            }
+            catch (Exception ex)
+            {
+                var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
+                result = _mapper.Map<List<FertilizerModel>>(list);
+            }
             return new BusinessResult(200, "List Fertilizer", result);
         }
         public async Task<IBusinessResult> GetById(int id)
         {
-            var obj = await _unitOfWork.FertilizerRepository.GetByIdAsync(id);
-            if (obj == null) { return new BusinessResult(404, "Not found this Fertilizer"); }
-            var result = _mapper.Map<FertilizerModel>(obj);
-            return new BusinessResult(200, "Fertilizer", result);
+            var obj = new FertilizerModel();
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                var listJson = _redisManagement.GetData(key);
+                if (!string.IsNullOrEmpty(listJson))
+                {
+                    var list = JsonConvert.DeserializeObject<List<FertilizerModel>>(listJson);
+                    obj = list.FirstOrDefault(x => x.Id == id);
+                    if (obj != null) return new BusinessResult(200, "Fertilizer (From Cache)", obj);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                var fertilizer = await _unitOfWork.FertilizerRepository.GetByIdAsync(id);
+                if (fertilizer == null) return new BusinessResult(400, "Not Found this Fertilizer");
+                obj = _mapper.Map<FertilizerModel>(fertilizer);
+            }
+            return new BusinessResult(200, "Fertilizer", obj);
         }
         public async Task<IBusinessResult> Update(int id, FertilizerModel model)
         {
@@ -70,7 +123,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper.Map(model, obj);
             obj.Id = id;
             var result = await _unitOfWork.FertilizerRepository.UpdateAsync(obj);
-            if (result != 0) { return new BusinessResult(200, "Update Fertilizer successfully", obj); }
+            if (result != 0) {
+                model.Id = id;
+                await  this.ResetFertilizersRedis();
+                return new BusinessResult(200, "Update Fertilizer successfully", model);              
+            }
             else return new BusinessResult(500, "Update Fertilizer Fail");
         }
 
@@ -80,12 +137,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var image = await CloudinaryHelper.UploadMultipleImages(file);
                 var url = image.Select(x => x.Url).ToList();
-
                 return new BusinessResult(200, "Upload success !", url);
             }
             catch (Exception ex)
             {
                 return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        private async Task ResetFertilizersRedis()
+        {
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis is fail");
+                _redisManagement.DeleteData(key);
+                var fertilizers = await _unitOfWork.FertilizerRepository.GetAllAsync();
+                var list = _mapper.Map<List<FertilizerModel>>(fertilizers);
+                _redisManagement.SetData(key, JsonConvert.SerializeObject(list));
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }
