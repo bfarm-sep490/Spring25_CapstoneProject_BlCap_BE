@@ -360,7 +360,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 
         private void ItemProfile()
         {
-            CreateMap<Item, ItemModels>()
+            CreateMap<Item, ItemModel>()
                 .ReverseMap();
         }
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Item
 {
-    public class ItemModels
+    public class ItemModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

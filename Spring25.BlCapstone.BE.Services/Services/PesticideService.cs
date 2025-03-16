@@ -5,6 +5,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -66,41 +67,28 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             try
             {
-                if (_redisManagement.IsConnected)
+                if (!_redisManagement.IsConnected) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
                 {
-                    var listJson = _redisManagement.GetData(key);
-                    if (!string.IsNullOrEmpty(listJson))
-                    {
-                        result = JsonConvert.DeserializeObject<List<PesticideModel>>(listJson);
-
-                        if (!string.IsNullOrEmpty(status))
-                        {
-                            result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
-                        }
-                        return new BusinessResult(200, "List Pesticides (From Cache)", result);
-                    }
-                }
-                var list = await _unitOfWork.PesticideRepository.GetAllAsync();
-                result = _mapper.Map<List<PesticideModel>>(list);
-                if (!string.IsNullOrEmpty(status))
-                {
-                    result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
-                }
-                if (_redisManagement.IsConnected)
-                {
+                    var list = await _unitOfWork.PesticideRepository.GetAllAsync();
+                    result = _mapper.Map<List<PesticideModel>>(list);
                     _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
+                }
+                else
+                {
+                    result = JsonConvert.DeserializeObject<List<PesticideModel>>(productListJson);
                 }
             }
             catch (Exception ex)
             {
-                var list = await _unitOfWork.PesticideRepository.GetAllAsync();
+                var list = await _unitOfWork.FertilizerRepository.GetAllAsync();
                 result = _mapper.Map<List<PesticideModel>>(list);
-                if (!string.IsNullOrEmpty(status))
-                {
-                    result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
-                }
             }
-
+            if (!string.IsNullOrEmpty(status))
+            {
+                    result = result.Where(c => c.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+            }
             return new BusinessResult(200, "List Pesticides", result);
         }
 
@@ -116,11 +104,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var list = JsonConvert.DeserializeObject<List<PesticideModel>>(listJson);
                     obj = list.FirstOrDefault(x => x.Id == id);
                     if (obj != null) return new BusinessResult(200, "Pesticide (From Cache)", obj);
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                }          
+                throw new Exception();
             }
             catch (Exception ex)
             {
