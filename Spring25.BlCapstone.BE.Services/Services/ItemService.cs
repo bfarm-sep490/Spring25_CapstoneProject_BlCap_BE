@@ -1,9 +1,16 @@
 ﻿using AutoMapper;
+using IO.Ably;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -28,80 +35,67 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public ItemService(IMapper mapper)
+        private readonly RedisManagement _redisManagement;
+        private readonly string key = "ListItems";
+        public ItemService(IMapper mapper, RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _redisManagement = redisManagement;
         }
 
         public async Task<IBusinessResult> GetAll(string? status)
         {
+            List<ItemModel> result;
             try
             {
-                var items = await _unitOfWork.ItemRepository.GetItems(status);
-                var res = _mapper.Map<List<ItemModels>>(items);
-                if (items.Count <= 0)
+                if (!_redisManagement.IsConnected) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
                 {
-                    return new BusinessResult
-                    {
-                        Status = 404,
-                        Message = "Not found any Items!",
-                        Data = null
-                    };
+                    var list = await _unitOfWork.ItemRepository.GetAllAsync();
+                    result = _mapper.Map<List<ItemModel>>(list);
+                    _redisManagement.SetData(key, JsonConvert.SerializeObject(result));
                 }
                 else
                 {
-                    return new BusinessResult
-                    {
-                        Status = 200,
-                        Message = "Read data successfully !!!",
-                        Data = res
-                    };
+                    result = JsonConvert.DeserializeObject<List<ItemModel>>(productListJson);
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult
-                {
-                    Status = 500,
-                    Message = ex.Message,
-                    Data = null
-                };
+                var list = await _unitOfWork.ItemRepository.GetAllAsync();
+                result = _mapper.Map<List<ItemModel>>(list);
             }
+            if (!string.IsNullOrEmpty(status))
+            {
+                result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+            }
+            return new BusinessResult(200,"List Item",result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
         {
+            var obj = new ItemModel();
             try
             {
-                var item = await _unitOfWork.ItemRepository.GetByIdAsync(id);
-                if (item == null)
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                var listJson = _redisManagement.GetData(key);
+                if (!string.IsNullOrEmpty(listJson))
                 {
-                    return new BusinessResult
-                    {
-                        Status = 404,
-                        Message = "Not found any Items!",
-                        Data = null
-                    };
-                }
-
-                var res = _mapper.Map<ItemModels>(item);
-                return new BusinessResult
-                {
-                    Status = 200,
-                    Message = "Read data successfully !!!",
-                    Data = res
-                };
+                    var list = JsonConvert.DeserializeObject<List<ItemModel>>(listJson);
+                    obj = list.FirstOrDefault(x => x.Id == id);
+                    if (obj != null) return new BusinessResult(200, "Item (From Cache)", obj);
+                }           
+                throw new Exception();         
             }
             catch (Exception ex)
             {
-                return new BusinessResult
-                {
-                    Status = 500,
-                    Message = ex.Message,
-                    Data = null
-                };
+                var item = await _unitOfWork.ItemRepository.GetByIdAsync(id);
+                if (item == null) return new BusinessResult(400, "Not Found this Item");
+                obj = _mapper.Map<ItemModel>(item);
             }
+            return new BusinessResult(200, "Item", obj);
         }
 
         public async Task<IBusinessResult> CreateItem(CreatedItem item)
@@ -132,6 +126,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
                 else
                 {
+                    await this.ResetItemsRedis();
                     return new BusinessResult
                     {
                         Status = 200,
@@ -186,11 +181,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
                 else
                 {
+                    await this.ResetItemsRedis();
                     return new BusinessResult
                     {
                         Status = 200,
                         Message = "Update success!",
-                        Data = null
+                        Data = _mapper.Map<ItemModel>(item)
                     };
                 }
             }
@@ -225,6 +221,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (result)
                 {
+                    await this.ResetItemsRedis();
                     return new BusinessResult
                     {
                         Status = 200,
@@ -294,6 +291,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (rs > 0)
                 {
+                    await this.ResetItemsRedis();
                     return new BusinessResult { Status = 200, Message = "Deactivate item successful", Data = null };
                 }
                 else
@@ -304,6 +302,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+        private async Task ResetItemsRedis()
+        {
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis is fail");
+                _redisManagement.DeleteData(key);
+                var plants = await _unitOfWork.ItemRepository.GetAllAsync();
+                var list = _mapper.Map<List<ItemModel>>(plants);
+                _redisManagement.SetData(key, JsonConvert.SerializeObject(list));
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

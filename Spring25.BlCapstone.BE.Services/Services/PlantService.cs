@@ -105,10 +105,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     obj = list.FirstOrDefault(x => x.Id == id);
                     if (obj != null) return new BusinessResult(200, "Plant (From Cache)", obj);
                 }
-                else
-                {
-                    throw new Exception();
-                }
+                throw new Exception();
             }
             catch (Exception ex)
             {
