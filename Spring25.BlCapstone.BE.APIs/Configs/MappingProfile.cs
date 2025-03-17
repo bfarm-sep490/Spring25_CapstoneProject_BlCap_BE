@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
@@ -48,6 +49,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             InspectingResultProfile();
             HistoryFarmerProfile();
             ItemProfile();
+            OrderProfile();
+        }
+
+        private void OrderProfile()
+        {
+            CreateMap<Order, OrderModel>()
+                .ReverseMap();
         }
 
         private void ExpertProfile()

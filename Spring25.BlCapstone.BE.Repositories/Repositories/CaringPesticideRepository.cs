@@ -28,8 +28,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Where(x => x.PlanId == planId)
                                 .SelectMany(x => x.CaringPesticides)
                                 .ToListAsync();
-            var kilogam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "kg").Sum(x => x.Quantity);
-            var gam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "gam").Sum(x => x.Quantity);
+            var kilogam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "l").Sum(x => x.Quantity);
+            var gam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "ml").Sum(x => x.Quantity);
             return kilogam + gam / 1000;
         }
         public async Task<float> UsedPesticideInPlan(int planId, int pesticideId)
@@ -38,8 +38,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                               .Where(x => x.PlanId == planId && x.Status.ToLower() != "cancel" && x.Status.ToLower() != "pending")
                               .SelectMany(x => x.CaringPesticides)
                               .ToListAsync();
-            var kilogam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "kg").Sum(x => x.Quantity);
-            var gam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "gam").Sum(x => x.Quantity);
+            var kilogam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "l").Sum(x => x.Quantity);
+            var gam = list.Where(x => x.PesticideId == pesticideId && x.Unit.ToLower() == "ml").Sum(x => x.Quantity);
             return kilogam + gam / 1000;
         }
 
@@ -49,6 +49,17 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(cp => cp.CaringTask)
                                  .Where(cp => cp.CaringTask.PlanId == planId)
                                  .ToListAsync();
+        }
+        public async Task<List<Pesticide>> GetPesticidesByPlanId(int planid)
+        {
+            var result = await _context.CaringTasks
+                                 .Where(cf => cf.PlanId == planid)
+                                 .Include(x => x.CaringPesticides)
+                                 .ThenInclude(x => x.Pesticide)
+                                 .SelectMany(x => x.CaringPesticides.Select(y => y.Pesticide))
+                                 .Distinct()
+                                 .ToListAsync();
+            return result;
         }
     }
 }

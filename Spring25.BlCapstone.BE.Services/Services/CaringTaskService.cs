@@ -394,14 +394,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
             if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
             var result = new List<NurturingItem>();
-            var list = await _unitOfWork.CaringFertilizerRepository.GetPesticidesByPlanId(id);
+            var list = await _unitOfWork.CaringPesticideRepository.GetPesticidesByPlanId(id);
             foreach (var item in list) { 
                 var obj = new NurturingItem();
                 obj.Id = item.Id;
                 obj.Name = item.Name;
                 obj.EstimateQuantity = await _unitOfWork.CaringPesticideRepository.EstimatePesticideInPlan(id,item.Id);
                 obj.UsedQuantity = await _unitOfWork.CaringPesticideRepository.UsedPesticideInPlan(id,item.Id);
-                obj.Unit = "Kg";
+                obj.Unit = "l";
                 result.Add(obj);
             }
             return new BusinessResult(200, "Get Infomation Of Pesticide Tasks By PlanId", result);
