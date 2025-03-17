@@ -29,7 +29,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string? EstimatedUnit { get; set; }
         [JsonPropertyName("seed_quantity")]
         public int? SeedQuantity { get; set; }
-        [JsonPropertyName("update_by")]
-        public string UpdateBy { get; set; }
+        [JsonPropertyName("updated_by")]
+        public string UpdatedBy { get; set; }
     }
 }
