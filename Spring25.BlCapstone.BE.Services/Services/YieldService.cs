@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Create(YieldModel model);
         Task<IBusinessResult> Update(int id, YieldModel model);
         Task<IBusinessResult> Delete(int id);
+        Task<IBusinessResult> GetSuggestPlantsbyYieldId(int id);
     }
     public class YieldService : IYieldService
     {
@@ -63,6 +64,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var obj = await _unitOfWork.YieldRepository.GetByIdAsync(id);
             var result= _mapper.Map<YieldModel>(obj);
             return new BusinessResult(200, "Get Yield by Id", result);
+        }
+
+        public async Task<IBusinessResult> GetSuggestPlantsbyYieldId(int id)
+        {
+            var obj = await _unitOfWork.YieldRepository.GetByIdAsync(id);
+            if (obj == null) return new BusinessResult(400, "Not Found Yield");
+            var list = await _unitOfWork.YieldRepository.GetSuggestPlantsbyYieldId(id);
+            var result = _mapper.Map<List<PlantModel>>(list);
+            return new BusinessResult(200, "List suggest plant by yieldid", result);
+
         }
 
         public async Task<IBusinessResult> Update(int id, YieldModel model)

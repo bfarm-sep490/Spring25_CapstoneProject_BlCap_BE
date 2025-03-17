@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Update(int id,PlantModel model);
         Task<IBusinessResult> Delete(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id);
     }
 
     public class PlantService : IPlantService
@@ -114,6 +116,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 obj = _mapper.Map<PlantModel>(plant);
             }
             return new BusinessResult(200, "Get Plant by Id", obj);
+        }
+
+        public async Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id)
+        {
+            var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+            if (obj == null) return new BusinessResult(400, "Not Found this Plant");
+            var list = await _unitOfWork.PlantRepository.GetSuggestPlantById(id);
+            var result = _mapper.Map<List<YieldModel>>(list);
+            return new BusinessResult(200, "Get suggest yields by plantid", result);
         }
 
         public async Task<IBusinessResult> Update(int id, PlantModel model)
