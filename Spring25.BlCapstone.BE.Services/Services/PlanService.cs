@@ -651,7 +651,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.StartDate = model.StartDate;
                 plan.EndDate = model.EndDate;
                 plan.UpdatedAt = DateTime.Now;
-                plan.UpdatedBy = model.UpdateBy;
+                plan.UpdatedBy = model.UpdatedBy;
                 plan.SeedQuantity = model.SeedQuantity;
 
                 var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
