@@ -31,5 +31,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+        public async Task<List<Plant>> GetSuggestPlantsbyYieldId(int id)
+        {
+                return await _context.PlantYields.Where(x => x.YieldId == id)
+                .Include(x => x.Plant)
+                .Select(x => x.Plant)
+                .ToListAsync();
+        }
     }
 }
