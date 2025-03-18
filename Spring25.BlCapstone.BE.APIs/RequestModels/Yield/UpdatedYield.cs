@@ -14,8 +14,6 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Yield
         public string Description { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
-        [JsonPropertyName("size")]
-        public string Size { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
     }
