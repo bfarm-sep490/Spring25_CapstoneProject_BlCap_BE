@@ -35,10 +35,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                model.Status= "Available";
                 var obj = _mapper.Map<Yield>(model);
                 var rs = await _unitOfWork.YieldRepository.CreateAsync(obj);
-
-                return new BusinessResult(200, "Create successfully !", rs);
+                
+                return new BusinessResult(200, "Create successfully !", _mapper.Map<YieldModel>(rs));
             }
             catch (Exception ex)
             {
@@ -90,7 +91,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 yield.Id = id;
 
                 var rs = await _unitOfWork.YieldRepository.UpdateAsync(yield);
-                return new BusinessResult(200, "Update successfully!", yield);
+                return new BusinessResult(200, "Update successfully!", model);
             }
             catch (Exception ex)
             {
