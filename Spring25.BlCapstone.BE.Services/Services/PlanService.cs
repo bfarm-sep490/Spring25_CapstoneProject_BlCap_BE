@@ -33,6 +33,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DeletePlan(int id);
         Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id);
         Task<IBusinessResult> GetAllPlanFarmerAssigned(int id);
+        Task<IBusinessResult> GetInfomationOfFertilizerTasksByPlanId(int id);
+        Task<IBusinessResult> GetInfomationOfPesticideTasksByPlanId(int id);
+        Task<IBusinessResult> RemoveFarmerFromPlan(int planId, int farmerId);
+        Task<IBusinessResult> AddFarmerToPlan(int planId, List<int> farmerIds);
     }
 
     public class PlanService : IPlanService
@@ -236,12 +240,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 _mapper.Map(model, plan);
                 await _unitOfWork.PlanRepository.UpdateAsync(plan);
 
-                var farmers = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
-                foreach (var farmer in farmers)
-                {
-                    await _unitOfWork.FarmerPermissionRepository.RemoveAsync(farmer);
-                }
-
                 var farmersCaringTask = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasksByPlanId(id);
                 foreach (var farmer in farmersCaringTask)
                 {
@@ -269,13 +267,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                         await _unitOfWork.CaringTaskRepository.UpdateAsync(caring);
 
-
-                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
-                        {
-                            FarmerId = task.FarmerId.Value,
-                            PlanId = id,
-                        });
-
                         await _unitOfWork.FarmerCaringTaskRepository.CreateAsync(new FarmerCaringTask
                         {
                             FarmerId = task.FarmerId.Value,
@@ -295,12 +286,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         harvesting.Status = task.Status;
 
                         await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvesting);
-
-                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
-                        {
-                            FarmerId = task.FarmerId.Value,
-                            PlanId = id,
-                        });
 
                         await _unitOfWork.FarmerHarvestingTaskRepository.CreateAsync(new FarmerHarvestingTask
                         {
@@ -333,12 +318,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         packaging.Status = task.Status;
 
                         await _unitOfWork.PackagingTaskRepository.UpdateAsync(packaging);
-
-                        await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
-                        {
-                            FarmerId = task.FarmerId.Value,
-                            PlanId = id
-                        });
 
                         await _unitOfWork.FarmerPackagingTaskRepository.CreateAsync(new FarmerPackagingTask
                         {
@@ -703,6 +682,139 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(200, "Plans that farmer assigned in : ", rs);
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetInfomationOfFertilizerTasksByPlanId(int id)
+        {
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+            if (plan == null) return new BusinessResult(404, "Plan not found !", null);
+
+            var result = new List<NurturingItem>();
+            var list = await _unitOfWork.CaringFertilizerRepository.GetFertilizersByPlanId(id);
+            foreach (var item in list)
+            {
+                var obj = new NurturingItem();
+                obj.Id = item.Id;
+                obj.Name = item.Name;
+                obj.EstimateQuantity = await _unitOfWork.CaringFertilizerRepository.EstimateFertilizerInPlan(id, item.Id);
+                obj.UsedQuantity = await _unitOfWork.CaringFertilizerRepository.UsedFertilizerInPlan(id, item.Id);
+                obj.Unit = "Kg";
+                result.Add(obj);
+            }
+            return new BusinessResult(200, "Get Infomation Of Fertilizers Tasks By PlanId", result);
+        }
+
+        public async Task<IBusinessResult> GetInfomationOfPesticideTasksByPlanId(int id)
+        {
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+            if (plan == null) return new BusinessResult(200, "Dashboard Caring Tasks by plan id", null);
+            var result = new List<NurturingItem>();
+            var list = await _unitOfWork.CaringPesticideRepository.GetPesticidesByPlanId(id);
+            foreach (var item in list)
+            {
+                var obj = new NurturingItem();
+                obj.Id = item.Id;
+                obj.Name = item.Name;
+                obj.EstimateQuantity = await _unitOfWork.CaringPesticideRepository.EstimatePesticideInPlan(id, item.Id);
+                obj.UsedQuantity = await _unitOfWork.CaringPesticideRepository.UsedPesticideInPlan(id, item.Id);
+                obj.Unit = "l";
+                result.Add(obj);
+            }
+            return new BusinessResult(200, "Get Infomation Of Pesticide Tasks By PlanId", result);
+        }
+
+        public async Task<IBusinessResult> RemoveFarmerFromPlan(int planId, int farmerId)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found any farmer !");
+                }
+
+                var isInCaringPlan = await _unitOfWork.FarmerCaringTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
+                if (isInCaringPlan)
+                {
+                    return new BusinessResult(400, "Can not remove farmer because he/she have been assign in a Caring Task !");
+                }
+
+                var isInHarvestingPlan = await _unitOfWork.FarmerHarvestingTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
+                if (isInHarvestingPlan)
+                {
+                    return new BusinessResult(400, "Can not remove farmer because he/she have been assign in a Harvesting Task !");
+                }
+
+                var isInPackagingPlan = await _unitOfWork.FarmerPackagingTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
+                if (isInPackagingPlan)
+                {
+                    return new BusinessResult(400, "Can not remove farmer because he/she have been assign in a Packaging Task !");
+                }
+
+                var farmerPermission = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(planId, farmerId);
+                var rs = await _unitOfWork.FarmerPermissionRepository.RemoveAsync(farmerPermission);
+
+                if (rs)
+                {
+                    return new BusinessResult(200, "Remove farmer from plan successfully");
+                }
+
+                return new BusinessResult(500, "Remove failed !");
+            }
+            catch(Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> AddFarmerToPlan(int planId, List<int> farmerIds)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                var farms = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(planId);
+                foreach (var permission in farms)
+                {
+                    await _unitOfWork.FarmerPermissionRepository.RemoveAsync(permission);
+                }
+
+                foreach (var farmerId in farmerIds)
+                {
+                    var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                    if (farmer == null)
+                    {
+                        return new BusinessResult(404, "Not found a farmer in list");
+                    }
+                }
+
+                foreach (var id in farmerIds)
+                {
+                    await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                    {
+                        CreatedAt = DateTime.Now,
+                        FarmerId = id,
+                        PlanId = planId,
+                        Status = "Active"
+                    });
+                }
+
+                return new BusinessResult(200, "Add Farmer to Plan successfully !");
             }
             catch (Exception ex)
             {

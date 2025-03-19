@@ -2,9 +2,13 @@
 using CloudinaryDotNet.Core;
 using IO.Ably;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -25,17 +29,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateInspector(CreateInspector model);
         Task<IBusinessResult> UpdateInspector(int id, UpdateInspector model);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> AddInspectorTokenDevice(int id, string tokenDevice);
+        Task<IBusinessResult> GetAllDeviceTokensByInspectorId(int id);
+        Task<IBusinessResult> RemoveDeviceTokenByInspectorId(int id);
     }
 
     public class InspectorService : IInspectorService
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly RedisManagement _redisManagement;
+        private readonly AblyHelper _ablyHelper;
 
-        public InspectorService(IMapper mapper)
+        public InspectorService(IMapper mapper, RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _redisManagement = redisManagement;
+            _ablyHelper = new AblyHelper();
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -313,6 +324,102 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> AddInspectorTokenDevice(int id, string tokenDevice)
+        {
+            var inspector = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
+            if (inspector == null)
+            {
+                return new BusinessResult(404, "Not found any inspectors !");
+            }
+
+            var key = $"Inspector-{id}";
+            try
+            {
+                var token = await _ablyHelper.RegisterTokenDevice(tokenDevice, "inspector");
+
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                var result = new DeviceTokenModel();
+                if (productListJson == null || productListJson == "[]")
+                {
+                    result.Id = id;
+                    result.Tokens = new List<string>();
+                }
+                else
+                {
+                    result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                }
+                result.Tokens.Add(token);
+                productListJson = JsonConvert.SerializeObject(result);
+                _redisManagement.SetData(key, productListJson);
+                return new BusinessResult(200, "Set Device Token successfully", result);
+            }
+            catch
+            {
+                return new BusinessResult(500, "Redis is fail");
+            }
+        }
+
+        public async Task<IBusinessResult> GetAllDeviceTokensByInspectorId(int id)
+        {
+            var inspector = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
+            if (inspector == null)
+            {
+                return new BusinessResult(404, "Not found any inspectors !");
+            }
+
+            var key = $"Inspector-{id}";
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    return new BusinessResult(400, "This inspector do not have DeviceToken");
+                }
+                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                return new BusinessResult(200, "Inspector device token", result);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
+            }
+
+        }
+
+        public async Task<IBusinessResult> RemoveDeviceTokenByInspectorId(int id)
+        {
+            var inspector = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
+            if (inspector == null)
+            {
+                return new BusinessResult(404, "Not found any inspectors !");
+            }
+
+            var key = $"Inspector-{id}";
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    return new BusinessResult(400, "This inspector do not have DeviceToken");
+                }
+                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+
+                foreach (var item in result.Tokens)
+                {
+                    await _ablyHelper.RemoveTokenDevice(item);
+                }
+
+                _redisManagement.DeleteData(key);
+                return new BusinessResult(200, "Removed inspector device token successfully !");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
             }
         }
     }

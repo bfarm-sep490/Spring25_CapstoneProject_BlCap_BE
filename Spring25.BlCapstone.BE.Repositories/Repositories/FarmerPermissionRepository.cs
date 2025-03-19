@@ -22,5 +22,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Where(fp => fp.PlanId == planId)
                                  .ToListAsync();
         }
+
+        public async Task<FarmerPermission> GetFarmerPermission(int planId, int farmerId)
+        {
+            return await _context.FarmerPermissions
+                                 .FirstOrDefaultAsync(fp => fp.PlanId == planId && fp.FarmerId == farmerId);
+        }
     }
 }

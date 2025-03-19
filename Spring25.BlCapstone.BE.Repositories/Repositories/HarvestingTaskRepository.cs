@@ -36,6 +36,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var query = _context.HarvestingTasks
                                 .Include(x => x.HarvestingImages)
                                 .Include(x => x.HarvestingItems)
+                                    .ThenInclude(x => x.Item)
                                 .Include(x => x.FarmerHarvestingTasks)
                                     .ThenInclude(x => x.Farmer)
                                     .ThenInclude(x => x.Account)

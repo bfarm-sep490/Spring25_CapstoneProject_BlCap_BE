@@ -134,34 +134,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/fertilizers/plan/{id}")]
-        public async Task<IActionResult> GetFertilizersByPlanId([FromRoute] int id)
-        {
-            try
-            {
-                var result = await _caringTaskService.GetInfomationOfFertilizerTasksByPlanId(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("caring-tasks/pesticides/plan/{id}")]
-        public async Task<IActionResult> GetPesticidesByPlanId([FromRoute] int id)
-        {
-            try
-            {
-                var result = await _caringTaskService.GetInfomationOfPesticideTasksByPlanId(id);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpGet("caring-tasks/{id}/assigned-farmers")]
         public async Task<IActionResult> GetHistoryFarmers(int id)
         {
