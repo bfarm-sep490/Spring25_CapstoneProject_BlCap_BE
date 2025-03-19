@@ -72,46 +72,5 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-
-        [HttpPost("{farmer_id}/device-token")]
-        public async Task<ActionResult<IBusinessResult>> CreateDeviceToken([FromRoute]int farmer_id, [FromBody]string token)
-        {
-            try
-            {
-                var result = await _authencationService.AddFarmerDevice(farmer_id,token);
-                return StatusCode(200, result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        [HttpGet("{farmer_id}/device-token")]
-        public async Task<ActionResult<IBusinessResult>> GetDeviceTokensByFarmerId([FromRoute] int farmer_id)
-        {
-            try
-            {
-                var result = await _authencationService.GetAllDeviceTokensbyFarmerId(farmer_id);
-                return StatusCode(200, result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-        [HttpDelete("{farmer_id}/device-token")]
-        public async Task<ActionResult<IBusinessResult>> RemoveDeviceTokensByFarmerId([FromRoute] int farmer_id)
-        {
-            try
-            {
-                var result = await _authencationService.RemoveDeviceTokensbyFarmerId(farmer_id);
-                return StatusCode(200, result);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
     }
 }

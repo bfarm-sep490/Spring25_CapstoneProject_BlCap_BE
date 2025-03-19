@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {

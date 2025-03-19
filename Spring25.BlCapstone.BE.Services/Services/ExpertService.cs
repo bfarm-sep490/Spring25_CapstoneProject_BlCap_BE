@@ -1,8 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -23,17 +27,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateExpert(CreateFarmer model);
         Task<IBusinessResult> UpdateExpert(int id, CreateFarmer model);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> AddExpertTokenDevice(int id, string tokenDevice);
+        Task<IBusinessResult> GetAllDeviceTokensByExpertId(int id);
+        Task<IBusinessResult> RemoveDeviceTokenByExpertId(int id);
     }
 
     public class ExpertService : IExpertService
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly RedisManagement _redisManagement;
+        private readonly AblyHelper _ablyHelper;
 
-        public ExpertService(IMapper mapper)
+        public ExpertService(IMapper mapper, RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _redisManagement = redisManagement;
+            _ablyHelper = new AblyHelper();
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -310,6 +321,102 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
+            }
+        }
+
+        public async Task<IBusinessResult> AddExpertTokenDevice(int id, string tokenDevice)
+        {
+            var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
+            if (expert == null)
+            {
+                return new BusinessResult(404, "Not found any experts !");
+            }
+
+            var key = $"Expert-{id}";
+            try
+            {
+                var token = await _ablyHelper.RegisterTokenDevice(tokenDevice, "expert");
+
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                var result = new DeviceTokenModel();
+                if (productListJson == null || productListJson == "[]")
+                {
+                    result.Id = id;
+                    result.Tokens = new List<string>();
+                }
+                else
+                {
+                    result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                }
+                result.Tokens.Add(token);
+                productListJson = JsonConvert.SerializeObject(result);
+                _redisManagement.SetData(key, productListJson);
+                return new BusinessResult(200, "Set Device Token successfully", result);
+            }
+            catch
+            {
+                return new BusinessResult(500, "Redis is fail");
+            }
+        }
+
+        public async Task<IBusinessResult> GetAllDeviceTokensByExpertId(int id)
+        {
+            var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
+            if (expert == null)
+            {
+                return new BusinessResult(404, "Not found any experts !");
+            }
+
+            var key = $"Expert-{id}";
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    return new BusinessResult(400, "This expert do not have DeviceToken");
+                }
+                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                return new BusinessResult(200, "Expert device token", result);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
+            }
+
+        }
+
+        public async Task<IBusinessResult> RemoveDeviceTokenByExpertId(int id)
+        {
+            var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
+            if (expert == null)
+            {
+                return new BusinessResult(404, "Not found any experts !");
+            }
+
+            var key = $"Expert-{id}";
+            try
+            {
+                if (_redisManagement.IsConnected == false) throw new Exception();
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    return new BusinessResult(400, "This expert do not have DeviceToken");
+                }
+                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+
+                foreach (var item in result.Tokens)
+                {
+                    await _ablyHelper.RemoveTokenDevice(item);
+                }
+
+                _redisManagement.DeleteData(key);
+                return new BusinessResult(200, "Removed expert device token successfully !");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
             }
         }
     }

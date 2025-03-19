@@ -13,7 +13,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 {
     public class AblyHelper
     {
-        private readonly AblyRest _ablyClient;
+        private readonly AblyRealtime _ablyClient;
         private readonly string _channelNotification = "notifications";
 
         public AblyHelper()
@@ -24,7 +24,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 throw new Exception("Ably configuration is missing...");
             }
 
-            _ablyClient = new AblyRest(ablyConfig);
+            _ablyClient = new AblyRealtime(ablyConfig);
         }
 
         public async Task<string> SendNotificationAsync(string title, string body)
@@ -56,8 +56,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Name = topic,
                     Data = new
                     {
-                        title = title,
-                        body = body
+                        Title = title,
+                        Body = body
                     }
                 };
                 await channel.PublishAsync(message);
@@ -70,11 +70,56 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             }
         }
 
-        public async Task<string> SendMessageToDevice(string title, string body, string tokenDevice)
+        public async Task<string> RegisterTokenDevice(string deviceToken, string role)
         {
             try
             {
-                var notification = new JObject
+                JObject recipient = new JObject(
+                    new JProperty("transportType", "fcm"),
+                    new JProperty("registrationToken", deviceToken)
+                );
+
+                string id = GenerateRandomId(role);
+                var deviceDetails = new DeviceDetails()
+                {
+                    Id = id,
+                    Platform = "android",
+                    FormFactor = "phone",
+                    Metadata = new JObject(),
+                    Push = new DeviceDetails.PushData()
+                    {
+                        Recipient = recipient,
+                        ErrorReason = null
+                    }
+                };
+
+                var devcieRegistration = await _ablyClient.Push.Admin.DeviceRegistrations.SaveAsync(deviceDetails);
+                return id;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static string GenerateRandomId(string role)
+        {
+            if (string.IsNullOrEmpty(role))
+            {
+                throw new ArgumentException("Role cannot be null or empty", nameof(role));
+            }
+
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string randomPart = new Random().Next(1000, 9999).ToString();
+
+            return $"{role.ToUpper()}-{timestamp}-{randomPart}";
+        }
+
+        public async Task<string> SendMessageToDevice(string title, string body, string deviceId, object? data = null)
+        {
+            try
+            {
+                JObject payload = new JObject
                 {
                     ["notification"] = new JObject
                     {
@@ -83,17 +128,31 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     }
                 };
 
-                var recipient = new JObject
+                JObject recipient = new JObject
                 {
-                    { "deviceId", tokenDevice },
+                    { "deviceId", deviceId }
                 };
 
-                await _ablyClient.Push.Admin.PublishAsync(recipient, notification);
+                await _ablyClient.Push.Admin.PublishAsync(recipient, payload);
                 return "Push notifications successfully!";
             }
             catch (Exception ex)
             {
                 return $"Push notifications failed: {ex.Message}";
+            }
+        }
+
+        public async Task<string> RemoveTokenDevice(string deviceId)
+        {
+            try
+            {
+                await _ablyClient.Push.Admin.DeviceRegistrations.RemoveAsync(deviceId);
+
+                return "Remove token device successfully !";
+            }
+            catch (Exception ex)
+            {
+                return $"Remove failed: {ex.Message}";
             }
         }
     }

@@ -77,6 +77,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                var form = await _unitOfWork.InspectingResultRepository.GetByIdAsync(id);
+                if (form != null)
+                {
+                    return new BusinessResult(400, "This form already has result !");
+                }
+
                 var result = _mapper.Map<InspectingResult>(model);
                 result.Id = id;
                 var plant = await _unitOfWork.InspectingResultRepository.GetPlantByInspectingForm(id);

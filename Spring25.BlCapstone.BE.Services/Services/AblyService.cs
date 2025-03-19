@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> SendNotification(string title, string body);
         Task<IBusinessResult> SendMessageWithTopic(string title, string body, string topic);
-        Task<IBusinessResult> SendMessageToDeviceToken(string title, string body, string tokenDevice);
+        Task<IBusinessResult> SendMessageToDeviceToken(NotificationDeviceRequest model, string deviceId);
     }
 
     public class AblyService : IAblyService
@@ -70,11 +71,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> SendMessageToDeviceToken(string title, string body, string tokenDevice)
+        public async Task<IBusinessResult> SendMessageToDeviceToken(NotificationDeviceRequest model, string deviceId)
         {
             try
             {
-                var res = await _ably.SendMessageToDevice(title, body, tokenDevice);
+                string res;
+                if (model.Data == null)
+                {
+                    res = await _ably.SendMessageToDevice(model.Title, model.Body, deviceId);
+                }
+                else
+                {
+                    res = await _ably.SendMessageToDevice(model.Title, model.Body, deviceId, model.Data);
+                }
+
                 return new BusinessResult(200, res, null);
             }
             catch (Exception ex)

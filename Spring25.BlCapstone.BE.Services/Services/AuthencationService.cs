@@ -21,13 +21,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IAuthencationService
     {
         Task<IBusinessResult> SignIn(string email, string password);
-        //Task<IBusinessResult> SignInForFarmer(string email, string password);
         Task<IBusinessResult> GetAccountInfoById(int id);
         Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
         Task<IBusinessResult> GetAllAccount();
-        Task<IBusinessResult> AddFarmerDevice(int id,string token);
-        Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id);
-        Task<IBusinessResult> RemoveDeviceTokensbyFarmerId(int farmer_id);
     }
     public class AuthencationService : IAuthencationService
     {
@@ -210,79 +206,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
-        }
-
-        public async Task<IBusinessResult> AddFarmerDevice(int id, string token)
-        {
-            var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-            if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
-            var key = $"DeviceTokens{id}";
-            try
-            {
-                if (_redisManagement.IsConnected == false) throw new Exception();
-                string productListJson = _redisManagement.GetData(key);
-                var result = new DeviceTokenModel();
-                if (productListJson == null || productListJson == "[]")
-                {
-                    result.Id = id;
-                    result.Tokens = new List<string>();
-                }
-                else
-                {
-                    result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
-                }
-                result.Tokens.Add(token);
-                productListJson = JsonConvert.SerializeObject(result);
-                _redisManagement.SetData(key, productListJson);
-                return new BusinessResult(200, "Set Device Token successfully", result);
-            }
-            catch 
-            { 
-                return new BusinessResult(400, "Redis is fail"); 
-            }
-          
-        }
-
-        public async Task<IBusinessResult> GetAllDeviceTokensbyFarmerId(int id)
-        {
-            var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
-            if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
-            var key = $"DeviceTokens{id}";
-            try
-            {
-                if (_redisManagement.IsConnected == false) throw new Exception();
-                string productListJson = _redisManagement.GetData(key);
-                if (productListJson == null || productListJson == "[]")
-                {
-                    return new BusinessResult(400, "This Farmer do not have DeviceToken");
-                }
-                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
-                return new BusinessResult(200, "Farmer device token", result);
-            }
-            catch (Exception ex)
-            {
-                return new BusinessResult(400, "Redis is Fail");
-            }
-           
-        }
-
-        public async Task<IBusinessResult> RemoveDeviceTokensbyFarmerId(int farmer_id)
-        {
-            var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmer_id);
-            if (farmer == null) { return new BusinessResult(400, "Not found this farmer", null); }
-            try
-            {
-                if (_redisManagement.IsConnected == false) throw new Exception();
-                var key = $"DeviceTokens{farmer_id}";
-                _redisManagement.DeleteData(key);
-                return new BusinessResult(200, "Removed Farmer device token");
-
-            }
-            catch (Exception ex) 
-            { 
-                return new BusinessResult(400,"Redis is Fail");
-            }
-           
         }
     }
 }

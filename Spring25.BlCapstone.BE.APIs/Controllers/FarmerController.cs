@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
@@ -70,6 +71,48 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             var rs = await _service.UploadImage(image);
             return Ok(rs);
+        }
+
+        [HttpPost("{id}/device-token")]
+        public async Task<IActionResult> AddTokenDevice(int id, [Required] string tokenDevice)
+        {
+            try
+            {
+                var rs = await _service.AddFarmerTokenDevice(id, tokenDevice);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/device-token")]
+        public async Task<IActionResult> GetListTokens(int id)
+        {
+            try
+            {
+                var rs = await _service.GetAllDeviceTokensByFarmerId(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}/device-token")]
+        public async Task<IActionResult> RemoveToken(int id)
+        {
+            try
+            {
+                var rs = await _service.RemoveDeviceTokenByFarmerId(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"{ex.Message}");
+            }
         }
     }
 }
