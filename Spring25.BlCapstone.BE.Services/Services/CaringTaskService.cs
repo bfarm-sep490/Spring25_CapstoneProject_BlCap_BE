@@ -131,7 +131,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (rs != null)
                 {
-                    return new BusinessResult(200, "Update successfull", rs);
+                    return new BusinessResult(200, "Update successfull", task);
                 }
                 else
                 {
