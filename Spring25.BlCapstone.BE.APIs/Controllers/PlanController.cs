@@ -237,5 +237,33 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("{id}/farmer/{farmer_id}")]
+        public async Task<IActionResult> DeleteFarmerFromPlan(int id, int farmer_id)
+        {
+            try
+            {
+                var rs = await _planService.RemoveFarmerFromPlan(id, farmer_id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpPost("{id}/farmers")]
+        public async Task<IActionResult> AddFarmerToPlan(int id, List<int> farmer_id)
+        {
+            try
+            {
+                var rs = await _planService.AddFarmerToPlan(id, farmer_id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

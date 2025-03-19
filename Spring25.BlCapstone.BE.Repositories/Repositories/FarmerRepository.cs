@@ -37,7 +37,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.Farmers
                 .Include(f => f.Account)
                 .Include(f => f.FarmerPermissions)
-                //.Where(f => f.FarmerPermissions.Any(fp => fp.PlanId == planId && fp.IsActive == true))
+                    .Where(f => f.FarmerPermissions.Any(fp => fp.PlanId == planId && fp.Status.ToLower().Trim() == "Active"))
                 .ToListAsync();
         }
     }
