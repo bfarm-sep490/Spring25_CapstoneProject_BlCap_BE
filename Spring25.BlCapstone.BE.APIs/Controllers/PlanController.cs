@@ -209,5 +209,33 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{id}/fertilizers")]
+        public async Task<IActionResult> GetFerByPlanId(int id)
+        {
+            try
+            {
+                var res = await _planService.GetInfomationOfFertilizerTasksByPlanId(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/pesticides")]
+        public async Task<IActionResult> GetPesByPlanId(int id)
+        {
+            try
+            {
+                var res = await _planService.GetInfomationOfPesticideTasksByPlanId(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
