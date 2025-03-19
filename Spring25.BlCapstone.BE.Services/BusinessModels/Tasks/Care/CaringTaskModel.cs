@@ -15,6 +15,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int PlanId { get; set; }
         [JsonPropertyName("plan_name")]
         public string? PlanName { get; set; }
+        [JsonPropertyName("farmer_id")]
+        public int? FarmerId { get; set; }
         [JsonPropertyName("farmer_information")]
         public List<FarmerInfor> FarmerInfor { get; set; }
         [JsonPropertyName("problem_id")]
@@ -61,6 +63,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int Id { get; set; }
         [JsonPropertyName("item_id")]
         public int ItemId { get; set; }
+        [JsonPropertyName("item_name")]
+        public string Name { get; set; }
         [JsonPropertyName("task_id")]
         public int TaskId { get; set; }
         [JsonPropertyName("quantity")]

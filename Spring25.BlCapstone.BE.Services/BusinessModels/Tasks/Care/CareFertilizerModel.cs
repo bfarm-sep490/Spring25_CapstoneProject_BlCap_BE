@@ -13,6 +13,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         public int Id { get; set; }
         [JsonPropertyName("fertilizer_id")]
         public int FertilizerId { get; set; }
+        [JsonPropertyName("fertilizer_name")]
+        public string Name { get; set; }
         [JsonPropertyName("task_id")]
         public int TaskId { get; set; }
         [JsonPropertyName("unit")]

@@ -31,8 +31,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             var query = _context.CaringTasks
                                       .Include(x => x.CaringItems)
+                                            .ThenInclude(x => x.Item)
                                       .Include(x => x.CaringFertilizers)
+                                            .ThenInclude(x => x.Fertilizer)
                                       .Include(x => x.CaringPesticides)
+                                            .ThenInclude(x => x.Pesticide)
                                       .Include(x => x.CaringImages)
                                       .Include(x => x.FarmerCaringTasks)
                                             .ThenInclude(x => x.Farmer)
