@@ -95,5 +95,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             var rs = await _seedService.UploadImage(image);
             return Ok(rs);
         }
+        [HttpGet("{id}/suggest-yields")]
+        public async Task<IActionResult> GetSuggestYieldsbyPlantId([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _seedService.GetSuggestYieldsbyPlantId(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

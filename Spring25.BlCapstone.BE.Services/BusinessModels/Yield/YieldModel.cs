@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,7 +29,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Yield
         public string Type { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-    
     }
 
 }

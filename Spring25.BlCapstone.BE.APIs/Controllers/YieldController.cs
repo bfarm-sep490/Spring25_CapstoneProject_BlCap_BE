@@ -87,5 +87,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{id}/suggest-plants")]
+        public async Task<IActionResult> GetSuggestPlantsbyYieldId([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _yieldService.GetSuggestPlantsbyYieldId(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
