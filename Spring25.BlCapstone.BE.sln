@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BE.Serv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BE.APIs", "Spring25.BlCapstone.BE.APIs\Spring25.BlCapstone.BE.APIs.csproj", "{D609C316-7C4D-462B-99D1-3605B831A872}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring25.BlCapstone.BackgroundServices", "Spring25.BlCapstone.BackgroundServices\Spring25.BlCapstone.BackgroundServices.csproj", "{C92CA07B-2E7C-46E7-855B-81C3AEA375E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D609C316-7C4D-462B-99D1-3605B831A872}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D609C316-7C4D-462B-99D1-3605B831A872}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D609C316-7C4D-462B-99D1-3605B831A872}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C92CA07B-2E7C-46E7-855B-81C3AEA375E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C92CA07B-2E7C-46E7-855B-81C3AEA375E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C92CA07B-2E7C-46E7-855B-81C3AEA375E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C92CA07B-2E7C-46E7-855B-81C3AEA375E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

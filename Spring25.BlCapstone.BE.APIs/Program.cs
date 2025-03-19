@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Spring25.BlCapstone.BackgroundServices.BackgroundServices;
 using Spring25.BlCapstone.BE.APIs.Configs;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
@@ -84,6 +85,7 @@ builder.Services.AddSwaggerGen(opt =>
 
 });
 
+//Register Service
 builder.Services.AddScoped<IAuthencationService, AuthencationService>();
 builder.Services.AddScoped<IFCMService, FCMService>();
 builder.Services.AddScoped<IAblyService, AblyService>();
@@ -107,6 +109,10 @@ builder.Services.AddScoped<IInspectingResultService, InspectingResultService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddSingleton<RedisManagement>();
+
+//Register Background Service
+builder.Services.AddHostedService<TaskCheckStatusService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

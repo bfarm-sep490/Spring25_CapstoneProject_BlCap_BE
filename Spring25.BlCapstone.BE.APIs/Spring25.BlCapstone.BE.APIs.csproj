@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Spring25.BlCapstone.BackgroundServices\Spring25.BlCapstone.BackgroundServices.csproj" />
     <ProjectReference Include="..\Spring25.BlCapstone.BE.Repositories\Spring25.BlCapstone.BE.Repositories.csproj" />
     <ProjectReference Include="..\Spring25.BlCapstone.BE.Services\Spring25.BlCapstone.BE.Services.csproj" />
   </ItemGroup>

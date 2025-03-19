@@ -100,7 +100,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             result.OnGoingTasks = data.Where(x => x.Status.ToLower() == "ongoing").Count();
             result.PendingTasks = data.Where(x => x.Status.ToLower() == "pending").Count();
             return result;
+        }
 
+        public async Task<List<CaringTask>> GetExpiredCaringTasks()
+        {
+            return await _context.CaringTasks
+                                 .Include(ct => ct.Plan)
+                                 .Where(ct => ct.Plan.Status.ToLower() == "ongoing" && ct.EndDate < DateTime.Now
+                                        && ct.Status.ToLower() == "ongoing")
+                                 .ToListAsync();
         }
     }
 }
