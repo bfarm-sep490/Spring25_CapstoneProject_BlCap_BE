@@ -26,9 +26,9 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            //_logger.LogInformation("BS started !");
+            _logger.LogInformation("Check expired Task status started !");
             
-            _timer = new System.Timers.Timer(TimeSpan.FromMinutes(30).TotalMilliseconds);
+            _timer = new System.Timers.Timer(TimeSpan.FromMinutes(2).TotalMilliseconds);
             _timer.Elapsed += async (sender, args) => await ProcessExpiredCaringTasks();
             _timer.AutoReset = true;
             _timer.Enabled = true;
@@ -38,7 +38,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
 
         private async Task ProcessExpiredCaringTasks()
         {
-            //_logger.LogInformation("Check ...");
+            _logger.LogInformation("Checking ...");
             using (var scope = _serviceScopeFactory.CreateScope())
             {
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<UnitOfWork>();
@@ -48,52 +48,73 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                     var expiredHarvestingTasks = await unitOfWork.HarvestingTaskRepository.GetExpiredHarvestingTasks();
                     var expiredPackagingTasks = await unitOfWork.PackagingTaskRepository.GetExpiredPackagingTasks();
 
-                    if (expiredCaringTasks.Any())
+                    try
                     {
-                        foreach (var task in expiredCaringTasks)
+                        if (expiredCaringTasks.Any())
                         {
-                            task.Status = "Incomplete";
-                            unitOfWork.CaringTaskRepository.PrepareUpdate(task);
-                        }
+                            foreach (var task in expiredCaringTasks)
+                            {
+                                task.Status = "Incomplete";
+                                unitOfWork.CaringTaskRepository.PrepareUpdate(task);
+                            }
 
-                        await unitOfWork.CaringTaskRepository.SaveAsync();
-                        //_logger.LogInformation("complete !");
+                            await unitOfWork.CaringTaskRepository.SaveAsync();
+                            _logger.LogInformation("complete !");
+                        }
                     }
-
-                    if (expiredHarvestingTasks.Any())
+                    catch (Exception ex)
                     {
-                        foreach (var task in expiredHarvestingTasks)
-                        {
-                            task.Status = "Incomplete";
-                            unitOfWork.HarvestingTaskRepository.PrepareUpdate(task);
-                        }
-
-                        await unitOfWork.HarvestingTaskRepository.SaveAsync();
-                        //_logger.LogInformation("complete !");
+                        _logger.LogInformation($"Caring Task update error: {ex.Message}");
                     }
-
-                    if (expiredPackagingTasks.Any())
+                    
+                    try
                     {
-                        foreach (var task in expiredPackagingTasks)
+                        if (expiredHarvestingTasks.Any())
                         {
-                            task.Status = "Incomplete";
-                            unitOfWork.PackagingTaskRepository.PrepareUpdate(task);
-                        }
+                            foreach (var task in expiredHarvestingTasks)
+                            {
+                                task.Status = "Incomplete";
+                                unitOfWork.HarvestingTaskRepository.PrepareUpdate(task);
+                            }
 
-                        await unitOfWork.PackagingTaskRepository.SaveAsync();
-                        //_logger.LogInformation("complete !");
+                            await unitOfWork.HarvestingTaskRepository.SaveAsync();
+                            _logger.LogInformation("complete !");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogInformation($"Harvesting Task update error: {ex.Message}");
+                    }
+                    
+                    try
+                    {
+                        if (expiredPackagingTasks.Any())
+                        {
+                            foreach (var task in expiredPackagingTasks)
+                            {
+                                task.Status = "Incomplete";
+                                unitOfWork.PackagingTaskRepository.PrepareUpdate(task);
+                            }
+
+                            await unitOfWork.PackagingTaskRepository.SaveAsync();
+                            _logger.LogInformation("complete !");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogInformation($"Packaging Task update error: {ex.Message}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogError(ex.Message, "Error in CaringTask update!");
+                    _logger.LogError(ex.Message, "Error in Task update!");
                 }
             }
         }
 
         public Task StopAsync(CancellationToken cancelToken)
         {
-            //_logger.LogInformation("Stop");
+            _logger.LogInformation("Stop");
 
             _timer?.Stop();
             return Task.CompletedTask;
