@@ -270,12 +270,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                         await _unitOfWork.FarmerCaringTaskRepository.CreateAsync(new FarmerCaringTask
                         {
-                            FarmerId = task.FarmerId.Value,
+                            FarmerId = task.FarmerId,
                             TaskId = task.Id,
                             Description = task.Description,
                             Status = "Active",
                             ExpiredDate = task.ExpiredDate,
                         });
+
+                        var farmerPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(caring.PlanId, task.FarmerId);
+                        if (farmerPlan != null)
+                        {
+                            await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                            {
+                                FarmerId = task.FarmerId,
+                                PlanId = caring.PlanId,
+                                CreatedAt = DateTime.Now,
+                                Status = "Active"
+                            });
+                        }
                     }
                 }
 
@@ -290,12 +302,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                         await _unitOfWork.FarmerHarvestingTaskRepository.CreateAsync(new FarmerHarvestingTask
                         {
-                            FarmerId = task.FarmerId.Value,
+                            FarmerId = task.FarmerId,
                             TaskId = task.Id,
                             Description = task.Description,
                             Status = "Active",
                             ExpiredDate = task.ExpiredDate,
                         });
+
+                        var farmerPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(harvesting.PlanId, task.FarmerId);
+                        if (farmerPlan != null)
+                        {
+                            await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                            {
+                                FarmerId = task.FarmerId,
+                                PlanId = harvesting.PlanId,
+                                CreatedAt = DateTime.Now,
+                                Status = "Active"
+                            });
+                        }
                     }
                 }
                 
@@ -322,12 +346,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                         await _unitOfWork.FarmerPackagingTaskRepository.CreateAsync(new FarmerPackagingTask
                         {
-                            FarmerId = task.FarmerId.Value,
+                            FarmerId = task.FarmerId,
                             TaskId = task.Id,
                             Description = task.Description,
                             Status = "Active",
                             ExpiredDate = task.ExpiredDate,
                         });
+
+                        var farmerPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(packaging.PlanId, task.FarmerId);
+                        if (farmerPlan != null)
+                        {
+                            await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
+                            {
+                                FarmerId = task.FarmerId,
+                                PlanId = packaging.PlanId,
+                                CreatedAt = DateTime.Now,
+                                Status = "Active"
+                            });
+                        }
                     }
                 }
 
@@ -787,12 +823,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 if (plan == null)
                 {
                     return new BusinessResult(404, "Not found any plan !");
-                }
-
-                var farms = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(planId);
-                foreach (var permission in farms)
-                {
-                    await _unitOfWork.FarmerPermissionRepository.RemoveAsync(permission);
                 }
 
                 foreach (var farmerId in farmerIds)

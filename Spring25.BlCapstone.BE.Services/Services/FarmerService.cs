@@ -32,6 +32,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AddFarmerTokenDevice(int id, string tokenDevice);
         Task<IBusinessResult> GetAllDeviceTokensByFarmerId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByFarmerId(int id);
+        Task<IBusinessResult> GetFarmerCalendar(int id, DateTime? startDate, DateTime? endDate);
     }
 
     public class FarmerService : IFarmerService
@@ -420,6 +421,56 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
+            }
+        }
+
+        public async Task<IBusinessResult> GetFarmerCalendar(int id, DateTime? startDate, DateTime? endDate)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found any Farmer !");
+                }
+
+                var caringCalendar = await _unitOfWork.CaringTaskRepository.GetCaringCalander(id, startDate, endDate);
+                var caringTaskList = caringCalendar.Select(cc => new FarmerInTaskCalendar
+                {
+                    TaskId = cc.Id,
+                    TaskType = "Caring Task",
+                    StartDate = cc.StartDate,
+                    EndDate = cc.EndDate,
+                }).ToList();
+
+                var harvestingCalendar = await _unitOfWork.HarvestingTaskRepository.GetHarvestingCalander(id, startDate, endDate);
+                var harvestingTaskList = harvestingCalendar.Select(hc => new FarmerInTaskCalendar
+                {
+                    TaskId = hc.Id,
+                    TaskType = "Harvesting Task",
+                    StartDate = hc.StartDate,
+                    EndDate = hc.EndDate,
+                }).ToList();
+
+                var packagingCalendar = await _unitOfWork.PackagingTaskRepository.GetPackagingCalander(id, startDate, endDate);
+                var packagingTaskList = packagingCalendar.Select(pc => new FarmerInTaskCalendar
+                {
+                    TaskId = pc.Id,
+                    TaskType = "Packaging Task",
+                    StartDate = pc.StartDate,
+                    EndDate = pc.EndDate,
+                }).ToList();
+
+                var allTasks = new List<FarmerInTaskCalendar>();
+                allTasks.AddRange(caringTaskList);
+                allTasks.AddRange(harvestingTaskList);
+                allTasks.AddRange(packagingTaskList);
+
+                return new BusinessResult(200, "Farmer Calander: ", allTasks.OrderBy(c => c.StartDate));
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

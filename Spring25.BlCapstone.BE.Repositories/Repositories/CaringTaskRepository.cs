@@ -110,6 +110,28 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                         && ct.Status.ToLower() == "ongoing")
                                  .ToListAsync();
         }
+
+        public async Task<List<CaringTask>> GetCaringCalander(int farmerId, DateTime? startDate = null, DateTime? endDate= null)
+        {
+            var query = _context.FarmerCaringTasks
+                                 .Include(ct => ct.CaringTask)
+                                 .Where(ct => ct.FarmerId == farmerId
+                                        && ct.Status.ToLower().Trim().Equals("active"))
+                                 .AsQueryable();
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(ct => ct.CaringTask.StartDate >= startDate);
+            }
+            
+            if (endDate.HasValue)
+            {
+                query = query.Where(ct => ct.CaringTask.EndDate <= endDate);
+            }
+
+            return await query.Select(ct => ct.CaringTask).ToListAsync();
+        }
+
         public async Task<StatusTask> GetStatusTaskCaringByPlanId(int planId)
         {
             return await _context.CaringTasks.Where(x => x.PlanId == planId)
@@ -125,6 +147,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 })
                 .FirstOrDefaultAsync();                    
         }
+        
         public async Task<List<CaringType>> GetTypeTasksStatus(int id)
         {
             var tasks = await _context.CaringTasks
@@ -142,6 +165,5 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToListAsync();
             return tasks;
         }
-
     }
 }

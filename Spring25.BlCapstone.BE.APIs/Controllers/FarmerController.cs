@@ -114,5 +114,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest($"{ex.Message}");
             }
         }
+
+        [HttpGet("{id}/calendar")]
+        public async Task<IActionResult> GetCalendarByFarmerId(int id, DateTime? start_date, DateTime? end_date)
+        {
+            try
+            {
+                var rs = await _service.GetFarmerCalendar(id, start_date, end_date);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

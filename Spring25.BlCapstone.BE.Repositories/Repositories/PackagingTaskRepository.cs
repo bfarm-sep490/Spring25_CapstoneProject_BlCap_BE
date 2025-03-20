@@ -68,6 +68,28 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                         && ct.Status.ToLower() == "ongoing")
                                  .ToListAsync();
         }
+
+
+        public async Task<List<PackagingTask>> GetPackagingCalander(int farmerId, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var query = _context.FarmerPackagingTasks
+                                 .Include(ct => ct.PackagingTask)
+                                 .Where(ct => ct.FarmerId == farmerId
+                                        && ct.Status.ToLower().Trim().Equals("active"))
+                                 .AsQueryable();
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(ct => ct.PackagingTask.StartDate >= startDate);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(ct => ct.PackagingTask.EndDate <= endDate);
+            }
+
+            return await query.Select(ct => ct.PackagingTask).ToListAsync();
+
         public async Task<StatusTask> GetStatusTaskPackagingByPlanId(int planId)
         {
             return await _context.PackagingTasks.Where(x => x.PlanId == planId)

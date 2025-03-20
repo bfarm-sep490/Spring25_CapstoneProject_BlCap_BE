@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.FarmerHarvestingTasks
                                  .Include(fct => fct.HarvestingTask)
-                                 .Where(fp => fp.HarvestingTask.PlanId == planId)
+                                 .Where(fp => fp.HarvestingTask.PlanId == planId && fp.Status.ToLower().Trim().Equals("ongoing"))
                                  .ToListAsync();
         }
 
