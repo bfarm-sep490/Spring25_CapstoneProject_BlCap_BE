@@ -265,7 +265,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("plans/{id}/tasks/count")]
+        [HttpGet("{id}/tasks/count")]
         public async Task<IActionResult> GetCountTasks([FromRoute] int id)
         {
             try
