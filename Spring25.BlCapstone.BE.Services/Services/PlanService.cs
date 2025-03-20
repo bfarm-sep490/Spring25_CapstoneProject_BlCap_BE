@@ -788,12 +788,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any plan !");
                 }
 
-                var farms = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(planId);
-                foreach (var permission in farms)
-                {
-                    await _unitOfWork.FarmerPermissionRepository.RemoveAsync(permission);
-                }
-
                 foreach (var farmerId in farmerIds)
                 {
                     var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);

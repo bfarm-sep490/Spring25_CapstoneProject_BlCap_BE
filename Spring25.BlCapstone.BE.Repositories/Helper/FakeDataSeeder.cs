@@ -285,37 +285,37 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             modelBuilder.Entity<CaringTask>().HasData(
                 new CaringTask { Id = 1, PlanId = 1, ProblemId = 1, Description = "Tưới nước đều đặn vào sáng sớm và chiều tối để giữ ẩm cho cây cà chua, tránh tưới quá nhiều gây ngập úng.", TaskName = "Tưới nước cho cà chua", TaskType = "Watering", StartDate = new DateTime(2025, 1, 12), EndDate = new DateTime(2025, 1, 15), CompleteDate = new DateTime(2025, 1, 20), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 2, PlanId = 2, ProblemId = 2, Description = "Sử dụng phân hữu cơ để cung cấp dưỡng chất cho cây cà chua, bón vào gốc cây tránh tiếp xúc trực tiếp với lá.", TaskName = "Bón phân hữu cơ cho cà chua", TaskType = "Fertilizing", StartDate = new DateTime(2025, 2, 18), EndDate = new DateTime(2025, 2, 20), CompleteDate = new DateTime(2025, 2, 20), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
-                new CaringTask { Id = 3, PlanId = 2, ProblemId = null, Description = "Quan sát lá, thân và quả dưa lưới để phát hiện dấu hiệu sâu bệnh, sử dụng biện pháp phòng trừ phù hợp.", TaskName = "Kiểm tra sâu bệnh trên dưa lưới", TaskType = "Inspecting", StartDate = new DateTime(2025, 2, 10), EndDate = new DateTime(2025, 2, 12), CompleteDate = new DateTime(2025, 2, 13), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
+                new CaringTask { Id = 3, PlanId = 2, ProblemId = null, Description = "Quan sát lá, thân và quả dưa lưới để phát hiện dấu hiệu sâu bệnh, sử dụng biện pháp phòng trừ phù hợp.", TaskName = "Kiểm tra sâu bệnh trên dưa lưới", TaskType = "Weeding", StartDate = new DateTime(2025, 2, 10), EndDate = new DateTime(2025, 2, 12), CompleteDate = new DateTime(2025, 2, 13), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 4, PlanId = 2, ProblemId = 4, Description = "Thiết lập hệ thống tưới nhỏ giọt giúp cây nhận đủ nước mà không gây lãng phí.", TaskName = "Lắp hệ thống tưới tự động", TaskType = "Setup", StartDate = new DateTime(2025, 2, 15), EndDate = new DateTime(2025, 2, 18), CompleteDate = new DateTime(2025, 2, 20), Status = "Ongoing", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 5, PlanId = 3, ProblemId = 5, Description = "Loại bỏ cỏ dại xung quanh bắp cải để tránh cạnh tranh dinh dưỡng và ngăn ngừa sâu bệnh.", TaskName = "Nhổ cỏ dại quanh bắp cải", TaskType = "Weeding", StartDate = new DateTime(2024, 3, 20), EndDate = new DateTime(2024, 3, 22), CompleteDate = new DateTime(2024, 3, 30), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 6, PlanId = 4, ProblemId = null, Description = "Sử dụng thuốc sinh học phòng trừ bệnh nấm và sâu hại trên rau muống, đảm bảo an toàn thực phẩm.", TaskName = "Phun thuốc phòng bệnh cho rau muống", TaskType = "Pesticide", StartDate = new DateTime(2024, 4, 7), EndDate = new DateTime(2024, 4, 10), CompleteDate = new DateTime(2024, 4, 15), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
-                new CaringTask { Id = 7, PlanId = 4, ProblemId = 7, Description = "Dọn sạch nilon, chai lọ, bao bì thuốc bảo vệ thực vật để giữ gìn môi trường sạch sẽ.", TaskName = "Thu gom rác nông nghiệp", TaskType = "Cleaning", StartDate = new DateTime(2024, 4, 12), EndDate = new DateTime(2024, 4, 14), CompleteDate = new DateTime(2024, 4, 20), Status = "Completed", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
+                new CaringTask { Id = 7, PlanId = 4, ProblemId = 7, Description = "Dọn sạch nilon, chai lọ, bao bì thuốc bảo vệ thực vật để giữ gìn môi trường sạch sẽ.", TaskName = "Thu gom rác nông nghiệp", TaskType = "Cleaning", StartDate = new DateTime(2024, 4, 12), EndDate = new DateTime(2024, 4, 14), CompleteDate = new DateTime(2024, 4, 20), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 8, PlanId = 5, ProblemId = 8, Description = "Tưới nước vừa đủ giúp cà rốt phát triển đều, tránh tình trạng úng rễ hoặc khô hạn.", TaskName = "Tưới nước cho cà rốt", TaskType = "Watering", StartDate = new DateTime(2024, 5, 5), EndDate = new DateTime(2024, 5, 7), CompleteDate = new DateTime(2024, 5, 7), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 9, PlanId = 6, ProblemId = 9, Description = "Phun phân bón lá để thúc đẩy sự phát triển của hành lá, đảm bảo đủ dưỡng chất.", TaskName = "Bón phân lá cho hành lá", TaskType = "Fertilizing", StartDate = new DateTime(2024, 6, 15), EndDate = new DateTime(2024, 6, 17), CompleteDate = new DateTime(2024, 6, 20), Status = "Ongoing", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
-                new CaringTask { Id = 10, PlanId = 1, ProblemId = null, Description = "Quan sát kỹ các lá non và bông mướp để phát hiện dấu hiệu sâu bệnh sớm.", TaskName = "Kiểm tra côn trùng gây hại trên mướp hương", TaskType = "Inspecting", StartDate = new DateTime(2024, 7, 12), EndDate = new DateTime(2024, 7, 15), CompleteDate = new DateTime(2024, 7, 20), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
+                new CaringTask { Id = 10, PlanId = 1, ProblemId = null, Description = "Quan sát kỹ các lá non và bông mướp để phát hiện dấu hiệu sâu bệnh sớm.", TaskName = "Kiểm tra côn trùng gây hại trên mướp hương", TaskType = "Weeding", StartDate = new DateTime(2024, 7, 12), EndDate = new DateTime(2024, 7, 15), CompleteDate = new DateTime(2024, 7, 20), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 11, PlanId = 2, ProblemId = 1, Description = "Loại bỏ cành không cần thiết để tập trung dinh dưỡng cho quả ớt phát triển.", TaskName = "Cắt tỉa cành ớt chuông", TaskType = "Pruning", StartDate = new DateTime(2024, 8, 20), EndDate = new DateTime(2024, 8, 22), CompleteDate = new DateTime(2024, 8, 22), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 12, PlanId = 3, ProblemId = 2, Description = "Dùng hệ thống phun sương để tưới nước cho rau xà lách, giúp lá luôn tươi tốt.", TaskName = "Tưới phun sương cho rau xà lách", TaskType = "Watering", StartDate = new DateTime(2024, 9, 10), EndDate = new DateTime(2024, 9, 12), CompleteDate = new DateTime(2024, 9, 20), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
-                new CaringTask { Id = 13, PlanId = 4, ProblemId = 3, Description = "Loại bỏ cỏ dại thủ công để tránh ảnh hưởng đến xà lách non.", TaskName = "Nhổ cỏ dại trong vườn xà lách", TaskType = "Weeding", StartDate = new DateTime(2024, 9, 15), EndDate = new DateTime(2024, 9, 17), CompleteDate = new DateTime(2024, 9, 20), Status = "Completed", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
+                new CaringTask { Id = 13, PlanId = 4, ProblemId = 3, Description = "Loại bỏ cỏ dại thủ công để tránh ảnh hưởng đến xà lách non.", TaskName = "Nhổ cỏ dại trong vườn xà lách", TaskType = "Weeding", StartDate = new DateTime(2024, 9, 15), EndDate = new DateTime(2024, 9, 17), CompleteDate = new DateTime(2024, 9, 20), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 14, PlanId = 5, ProblemId = null, Description = "Loại bỏ cỏ dại thủ công để tránh ảnh hưởng đến xà lách non.", TaskName = "Bón phân NPK cho cải ngọt", TaskType = "Fertilizing", StartDate = new DateTime(2024, 10, 5), EndDate = new DateTime(2024, 10, 8), CompleteDate = new DateTime(2024, 10, 20), Status = "Ongoing", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" },
                 new CaringTask { Id = 15, PlanId = 6, ProblemId = 5, Description = "Loại bỏ cỏ dại thủ công để tránh ảnh hưởng đến xà lách non.", TaskName = "Phun thuốc sinh học phòng bệnh cho cải ngọt", TaskType = "Pesticide", StartDate = new DateTime(2024, 10, 12), EndDate = new DateTime(2024, 10, 15), CompleteDate = new DateTime(2024, 10, 15), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo" }
             );
 
             modelBuilder.Entity<FarmerCaringTask>().HasData(
                 new FarmerCaringTask { FarmerId = 1, TaskId = 1, Description = "Soil preparation delayed due to unexpected rain.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(3) },
-                new FarmerCaringTask { FarmerId = 2, TaskId = 3, Description = "Weeding completed successfully.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-1) },
+                new FarmerCaringTask { FarmerId = 2, TaskId = 3, Description = "Weeding completed successfully.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) },
                 new FarmerCaringTask { FarmerId = 3, TaskId = 5, Description = "Fertilizer application postponed due to supply shortage.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(5) },
-                new FarmerCaringTask { FarmerId = 4, TaskId = 7, Description = "Irrigation system maintenance completed.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-2) },
+                new FarmerCaringTask { FarmerId = 4, TaskId = 7, Description = "Irrigation system maintenance completed.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-2) },
                 new FarmerCaringTask { FarmerId = 5, TaskId = 9, Description = "Pest control activity in progress.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(2) },
                 new FarmerCaringTask { FarmerId = 6, TaskId = 11, Description = "Harvest preparation started.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(4) },
-                new FarmerCaringTask { FarmerId = 1, TaskId = 13, Description = "Crop monitoring performed with drone imaging.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-1) },
+                new FarmerCaringTask { FarmerId = 1, TaskId = 13, Description = "Crop monitoring performed with drone imaging.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) },
                 new FarmerCaringTask { FarmerId = 2, TaskId = 2, Description = "Seed sowing delayed due to broken equipment.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(6) },
-                new FarmerCaringTask { FarmerId = 3, TaskId = 4, Description = "Applying compost to improve soil fertility.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-3) },
+                new FarmerCaringTask { FarmerId = 3, TaskId = 4, Description = "Applying compost to improve soil fertility.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-3) },
                 new FarmerCaringTask { FarmerId = 4, TaskId = 6, Description = "Plant disease detected, applying treatment.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(3) },
-                new FarmerCaringTask { FarmerId = 5, TaskId = 8, Description = "Weed removal completed successfully.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-1) },
+                new FarmerCaringTask { FarmerId = 5, TaskId = 8, Description = "Weed removal completed successfully.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) },
                 new FarmerCaringTask { FarmerId = 6, TaskId = 10, Description = "Installing new irrigation pipes.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(5) },
-                new FarmerCaringTask { FarmerId = 1, TaskId = 12, Description = "Harvesting completed for lettuce field.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-2) },
+                new FarmerCaringTask { FarmerId = 1, TaskId = 12, Description = "Harvesting completed for lettuce field.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-2) },
                 new FarmerCaringTask { FarmerId = 2, TaskId = 14, Description = "Scheduled pest control task delayed.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(4) },
-                new FarmerCaringTask { FarmerId = 3, TaskId = 15, Description = "Monitoring crop growth using sensors.", Status = "Completed", ExpiredDate = DateTime.Now.AddDays(-1) }
+                new FarmerCaringTask { FarmerId = 3, TaskId = 15, Description = "Monitoring crop growth using sensors.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) }
             );
 
             modelBuilder.Entity<CaringPesticide>().HasData(
@@ -351,12 +351,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<FarmerHarvestingTask>().HasData(
-                new FarmerHarvestingTask { FarmerId = 1, TaskId = 1, Description = "Thu hoạch rau cải theo tiêu chuẩn hữu cơ, cắt sạch gốc và đóng gói.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerHarvestingTask { FarmerId = 1, TaskId = 1, Description = "Thu hoạch rau cải theo tiêu chuẩn hữu cơ, cắt sạch gốc và đóng gói.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
                 new FarmerHarvestingTask { FarmerId = 2, TaskId = 2, Description = "Thu hoạch cà chua chín, phân loại quả chất lượng cao trước khi vận chuyển.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(3) },
-                new FarmerHarvestingTask { FarmerId = 3, TaskId = 3, Description = "Thu hái rau muống, đảm bảo không lẫn tạp chất trong sản phẩm.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
+                new FarmerHarvestingTask { FarmerId = 3, TaskId = 3, Description = "Thu hái rau muống, đảm bảo không lẫn tạp chất trong sản phẩm.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
                 new FarmerHarvestingTask { FarmerId = 4, TaskId = 4, Description = "Thu hoạch dưa leo khi đạt kích thước tiêu chuẩn, kiểm tra chất lượng từng quả.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(1) },
                 new FarmerHarvestingTask { FarmerId = 5, TaskId = 5, Description = "Thu hoạch bắp cải non, đảm bảo không có sâu bệnh trước khi đóng gói.", Status = "Failed", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
-                new FarmerHarvestingTask { FarmerId = 6, TaskId = 1, Description = "Thu hái rau dền đúng thời điểm để đảm bảo độ tươi ngon.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerHarvestingTask { FarmerId = 6, TaskId = 1, Description = "Thu hái rau dền đúng thời điểm để đảm bảo độ tươi ngon.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
                 new FarmerHarvestingTask { FarmerId = 1, TaskId = 3, Description = "Thu hoạch cải xanh và vận chuyển ngay sau khi thu hoạch.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(2) },
                 new FarmerHarvestingTask { FarmerId = 2, TaskId = 5, Description = "Thu hoạch hành lá, buộc thành bó nhỏ trước khi phân phối.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(4) }
             );
@@ -383,7 +383,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ResultContent = "Rau cải đạt chuẩn",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-4),
-                    Status = "Completed",
+                    Status = "Complete",
                     CreatedAt = DateTime.Now.AddDays(-6),
                     CreatedBy = "thangbinhbeo"
                 },
@@ -401,7 +401,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ResultContent = "Cà chua đạt độ chín",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-5),
-                    Status = "Completed",
+                    Status = "Complete",
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-7)
                 },
@@ -437,7 +437,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ResultContent = "Dưa leo đạt chuẩn",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-7),
-                    Status = "Completed",
+                    Status = "Complete",
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-9)
                 },
@@ -455,7 +455,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ResultContent = "Vỏ bí đỏ chưa đủ cứng",
                     CanHarvest = false,
                     CompleteDate = DateTime.Now.AddDays(-8),
-                    Status = "Completed",
+                    Status = "Complete",
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-10)
                 },
@@ -473,7 +473,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ResultContent = "Ớt chuông có độ ngọt tốt",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-9),
-                    Status = "Completed",
+                    Status = "Complete",
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-11)
                 }
@@ -488,14 +488,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<FarmerPackagingTask>().HasData(
-                new FarmerPackagingTask { FarmerId = 1, TaskId = 1, Description = "Đóng gói rau cải vào túi hút chân không, đảm bảo giữ độ tươi lâu.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerPackagingTask { FarmerId = 1, TaskId = 1, Description = "Đóng gói rau cải vào túi hút chân không, đảm bảo giữ độ tươi lâu.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
                 new FarmerPackagingTask { FarmerId = 2, TaskId = 2, Description = "Phân loại và đóng hộp cà chua theo kích cỡ, ghi nhãn nguồn gốc.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(3) },
-                new FarmerPackagingTask { FarmerId = 3, TaskId = 3, Description = "Đóng gói rau muống vào túi lưới, tránh đè nén gây hư hỏng.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
+                new FarmerPackagingTask { FarmerId = 3, TaskId = 3, Description = "Đóng gói rau muống vào túi lưới, tránh đè nén gây hư hỏng.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
                 new FarmerPackagingTask { FarmerId = 4, TaskId = 4, Description = "Đặt dưa leo vào khay nhựa, bọc màng co để bảo vệ độ tươi.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(1) },
                 new FarmerPackagingTask { FarmerId = 5, TaskId = 5, Description = "Bọc bắp cải bằng giấy thực phẩm, bảo quản trong hộp carton.", Status = "Failed", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
-                new FarmerPackagingTask { FarmerId = 6, TaskId = 1, Description = "Đóng túi rau dền theo định lượng 500g, kiểm tra độ sạch trước khi niêm phong.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerPackagingTask { FarmerId = 6, TaskId = 1, Description = "Đóng túi rau dền theo định lượng 500g, kiểm tra độ sạch trước khi niêm phong.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
                 new FarmerPackagingTask { FarmerId = 1, TaskId = 3, Description = "Sắp xếp rau húng quế vào hộp nhựa, đảm bảo không dập nát.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(2) },
-                new FarmerPackagingTask { FarmerId = 3, TaskId = 5, Description = "Niêm phong bao bì rau mồng tơi, gắn mã QR để truy xuất nguồn gốc.", Status = "Completed", ExpiredDate = DateTime.UtcNow.AddDays(-4) },
+                new FarmerPackagingTask { FarmerId = 3, TaskId = 5, Description = "Niêm phong bao bì rau mồng tơi, gắn mã QR để truy xuất nguồn gốc.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-4) },
                 new FarmerPackagingTask { FarmerId = 5, TaskId = 2, Description = "Phân chia đậu bắp vào túi nhỏ 250g, đảm bảo đạt tiêu chuẩn an toàn.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(1) }
             );
 
