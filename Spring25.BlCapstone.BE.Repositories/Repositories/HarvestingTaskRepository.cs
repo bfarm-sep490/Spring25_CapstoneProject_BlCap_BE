@@ -123,6 +123,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             }
 
             return await query.Select(ct => ct.HarvestingTask).ToListAsync();
+        }
 
         public async Task<StatusTask> GetStatusTaskHarvestingByPlanId(int planId)
         {

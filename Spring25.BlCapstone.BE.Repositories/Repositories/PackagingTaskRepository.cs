@@ -89,6 +89,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             }
 
             return await query.Select(ct => ct.PackagingTask).ToListAsync();
+        }
 
         public async Task<StatusTask> GetStatusTaskPackagingByPlanId(int planId)
         {
