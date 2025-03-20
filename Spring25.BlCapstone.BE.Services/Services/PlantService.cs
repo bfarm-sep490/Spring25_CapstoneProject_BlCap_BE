@@ -29,6 +29,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Delete(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id);
+        Task<IBusinessResult> GetSuggestYieldsbyId(int id);
+        Task<IBusinessResult> DeleteSuggestYields(PlantYieldModel model);
+        Task<IBusinessResult> CreateSuggestYields(PlantYieldModel model);
     }
 
     public class PlantService : IPlantService
@@ -54,6 +57,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
            return new BusinessResult(200,"Create successfully",result);
         }
 
+        public async Task<IBusinessResult> CreateSuggestYields(PlantYieldModel model)
+        {
+            var obj = await _unitOfWork.PlantYieldRepository.GetPlantYield(model.YieldId,model.PlantId);
+            if (obj != null) { return new BusinessResult(400, "This Yield has already been suggested!!!"); }
+            var result = await _unitOfWork.PlantYieldRepository.CreatePlantYield(model.YieldId,model.PlantId);
+            return new BusinessResult(200, "Added successfully.",model);
+        }
+
         public async Task<IBusinessResult> Delete(int id)
         {
             var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
@@ -61,6 +72,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var result = await _unitOfWork.PlantRepository.RemoveAsync(obj);
             await this.ResetPlantsRedis();
             return new BusinessResult(200, "Remove successfully", result);
+        }
+
+        public async Task<IBusinessResult> DeleteSuggestYields(PlantYieldModel model)
+        {
+            var obj = await _unitOfWork.PlantYieldRepository.GetPlantYield(model.YieldId, model.PlantId);
+            if (obj == null) { return new BusinessResult(404, "Not Found"); }
+            await _unitOfWork.PlantYieldRepository.DeletePlantYield(obj);
+            return new BusinessResult(200, "Removed successfully.", model);
         }
 
         public async Task<IBusinessResult> GetAll(string? status)
@@ -118,6 +137,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get Plant by Id", obj);
         }
 
+        public Task<IBusinessResult> GetSuggestYieldsbyId(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id)
         {
             var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
@@ -138,7 +162,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             await this.ResetPlantsRedis();
             return new BusinessResult(200,"Update successfully",model);
         }
-
         public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
         {
             try
