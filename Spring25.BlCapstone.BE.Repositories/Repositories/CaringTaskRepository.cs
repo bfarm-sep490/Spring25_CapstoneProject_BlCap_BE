@@ -131,5 +131,39 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.Select(ct => ct.CaringTask).ToListAsync();
         }
+
+        public async Task<StatusTask> GetStatusTaskCaringByPlanId(int planId)
+        {
+            return await _context.CaringTasks.Where(x => x.PlanId == planId)
+                .GroupBy(x => x.PlanId)
+                .Select(g => new StatusTask
+                {
+                    CancelQuantity = g.Count(x => x.Status.ToLower() == "cancel"),
+                    CompleteQuantity = g.Count(x => x.Status.ToLower() == "complete"),
+                    InCompleteQuantity = g.Count(x => x.Status.ToLower() == "incomplete"),
+                    PendingQuantity = g.Count(x => x.Status.ToLower() == "pending"),
+                    OnGoingQuantity = g.Count(x => x.Status.ToLower() == "ongoing"),
+                    LastCreateDate = g.Max(x => x.CreatedAt)
+                })
+                .FirstOrDefaultAsync();                    
+        }
+        
+        public async Task<List<CaringType>> GetTypeTasksStatus(int id)
+        {
+            var tasks = await _context.CaringTasks
+                .Where(x => x.PlanId == id)
+                .GroupBy(x => x.TaskType)
+                .Select(g => new CaringType
+                {
+                    Type = g.Key,
+                    OnGoingQuantity = g.Count(x => x.Status.ToLower() == "ongoing"),
+                    PendingQuantity = g.Count(x => x.Status.ToLower() == "pending"),
+                    InCompleteQuantity = g.Count(x => x.Status.ToLower() == "incomplete"),
+                    CancelQuantity = g.Count(x => x.Status.ToLower() == "cancel"),
+                    CompleteQuantity = g.Count(x => x.Status.ToLower() == "complete")
+                })
+                .ToListAsync();
+            return tasks;
+        }
     }
 }

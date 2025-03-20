@@ -69,6 +69,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .ToListAsync();
         }
 
+
         public async Task<List<PackagingTask>> GetPackagingCalander(int farmerId, DateTime? startDate = null, DateTime? endDate = null)
         {
             var query = _context.FarmerPackagingTasks
@@ -88,6 +89,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             }
 
             return await query.Select(ct => ct.PackagingTask).ToListAsync();
+
+        public async Task<StatusTask> GetStatusTaskPackagingByPlanId(int planId)
+        {
+            return await _context.PackagingTasks.Where(x => x.PlanId == planId)
+                .GroupBy(x => x.PlanId)
+                .Select(g => new StatusTask
+                {
+                    CancelQuantity = g.Count(x => x.Status.ToLower() == "cancel"),
+                    CompleteQuantity = g.Count(x => x.Status.ToLower() == "complete"),
+                    InCompleteQuantity = g.Count(x => x.Status.ToLower() == "incomplete"),
+                    PendingQuantity = g.Count(x => x.Status.ToLower() == "pending"),
+                    OnGoingQuantity = g.Count(x => x.Status.ToLower() == "ongoing"),
+                    LastCreateDate = g.Max(x => x.CreatedAt)
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }

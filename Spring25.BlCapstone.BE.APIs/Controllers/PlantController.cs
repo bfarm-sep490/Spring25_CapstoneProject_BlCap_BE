@@ -108,5 +108,32 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpDelete("suggest-yields")]
+        public async Task<IActionResult> DeleteSuggestYields([FromBody] PlantYieldModel model)
+        {
+            try
+            {
+                var result = await _seedService.DeleteSuggestYields(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+       
+        [HttpPost("suggest-yields")]
+        public async Task<IActionResult> CreateSuggestYields([FromBody]PlantYieldModel model)
+        {
+            try
+            {
+                var result = await _seedService.CreateSuggestYields(model);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
