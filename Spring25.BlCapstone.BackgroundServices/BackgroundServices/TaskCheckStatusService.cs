@@ -28,7 +28,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
         {
             _logger.LogInformation("Check expired Task status started !");
             
-            _timer = new System.Timers.Timer(TimeSpan.FromMinutes(2).TotalMilliseconds);
+            _timer = new System.Timers.Timer(TimeSpan.FromMinutes(30).TotalMilliseconds);
             _timer.Elapsed += async (sender, args) => await ProcessExpiredCaringTasks();
             _timer.AutoReset = true;
             _timer.Enabled = true;
