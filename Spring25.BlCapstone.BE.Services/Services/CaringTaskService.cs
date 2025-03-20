@@ -27,6 +27,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DashboardCaringTasks();
         Task<IBusinessResult> DashboardCaringTasksByPlanId(int id);
         Task<IBusinessResult> GetHistoryFarmers(int id);
+        Task<IBusinessResult> GetTypeCaringTasksStatusByPlanId(int id);
     }
     public class CaringTaskService : ICaringTaskService
     {
@@ -393,6 +394,50 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+
+        public async Task<IBusinessResult> GetTypeCaringTasksStatusByPlanId(int id)
+        {
+            var tasks = await _unitOfWork.CaringTaskRepository.GetTypeTasksStatus(id);
+            var result = new TypeTasksStatus();
+
+            foreach (var task in tasks)
+            {
+                var caringType = new CaringType
+                {
+                    OnGoingQuantity = task.OnGoingQuantity,
+                    PendingQuantity = task.PendingQuantity,
+                    InCompleteQuantity = task.InCompleteQuantity,
+                    CancelQuantity = task.CancelQuantity,
+                    CompleteQuantity = task.CompleteQuantity
+                };
+                switch (task.Type.ToLower())
+                {
+                    case "watering":
+                        result.Watering = caringType;
+                        break;
+                    case "nuturing":
+                        result.Nuturing = caringType;
+                        break;
+                    case "planting":
+                        result.Planting = caringType;
+                        break;
+                    case "fertilizer":
+                        result.Fertilizer = caringType;
+                        break;
+                    case "pesticide":
+                        result.Pesticide = caringType;
+                        break;
+                    case "weeding":
+                        result.Weeding = caringType;
+                        break;
+                    case "pruning":
+                        result.Pruning = caringType;
+                        break;
+                }
+            }
+
+            return new BusinessResult(200,"Count Type Status by Plan Id",result);
         }
     }
 }

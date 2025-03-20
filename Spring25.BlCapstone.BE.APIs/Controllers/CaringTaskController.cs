@@ -27,20 +27,22 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 var result = await _caringTaskService.GetAllCaringTask(plan_id, farmer_id);
                 return Ok(result);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
 
         [HttpGet("caring-tasks/{id}")]
-        public async Task<IActionResult> GetById([FromRoute]int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
             try
             {
                 var result = await _caringTaskService.GetCaringTaskById(id);
                 return Ok(result);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
@@ -121,7 +123,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         [HttpGet("caring-tasks/dashboard/plan/{id}")]
-        public async Task<IActionResult> GetDashboardByPlanId([FromRoute]int id)
+        public async Task<IActionResult> GetDashboardByPlanId([FromRoute] int id)
         {
             try
             {
@@ -145,6 +147,21 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("caring-tasks/count/plans/{id}")]
+        public async Task<IActionResult> GetCountPlanTypeByPlanId([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _caringTaskService.GetTypeCaringTasksStatusByPlanId(id);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                {
+                    return BadRequest(ex.Message);
+                }
             }
         }
     }
