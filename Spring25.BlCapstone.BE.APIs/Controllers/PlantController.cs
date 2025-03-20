@@ -107,6 +107,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
+        }       
     }
 }

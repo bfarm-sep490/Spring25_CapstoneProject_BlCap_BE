@@ -37,6 +37,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetInfomationOfPesticideTasksByPlanId(int id);
         Task<IBusinessResult> RemoveFarmerFromPlan(int planId, int farmerId);
         Task<IBusinessResult> AddFarmerToPlan(int planId, List<int> farmerIds);
+        Task<IBusinessResult> GetCountTasksByPlanId(int id);
     }
 
     public class PlanService : IPlanService
@@ -820,6 +821,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+
+        public async Task<IBusinessResult> GetCountTasksByPlanId(int id)
+        {
+            var result = new StatusDashboard();
+            result.PackagingTasks = await _unitOfWork.PackagingTaskRepository.GetStatusTaskPackagingByPlanId(id);
+            result.CaringTasks = await _unitOfWork.CaringTaskRepository.GetStatusTaskCaringByPlanId(id);
+            result.HarvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetStatusTaskHarvestingByPlanId(id);
+            return new BusinessResult(200, "Count Status Tasks by Plan Id", result);
+
         }
     }
 }
