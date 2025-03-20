@@ -42,7 +42,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_id")]
         public int Id { get; set; }
         [JsonPropertyName("farmer_id")]
-        public int? FarmerId { get; set; }
+        public int FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("description")]
@@ -56,7 +56,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_id")]
         public int Id { get; set; }
         [JsonPropertyName("farmer_id")]
-        public int? FarmerId { get; set; }
+        public int FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("description")]
@@ -70,7 +70,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_id")]
         public int Id { get; set; }
         [JsonPropertyName("inspector_id")]
-        public int? InspectorId { get; set; }
+        public int InspectorId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
     }
@@ -80,7 +80,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_id")]
         public int Id { get; set; }
         [JsonPropertyName("farmer_id")]
-        public int? FarmerId { get; set; }
+        public int FarmerId { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("description")]
