@@ -102,5 +102,26 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                         && ct.Status.ToLower() == "ongoing")
                                  .ToListAsync();
         }
+
+        public async Task<List<HarvestingTask>> GetHarvestingCalander(int farmerId, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            var query = _context.FarmerHarvestingTasks
+                                 .Include(ct => ct.HarvestingTask)
+                                 .Where(ct => ct.FarmerId == farmerId
+                                        && ct.Status.ToLower().Trim().Equals("active"))
+                                 .AsQueryable();
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(ct => ct.HarvestingTask.StartDate >= startDate);
+            }
+
+            if (endDate.HasValue)
+            {
+                query = query.Where(ct => ct.HarvestingTask.EndDate <= endDate);
+            }
+
+            return await query.Select(ct => ct.HarvestingTask).ToListAsync();
+        }
     }
 }
