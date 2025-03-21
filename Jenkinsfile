@@ -42,7 +42,7 @@ pipeline {
         }
 
         stage('Deploy FE to DEV') {
-            s8081:8081 ' +
+            sh 'docker container run -d --name blcapstone -p 8080:8080 -p 8081:8081 ' +
                    "-e CLOUDINARY_URL=${env.CLOUDINARY_URL} " +
                    "-e REDIS_URL=${env.REDIS_URL} " +
                    "-e REDIS_HOST=${env.REDIS_HOST} " +
