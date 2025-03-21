@@ -42,9 +42,7 @@ pipeline {
         }
 
         stage('Deploy FE to DEV') {
-            steps {
-                echo 'Deploying and cleaning'
-             8081:8081 ' +
+            s8081:8081 ' +
                    "-e CLOUDINARY_URL=${env.CLOUDINARY_URL} " +
                    "-e REDIS_URL=${env.REDIS_URL} " +
                    "-e REDIS_HOST=${env.REDIS_HOST} " +
