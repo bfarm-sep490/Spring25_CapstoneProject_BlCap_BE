@@ -44,10 +44,7 @@ pipeline {
         stage('Deploy FE to DEV') {
             steps {
                 echo 'Deploying and cleaning'
-                echo "${env.DB_USER}"
-                sh 'if [ $(docker ps -q -f name=blcapstone) ]; then docker container stop blcapstone; fi'
-                sh 'echo y | docker system prune'
-                sh 'docker container run -d --name blcapstone -p 6666:8080 -p 6667:8081 ' +
+             8081:8081 ' +
                    "-e CLOUDINARY_URL=${env.CLOUDINARY_URL} " +
                    "-e REDIS_URL=${env.REDIS_URL} " +
                    "-e REDIS_HOST=${env.REDIS_HOST} " +
