@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    
+
     stages {
         stage('Retrieve Credentials') {
             steps {
@@ -12,8 +12,7 @@ pipeline {
                         string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT'),
                         string(credentialsId: 'REDIS_USER', variable: 'REDIS_USER'),
                         string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
-                        string(credentialsId: 'ABLY_API_KEY', variable: 'ABLY_API_KEY'),
-                        
+                        string(credentialsId: 'ABLY_API_KEY', variable: 'ABLY_API_KEY')
                     ]) {
                         env.CLOUDINARY_URL = "${CLOUDINARY_URL}"
                         env.REDIS_URL = "${REDIS_URL}"
@@ -26,6 +25,7 @@ pipeline {
                 }
             }
         }
+
         stage('Packaging') {
             steps {
                 sh 'docker build --pull --rm -f Dockerfile -t blcapstone:latest .'
@@ -42,15 +42,18 @@ pipeline {
         }
 
         stage('Deploy FE to DEV') {
-            sh 'docker container run -d --name blcapstone -p 8080:8080 -p 8081:8081 ' +
-                   "-e CLOUDINARY_URL=${env.CLOUDINARY_URL} " +
-                   "-e REDIS_URL=${env.REDIS_URL} " +
-                   "-e REDIS_HOST=${env.REDIS_HOST} " +
-                   "-e REDIS_PORT=${env.REDIS_PORT} " +
-                   "-e REDIS_USER=${env.REDIS_USER} " + 
-                   "-e REDIS_PASSWORD=${env.REDIS_PASSWORD} " +
-                   "-e ABLY_API_KEY=${env.ABLY_API_KEY} " +
-                   'tuanhuu3264/blcapstone'
+            steps {
+                sh '''
+                    docker container run -d --name blcapstone -p 8080:8080 -p 8081:8081 \
+                    -e CLOUDINARY_URL=${env.CLOUDINARY_URL} \
+                    -e REDIS_URL=${env.REDIS_URL} \
+                    -e REDIS_HOST=${env.REDIS_HOST} \
+                    -e REDIS_PORT=${env.REDIS_PORT} \
+                    -e REDIS_USER=${env.REDIS_USER} \
+                    -e REDIS_PASSWORD=${env.REDIS_PASSWORD} \
+                    -e ABLY_API_KEY=${env.ABLY_API_KEY} \
+                    tuanhuu3264/blcapstone
+                '''
             }
         }
     }
