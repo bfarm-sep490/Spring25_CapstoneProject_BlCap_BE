@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
@@ -50,6 +51,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             HistoryFarmerProfile();
             ItemProfile();
             OrderProfile();
+            NotificationProfile();
         }
 
         private void OrderProfile()
@@ -389,6 +391,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void ItemProfile()
         {
             CreateMap<Item, ItemModel>()
+                .ReverseMap();
+        }
+
+        private void NotificationProfile()
+        {
+            CreateMap<NotificationFarmer, FarmerNotificationsModel>()
                 .ReverseMap();
         }
     }
