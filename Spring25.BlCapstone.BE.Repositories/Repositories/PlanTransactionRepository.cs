@@ -1,11 +1,11 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Repositories;
+﻿using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Spring25.BlCapstone.BE.Repositories.Models
+namespace Spring25.BlCapstone.BE.Repositories.Repositories
 {
     public class PlanTransactionRepository : GenericRepository<PlanTransaction>
     {
