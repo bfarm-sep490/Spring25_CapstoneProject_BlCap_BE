@@ -13,5 +13,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Farmer
         public int Id { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
     }
 }

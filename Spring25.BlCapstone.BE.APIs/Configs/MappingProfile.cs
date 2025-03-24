@@ -161,8 +161,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 
         private void FarmerProfile()
         {
-            CreateMap<Farmer, FarmerPlan>()
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
+            CreateMap<FarmerPermission, FarmerPlan>()
+                .ForMember(dest=>dest.Id, opt=>opt.MapFrom(src=>src.FarmerId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Farmer.Account.Name))
+                .ForMember(dest=>dest.Status, opt => opt.MapFrom(src=> src.Status))
                 .ReverseMap();
             CreateMap<Farmer, FarmerModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
