@@ -372,6 +372,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<PackagingTask, CreatePackagingPlan>()
                 .ReverseMap();
+            CreateMap<PackagingType, PackagingTypeModel>()
+                .ReverseMap();
         }
 
         private void InspectingResultProfile()

@@ -107,6 +107,7 @@ builder.Services.AddScoped<IInspectingFormService, InspectingFormService>();
 builder.Services.AddScoped<IPackagingTaskService, PackagingTaskService>();
 builder.Services.AddScoped<IInspectingResultService, InspectingResultService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IPackagingTypeService, PackagingTypeService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddSingleton<RedisManagement>();
 
