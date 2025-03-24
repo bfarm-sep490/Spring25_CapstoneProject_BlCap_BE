@@ -112,6 +112,7 @@ builder.Services.AddSingleton<RedisManagement>();
 
 //Register Background Service
 builder.Services.AddHostedService<TaskCheckStatusService>();
+builder.Services.AddHostedService<TaskChangeStatusPlanByOrder>();
 
 var app = builder.Build();
 
