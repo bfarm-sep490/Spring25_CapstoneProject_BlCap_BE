@@ -41,5 +41,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public ICollection<HarvestingTask> HarvestingTasks { get; set; }
         public ICollection<InspectingForm> InspectingForms { get; set; }
         public ICollection<PackagingTask> PackagingTasks { get; set; }
+        public ICollection<PlanTransaction> PlanTransactions { get; set; }
     }
 }

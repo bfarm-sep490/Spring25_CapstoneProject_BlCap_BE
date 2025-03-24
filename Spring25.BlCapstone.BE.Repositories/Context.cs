@@ -56,6 +56,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<Retailer> Retailers { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Yield> Yields { get; set; }
+        public virtual DbSet<PlanTransaction> PlanTransactions { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -457,6 +458,13 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .HasForeignKey(py => py.YieldId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            modelBuilder.Entity<PlanTransaction>()
+                .ToTable("PlanTransaction")
+                .HasOne(pt => pt.Plan)
+                    .WithMany(pt => pt.PlanTransactions)
+                    .HasForeignKey(pt => pt.PlanId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
             FakeDataSeeder.Seed(modelBuilder);
         }

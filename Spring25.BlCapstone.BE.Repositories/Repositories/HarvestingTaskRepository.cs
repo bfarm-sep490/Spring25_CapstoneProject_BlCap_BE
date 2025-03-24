@@ -60,6 +60,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+
         public async Task<List<AdminData>> GetDashboardHarvestingTasksByPlanId(int id)
         {
             var data = await _context.HarvestingTasks.Where(x => x.CompleteDate.HasValue && x.PlanId==id).ToListAsync();
@@ -73,6 +74,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToList();
             return result;
         }     
+
         public async Task<HavestedTask> GetHavestedTaskDashboardByPlanId(int planId)
         {
             var data = await _context.HarvestingTasks.Where(x=>x.PlanId==planId && x.Status.ToLower() == "completed").ToListAsync();
@@ -81,6 +83,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             //return new HavestedTask { HavestedValue = (tan + kg / 1000) , Unit= "tấn" };
             return null;
         }
+
         public async Task<TasksDashboard> GetHarvestingTasksStatusDashboardByPlanId(int planId)
         {
             var data = await _context.HarvestingTasks.Where(x => x.PlanId == planId).ToListAsync();
@@ -102,7 +105,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                         && ct.Status.ToLower() == "ongoing")
                                  .ToListAsync();
         }
-
 
         public async Task<List<HarvestingTask>> GetHarvestingCalander(int farmerId, DateTime? startDate = null, DateTime? endDate = null)
         {
@@ -140,6 +142,22 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 })
                 .FirstOrDefaultAsync();
         }
-        
+
+        public async Task<List<HarvestingTask>> GetHarvestingProductions(int? planId = null)
+        {
+            var query = _context.HarvestingTasks
+                                .Include(x => x.Plan)
+                                    .ThenInclude(x => x.Plant)
+                                .Include(x => x.PackagingProducts)
+                                    .ThenInclude(x => x.PackagingTask)
+                                .AsQueryable();
+
+            if (planId.HasValue)
+            {
+                query = query.Where(p => p.PlanId == planId);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

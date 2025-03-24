@@ -11,6 +11,7 @@ using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllDeviceTokensByFarmerId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByFarmerId(int id);
         Task<IBusinessResult> GetFarmerCalendar(int id, DateTime? startDate, DateTime? endDate);
+        Task<IBusinessResult> GetListNotifications(int id);
     }
 
     public class FarmerService : IFarmerService
@@ -467,6 +469,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 allTasks.AddRange(packagingTaskList);
 
                 return new BusinessResult(200, "Farmer Calander: ", allTasks.OrderBy(c => c.StartDate));
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetListNotifications(int id)
+        {
+            try
+            {
+                var notis = await _unitOfWork.NotificationFarmerRepository.GetNotificationsByFarmerId(id);
+                if (!notis.Any())
+                {
+                    return new BusinessResult(404, "There aren't any notifications !");
+                }
+
+                var res = _mapper.Map<List<FarmerNotificationsModel>>(notis);
+                return new BusinessResult(200, "List notifications :", res);
             }
             catch (Exception ex)
             {

@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<Problem>> GetProblems(int? planId = null, int? farmerId = null)
+        public async Task<List<Problem>> GetProblems(int? planId = null, int? farmerId = null, string? name = null, string? status = null)
         {
             var query = _context.Problems
                     .Include(p => p.ProblemImages)
@@ -30,6 +30,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (farmerId.HasValue)
             {
                 query = query.Where(p => p.FarmerId == farmerId);
+            }
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.ProblemName.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(p => p.Status.ToLower().Trim().Equals(status));
             }
             
             return await query.ToListAsync();
