@@ -15,8 +15,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int? PackagingTypeId { get; set; }
         public string TaskName { get; set; }
         public string? Description { get; set; }
-        public int? PackedQuantity { get; set; }
+        public int? PackagedItemCount { get; set; }
         public string? ResultContent { get; set; }
+        public float? TotalPackagedWeight { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime? CompleteDate { get; set; }

@@ -340,6 +340,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingTask, CreateHarvestingPlan>()
                 .ReverseMap();
+            CreateMap<HarvestingTask, HarvestingProductionModel>()
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
+                .ForMember(dest => dest.PlantId, opt => opt.MapFrom(src => src.Plan.Plant.Id))
+                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plan.Plant.PlantName))
+                .ReverseMap();
         }
 
         private void PackagingProfile()

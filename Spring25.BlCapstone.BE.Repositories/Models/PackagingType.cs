@@ -14,6 +14,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public string Status { get; set; }
+        public float QuantityPerPack { get; set; }
         
         public ICollection<Order> Orders { get; set; }
         public ICollection<PackagingTask> PackagingTasks { get; set; }

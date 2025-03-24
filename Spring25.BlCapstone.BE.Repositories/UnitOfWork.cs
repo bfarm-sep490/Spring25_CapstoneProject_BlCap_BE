@@ -52,6 +52,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         private PackagingProductRepository _packagingProductRepository;
         private PackagingTypeRepository _packagingTypeRepository;
         private PlantYieldRepository _plantYieldRepository;
+        private PlanTransactionRepository _planTransactionRepository;
 
         public UnitOfWork()
         {
@@ -97,6 +98,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             _packagingProductRepository ??= new PackagingProductRepository();
             _packagingTypeRepository ??= new PackagingTypeRepository();
             _plantYieldRepository ??= new PlantYieldRepository();
+            _planTransactionRepository ??= new PlanTransactionRepository();
         }
 
         public UnitOfWork(AccountRepository accountRepository, FarmerRepository farmerRepository,
@@ -116,7 +118,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             InspectorRepository inspectorRepository, InspectingResultRepository inspectingResultRepository, NotificationExpertRepository notificationExpertRepository,
             ProblemImageRepository problemImageRepository, NotificationFarmerRepository notificationFarmerRepository, NotificationOwnerRepository notificationOwnerRepository, NotificationRetailerRepository notificationRetailerRepository,
             ProblemRepository problemRepository, PackagingProductRepository packagingProductRepository, PackagingTypeRepository packagingTypeRepository,
-            PlantYieldRepository plantYieldRepository)
+            PlantYieldRepository plantYieldRepository, PlanTransactionRepository planTransactionRepository)
         {
             _accountRepository = accountRepository;
             _farmerRepository = farmerRepository;
@@ -160,6 +162,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             _packagingProductRepository = packagingProductRepository;
             _packagingTypeRepository = packagingTypeRepository;
             _plantYieldRepository = plantYieldRepository;
+            _planTransactionRepository = planTransactionRepository;
         }
 
         public AccountRepository AccountRepository { get { return _accountRepository; } }
@@ -204,5 +207,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public PackagingProductRepository PackagingProductRepository { get { return _packagingProductRepository; } }
         public PackagingTypeRepository PackagingTypeRepository { get { return _packagingTypeRepository; } }
         public PlantYieldRepository PlantYieldRepository { get { return _plantYieldRepository; } }
+        public PlanTransactionRepository PlanTransactionRepository { get { return _planTransactionRepository; } }
     }
 }

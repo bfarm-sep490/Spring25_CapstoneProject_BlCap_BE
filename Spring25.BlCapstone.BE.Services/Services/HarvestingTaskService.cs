@@ -32,6 +32,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DashboardHarvestByPlanId(int id);
         Task<IBusinessResult> GetHistoryFarmers(int id);
         Task<IBusinessResult> GetHavestedTasksDashboardByPlanId(int id);
+        Task<IBusinessResult> GetListProductionHarvestingTask(int? planId);
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -137,6 +138,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 _mapper.Map(model, harvestingTask);
                 harvestingTask.UpdatedAt = DateTime.Now;
                 harvestingTask.CompleteDate = DateTime.Now;
+
+                var plant = await _unitOfWork.PlantRepository.GetPlantByHarvestingTask(id);
+                harvestingTask.ProductExpiredDate = DateTime.Now.AddDays(plant.PreservationDay);
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
 
                 var images = await _unitOfWork.HarvestingImageRepository.GetHarvestingImagesByTaskId(id);
@@ -324,6 +328,34 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var res = _mapper.Map<List<HistoryFarmersTask>>(history);
                 return new BusinessResult(200, "List of history: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetListProductionHarvestingTask(int? planId)
+        {
+            try
+            {
+                var task = await _unitOfWork.HarvestingTaskRepository.GetHarvestingProductions(planId);
+                var res = _mapper.Map<List<HarvestingProductionModel>>(task);
+
+                res.ForEach(r => r.HarvestedUnit = "kg");
+                res.ForEach(item =>
+                {
+                    var harvestingTask = task.FirstOrDefault(t => t.Id == item.Id);
+                    if (harvestingTask != null)
+                    {
+                        float harvestedQuantity = harvestingTask.HarvestedQuantity ?? 0;
+                        float totalPackagedWeight = harvestingTask.PackagingProducts
+                            .Sum(pp => pp.PackagingTask?.TotalPackagedWeight ?? 0);
+                        item.AvailableHarvestingQuantity = harvestedQuantity - totalPackagedWeight;
+                    }
+                });
+
+                return new BusinessResult(200, "List of product of harvesting Task: ", res);
             }
             catch (Exception ex)
             {
