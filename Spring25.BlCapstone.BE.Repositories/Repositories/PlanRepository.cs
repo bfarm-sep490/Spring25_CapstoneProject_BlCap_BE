@@ -62,5 +62,27 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .Where(p => p.FarmerPermissions.Any(p => p.FarmerId == farmerId))
                                  .ToListAsync();
         }
+        public async Task<List<Plan>> GetPlanNotHaveOrder()
+        {
+            return await _context.Plans
+                .Where(x => (x.Orders.Count() == 0))
+                .ToListAsync();
+        }
+        public async Task<List<Plan>> GetPlanHaveOnlyOrdersCancle()
+        {
+            return await _context.Plans
+                .Where(x => x.Orders.Any() && x.Orders.All(o => o.Status.ToLower() == "Cancle"))
+                .ToListAsync();
+        }
+        public async Task<int> GetPlanNotHaveOrderOrHaveOnlyOrdersCancle()
+        {
+            return await _context.Plans
+                .Where(x => (!x.Orders.Any() || x.Orders.All(o => o.Status.ToLower() == "cancel"))
+                && x.StartDate >= DateTime.Now && x.Status.ToLower() == "cancel")
+                .ExecuteUpdateAsync(p => p.SetProperty(plan => plan.Status, "Cancel")
+                    .SetProperty(plan => plan.UpdatedAt, DateTime.Now)
+                    .SetProperty(plan => plan.UpdatedBy,"Auto")
+                );
+        }
     }
 }

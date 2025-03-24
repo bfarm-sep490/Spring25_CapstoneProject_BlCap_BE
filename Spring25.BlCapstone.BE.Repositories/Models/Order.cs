@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int RetailerId { get; set; }
         public int PlantId { get; set; }
-        public int PlanId { get; set; }
+        public int? PlanId { get; set; }
         public int PackagingTypeId { get; set; }
         public float DepositPrice { get; set; }
         public string Status { get; set; }

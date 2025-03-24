@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
@@ -50,6 +51,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             HistoryFarmerProfile();
             ItemProfile();
             OrderProfile();
+            NotificationProfile();
         }
 
         private void OrderProfile()
@@ -340,6 +342,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<HarvestingTask, CreateHarvestingPlan>()
                 .ReverseMap();
+            CreateMap<HarvestingTask, HarvestingProductionModel>()
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
+                .ForMember(dest => dest.PlantId, opt => opt.MapFrom(src => src.Plan.Plant.Id))
+                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plan.Plant.PlantName))
+                .ReverseMap();
         }
 
         private void PackagingProfile()
@@ -367,6 +374,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<PackagingTask, CreatePackagingPlan>()
                 .ReverseMap();
+            CreateMap<PackagingType, PackagingTypeModel>()
+                .ReverseMap();
         }
 
         private void InspectingResultProfile()
@@ -391,6 +400,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void ItemProfile()
         {
             CreateMap<Item, ItemModel>()
+                .ReverseMap();
+        }
+
+        private void NotificationProfile()
+        {
+            CreateMap<NotificationFarmer, FarmerNotificationsModel>()
                 .ReverseMap();
         }
     }

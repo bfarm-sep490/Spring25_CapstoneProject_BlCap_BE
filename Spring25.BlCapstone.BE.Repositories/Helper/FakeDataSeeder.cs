@@ -480,11 +480,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PackagingTask>().HasData(
-                new PackagingTask { Id = 1, PlanId = 1, TaskName = "Đóng gói gạo", ResultContent = "Đã đóng gói theo túi 5kg, thu được 1000 túi", PackedQuantity = 1000, Description = "Đóng gói gạo vào túi 5kg", StartDate = DateTime.Now.AddDays(-5), EndDate = DateTime.Now.AddDays(2), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-6), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 2, PlanId = 2, TaskName = "Đóng gói cà phê", ResultContent = "Đã đóng gói được 500 túi", PackedQuantity = 500, Description = "Đóng gói cà phê bột vào túi 1kg", StartDate = DateTime.Now.AddDays(-3), EndDate = DateTime.Now.AddDays(1), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-4), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 3, PlanId = 3, TaskName = "Đóng gói trà xanh", ResultContent = "Đã đóng gói thành công 20000 gói", PackedQuantity = 20000, Description = "Đóng gói trà xanh vào hộp 100g", StartDate = DateTime.Now.AddDays(-2), EndDate = DateTime.Now.AddDays(3), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-3), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 4, PlanId = 4, TaskName = "Đóng gói hạt điều", ResultContent = "Đã đóng gói thành công", PackedQuantity = 300, Description = "Đóng gói hạt điều vào túi 500g", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(4), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-1), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 5, PlanId = 5, TaskName = "Đóng gói xoài sấy", ResultContent = "Đã đóng gói 10000 gói", PackedQuantity = 10000, Description = "Đóng gói xoài sấy vào túi 250g", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(5), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now }
+                new PackagingTask { Id = 1, PlanId = 1, TaskName = "Đóng gói gạo", ResultContent = "Đã đóng gói theo túi 5kg, thu được 1000 túi", TotalPackagedWeight = 1000, PackagedItemCount = 20, Description = "Đóng gói gạo vào túi 5kg", StartDate = DateTime.Now.AddDays(-5), EndDate = DateTime.Now.AddDays(2), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-6), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 2, PlanId = 2, TaskName = "Đóng gói cà phê", ResultContent = "Đã đóng gói được 500 túi", TotalPackagedWeight = 500, PackagedItemCount = 20, Description = "Đóng gói cà phê bột vào túi 1kg", StartDate = DateTime.Now.AddDays(-3), EndDate = DateTime.Now.AddDays(1), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-4), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 3, PlanId = 3, TaskName = "Đóng gói trà xanh", ResultContent = "Đã đóng gói thành công 20000 gói", TotalPackagedWeight = 20000, PackagedItemCount = 10, Description = "Đóng gói trà xanh vào hộp 100g", StartDate = DateTime.Now.AddDays(-2), EndDate = DateTime.Now.AddDays(3), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-3), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 4, PlanId = 4, TaskName = "Đóng gói hạt điều", ResultContent = "Đã đóng gói thành công", TotalPackagedWeight = 300, PackagedItemCount = 1, Description = "Đóng gói hạt điều vào túi 500g", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(4), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-1), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 5, PlanId = 5, TaskName = "Đóng gói xoài sấy", ResultContent = "Đã đóng gói 10000 gói", TotalPackagedWeight = 10000, PackagedItemCount = 2, Description = "Đóng gói xoài sấy vào túi 250g", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(5), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now }
             );
 
             modelBuilder.Entity<FarmerPackagingTask>().HasData(
@@ -613,6 +613,32 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new PackagingItem { Id = 3, ItemId = 10, TaskId = 1, Quantity = 6, Unit = "unit" },
                 new PackagingItem { Id = 4, ItemId = 11, TaskId = 4, Quantity = 3, Unit = "machine" },
                 new PackagingItem { Id = 5, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "line" }
+            );
+
+            modelBuilder.Entity<PackagingType>().HasData(
+                new PackagingType { Id = 1, Name = "Bao 10kg", Description = "Đóng gói theo bao 10kg", Status = "Active", QuantityPerPack = 10.0f },
+                new PackagingType { Id = 2, Name = "Bao 15kg", Description = "Đóng gói theo bao 15kg", Status = "Active", QuantityPerPack = 15.0f },
+                new PackagingType { Id = 3, Name = "Bao 20kg", Description = "Đóng gói theo bao 20kg", Status = "Active", QuantityPerPack = 20.0f },
+                new PackagingType { Id = 4, Name = "Bao 100kg", Description = "Đóng gói theo bao 100kg", Status = "Active", QuantityPerPack = 100.0f },
+                new PackagingType { Id = 5, Name = "Bao 150kg", Description = "Đóng gói theo bao 150kg", Status = "Active", QuantityPerPack = 150.0f },
+                new PackagingType { Id = 6, Name = "Bao 1000kg", Description = "Đóng gói theo bao 1000kg", Status = "Active", QuantityPerPack = 1000.0f },
+                new PackagingType { Id = 7, Name = "Bao 1500kg", Description = "Đóng gói theo bao 1500kg", Status = "Active", QuantityPerPack = 1500.0f }
+            );
+
+            modelBuilder.Entity<Order>().HasData(
+                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = 2, PackagingTypeId = 1, DepositPrice = 500.0f, Status = "Pending", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 2, DepositPrice = 750.0f, Status = "Processing", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
+                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, Status = "Completed", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
+                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 5, RetailerId = 2, PlantId = 5, PlanId = 5, PackagingTypeId = 5, DepositPrice = 7500.0f, Status = "Canceled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) }
+            );
+
+            modelBuilder.Entity<PackagingProduct>().HasData(
+                new PackagingProduct { Id = 1, PackagingTaskId = 1, HarvestingTaskId = 1, OrderId = 1, PackagingQuantity = 5, PackagingUnit = 10, QRCode = "QR_001", Status = "Complete" },
+                new PackagingProduct { Id = 2, PackagingTaskId = 2, HarvestingTaskId = 2, OrderId = 2, PackagingQuantity = 2, PackagingUnit = 15, QRCode = "QR_002", Status = "Pending" },
+                new PackagingProduct { Id = 3, PackagingTaskId = 3, HarvestingTaskId = 3, OrderId = 3, PackagingQuantity = 4, PackagingUnit = 20, QRCode = "QR_003", Status = "Cancel" },
+                new PackagingProduct { Id = 4, PackagingTaskId = 4, HarvestingTaskId = 4, OrderId = 4, PackagingQuantity = 1, PackagingUnit = 100, QRCode = "QR_004", Status = "Pending" },
+                new PackagingProduct { Id = 5, PackagingTaskId = 5, HarvestingTaskId = 5, OrderId = 5, PackagingQuantity = 3, PackagingUnit = 150, QRCode = "QR_005", Status = "Complete" }
             );
         }
     }
