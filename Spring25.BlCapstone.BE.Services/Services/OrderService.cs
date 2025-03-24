@@ -13,6 +13,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IOrderService
     {
+        Task<IBusinessResult> CreateOrder(OrderModel order);
         Task<IBusinessResult> GetAllOrders(string? status,int? retailer);
         Task<IBusinessResult> GetOrderById(int id);
         
@@ -25,6 +26,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+        }
+
+        public async Task<IBusinessResult> CreateOrder(OrderModel order)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<IBusinessResult> GetAllOrders(string? status, int? retailer)
