@@ -478,8 +478,8 @@ namespace Spring25.BlCapstone.BE.Repositories
                     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                     .Build();
 
-                string connectionString = "Server=database.outfit4rent.online;uid=sa;pwd=SP25@BlCapstonBlCapstone;Database=BlCapstone;TrustServerCertificate=True;";
-                optionsBuilder.UseSqlServer("Server=database.outfit4rent.online;uid=sa;pwd=SP25@BlCapstonBlCapstone;Database=BlCapstone;TrustServerCertificate=True;");
+                string connectionString = config.GetConnectionString("DefaultConnection");
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
     }
