@@ -207,7 +207,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 transaction.Status = "Cancel";
-                var order = await _unitOfWork.OrderRepository.GetOrderByTransactionId(transactionID);
+                var order = await _unitOfWork.OrderRepository.GetByIdAsync(transaction.OrderId);
                 order.Status = "Pending";
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
 
