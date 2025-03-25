@@ -27,5 +27,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public ICollection<Plan> Plans { get; set; }
         public ICollection<PlantYield> PlantYields { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

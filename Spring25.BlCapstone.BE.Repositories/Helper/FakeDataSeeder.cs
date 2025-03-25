@@ -626,11 +626,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = 2, PackagingTypeId = 1, DepositPrice = 500.0f, Status = "Pending", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 2, DepositPrice = 750.0f, Status = "Processing", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
-                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, Status = "Completed", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
-                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 5, RetailerId = 2, PlantId = 5, PlanId = 5, PackagingTypeId = 5, DepositPrice = 7500.0f, Status = "Canceled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) }
+                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = 2, PackagingTypeId = 1, DepositPrice = 500.0f, EstimatedQuantity = 200f, Status = "Pending", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 2, DepositPrice = 750.0f, EstimatedQuantity = 100f, Status = "Processing", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
+                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, EstimatedQuantity = 200f, Status = "Completed", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
+                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, EstimatedQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 5, RetailerId = 2, PlantId = 5, PlanId = 5, PackagingTypeId = 5, DepositPrice = 7500.0f, EstimatedQuantity = 200f, Status = "Canceled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) }
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(

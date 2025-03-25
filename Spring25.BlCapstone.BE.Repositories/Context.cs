@@ -162,6 +162,10 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(o => o.Orders)
                       .HasForeignKey(o => o.PackagingTypeId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(o => o.Plant)
+                      .WithMany(o => o.Orders)
+                      .HasForeignKey(o => o.PlantId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
             }); 
 
             modelBuilder.Entity<Transaction>()
