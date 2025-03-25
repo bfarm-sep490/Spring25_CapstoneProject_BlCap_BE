@@ -58,17 +58,32 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("webhook-url")]
-        public async Task PayOSWebhook([FromBody] WebhookType webhookData)
+        [HttpPost("webhook")]
+        public async Task<IActionResult> PayOSWebhook([FromBody] WebhookType webhookData)
         {
             try
             {
                 await _paymentService.ProcessWebhook(webhookData);
+                return Ok();
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+        //[HttpPost("confirm")]
+        //public async Task<IActionResult> Confirm(string url)
+        //{
+        //    try
+        //    {
+        //        var rs = await _paymentService.VerifyWebhook(url);
+        //        return Ok(rs);
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
     }
 }
