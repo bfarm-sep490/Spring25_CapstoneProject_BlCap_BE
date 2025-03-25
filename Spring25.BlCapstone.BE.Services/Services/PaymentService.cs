@@ -49,8 +49,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             _unitOfWork = new UnitOfWork();
             _payOS = new PayOS(clientId, apiKey, checkSum);
-            _cancelURL = "";
-            _returnURL = "";
+            _cancelURL = "https://www.google.com/";
+            _returnURL = "https://www.google.com/";
         }
 
         public async Task<IBusinessResult> CreatePayment(CreatePaymentRequest model)
