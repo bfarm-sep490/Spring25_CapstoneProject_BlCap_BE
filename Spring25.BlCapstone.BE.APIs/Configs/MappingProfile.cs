@@ -223,6 +223,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<Problem, ProblemModel>()
                 .ForMember(dest => dest.Images, opt => opt.MapFrom(src => src.ProblemImages))
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
+                .ForMember(dest => dest.FarmerName, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<ProblemImage, Images>()
                 .ReverseMap();

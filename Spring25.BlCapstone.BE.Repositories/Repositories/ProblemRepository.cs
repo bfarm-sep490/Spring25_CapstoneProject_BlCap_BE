@@ -19,8 +19,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<List<Problem>> GetProblems(int? planId = null, int? farmerId = null, string? name = null, string? status = null)
         {
             var query = _context.Problems
-                    .Include(p => p.ProblemImages)
-                    .AsQueryable();
+                                .Include(p => p.Plan)
+                                .Include(p => p.Farmer)
+                                    .ThenInclude(f => f.Account)
+                                .Include(p => p.ProblemImages)
+                                .AsQueryable();
 
             if (planId.HasValue)
             {
@@ -49,6 +52,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.Problems
                 .Include(p => p.ProblemImages)
+                .Include(p => p.Plan)
+                .Include(p => p.Farmer)
+                    .ThenInclude(f => f.Account)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 

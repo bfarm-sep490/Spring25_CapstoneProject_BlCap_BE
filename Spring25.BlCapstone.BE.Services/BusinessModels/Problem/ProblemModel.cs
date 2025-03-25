@@ -13,8 +13,12 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Problem
         public int Id { get; set; }
         [JsonPropertyName("plan_id")]
         public int PlanId { get; set; }
+        [JsonPropertyName("plan_name")]
+        public string PlanName { get; set; }
         [JsonPropertyName("farmer_id")]
         public int FarmerId { get; set; }
+        [JsonPropertyName("farmer_name")]
+        public string FarmerName { get; set; }
         [JsonPropertyName("problem_name")]
         public string ProblemName { get; set; }
         [JsonPropertyName("description")]
