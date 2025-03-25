@@ -12,6 +12,7 @@ pipeline {
                         string(credentialsId: 'REDIS_PORT', variable: 'REDIS_PORT'),
                         string(credentialsId: 'REDIS_USER', variable: 'REDIS_USER'),
                         string(credentialsId: 'REDIS_PASSWORD', variable: 'REDIS_PASSWORD'),
+                        string(credentialsId: 'ABLY_API_KEY', variable: 'ABLY_API_KEY'),
                         string(credentialsId: 'CLIENTID', variable: 'CLIENTID'),
                         string(credentialsId: 'APIKEY', variable: 'APIKEY'),
                         string(credentialsId: 'CHECKSUM', variable: 'CHECKSUM')
