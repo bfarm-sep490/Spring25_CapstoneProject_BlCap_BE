@@ -238,7 +238,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpDelete("{id}/farmer/{farmer_id}")]
+        [HttpDelete("{id}/farmers/{farmer_id}")]
         public async Task<IActionResult> DeleteFarmerFromPlan(int id, int farmer_id)
         {
             try
@@ -252,7 +252,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         
-        [HttpPost("{id}/farmer/{farmer_id}")]
+        [HttpPost("{id}/farmers/{farmer_id}")]
         public async Task<IActionResult> AddFarmerToPlan(int id, int farmer_id)
         {
             try
