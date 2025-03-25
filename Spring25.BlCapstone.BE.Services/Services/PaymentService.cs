@@ -271,7 +271,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                Console.WriteLine(ex.Message);
             }
         }
     }
