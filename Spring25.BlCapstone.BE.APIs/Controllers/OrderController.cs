@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Spring25.BlCapstone.BE.APIs.RequestModels.Order;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.Services;
@@ -48,11 +47,10 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody]CreatedOrder model)
+        public async Task<IActionResult> CreateOrder([FromBody]CreateOrderModel order)
         {
             try
             {
-                var order = _mapper.Map<OrderModel>(model);
                 var result = await _orderService.CreateOrder(order);
                 return Ok(result);
             }

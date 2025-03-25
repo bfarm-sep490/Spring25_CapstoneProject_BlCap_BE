@@ -17,10 +17,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int? PlanId { get; set; }
         public int PackagingTypeId { get; set; }
         public float DepositPrice { get; set; }
+        public float? TotalPrice { get; set; }
         public string Status { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
-        public float EstimatedQuantity { get; set; }
+        public float PreOrderQuantity { get; set; }
         public DateTime EstimatedPickupDate { get; set; }
         public DateTime CreatedAt { get; set; }
 

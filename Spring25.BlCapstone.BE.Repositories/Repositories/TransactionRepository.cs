@@ -21,5 +21,23 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.Transactions
                                  .FirstOrDefaultAsync(t => t.OrderCode == OrderCode);
         }
+
+        public async Task<List<Transaction>> GetTransactions(int? orderId = null, string? status = null)
+        {
+            var query = _context.Transactions
+                                .AsQueryable();
+
+            if (orderId.HasValue)
+            {
+                query = query.Where(t => t.OrderId == orderId);
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(t => t.Status.Trim().ToLower() == status.ToLower().Trim());
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

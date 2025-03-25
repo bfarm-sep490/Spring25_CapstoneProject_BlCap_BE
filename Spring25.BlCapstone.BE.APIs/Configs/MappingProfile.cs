@@ -23,6 +23,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Transaction;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 
 namespace Spring25.BlCapstone.BE.APIs.Configs
@@ -52,11 +53,17 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             ItemProfile();
             OrderProfile();
             NotificationProfile();
+            TransactionProfile();
         }
 
         private void OrderProfile()
         {
             CreateMap<Order, OrderModel>()
+                .ForMember(dest => dest.transactionOrders, opt => opt.MapFrom(src => src.Transactions))
+                .ReverseMap();
+            CreateMap<Transaction, TransactionOrder>()
+                .ReverseMap();
+            CreateMap<Order, CreateOrderModel>()
                 .ReverseMap();
         }
 
@@ -406,6 +413,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void NotificationProfile()
         {
             CreateMap<NotificationFarmer, FarmerNotificationsModel>()
+                .ReverseMap();
+        }
+
+        private void TransactionProfile()
+        {
+            CreateMap<Transaction, TransactionModel>()
                 .ReverseMap();
         }
     }

@@ -272,14 +272,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<FarmerPermission>().HasData(
-                new FarmerPermission { FarmerId = 4, PlanId = 2, Status = "Complete", CreatedAt = DateTime.Now.AddDays(-35) },
-                new FarmerPermission { FarmerId = 1, PlanId = 2, Status = "Cancel", CreatedAt = DateTime.Now.AddDays(-32) },
-                new FarmerPermission { FarmerId = 5, PlanId = 2, Status = "Complete", CreatedAt = DateTime.Now.AddDays(-31) },
-                new FarmerPermission { FarmerId = 2, PlanId = 1, Status = "Cancel", CreatedAt = DateTime.Now.AddDays(-10) },
-                new FarmerPermission { FarmerId = 3, PlanId = 2, Status = "Pending", CreatedAt = DateTime.Now.AddDays(-5) },
-                new FarmerPermission { FarmerId = 1, PlanId = 1, Status = "Complete", CreatedAt = DateTime.Now.AddDays(-55) },
-                new FarmerPermission { FarmerId = 3, PlanId = 1, Status = "Pending", CreatedAt = DateTime.Now.AddDays(-30) },
-                new FarmerPermission { FarmerId = 5, PlanId = 1, Status = "Pending", CreatedAt = DateTime.Now.AddDays(-2) }
+                new FarmerPermission { FarmerId = 4, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-35) },
+                new FarmerPermission { FarmerId = 1, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-32) },
+                new FarmerPermission { FarmerId = 5, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-31) },
+                new FarmerPermission { FarmerId = 2, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-10) },
+                new FarmerPermission { FarmerId = 3, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-5) },
+                new FarmerPermission { FarmerId = 1, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-55) },
+                new FarmerPermission { FarmerId = 3, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-30) },
+                new FarmerPermission { FarmerId = 5, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) }
             );
 
             modelBuilder.Entity<CaringTask>().HasData(
@@ -301,21 +301,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<FarmerCaringTask>().HasData(
-                new FarmerCaringTask { FarmerId = 1, TaskId = 1, Description = "Soil preparation delayed due to unexpected rain.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(3) },
-                new FarmerCaringTask { FarmerId = 2, TaskId = 3, Description = "Weeding completed successfully.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) },
-                new FarmerCaringTask { FarmerId = 3, TaskId = 5, Description = "Fertilizer application postponed due to supply shortage.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(5) },
-                new FarmerCaringTask { FarmerId = 4, TaskId = 7, Description = "Irrigation system maintenance completed.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-2) },
-                new FarmerCaringTask { FarmerId = 5, TaskId = 9, Description = "Pest control activity in progress.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(2) },
-                new FarmerCaringTask { FarmerId = 6, TaskId = 11, Description = "Harvest preparation started.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(4) },
-                new FarmerCaringTask { FarmerId = 1, TaskId = 13, Description = "Crop monitoring performed with drone imaging.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) },
-                new FarmerCaringTask { FarmerId = 2, TaskId = 2, Description = "Seed sowing delayed due to broken equipment.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(6) },
-                new FarmerCaringTask { FarmerId = 3, TaskId = 4, Description = "Applying compost to improve soil fertility.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-3) },
-                new FarmerCaringTask { FarmerId = 4, TaskId = 6, Description = "Plant disease detected, applying treatment.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(3) },
-                new FarmerCaringTask { FarmerId = 5, TaskId = 8, Description = "Weed removal completed successfully.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) },
-                new FarmerCaringTask { FarmerId = 6, TaskId = 10, Description = "Installing new irrigation pipes.", Status = "In Progress", ExpiredDate = DateTime.Now.AddDays(5) },
-                new FarmerCaringTask { FarmerId = 1, TaskId = 12, Description = "Harvesting completed for lettuce field.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-2) },
-                new FarmerCaringTask { FarmerId = 2, TaskId = 14, Description = "Scheduled pest control task delayed.", Status = "Pending", ExpiredDate = DateTime.Now.AddDays(4) },
-                new FarmerCaringTask { FarmerId = 3, TaskId = 15, Description = "Monitoring crop growth using sensors.", Status = "Complete", ExpiredDate = DateTime.Now.AddDays(-1) }
+                new FarmerCaringTask { FarmerId = 1, TaskId = 1, Description = "Soil preparation delayed due to unexpected rain.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(3) },
+                new FarmerCaringTask { FarmerId = 2, TaskId = 3, Description = "Weeding completed successfully.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-1) },
+                new FarmerCaringTask { FarmerId = 3, TaskId = 5, Description = "Fertilizer application postponed due to supply shortage.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(5) },
+                new FarmerCaringTask { FarmerId = 4, TaskId = 7, Description = "Irrigation system maintenance completed.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-2) },
+                new FarmerCaringTask { FarmerId = 5, TaskId = 9, Description = "Pest control activity in progress.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(2) },
+                new FarmerCaringTask { FarmerId = 6, TaskId = 11, Description = "Harvest preparation started.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(4) },
+                new FarmerCaringTask { FarmerId = 1, TaskId = 13, Description = "Crop monitoring performed with drone imaging.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-1) },
+                new FarmerCaringTask { FarmerId = 2, TaskId = 2, Description = "Seed sowing delayed due to broken equipment.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(6) },
+                new FarmerCaringTask { FarmerId = 3, TaskId = 4, Description = "Applying compost to improve soil fertility.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-3) },
+                new FarmerCaringTask { FarmerId = 4, TaskId = 6, Description = "Plant disease detected, applying treatment.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(3) },
+                new FarmerCaringTask { FarmerId = 5, TaskId = 8, Description = "Weed removal completed successfully.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-1) },
+                new FarmerCaringTask { FarmerId = 6, TaskId = 10, Description = "Installing new irrigation pipes.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(5) },
+                new FarmerCaringTask { FarmerId = 1, TaskId = 12, Description = "Harvesting completed for lettuce field.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-2) },
+                new FarmerCaringTask { FarmerId = 2, TaskId = 14, Description = "Scheduled pest control task delayed.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(4) },
+                new FarmerCaringTask { FarmerId = 3, TaskId = 15, Description = "Monitoring crop growth using sensors.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-1) }
             );
 
             modelBuilder.Entity<CaringPesticide>().HasData(
@@ -351,14 +351,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<FarmerHarvestingTask>().HasData(
-                new FarmerHarvestingTask { FarmerId = 1, TaskId = 1, Description = "Thu hoạch rau cải theo tiêu chuẩn hữu cơ, cắt sạch gốc và đóng gói.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
-                new FarmerHarvestingTask { FarmerId = 2, TaskId = 2, Description = "Thu hoạch cà chua chín, phân loại quả chất lượng cao trước khi vận chuyển.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(3) },
-                new FarmerHarvestingTask { FarmerId = 3, TaskId = 3, Description = "Thu hái rau muống, đảm bảo không lẫn tạp chất trong sản phẩm.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
-                new FarmerHarvestingTask { FarmerId = 4, TaskId = 4, Description = "Thu hoạch dưa leo khi đạt kích thước tiêu chuẩn, kiểm tra chất lượng từng quả.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(1) },
-                new FarmerHarvestingTask { FarmerId = 5, TaskId = 5, Description = "Thu hoạch bắp cải non, đảm bảo không có sâu bệnh trước khi đóng gói.", Status = "Failed", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
-                new FarmerHarvestingTask { FarmerId = 6, TaskId = 1, Description = "Thu hái rau dền đúng thời điểm để đảm bảo độ tươi ngon.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
-                new FarmerHarvestingTask { FarmerId = 1, TaskId = 3, Description = "Thu hoạch cải xanh và vận chuyển ngay sau khi thu hoạch.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(2) },
-                new FarmerHarvestingTask { FarmerId = 2, TaskId = 5, Description = "Thu hoạch hành lá, buộc thành bó nhỏ trước khi phân phối.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(4) }
+                new FarmerHarvestingTask { FarmerId = 1, TaskId = 1, Description = "Thu hoạch rau cải theo tiêu chuẩn hữu cơ, cắt sạch gốc và đóng gói.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerHarvestingTask { FarmerId = 2, TaskId = 2, Description = "Thu hoạch cà chua chín, phân loại quả chất lượng cao trước khi vận chuyển.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(3) },
+                new FarmerHarvestingTask { FarmerId = 3, TaskId = 3, Description = "Thu hái rau muống, đảm bảo không lẫn tạp chất trong sản phẩm.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
+                new FarmerHarvestingTask { FarmerId = 4, TaskId = 4, Description = "Thu hoạch dưa leo khi đạt kích thước tiêu chuẩn, kiểm tra chất lượng từng quả.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(1) },
+                new FarmerHarvestingTask { FarmerId = 5, TaskId = 5, Description = "Thu hoạch bắp cải non, đảm bảo không có sâu bệnh trước khi đóng gói.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
+                new FarmerHarvestingTask { FarmerId = 6, TaskId = 1, Description = "Thu hái rau dền đúng thời điểm để đảm bảo độ tươi ngon.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerHarvestingTask { FarmerId = 1, TaskId = 3, Description = "Thu hoạch cải xanh và vận chuyển ngay sau khi thu hoạch.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(2) },
+                new FarmerHarvestingTask { FarmerId = 2, TaskId = 5, Description = "Thu hoạch hành lá, buộc thành bó nhỏ trước khi phân phối.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(4) }
             );
 
             modelBuilder.Entity<HarvestingImage>().HasData(
@@ -488,15 +488,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<FarmerPackagingTask>().HasData(
-                new FarmerPackagingTask { FarmerId = 1, TaskId = 1, Description = "Đóng gói rau cải vào túi hút chân không, đảm bảo giữ độ tươi lâu.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
-                new FarmerPackagingTask { FarmerId = 2, TaskId = 2, Description = "Phân loại và đóng hộp cà chua theo kích cỡ, ghi nhãn nguồn gốc.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(3) },
-                new FarmerPackagingTask { FarmerId = 3, TaskId = 3, Description = "Đóng gói rau muống vào túi lưới, tránh đè nén gây hư hỏng.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
-                new FarmerPackagingTask { FarmerId = 4, TaskId = 4, Description = "Đặt dưa leo vào khay nhựa, bọc màng co để bảo vệ độ tươi.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(1) },
-                new FarmerPackagingTask { FarmerId = 5, TaskId = 5, Description = "Bọc bắp cải bằng giấy thực phẩm, bảo quản trong hộp carton.", Status = "Failed", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
-                new FarmerPackagingTask { FarmerId = 6, TaskId = 1, Description = "Đóng túi rau dền theo định lượng 500g, kiểm tra độ sạch trước khi niêm phong.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
-                new FarmerPackagingTask { FarmerId = 1, TaskId = 3, Description = "Sắp xếp rau húng quế vào hộp nhựa, đảm bảo không dập nát.", Status = "Pending", ExpiredDate = DateTime.UtcNow.AddDays(2) },
-                new FarmerPackagingTask { FarmerId = 3, TaskId = 5, Description = "Niêm phong bao bì rau mồng tơi, gắn mã QR để truy xuất nguồn gốc.", Status = "Complete", ExpiredDate = DateTime.UtcNow.AddDays(-4) },
-                new FarmerPackagingTask { FarmerId = 5, TaskId = 2, Description = "Phân chia đậu bắp vào túi nhỏ 250g, đảm bảo đạt tiêu chuẩn an toàn.", Status = "In Progress", ExpiredDate = DateTime.UtcNow.AddDays(1) }
+                new FarmerPackagingTask { FarmerId = 1, TaskId = 1, Description = "Đóng gói rau cải vào túi hút chân không, đảm bảo giữ độ tươi lâu.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerPackagingTask { FarmerId = 2, TaskId = 2, Description = "Phân loại và đóng hộp cà chua theo kích cỡ, ghi nhãn nguồn gốc.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(3) },
+                new FarmerPackagingTask { FarmerId = 3, TaskId = 3, Description = "Đóng gói rau muống vào túi lưới, tránh đè nén gây hư hỏng.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-2) },
+                new FarmerPackagingTask { FarmerId = 4, TaskId = 4, Description = "Đặt dưa leo vào khay nhựa, bọc màng co để bảo vệ độ tươi.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(1) },
+                new FarmerPackagingTask { FarmerId = 5, TaskId = 5, Description = "Bọc bắp cải bằng giấy thực phẩm, bảo quản trong hộp carton.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
+                new FarmerPackagingTask { FarmerId = 6, TaskId = 1, Description = "Đóng túi rau dền theo định lượng 500g, kiểm tra độ sạch trước khi niêm phong.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
+                new FarmerPackagingTask { FarmerId = 1, TaskId = 3, Description = "Sắp xếp rau húng quế vào hộp nhựa, đảm bảo không dập nát.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(2) },
+                new FarmerPackagingTask { FarmerId = 3, TaskId = 5, Description = "Niêm phong bao bì rau mồng tơi, gắn mã QR để truy xuất nguồn gốc.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(-4) },
+                new FarmerPackagingTask { FarmerId = 5, TaskId = 2, Description = "Phân chia đậu bắp vào túi nhỏ 250g, đảm bảo đạt tiêu chuẩn an toàn.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(1) }
             );
 
             modelBuilder.Entity<PackagingImage>().HasData(
@@ -626,11 +626,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = 2, PackagingTypeId = 1, DepositPrice = 500.0f, EstimatedQuantity = 200f, Status = "Pending", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 2, DepositPrice = 750.0f, EstimatedQuantity = 100f, Status = "Processing", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
-                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, EstimatedQuantity = 200f, Status = "Completed", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
-                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, EstimatedQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 5, RetailerId = 2, PlantId = 5, PlanId = 5, PackagingTypeId = 5, DepositPrice = 7500.0f, EstimatedQuantity = 200f, Status = "Canceled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) }
+                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = 2, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Processing", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
+                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Completed", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
+                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 5, RetailerId = 2, PlantId = 5, PlanId = 5, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Canceled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) }
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(
@@ -640,6 +640,147 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new PackagingProduct { Id = 4, PackagingTaskId = 4, HarvestingTaskId = 4, OrderId = 4, PackagingQuantity = 1, PackagingUnit = 100, QRCode = "QR_004", Status = "Pending" },
                 new PackagingProduct { Id = 5, PackagingTaskId = 5, HarvestingTaskId = 5, OrderId = 5, PackagingQuantity = 3, PackagingUnit = 150, QRCode = "QR_005", Status = "Complete" }
             );
+
+            modelBuilder.Entity<NotificationExpert>().HasData(
+                new NotificationExpert
+                {
+                    Id = 1,
+                    ExpertId = 1,
+                    Title = "Cập nhật về dịch bệnh cây trồng",
+                    Message = "Xuất hiện sâu keo mùa thu tại một số khu vực miền Tây, chuyên gia cần lưu ý.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationExpert
+                {
+                    Id = 2,
+                    ExpertId = 2,
+                    Title = "Thông tin thị trường nông sản",
+                    Message = "Giá lúa gạo tăng mạnh do nhu cầu xuất khẩu tăng cao trong tháng này.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationExpert
+                {
+                    Id = 3,
+                    ExpertId = 3,
+                    Title = "Ứng dụng công nghệ mới trong nông nghiệp",
+                    Message = "Hệ thống tưới nhỏ giọt giúp tiết kiệm 30% lượng nước và tăng năng suất 20%.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationExpert
+                {
+                    Id = 4,
+                    ExpertId = 1,
+                    Title = "Hội thảo trực tuyến về canh tác hữu cơ",
+                    Message = "Mời chuyên gia tham gia hội thảo về nông nghiệp hữu cơ vào ngày 25/07/2024.",
+                    CreatedDate = DateTime.UtcNow
+                }
+            );
+
+            modelBuilder.Entity<NotificationOwner>().HasData(
+                new NotificationOwner
+                {
+                    Id = 1,
+                    OwnerId = 201,
+                    Title = "Cảnh báo thời tiết cho trang trại",
+                    Message = "Dự báo có mưa lớn trong tuần này, chủ trang trại cần có biện pháp bảo vệ cây trồng.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationOwner
+                {
+                    Id = 2,
+                    OwnerId = 202,
+                    Title = "Giá cả phân bón cập nhật",
+                    Message = "Giá phân bón hữu cơ đang giảm, đây là thời điểm tốt để mua dự trữ.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationOwner
+                {
+                    Id = 3,
+                    OwnerId = 203,
+                    Title = "Chương trình hỗ trợ vay vốn",
+                    Message = "Ngân hàng vừa triển khai gói hỗ trợ vay vốn dành cho chủ trang trại với lãi suất ưu đãi.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationOwner
+                {
+                    Id = 4,
+                    OwnerId = 204,
+                    Title = "Hội nghị nông nghiệp bền vững",
+                    Message = "Mời chủ trang trại tham gia hội nghị về mô hình canh tác bền vững vào ngày 10/08/2024.",
+                    CreatedDate = DateTime.UtcNow
+                }
+            );
+
+            modelBuilder.Entity<NotificationFarmer>().HasData(
+                new NotificationFarmer
+                {
+                    Id = 1,
+                    FarmerId = 1,
+                    Title = "Cảnh báo sâu bệnh hại lúa",
+                    Message = "Phát hiện sâu cuốn lá tại một số khu vực, nông dân cần kiểm tra ruộng lúa.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationFarmer
+                {
+                    Id = 2,
+                    FarmerId = 1,
+                    Title = "Hỗ trợ giống cây trồng",
+                    Message = "Chương trình hỗ trợ giống lúa năng suất cao đang mở đăng ký.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationFarmer
+                {
+                    Id = 3,
+                    FarmerId = 1,
+                    Title = "Kỹ thuật bón phân hiệu quả",
+                    Message = "Áp dụng đúng kỹ thuật bón phân giúp tăng năng suất và giảm chi phí.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationFarmer
+                {
+                    Id = 4,
+                    FarmerId = 2,
+                    Title = "Hội thảo trồng trọt hữu cơ",
+                    Message = "Mời nông dân tham gia hội thảo về phương pháp canh tác hữu cơ vào ngày 15/08/2024.",
+                    CreatedDate = DateTime.UtcNow
+                }
+            );
+
+            modelBuilder.Entity<NotificationRetailer>().HasData(
+                new NotificationRetailer
+                {
+                    Id = 1,
+                    RetailerId = 1,
+                    Title = "Cập nhật giá nông sản hôm nay",
+                    Message = "Giá rau xanh đang tăng nhẹ do ảnh hưởng của thời tiết. Xem chi tiết tại bảng giá.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationRetailer
+                {
+                    Id = 2,
+                    RetailerId = 2,
+                    Title = "Chương trình khuyến mãi dành cho nhà bán lẻ",
+                    Message = "Nhận chiết khấu 10% khi đặt hàng số lượng lớn trong tháng này.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationRetailer
+                {
+                    Id = 3,
+                    RetailerId = 3,
+                    Title = "Nguồn hàng mới từ các trang trại sạch",
+                    Message = "Chúng tôi vừa nhập thêm lô hàng rau củ hữu cơ từ các trang trại đạt chuẩn VietGAP.",
+                    CreatedDate = DateTime.UtcNow
+                },
+                new NotificationRetailer
+                {
+                    Id = 4,
+                    RetailerId = 1,
+                    Title = "Cảnh báo vận chuyển do thời tiết",
+                    Message = "Một số tuyến đường giao hàng có thể bị chậm do ảnh hưởng của mưa bão.",
+                    CreatedDate = DateTime.UtcNow
+                }
+            );
+
         }
     }
 }

@@ -13,12 +13,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IOrderService
     {
-        Task<IBusinessResult> CreateOrder(OrderModel order);
+        Task<IBusinessResult> CreateOrder(CreateOrderModel order);
         Task<IBusinessResult> GetAllOrders(string? status,int? retailer);
         Task<IBusinessResult> GetOrderById(int id);
         
     }
-    public class OrderService:IOrderService
+    public class OrderService : IOrderService
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -28,9 +28,23 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> CreateOrder(OrderModel order)
+        public async Task<IBusinessResult> CreateOrder(CreateOrderModel order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var newOrder = _mapper.Map<Order>(order);
+                newOrder.Status = "Pending";
+                newOrder.CreatedAt = DateTime.Now;
+
+                var rs = await _unitOfWork.OrderRepository.CreateAsync(newOrder);
+                var response = new OrderModel();
+                _mapper.Map(rs, response);
+                return new BusinessResult(200, "Create order successfull", response);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
 
         public async Task<IBusinessResult> GetAllOrders(string? status, int? retailer)
@@ -42,7 +56,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetOrderById(int id)
         {
-            var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+            var order = await _unitOfWork.OrderRepository.GetOrder(id);
             if (order == null) return new BusinessResult(400, "Not found Order");
             var result = _mapper.Map<OrderModel>(order);
             return new BusinessResult(200, "Get Order by Id", result);

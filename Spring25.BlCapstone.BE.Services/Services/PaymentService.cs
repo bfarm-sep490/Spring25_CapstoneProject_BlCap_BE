@@ -76,7 +76,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
                     List<ItemData> items = new List<ItemData>
                     {
-                        new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.EstimatedQuantity, model.Amount)
+                        new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.PreOrderQuantity, model.Amount)
                     };
 
                     DateTime expirationDate = DateTime.UtcNow.AddHours(1);
@@ -119,7 +119,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
                     List<ItemData> items = new List<ItemData>
                     {
-                        new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.EstimatedQuantity, model.Amount)
+                        new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.PreOrderQuantity, model.Amount)
                     };
 
                     DateTime expirationDate = DateTime.UtcNow.AddHours(1);
