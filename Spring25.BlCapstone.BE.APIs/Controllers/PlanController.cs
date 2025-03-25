@@ -252,8 +252,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         
-        [HttpPost("{id}/farmers")]
-        public async Task<IActionResult> AddFarmerToPlan(int id, List<int> farmer_id)
+        [HttpPost("{id}/farmer/{farmer_id}")]
+        public async Task<IActionResult> AddFarmerToPlan(int id, int farmer_id)
         {
             try
             {

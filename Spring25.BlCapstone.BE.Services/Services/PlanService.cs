@@ -36,7 +36,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetInfomationOfFertilizerTasksByPlanId(int id);
         Task<IBusinessResult> GetInfomationOfPesticideTasksByPlanId(int id);
         Task<IBusinessResult> RemoveFarmerFromPlan(int planId, int farmerId);
-        Task<IBusinessResult> AddFarmerToPlan(int planId, List<int> farmerIds);
+        Task<IBusinessResult> AddFarmerToPlan(int planId, int farmerId);
         Task<IBusinessResult> GetCountTasksByPlanId(int id);
     }
 
@@ -815,7 +815,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> AddFarmerToPlan(int planId, List<int> farmerIds)
+        public async Task<IBusinessResult> AddFarmerToPlan(int planId, int farmerId)
         {
             try
             {
@@ -825,25 +825,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any plan !");
                 }
 
-                foreach (var farmerId in farmerIds)
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                if (farmer == null)
                 {
-                    var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
-                    if (farmer == null)
-                    {
-                        return new BusinessResult(404, "Not found a farmer in list");
-                    }
+                    return new BusinessResult(404, "Not found any farmers");
                 }
 
-                foreach (var id in farmerIds)
+                await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
                 {
-                    await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
-                    {
-                        CreatedAt = DateTime.Now,
-                        FarmerId = id,
-                        PlanId = planId,
-                        Status = "Active"
-                    });
-                }
+                    CreatedAt = DateTime.Now,
+                    FarmerId = farmerId,
+                    PlanId = planId,
+                    Status = "Active"
+                });
+
 
                 return new BusinessResult(200, "Add Farmer to Plan successfully !");
             }
