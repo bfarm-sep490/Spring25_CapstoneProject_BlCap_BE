@@ -18,7 +18,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetPaymentDetailsPayOS(int transactionID);
         Task<IBusinessResult> CancelPayment(int transactionID, string? cancelReason);
         Task ProcessWebhook(WebhookType webhookData);
-        Task<object> VerifyWebhook(string url);
     }
 
     public class PaymentService : IPaymentService
@@ -223,26 +222,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, ex.Message);
-            }
-        }
-
-        public async Task<object> VerifyWebhook(string url)
-        {
-            try
-            {
-                var rs = _payOS.confirmWebhook(url);
-                return new
-                {
-                    res = rs.Result,
-                    status = rs.Status,
-                    isfa = rs.IsFaulted,
-                    ass = rs.AsyncState,
-                    ex = rs.Exception
-                };
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
             }
         }
 

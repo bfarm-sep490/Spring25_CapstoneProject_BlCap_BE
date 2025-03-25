@@ -63,19 +63,5 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             await _paymentService.ProcessWebhook(webhookData);
         }
-
-        //[HttpPost("confirm")]
-        //public async Task<IActionResult> Confirm(string url)
-        //{
-        //    try
-        //    {
-        //        var rs = await _paymentService.VerifyWebhook(url);
-        //        return Ok(rs);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return BadRequest(ex.Message);
-        //    }
-        //}
     }
 }
