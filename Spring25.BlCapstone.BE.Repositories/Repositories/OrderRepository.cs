@@ -32,5 +32,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<Order> GetOrderById(int id)
+        {
+            return await _context.Orders
+                                 .Include(o => o.Plant)
+                                 .Include(o => o.Retailer)
+                                    .ThenInclude(o => o.Account)
+                                .FirstOrDefaultAsync(o => o.Id == id);
+        }
+
+        public async Task<Order> GetOrderByTransactionId(int id)
+        {
+            return await _context.Orders
+                                 .Include(o => o.Transactions)
+                                 .FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

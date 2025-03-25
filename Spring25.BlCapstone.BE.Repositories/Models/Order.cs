@@ -20,11 +20,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string Status { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
+        public float EstimatedQuantity { get; set; }
         public DateTime EstimatedPickupDate { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public Retailer Retailer { get; set; }
         public Plan Plan { get; set; }
+        public Plant Plant { get; set; }
         public PackagingType PackagingType { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
         public ICollection<PackagingProduct> PackagingProducts { get; set; }
