@@ -58,7 +58,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("webhook")]
+        [HttpPost("webhook-url")]
         public async Task PayOSWebhook([FromBody] WebhookType webhookData)
         {
             try
