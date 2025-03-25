@@ -41,12 +41,5 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .ThenInclude(o => o.Account)
                                 .FirstOrDefaultAsync(o => o.Id == id);
         }
-
-        public async Task<Order> GetOrderByTransactionId(int id)
-        {
-            return await _context.Orders
-                                 .Include(o => o.Transactions)
-                                 .FirstOrDefaultAsync(t => t.Id == id);
-        }
     }
 }

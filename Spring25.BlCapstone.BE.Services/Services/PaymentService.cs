@@ -237,10 +237,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var trans = await _unitOfWork.TransactionRepository.GetTransactionByOrderCode(orderCode);
                     trans.Status = "Paid";
                     trans.PaymentDate = DateTime.Now;
-                    await _unitOfWork.TransactionRepository.UpdateAsync(trans);
 
-                    var order = await _unitOfWork.OrderRepository.GetOrderByTransactionId(trans.Id);
+                    var order = await _unitOfWork.OrderRepository.GetByIdAsync(trans.OrderId);
                     order.Status = trans.Type.ToLower().Trim().Equals("deposit") ? "Deposit" : "Paid";
+
+                    await _unitOfWork.TransactionRepository.UpdateAsync(trans);
                     await _unitOfWork.OrderRepository.UpdateAsync(order);
                 }
                 else
