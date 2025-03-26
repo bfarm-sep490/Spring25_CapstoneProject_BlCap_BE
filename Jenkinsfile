@@ -73,5 +73,14 @@ pipeline {
         always {
             cleanWs()
         }
+
+        success {
+            emailext body: "XuuBinf đã Build thành công cho pipeline",
+                     subject: "Build thành công:"
+        }
+        failure {
+            emailext body: "XuuBinf đã Build thất bại cho pipeline",
+                     subject: "Build thất bại:"
+        }
     }
 }
