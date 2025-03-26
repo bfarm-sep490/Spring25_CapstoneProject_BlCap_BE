@@ -74,14 +74,7 @@ pipeline {
             cleanWs()
             emailext body: "The build was successful.",
                      subject: "Build Success!",
-                    to: 'thangbinhbeo2105@gmail.com',
-                    from: 'binhbeopro1122@gmail.com',
-                smtpHost: 'smtp.gmail.com',
-                smtpPort: '587',
-                smtpAuthUsername: 'binhbeopro1122@gmail.com',
-                smtpAuthPassword: 'zxwx crkp trpd omkd',
-                mimeType: 'text/html',
-                tls: true
+                    to: "thangbinhbeo2105@gmail.com"
         }
     }
 }
