@@ -74,7 +74,8 @@ pipeline {
             cleanWs()
             emailext body: "The build was successful.",
                      subject: "Build Success!",
-                    to: 'thangbinhbeo2105@gmail.com'
+                    to: 'thangbinhbeo2105@gmail.com',
+                    from: 'binhbeopro1122@gmail.com'
         }
     }
 }
