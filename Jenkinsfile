@@ -72,8 +72,8 @@ pipeline {
     post {
         always {
             cleanWs()
-            emailext body: '''$DEFAULT_CONTENT''',
-                     subject: '''Build Result - $BUILD_STATUS''',
+            emailext body: "The build was successful.",
+                     subject: "Build Success!",
                     to: 'thangbinhbeo2105@gmail.com'
         }
     }
