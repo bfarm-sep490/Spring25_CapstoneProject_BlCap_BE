@@ -72,9 +72,10 @@ pipeline {
     post {
         always {
             cleanWs()
-            emailext body: "The build was successful.",
-                     subject: "Build Success!",
-                    to: "thangbinhbeo2105@gmail.com"
+            echo 'Pipeline is success!'
+            emailext(subject: "Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ",
+            body: "Job '<${env.BUILD_URL}>' Success.",
+            from: 'binhbeopro1122@gmail.com',to: 'thangbinhbeo2105@gmail.com')
         }
     }
 }
