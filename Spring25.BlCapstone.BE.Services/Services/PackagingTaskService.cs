@@ -105,6 +105,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any Packaging tasks");
                 }
 
+                var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(model.HarvestingTaskId);
+                if (harvestingTask == null)
+                {
+                    return new BusinessResult(404, "Not found any Harvesting Task !");
+                }
+
                 _mapper.Map(model, task);
                 task.CompleteDate = DateTime.Now;
                 task.UpdatedAt = DateTime.Now;
@@ -119,6 +125,49 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         await _unitOfWork.PackagingImageRepository.RemoveAsync(image);
                     }
                 }
+
+                var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(task.PackagingTypeId.Value);
+                float isSpare = model.TotalPackagedWeight - (model.PackagedItemCount * type.QuantityPerPack);
+
+                if (isSpare == 0)
+                {
+                    _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
+                    {
+                        PackagingTaskId = task.Id,
+                        HarvestingTaskId = model.HarvestingTaskId,
+                        QuantityPerPack = type.QuantityPerPack,
+                        PackQuantity = model.PackagedItemCount,
+                        //QR code blockchain ne
+                        QRCode = "?",
+                        Status = "Active"
+                    });
+                }
+                else if (isSpare < 0)
+                {
+                    _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
+                    {
+                        PackagingTaskId = task.Id,
+                        HarvestingTaskId = model.HarvestingTaskId,
+                        QuantityPerPack = type.QuantityPerPack,
+                        PackQuantity = model.PackagedItemCount - 1,
+                        //QR code blockchain ne
+                        QRCode = "?",
+                        Status = "Active"
+                    });
+
+                    _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
+                    {
+                        PackagingTaskId = task.Id,
+                        HarvestingTaskId = model.HarvestingTaskId,
+                        QuantityPerPack = Math.Abs(isSpare),
+                        PackQuantity = 1,
+                        //QR code blockchain ne
+                        QRCode = "?",
+                        Status = "Active"
+                    });
+                }
+
+                await _unitOfWork.PackagingProductRepository.SaveAsync();
 
                 if (model.Images != null && model.Images.Any())
                 {

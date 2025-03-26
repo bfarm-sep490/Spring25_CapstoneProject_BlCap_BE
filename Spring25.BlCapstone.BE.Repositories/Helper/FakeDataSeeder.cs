@@ -628,11 +628,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(
-                new PackagingProduct { Id = 1, PackagingTaskId = 1, HarvestingTaskId = 1, OrderId = 1, PackagingQuantity = 5, PackagingUnit = 10, QRCode = "QR_001", Status = "Complete" },
-                new PackagingProduct { Id = 2, PackagingTaskId = 2, HarvestingTaskId = 2, OrderId = 2, PackagingQuantity = 2, PackagingUnit = 15, QRCode = "QR_002", Status = "Pending" },
-                new PackagingProduct { Id = 3, PackagingTaskId = 3, HarvestingTaskId = 3, OrderId = 3, PackagingQuantity = 4, PackagingUnit = 20, QRCode = "QR_003", Status = "Cancel" },
-                new PackagingProduct { Id = 4, PackagingTaskId = 4, HarvestingTaskId = 4, OrderId = 4, PackagingQuantity = 1, PackagingUnit = 100, QRCode = "QR_004", Status = "Pending" },
-                new PackagingProduct { Id = 5, PackagingTaskId = 5, HarvestingTaskId = 5, OrderId = 5, PackagingQuantity = 3, PackagingUnit = 150, QRCode = "QR_005", Status = "Complete" }
+                new PackagingProduct { Id = 1, PackagingTaskId = 1, HarvestingTaskId = 1, OrderId = 1, QRCode = "QR_001", Status = "Complete", QuantityPerPack = 100, PackQuantity = 2},
+                new PackagingProduct { Id = 2, PackagingTaskId = 2, HarvestingTaskId = 2, OrderId = 2, QRCode = "QR_002", Status = "Pending", QuantityPerPack = 10, PackQuantity = 5},
+                new PackagingProduct { Id = 3, PackagingTaskId = 3, HarvestingTaskId = 3, OrderId = 3, QRCode = "QR_003", Status = "Cancel", QuantityPerPack = 20, PackQuantity = 1},
+                new PackagingProduct { Id = 4, PackagingTaskId = 4, HarvestingTaskId = 4, OrderId = 4, QRCode = "QR_004", Status = "Pending", QuantityPerPack = 50, PackQuantity = 2 },
+                new PackagingProduct { Id = 5, PackagingTaskId = 5, HarvestingTaskId = 5, OrderId = 5, QRCode = "QR_005", Status = "Complete", QuantityPerPack = 20, PackQuantity = 3 }
             );
 
             modelBuilder.Entity<NotificationExpert>().HasData(

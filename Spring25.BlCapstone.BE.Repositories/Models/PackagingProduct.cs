@@ -14,8 +14,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int PackagingTaskId { get; set; }
         public int HarvestingTaskId { get; set; }
         public int? OrderId { get; set; }
-        public int PackagingQuantity { get; set; }
-        public int PackagingUnit { get; set; }
+        public float QuantityPerPack { get; set; }
+        public int PackQuantity { get; set; }
         public string QRCode { get; set; }
         public string Status { get; set; }
 
