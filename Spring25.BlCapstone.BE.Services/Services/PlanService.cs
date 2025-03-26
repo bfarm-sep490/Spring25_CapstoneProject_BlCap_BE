@@ -502,7 +502,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         return new BusinessResult(404, "Not found any yield!");
                     }
                 }
-                
+
+                if (model.OrderIds != null)
+                {
+                    foreach (var id in model.OrderIds)
+                    {
+                        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+                        if (order == null)
+                        {
+                            return new BusinessResult(404, $"Not found order {id} !");
+                        }
+
+                        if (order.PlanId.HasValue)
+                        {
+                            return new BusinessResult(400, "This order already has plan !");
+                        }
+                    }
+                }
+
                 var expert = await _unitOfWork.ExpertRepository.GetExpert(model.ExpertId);
                 if (expert == null)
                 {
@@ -515,6 +532,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.CreatedBy = expert.Account.Name;
                 plan.IsApproved = false;
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
+
+                if (model.OrderIds != null)
+                {
+                    foreach (var id in model.OrderIds)
+                    {
+                        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+
+                        order.PlanId = plan.Id;
+                        _unitOfWork.OrderRepository.PrepareUpdate(order);
+                    }
+
+                    await _unitOfWork.OrderRepository.SaveAsync();
+                }
 
                 if (rs != null)
                 {
