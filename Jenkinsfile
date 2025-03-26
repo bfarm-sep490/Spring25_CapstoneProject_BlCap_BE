@@ -72,15 +72,9 @@ pipeline {
     post {
         always {
             cleanWs()
-        }
-
-        success {
-            emailext body: "XuuBinf đã Build thành công cho pipeline",
-                     subject: "Build thành công:"
-        }
-        failure {
-            emailext body: "XuuBinf đã Build thất bại cho pipeline",
-                     subject: "Build thất bại:"
+            emailext body: '''$DEFAULT_CONTENT''',
+                     subject: '''Build Result - $BUILD_STATUS''',
+                    to: 'thangbinhbeo2105@gmail.com'
         }
     }
 }
