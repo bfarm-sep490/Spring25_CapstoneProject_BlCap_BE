@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<Order>> GetAllOrder(string? status, int? retailer)
+        public async Task<List<Order>> GetAllOrder(string? status, int? retailer, int? planId)
         {
             var query = _context.Orders
                                 .Include(o => o.Transactions)
@@ -35,6 +35,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (retailer.HasValue)
             {
                 query = query.Where(o => o.RetailerId == retailer);
+            }
+
+            if (planId.HasValue)
+            {
+                query = query.Where(o => o.PlanId == planId);
             }
 
             return await query.ToListAsync();
@@ -59,6 +64,19 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(o => o.Plan)
                                  .Include(o => o.PackagingType)
                                  .FirstOrDefaultAsync(o => o.Id == id);
+        }
+
+        public async Task<List<Order>> GetOrderWithNoPlan()
+        {
+            return await _context.Orders
+                                .Include(o => o.Transactions)
+                                .Include(o => o.Retailer)
+                                    .ThenInclude(o => o.Account)
+                                .Include(o => o.Plant)
+                                .Include(o => o.Plan)
+                                .Include(o => o.PackagingType)
+                                .Where(o => o.PlanId == null)
+                                .ToListAsync();
         }
     }
 }

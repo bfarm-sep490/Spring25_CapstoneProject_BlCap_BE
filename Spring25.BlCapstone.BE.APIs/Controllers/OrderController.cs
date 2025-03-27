@@ -18,12 +18,13 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
             _orderService = orderService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetAllOrders(int? retailer_id, string? status)
+        public async Task<IActionResult> GetAllOrders(int? retailer_id, string? status, int? plan_id)
         {
             try
             {
-                var result = await _orderService.GetAllOrders(status, retailer_id);
+                var result = await _orderService.GetAllOrders(status, retailer_id, plan_id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -32,6 +33,22 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 
             }
         }
+        
+        [HttpGet("no-plan")]
+        public async Task<IActionResult> GetOrdersNoPlan()
+        {
+            try
+            {
+                var result = await _orderService.GetOrderWithNoPlan();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById([FromRoute]int id)
         {
@@ -46,6 +63,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody]CreateOrderModel order)
         {

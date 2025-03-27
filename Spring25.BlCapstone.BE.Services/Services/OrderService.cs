@@ -14,9 +14,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IOrderService
     {
         Task<IBusinessResult> CreateOrder(CreateOrderModel order);
-        Task<IBusinessResult> GetAllOrders(string? status,int? retailer);
+        Task<IBusinessResult> GetAllOrders(string? status,int? retailer, int? planId);
         Task<IBusinessResult> GetOrderById(int id);
-        
+        Task<IBusinessResult> GetOrderWithNoPlan();
     }
     public class OrderService : IOrderService
     {
@@ -47,9 +47,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> GetAllOrders(string? status, int? retailer)
+        public async Task<IBusinessResult> GetAllOrders(string? status, int? retailer, int? planId)
         {
-            var list = await _unitOfWork.OrderRepository.GetAllOrder(status, retailer);
+            var list = await _unitOfWork.OrderRepository.GetAllOrder(status, retailer, planId);
             var result = _mapper.Map<List<OrderModel>>(list);
             return new BusinessResult(200,"List Order",result);
         }
@@ -60,6 +60,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
             if (order == null) return new BusinessResult(400, "Not found Order");
             var result = _mapper.Map<OrderModel>(order);
             return new BusinessResult(200, "Get Order by Id", result);
+        }
+
+        public async Task<IBusinessResult> GetOrderWithNoPlan()
+        {
+            try
+            {
+                var orders = await _unitOfWork.OrderRepository.GetOrderWithNoPlan();
+                if (!orders.Any())
+                {
+                    return new BusinessResult(404, "Theren't any order with no plan");
+                }
+
+                var rs = _mapper.Map<List<OrderModel>>(orders);
+                return new BusinessResult(200, "List order with no plan: ", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }
