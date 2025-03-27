@@ -110,6 +110,7 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IPackagingTypeService, PackagingTypeService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<IPackagingProductService, PackagingProductService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddSingleton<RedisManagement>();
 

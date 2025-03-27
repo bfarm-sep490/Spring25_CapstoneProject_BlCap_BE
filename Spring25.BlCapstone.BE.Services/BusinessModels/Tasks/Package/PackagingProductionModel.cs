@@ -23,12 +23,10 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("expired_date")]
         public DateTime? ProductExpiredDate { get; set; }
-        [JsonPropertyName("packaging_quantity")]
-        public int? PackedQuantity { get; set; }
-        [JsonPropertyName("packaging_unit")]
-        public string? PackedUnit { get; set; }
-        //[JsonPropertyName("available_packaging_quantity")]
-        //public float? AvailableHarvestingQuantity { get; set; }
+        [JsonPropertyName("quantity_per_pack")]
+        public float QuantityPerPack { get; set; }
+        [JsonPropertyName("pack_quantity")]
+        public int PackQuantity { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
     }

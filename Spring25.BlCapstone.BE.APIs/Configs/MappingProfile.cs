@@ -54,6 +54,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             OrderProfile();
             NotificationProfile();
             TransactionProfile();
+            ProductionProfile();
         }
 
         private void OrderProfile()
@@ -425,6 +426,18 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void TransactionProfile()
         {
             CreateMap<Transaction, TransactionModel>()
+                .ReverseMap();
+        }
+
+        private void ProductionProfile()
+        {
+            CreateMap<PackagingProduct, PackagingProductionModel>()
+                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PackagingTask.PlanId))
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.PackagingTask.Plan.PlanName))
+                .ForMember(dest => dest.PlantId, opt => opt.MapFrom(src => src.PackagingTask.Plan.PlantId))
+                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.PackagingTask.Plan.Plant.PlantName))
+                .ForMember(dest => dest.CompleteDate, opt => opt.MapFrom(src => src.PackagingTask.CompleteDate))
+                .ForMember(dest => dest.ProductExpiredDate, opt => opt.MapFrom(src => src.HarvestingTask.ProductExpiredDate))
                 .ReverseMap();
         }
     }
