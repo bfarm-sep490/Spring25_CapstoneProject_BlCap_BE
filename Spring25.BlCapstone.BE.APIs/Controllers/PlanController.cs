@@ -265,6 +265,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("{id}/tasks/count")]
         public async Task<IActionResult> GetCountTasks([FromRoute] int id)
         {
@@ -272,6 +273,34 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 var result = await _planService.GetCountTasksByPlanId(id);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete("{id}/orders/{order_id}")]
+        public async Task<IActionResult> DeleteOrderFromPlan(int id, int order_id)
+        {
+            try
+            {
+                var rs = await _planService.RemoveOrderFromPlan(id, order_id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("{id}/orders/{order_id}")]
+        public async Task<IActionResult> AddOrderToPlan(int id, int order_id)
+        {
+            try
+            {
+                var rs = await _planService.AddOrderToPlan(id, order_id);
+                return Ok(rs);
             }
             catch (Exception ex)
             {

@@ -7,11 +7,13 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +40,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> RemoveFarmerFromPlan(int planId, int farmerId);
         Task<IBusinessResult> AddFarmerToPlan(int planId, int farmerId);
         Task<IBusinessResult> GetCountTasksByPlanId(int id);
+        Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId);
+        Task<IBusinessResult> AddOrderToPlan(int id, int orderId);
     }
 
     public class PlanService : IPlanService
@@ -885,7 +889,75 @@ namespace Spring25.BlCapstone.BE.Services.Services
             result.CaringTasks = await _unitOfWork.CaringTaskRepository.GetStatusTaskCaringByPlanId(id);
             result.HarvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetStatusTaskHarvestingByPlanId(id);
             return new BusinessResult(200, "Count Status Tasks by Plan Id", result);
+        }
 
+        public async Task<IBusinessResult> AddOrderToPlan(int id, int orderId)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    return new BusinessResult(404, "Not found any order !");
+                }
+
+                if (order.PlanId.HasValue)
+                {
+                    return new BusinessResult(400, "This order already has plan for it !");
+                }
+
+                order.PlanId = id;
+                await _unitOfWork.OrderRepository.UpdateAsync(order);
+                var rs = _mapper.Map<OrderModel>(order);
+                return new BusinessResult(200, "Add plan to order successfull", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+        
+        public async Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+                if (order == null)
+                {
+                    return new BusinessResult(404, "Not found any order !");
+                }
+
+                if (!order.PlanId.HasValue)
+                {
+                    return new BusinessResult(400, "This order doesn't have any plans ?");
+                }
+
+                if (order.PlanId != id)
+                {
+                    return new BusinessResult(400, "This order is not belong to this plan !");
+                }
+
+                order.PlanId = null;
+                await _unitOfWork.OrderRepository.UpdateAsync(order);
+                var rs = _mapper.Map<OrderModel>(order);
+                return new BusinessResult(200, "Remove order from plan successfull", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }
