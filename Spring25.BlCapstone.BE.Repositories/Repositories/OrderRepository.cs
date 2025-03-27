@@ -20,6 +20,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             var query = _context.Orders
                                 .Include(o => o.Transactions)
+                                .Include(o => o.Retailer)
+                                    .ThenInclude(o => o.Account)
+                                .Include(o => o.Plant)
+                                .Include(o => o.Plan)
+                                .Include(o => o.PackagingType)
                                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(status))
@@ -48,6 +53,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.Orders
                                  .Include(o => o.Transactions)
+                                 .Include(o => o.Retailer)
+                                    .ThenInclude(o => o.Account)
+                                 .Include(o => o.Plant)
+                                 .Include(o => o.Plan)
+                                 .Include(o => o.PackagingType)
                                  .FirstOrDefaultAsync(o => o.Id == id);
         }
     }
