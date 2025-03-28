@@ -435,7 +435,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Plan does not have a seed quantity. Can not approve!");
                 }
 
-                plan.Status = "Pending";
+                if (!plan.Status.ToLower().Trim().Equals("pending"))
+                {
+                    return new BusinessResult(400, "Can not approve plan that not have status pending!");
+                }
+
+                plan.Status = "Ongoing";
                 plan.IsApproved = true;
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
 
@@ -444,7 +449,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     foreach (var task in caringTasks)
                     {
-                        task.Status = "Pending";
+                        task.Status = "Ongoing";
                         await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
                     }
                 }
@@ -454,7 +459,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     foreach (var form in inspectingForms)
                     {
-                        form.Status = "Pending";
+                        form.Status = "Ongoing";
                         await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
                     }
                 }
@@ -464,7 +469,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     foreach(var task in packagingTasks)
                     {
-                        task.Status = "Pending";
+                        task.Status = "Ongoing";
                         await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
                     }
                 }
@@ -474,7 +479,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     foreach(var task in harvestingTasks)
                     {
-                        task.Status = "Pending";
+                        task.Status = "Ongoing";
                         await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
                     }
                 }
