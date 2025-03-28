@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.APIs.RequestModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.Services;
 using System.ComponentModel.DataAnnotations;
@@ -252,12 +253,12 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         
-        [HttpPost("{id}/farmers/{farmer_id}")]
-        public async Task<IActionResult> AddFarmerToPlan(int id, int farmer_id)
+        [HttpPost("{id}/farmers")]
+        public async Task<IActionResult> AddFarmerToPlan(int id, AddFarmerToPlan model)
         {
             try
             {
-                var rs = await _planService.AddFarmerToPlan(id, farmer_id);
+                var rs = await _planService.AddFarmerToPlan(id, model.FarmerId);
                 return Ok(rs);
             }
             catch (Exception ex)
