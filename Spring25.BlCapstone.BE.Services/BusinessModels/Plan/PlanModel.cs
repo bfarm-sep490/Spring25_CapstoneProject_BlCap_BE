@@ -43,6 +43,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string? UpdatedBy { get; set; }
         [JsonPropertyName("is_approved")]
         public bool IsApproved { get; set; }
+        [JsonPropertyName("order_information")]
+        public List<OrderInfor> OrderInfor { get; set; }
         [JsonPropertyName("plant_information")]
         public PlantInfor PlantInfor { get; set; }
         [JsonPropertyName("yield_information")]
@@ -57,6 +59,14 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public List<PlanPackagingInfor>? PackagingInfors { get; set; }
         [JsonPropertyName("problem_information")]
         public List<ProblemInfor>? ProblemInfors { get; set; }
+    }
+
+    public class OrderInfor
+    {
+        [JsonPropertyName("order_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("pre_order_quantity")]
+        public float PreOrderQuantity { get; set; }
     }
 
     public class PlantInfor

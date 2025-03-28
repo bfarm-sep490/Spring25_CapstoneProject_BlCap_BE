@@ -28,6 +28,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(p => p.Yield)
                 .Include(p => p.Expert)
                     .ThenInclude(p => p.Account)
+                .Include(p => p.Orders)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
