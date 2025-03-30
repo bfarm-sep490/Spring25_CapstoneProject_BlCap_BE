@@ -21,6 +21,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var query = _context.PackagingProducts
                                 .Include(pp => pp.PackagingTask)
                                     .ThenInclude(pp => pp.Plan)
+                                        .ThenInclude(pp => pp.InspectingForms)
+                                            .ThenInclude(pp => pp.InspectingResult)
+                                .Include(pp => pp.PackagingTask)
+                                    .ThenInclude(pp => pp.Plan)
                                         .ThenInclude(pp =>  pp.Plant)
                                 .Include(pp => pp.HarvestingTask)
                                 .AsQueryable();

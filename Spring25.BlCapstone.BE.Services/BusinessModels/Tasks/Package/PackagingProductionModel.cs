@@ -29,5 +29,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public int PackQuantity { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("evaluated_result")]
+        public string EvaluatedResult { get; set; }
     }
 }

@@ -441,6 +441,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.PackagingTask.Plan.Plant.PlantName))
                 .ForMember(dest => dest.CompleteDate, opt => opt.MapFrom(src => src.PackagingTask.CompleteDate))
                 .ForMember(dest => dest.ProductExpiredDate, opt => opt.MapFrom(src => src.HarvestingTask.ProductExpiredDate))
+                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.PackagingTask.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ReverseMap();
         }
     }
