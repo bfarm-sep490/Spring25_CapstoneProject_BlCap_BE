@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetCountTasksByPlanId(int id);
         Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId);
         Task<IBusinessResult> AddOrderToPlan(int id, int orderId);
+        Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime start, DateTime end);
+
     }
 
     public class PlanService : IPlanService
@@ -53,7 +56,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
         }
-
+        
         public async Task<IBusinessResult> GetById(int id)
         {
             try
@@ -958,6 +961,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
                 var rs = _mapper.Map<OrderModel>(order);
                 return new BusinessResult(200, "Remove order from plan successfull", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async  Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime start, DateTime end)
+        {
+            try
+            {
+                var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start, end);
+               
+                var rs = _mapper.Map<List<FarmerModel>>(farmers);
+
+                if (rs.Count <= 0)
+                {
+                    return new BusinessResult(404, "Not found any plans !");
+                }
+                else
+                {
+                    return new BusinessResult(200, "Plans that farmer assigned in : ", rs);
+                }
             }
             catch (Exception ex)
             {

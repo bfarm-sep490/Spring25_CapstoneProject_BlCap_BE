@@ -308,5 +308,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{id}/free-farmers")]
+        public async Task<IActionResult> GetAllFarmers(int id, DateTime start, DateTime end)
+        {
+            try
+            {
+                var res = await _planService.GetFreeFarmerInPlanAssigned(id, start, end);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
