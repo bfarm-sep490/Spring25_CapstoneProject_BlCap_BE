@@ -379,7 +379,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Description = "Đánh giá chất lượng rau cải trước khi thu hoạch",
                     StartDate = DateTime.Now.AddDays(-5),
                     EndDate = DateTime.Now.AddDays(-4),
-                    ResultContent = "Rau cải đạt chuẩn",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-4),
                     Status = "Complete",
@@ -396,7 +395,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Description = "Đánh giá màu sắc và chất lượng cà chua",
                     StartDate = DateTime.Now.AddDays(-6),
                     EndDate = DateTime.Now.AddDays(-5),
-                    ResultContent = "Cà chua đạt độ chín",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-5),
                     Status = "Complete",
@@ -413,7 +411,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Description = "Kiểm tra độ ẩm và màu sắc bắp cải",
                     StartDate = DateTime.Now.AddDays(-7),
                     EndDate = DateTime.Now.AddDays(-6),
-                    ResultContent = "Bắp cải hơi thiếu nước",
                     CanHarvest = false,
                     CompleteDate = DateTime.Now.AddDays(-6),
                     Status = "Pending",
@@ -430,7 +427,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Description = "Xác định độ chín và độ giòn của dưa leo",
                     StartDate = DateTime.Now.AddDays(-8),
                     EndDate = DateTime.Now.AddDays(-7),
-                    ResultContent = "Dưa leo đạt chuẩn",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-7),
                     Status = "Complete",
@@ -447,7 +443,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Description = "Kiểm tra vỏ bí đỏ để xác định độ cứng",
                     StartDate = DateTime.Now.AddDays(-9),
                     EndDate = DateTime.Now.AddDays(-8),
-                    ResultContent = "Vỏ bí đỏ chưa đủ cứng",
                     CanHarvest = false,
                     CompleteDate = DateTime.Now.AddDays(-8),
                     Status = "Complete",
@@ -464,7 +459,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Description = "Đánh giá độ ngọt và màu sắc của ớt chuông",
                     StartDate = DateTime.Now.AddDays(-10),
                     EndDate = DateTime.Now.AddDays(-9),
-                    ResultContent = "Ớt chuông có độ ngọt tốt",
                     CanHarvest = true,
                     CompleteDate = DateTime.Now.AddDays(-9),
                     Status = "Complete",
@@ -531,12 +525,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 );
 
             modelBuilder.Entity<InspectingResult>().HasData(
-                new InspectingResult { Id = 1, Arsen = 0.01f, Plumbum = 0.02f, Cadmi = 0.005f, Hydrargyrum = 0.001f, Salmonella = 0, Coliforms = 10, Ecoli = 1, Glyphosate_Glufosinate = 0.02f, SulfurDioxide = 5, MethylBromide = 0.1f, HydrogenPhosphide = 0.05f, Dithiocarbamate = 0.02f, Nitrat = 50, NaNO3_KNO3 = 10, Chlorate = 0.1f, Perchlorate = 0.02f, EvaluatedResult = "Pass" },
-                new InspectingResult { Id = 2, Arsen = 0.02f, Plumbum = 0.03f, Cadmi = 0.007f, Hydrargyrum = 0.002f, Salmonella = 1, Coliforms = 20, Ecoli = 3, Glyphosate_Glufosinate = 0.03f, SulfurDioxide = 10, MethylBromide = 0.2f, HydrogenPhosphide = 0.06f, Dithiocarbamate = 0.03f, Nitrat = 60, NaNO3_KNO3 = 15, Chlorate = 0.2f, Perchlorate = 0.03f, EvaluatedResult = "Fail" },
-                new InspectingResult { Id = 3, Arsen = 0.005f, Plumbum = 0.015f, Cadmi = 0.004f, Hydrargyrum = 0.0005f, Salmonella = 0, Coliforms = 5, Ecoli = 0, Glyphosate_Glufosinate = 0.015f, SulfurDioxide = 3, MethylBromide = 0.05f, HydrogenPhosphide = 0.03f, Dithiocarbamate = 0.015f, Nitrat = 40, NaNO3_KNO3 = 8, Chlorate = 0.08f, Perchlorate = 0.015f, EvaluatedResult = "Pass" },
-                new InspectingResult { Id = 4, Arsen = 0.03f, Plumbum = 0.04f, Cadmi = 0.01f, Hydrargyrum = 0.003f, Salmonella = 2, Coliforms = 25, Ecoli = 5, Glyphosate_Glufosinate = 0.04f, SulfurDioxide = 15, MethylBromide = 0.3f, HydrogenPhosphide = 0.08f, Dithiocarbamate = 0.04f, Nitrat = 70, NaNO3_KNO3 = 20, Chlorate = 0.3f, Perchlorate = 0.04f, EvaluatedResult = "Fail" },
-                new InspectingResult { Id = 5, Arsen = 0.007f, Plumbum = 0.017f, Cadmi = 0.006f, Hydrargyrum = 0.0012f, Salmonella = 0, Coliforms = 8, Ecoli = 1, Glyphosate_Glufosinate = 0.018f, SulfurDioxide = 4, MethylBromide = 0.07f, HydrogenPhosphide = 0.04f, Dithiocarbamate = 0.018f, Nitrat = 45, NaNO3_KNO3 = 9, Chlorate = 0.09f, Perchlorate = 0.018f, EvaluatedResult = "Pass" },
-                new InspectingResult { Id = 6, Arsen = 0.011f, Plumbum = 0.021f, Cadmi = 0.006f, Hydrargyrum = 0.0011f, Salmonella = 0, Coliforms = 9, Ecoli = 1, Glyphosate_Glufosinate = 0.022f, SulfurDioxide = 6, MethylBromide = 0.12f, HydrogenPhosphide = 0.055f, Dithiocarbamate = 0.025f, Nitrat = 55, NaNO3_KNO3 = 12, Chlorate = 0.11f, Perchlorate = 0.022f, EvaluatedResult = "Pass" }
+                new InspectingResult { Id = 1, Arsen = 0.01f, Plumbum = 0.02f, Cadmi = 0.005f, Hydrargyrum = 0.001f, Salmonella = 0, Coliforms = 10, Ecoli = 1, Glyphosate_Glufosinate = 0.02f, SulfurDioxide = 5, MethylBromide = 0.1f, HydrogenPhosphide = 0.05f, Dithiocarbamate = 0.02f, Nitrat = 50, NaNO3_KNO3 = 10, Chlorate = 0.1f, Perchlorate = 0.02f, EvaluatedResult = "Grade 1", ResultContent = "Rau cải đạt chuẩn" },
+                new InspectingResult { Id = 2, Arsen = 0.02f, Plumbum = 0.03f, Cadmi = 0.007f, Hydrargyrum = 0.002f, Salmonella = 1, Coliforms = 20, Ecoli = 3, Glyphosate_Glufosinate = 0.03f, SulfurDioxide = 10, MethylBromide = 0.2f, HydrogenPhosphide = 0.06f, Dithiocarbamate = 0.03f, Nitrat = 60, NaNO3_KNO3 = 15, Chlorate = 0.2f, Perchlorate = 0.03f, EvaluatedResult = "Grade 3", ResultContent = "Cà chua đạt độ chín" },
+                new InspectingResult { Id = 3, Arsen = 0.005f, Plumbum = 0.015f, Cadmi = 0.004f, Hydrargyrum = 0.0005f, Salmonella = 0, Coliforms = 5, Ecoli = 0, Glyphosate_Glufosinate = 0.015f, SulfurDioxide = 3, MethylBromide = 0.05f, HydrogenPhosphide = 0.03f, Dithiocarbamate = 0.015f, Nitrat = 40, NaNO3_KNO3 = 8, Chlorate = 0.08f, Perchlorate = 0.015f, EvaluatedResult = "Grade 2", ResultContent = "Ớt chuông có độ ngọt tốt" },
+                new InspectingResult { Id = 4, Arsen = 0.03f, Plumbum = 0.04f, Cadmi = 0.01f, Hydrargyrum = 0.003f, Salmonella = 2, Coliforms = 25, Ecoli = 5, Glyphosate_Glufosinate = 0.04f, SulfurDioxide = 15, MethylBromide = 0.3f, HydrogenPhosphide = 0.08f, Dithiocarbamate = 0.04f, Nitrat = 70, NaNO3_KNO3 = 20, Chlorate = 0.3f, Perchlorate = 0.04f, EvaluatedResult = "Grade 2", ResultContent = "Dưa leo đạt chuẩn" },
+                new InspectingResult { Id = 5, Arsen = 0.007f, Plumbum = 0.017f, Cadmi = 0.006f, Hydrargyrum = 0.0012f, Salmonella = 0, Coliforms = 8, Ecoli = 1, Glyphosate_Glufosinate = 0.018f, SulfurDioxide = 4, MethylBromide = 0.07f, HydrogenPhosphide = 0.04f, Dithiocarbamate = 0.018f, Nitrat = 45, NaNO3_KNO3 = 9, Chlorate = 0.09f, Perchlorate = 0.018f, EvaluatedResult = "Grade 3", ResultContent = "Bắp cải hơi thiếu nước" },
+                new InspectingResult { Id = 6, Arsen = 0.011f, Plumbum = 0.021f, Cadmi = 0.006f, Hydrargyrum = 0.0011f, Salmonella = 0, Coliforms = 9, Ecoli = 1, Glyphosate_Glufosinate = 0.022f, SulfurDioxide = 6, MethylBromide = 0.12f, HydrogenPhosphide = 0.055f, Dithiocarbamate = 0.025f, Nitrat = 55, NaNO3_KNO3 = 12, Chlorate = 0.11f, Perchlorate = 0.022f, EvaluatedResult = "Grade 1", ResultContent = "Vỏ bí đỏ chưa đủ cứng" }
             );
 
             modelBuilder.Entity<Device>().HasData(

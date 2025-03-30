@@ -21,6 +21,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public PackagingTask PackagingTask { get; set; }
         public HarvestingTask HarvestingTask { get; set; }
-        public Order Order { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

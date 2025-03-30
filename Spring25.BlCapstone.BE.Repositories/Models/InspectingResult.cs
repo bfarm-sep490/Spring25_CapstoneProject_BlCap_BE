@@ -30,6 +30,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public float Chlorate { get; set; }
         public float Perchlorate { get; set; }
         public string EvaluatedResult { get; set; }
+        public string? ResultContent { get; set; }
 
         public InspectingForm InspectingForm { get; set; }
         public ICollection<InspectingImage> InspectingImages { get; set; }

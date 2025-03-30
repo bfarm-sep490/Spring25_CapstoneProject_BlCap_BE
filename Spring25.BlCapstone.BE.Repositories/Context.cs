@@ -57,6 +57,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Yield> Yields { get; set; }
         public virtual DbSet<PlanTransaction> PlanTransactions { get; set; }
+        public virtual DbSet<OrderProduct> OrderProducts { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -440,10 +441,6 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(pp => pp.PackagingProducts)
                       .HasForeignKey(pp => pp.HarvestingTaskId)
                       .OnDelete(DeleteBehavior.ClientSetNull); 
-                entity.HasOne(pp => pp.Order)
-                      .WithMany(pp => pp.PackagingProducts)
-                      .HasForeignKey(pp => pp.OrderId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<PackagingType>()
@@ -469,6 +466,20 @@ namespace Spring25.BlCapstone.BE.Repositories
                     .WithMany(pt => pt.PlanTransactions)
                     .HasForeignKey(pt => pt.PlanId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<OrderProduct>(entity =>
+            {
+                entity.ToTable("OrderProduct");
+                entity.HasKey(py => new { py.OrderId, py.ProductId });
+                entity.HasOne(fpt => fpt.Order)
+                      .WithMany(fpt => fpt.OrderProducts)
+                      .HasForeignKey(fpt => fpt.OrderId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(fpt => fpt.PackagingProduct)
+                      .WithMany(fpt => fpt.OrderProducts)
+                      .HasForeignKey(fpt => fpt.ProductId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
             FakeDataSeeder.Seed(modelBuilder);
         }
