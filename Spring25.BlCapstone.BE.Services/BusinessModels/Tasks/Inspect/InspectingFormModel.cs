@@ -11,38 +11,28 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-
         [JsonPropertyName("plan_id")]
         public int PlanId { get; set; }
         [JsonPropertyName("plan_name")]
         public string? PlanName { get; set; }
-
         [JsonPropertyName("inspector_id")]
         public int? InspectorId { get; set; }
         [JsonPropertyName("inspector_name")]
         public string? InspectorName { get; set; }
-
         [JsonPropertyName("task_name")]
         public string FormName { get; set; }
-
         [JsonPropertyName("description")]
         public string? Description { get; set; }
-
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
-
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
-
-        [JsonPropertyName("result_content")]
-        public string? ResultContent { get; set; }
         [JsonPropertyName("number_of_sample")]
         public int? NumberOfSample { get; set; }
         [JsonPropertyName("sample_weight")]
         public float? SampleWeight { get; set; }
         [JsonPropertyName("can_harvest")]
         public bool CanHarvest { get; set; }
-
         [JsonPropertyName("complete_date")]
         public DateTime? CompleteDate { get; set; }
         [JsonPropertyName("status")]
