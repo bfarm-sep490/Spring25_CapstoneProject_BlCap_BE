@@ -30,6 +30,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public Plant Plant { get; set; }
         public PackagingType PackagingType { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
-        public ICollection<PackagingProduct> PackagingProducts { get; set; }
+        public ICollection<OrderProduct> OrderProducts { get; set; }
     }
 }

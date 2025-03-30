@@ -18,7 +18,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string? ResultContent { get; set; }
         public int? NumberOfSample { get; set; }
         public float? SampleWeight { get; set; }
         public DateTime? CompleteDate { get; set; }
