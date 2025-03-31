@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.Services;
+using System.Text.Json.Serialization;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
@@ -15,11 +16,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll( int? plan_id)
         {
             try
             {
-                var result = await _packagingProductService.GetAll();
+                var result = await _packagingProductService.GetAll(plan_id);
                 return Ok(result);
             }
             catch (Exception ex)

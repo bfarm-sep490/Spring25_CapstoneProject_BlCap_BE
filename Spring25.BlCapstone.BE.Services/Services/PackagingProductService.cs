@@ -12,7 +12,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPackagingProductService
     {
-        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetAll(int? planId);
         Task<IBusinessResult> GetById(int id);
     }
 
@@ -26,11 +26,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<IBusinessResult> GetAll(int? planId)
         {
             try
             {
-                var products = await _unitOfWork.PackagingProductRepository.GetPackagingProducts();
+                var products = await _unitOfWork.PackagingProductRepository.GetPackagingProducts(planId);
                 if (!products.Any())
                 {
                     return new BusinessResult(404, "There are not any products !");
