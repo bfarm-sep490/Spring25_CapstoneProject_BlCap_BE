@@ -1,8 +1,10 @@
-﻿using Net.payOS;
+﻿using AutoMapper;
+using Net.payOS;
 using Net.payOS.Types;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Payment;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
@@ -17,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> CreatePaymentDeposit(CreatePaymentDepositRequest model);
         Task<IBusinessResult> CreatePaymentRemaining(CreatePaymentRemainingRequest model);
+        Task<IBusinessResult> CashPayment(CreatePaymentRemainingRequest model);
         Task<IBusinessResult> GetPaymentDetailsPayOS(int transactionID);
         Task<IBusinessResult> CancelPayment(int transactionID, string? cancelReason);
         Task ProcessWebhook(WebhookType webhookData);
@@ -26,11 +29,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly PayOS _payOS;
+        private readonly IMapper _mapper;
 
         private readonly string _cancelURL;
         private readonly string _returnURL;
 
-        public PaymentService()
+        public PaymentService(IMapper mapper)
         {
             var clientId = Environment.GetEnvironmentVariable("CLIENTID");
             var apiKey = Environment.GetEnvironmentVariable("APIKEY");
@@ -51,6 +55,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             _unitOfWork = new UnitOfWork();
             _payOS = new PayOS(clientId, apiKey, checkSum);
+            _mapper = mapper;
             _cancelURL = "http://localhost:3000/payment-cancelled";
             _returnURL = "http://localhost:3000/payment-success";
         }
@@ -187,6 +192,76 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.TransactionRepository.CreateAsync(trans);
                 await _unitOfWork.OrderProductRepository.SaveAsync();
                 return new BusinessResult(200, "Create Remaining Payment Link successfully: ", createPayment);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> CashPayment(CreatePaymentRemainingRequest model)
+        {
+            try
+            {
+                var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
+                if (order == null)
+                {
+                    return new BusinessResult(404, "Not found any order !");
+                }
+
+                foreach (var item in model.Product)
+                {
+                    var product = await _unitOfWork.PackagingProductRepository.GetByIdAsync(item.ProductId);
+                    if (product == null)
+                    {
+                        return new BusinessResult(400, "Invalid product not found !");
+                    }
+
+                    if (product.PackQuantity < item.QuantityOfPacks)
+                    {
+                        return new BusinessResult(400, "Number of available packs is not enough for this order");
+                    }
+
+                    var pro = new OrderProduct
+                    {
+                        ProductId = item.ProductId,
+                        OrderId = model.OrderId,
+                        QuantityOfPacks = item.QuantityOfPacks,
+                        Status = "Received"
+                    };
+
+                    _unitOfWork.OrderProductRepository.PrepareCreate(pro);
+                }
+
+                if (!order.Status.ToLower().Trim().Equals("deposit"))
+                {
+                    return new BusinessResult(400, $"Can not pay the remaining order with {order.Status} status");
+                }
+
+                order.Status = "Paid";
+                _unitOfWork.OrderRepository.PrepareUpdate(order);
+
+                var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
+
+                var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
+
+                var trans = new Repositories.Models.Transaction
+                {
+                    OrderId = order.Id,
+                    Content = description + $" {model.Description}",
+                    Price = model.Amount,
+                    Type = "PayRemaining",
+                    Status = "Pending",
+                    PaymentDate = DateTime.Now,
+                    OrderCode = orderCode
+                };
+
+                await _unitOfWork.TransactionRepository.CreateAsync(trans);
+                await _unitOfWork.OrderRepository.SaveAsync();
+                await _unitOfWork.OrderProductRepository.SaveAsync();
+
+                var rs = _mapper.Map<OrderModel>(order);
+                return new BusinessResult(200, "Create Remaining Payment Link successfully: ", rs);
             }
             catch (Exception ex)
             {

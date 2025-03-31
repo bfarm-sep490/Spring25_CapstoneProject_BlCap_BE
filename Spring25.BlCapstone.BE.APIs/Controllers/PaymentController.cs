@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _paymentService = paymentService;
         }
 
-        [HttpPost("deposit-payment")]
+        [HttpPost("deposit-payment/payos")]
         public async Task<IActionResult> CreatePaymentDepositLink(CreatePaymentDepositRequest model)
         {
             try
@@ -30,12 +30,26 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
         
-        [HttpPost("remaining-payment")]
-        public async Task<IActionResult> CreatePaymentRemainingLink(CreatePaymentRemainingRequest model)
+        [HttpPost("remaining-payment/payos")]
+        public async Task<IActionResult> CreatePaymentRemainingLinkPayOS(CreatePaymentRemainingRequest model)
         {
             try
             {
                 var rs = await _paymentService.CreatePaymentRemaining(model);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpPost("remaining-payment/cash")]
+        public async Task<IActionResult> CreatePaymentRemainingLinkCash(CreatePaymentRemainingRequest model)
+        {
+            try
+            {
+                var rs = await _paymentService.CashPayment(model);
                 return Ok(rs);
             }
             catch (Exception ex)

@@ -25,6 +25,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(o => o.Plant)
                                 .Include(o => o.Plan)
                                 .Include(o => o.PackagingType)
+                                .Include(o => o.OrderProducts)
                                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(status))
@@ -63,6 +64,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(o => o.Plant)
                                  .Include(o => o.Plan)
                                  .Include(o => o.PackagingType)
+                                 .Include(o => o.OrderProducts)
                                  .FirstOrDefaultAsync(o => o.Id == id);
         }
 
@@ -75,6 +77,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(o => o.Plant)
                                 .Include(o => o.Plan)
                                 .Include(o => o.PackagingType)
+                                .Include(o => o.OrderProducts)
                                 .Where(o => o.PlanId == null)
                                 .ToListAsync();
         }
