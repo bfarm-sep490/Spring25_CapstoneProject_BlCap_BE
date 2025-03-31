@@ -251,7 +251,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Content = description + $" {model.Description}",
                     Price = model.Amount,
                     Type = "PayRemaining",
-                    Status = "Pending",
+                    Status = "Cashing",
                     PaymentDate = DateTime.Now,
                     OrderCode = orderCode
                 };
@@ -261,7 +261,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.OrderProductRepository.SaveAsync();
 
                 var rs = _mapper.Map<OrderModel>(order);
-                return new BusinessResult(200, "Create Remaining Payment Link successfully: ", rs);
+                return new BusinessResult(200, "Pay Remaining by cash successfully: ", rs);
             }
             catch (Exception ex)
             {
