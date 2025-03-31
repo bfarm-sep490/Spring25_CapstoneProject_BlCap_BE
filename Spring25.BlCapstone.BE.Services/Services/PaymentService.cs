@@ -1,6 +1,7 @@
 ﻿using Net.payOS;
 using Net.payOS.Types;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Payment;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -14,7 +15,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPaymentService
     {
-        Task<IBusinessResult> CreatePayment(CreatePaymentRequest model);
+        Task<IBusinessResult> CreatePaymentDeposit(CreatePaymentDepositRequest model);
+        Task<IBusinessResult> CreatePaymentRemaining(CreatePaymentRemainingRequest model);
         Task<IBusinessResult> GetPaymentDetailsPayOS(int transactionID);
         Task<IBusinessResult> CancelPayment(int transactionID, string? cancelReason);
         Task ProcessWebhook(WebhookType webhookData);
@@ -49,11 +51,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             _unitOfWork = new UnitOfWork();
             _payOS = new PayOS(clientId, apiKey, checkSum);
-            _cancelURL = "https://www.google.com/";
-            _returnURL = "https://www.google.com/";
+            _cancelURL = "http://localhost:3000/payment-cancelled";
+            _returnURL = "http://localhost:3000/payment-success";
         }
 
-        public async Task<IBusinessResult> CreatePayment(CreatePaymentRequest model)
+        public async Task<IBusinessResult> CreatePaymentDeposit(CreatePaymentDepositRequest model)
         {
             try
             {
@@ -63,95 +65,128 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any order !");
                 }
 
-                if (model.Type.ToLower().Trim().Equals("deposit"))
+                if (!order.Status.ToLower().Trim().Equals("pending"))
                 {
-                    if (!order.Status.ToLower().Trim().Equals("pending"))
-                    {
-                        return new BusinessResult(400, $"Can not deposit order with {order.Status} status");
-                    }
+                    return new BusinessResult(400, $"Can not deposit order with {order.Status} status");
+                }
 
-                    order.Status = "WaitingForPayment";
-                    _unitOfWork.OrderRepository.PrepareUpdate(order);
+                order.Status = "WaitingForDeposit";
+                _unitOfWork.OrderRepository.PrepareUpdate(order);
 
-                    var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
-                    List<ItemData> items = new List<ItemData>
+                var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
+                List<ItemData> items = new List<ItemData>
                     {
                         new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.PreOrderQuantity, model.Amount)
                     };
 
-                    DateTime expirationDate = DateTime.UtcNow.AddHours(1);
-                    int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
+                DateTime expirationDate = DateTime.UtcNow.AddHours(1);
+                int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
-                    var description = $"#{orderCode} D@{DateTime.Now:yyMMdd}";
-                    PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
-                    CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
+                var description = $"#{orderCode} D@{DateTime.Now:yyMMdd}";
+                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
+                CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
-                    if (createPayment == null)
-                    {
-                        return new BusinessResult(500, "Create Payment link fail !");
-                    }
-                    await _unitOfWork.OrderRepository.SaveAsync();
-
-                    var trans = new Repositories.Models.Transaction
-                    {
-                        OrderId = order.Id,
-                        Content = description + $" {model.Description}",
-                        Price = model.Amount,
-                        Type = model.Type,
-                        Status = "Pending",
-                        PaymentDate = DateTime.Now,
-                        OrderCode = orderCode
-                    };
-                    
-                    await _unitOfWork.TransactionRepository.CreateAsync(trans);
-                    return new BusinessResult(200, "Create Deposit Payment Link successfully: ", createPayment);
-                }
-                else if (model.Type.ToLower().Trim().Equals("pay"))
+                if (createPayment == null)
                 {
-                    if (!order.Status.ToLower().Trim().Equals("pending") && !order.Status.ToLower().Trim().Equals("deposit"))
+                    return new BusinessResult(500, "Create Payment link fail !");
+                }
+                await _unitOfWork.OrderRepository.SaveAsync();
+
+                var trans = new Repositories.Models.Transaction
+                {
+                    OrderId = order.Id,
+                    Content = description + $" {model.Description}",
+                    Price = model.Amount,
+                    Type = "Deposit",
+                    Status = "Pending",
+                    PaymentDate = DateTime.Now,
+                    OrderCode = orderCode
+                };
+
+                await _unitOfWork.TransactionRepository.CreateAsync(trans);
+                return new BusinessResult(200, "Create Deposit Payment Link successfully: ", createPayment);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+        
+        public async Task<IBusinessResult> CreatePaymentRemaining(CreatePaymentRemainingRequest model)
+        {
+            try
+            {
+                var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
+                if (order == null)
+                {
+                    return new BusinessResult(404, "Not found any order !");
+                }
+
+                foreach (var item in model.Product)
+                {
+                    var product = await _unitOfWork.PackagingProductRepository.GetByIdAsync(item.ProductId);
+                    if (product == null)
                     {
-                        return new BusinessResult(400, $"Can not pay order with {order.Status} status");
+                        return new BusinessResult(400, "Invalid product not found !");
                     }
 
-                    order.Status = "WaitingForPayment";
-                    _unitOfWork.OrderRepository.PrepareUpdate(order);
+                    if (product.PackQuantity < item.QuantityOfPacks)
+                    {
+                        return new BusinessResult(400, "Number of available packs is not enough for this order");
+                    }
 
-                    var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
-                    List<ItemData> items = new List<ItemData>
+                    var pro = new OrderProduct
+                    {
+                        ProductId = item.ProductId,
+                        OrderId = model.OrderId,
+                        QuantityOfPacks = item.QuantityOfPacks,
+                        Status = "WaitingForPayment"
+                    };
+
+                    _unitOfWork.OrderProductRepository.PrepareCreate(pro);
+                }
+
+                if (!order.Status.ToLower().Trim().Equals("deposit"))
+                {
+                    return new BusinessResult(400, $"Can not pay the remaining order with {order.Status} status");
+                }
+
+                order.Status = "WaitingForRemainingPayment";
+                _unitOfWork.OrderRepository.PrepareUpdate(order);
+
+                var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
+                List<ItemData> items = new List<ItemData>
                     {
                         new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.PreOrderQuantity, model.Amount)
                     };
 
-                    DateTime expirationDate = DateTime.UtcNow.AddHours(1);
-                    int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
+                DateTime expirationDate = DateTime.UtcNow.AddHours(1);
+                int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
-                    var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
-                    PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
-                    CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
-                    if (createPayment == null)
-                    {
-                        return new BusinessResult(500, "Create Payment link fail !");
-                    }
-                    await _unitOfWork.OrderRepository.SaveAsync();
+                var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
+                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
+                CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
-                    var trans = new Repositories.Models.Transaction
-                    {
-                        OrderId = order.Id,
-                        Content = description + $" {model.Description}",
-                        Price = model.Amount,
-                        Type = model.Type,
-                        Status = "Pending",
-                        PaymentDate = DateTime.Now,
-                        OrderCode = orderCode
-                    };
-
-                    await _unitOfWork.TransactionRepository.CreateAsync(trans);
-                    return new BusinessResult(200, "Create Pay Payment Link successfully: ", createPayment);
-                }
-                else
+                if (createPayment == null)
                 {
-                    return new BusinessResult(400, $"Invalid type of payment {model.Type}");
+                    return new BusinessResult(500, "Create Payment link fail !");
                 }
+                await _unitOfWork.OrderRepository.SaveAsync();
+
+                var trans = new Repositories.Models.Transaction
+                {
+                    OrderId = order.Id,
+                    Content = description + $" {model.Description}",
+                    Price = model.Amount,
+                    Type = "PayRemaining",
+                    Status = "Pending",
+                    PaymentDate = DateTime.Now,
+                    OrderCode = orderCode
+                };
+
+                await _unitOfWork.TransactionRepository.CreateAsync(trans);
+                await _unitOfWork.OrderProductRepository.SaveAsync();
+                return new BusinessResult(200, "Create Remaining Payment Link successfully: ", createPayment);
             }
             catch (Exception ex)
             {
@@ -208,8 +243,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 transaction.Status = "Cancel";
                 var order = await _unitOfWork.OrderRepository.GetByIdAsync(transaction.OrderId);
-                order.Status = "Pending";
-                await _unitOfWork.OrderRepository.UpdateAsync(order);
+
+                if (transaction.Type == "PayRemaining")
+                {
+                    var products = await _unitOfWork.OrderProductRepository.GetAllOrderProductsByOrderId(order.Id);
+                    foreach (var product in products)
+                    {
+                        product.Status = "Cancel";
+                        _unitOfWork.OrderProductRepository.PrepareUpdate(product);
+                    }
+
+                    await _unitOfWork.OrderProductRepository.SaveAsync();
+                    order.Status = "Deposit";
+                    await _unitOfWork.OrderRepository.UpdateAsync(order);
+                }
+                else
+                {
+                    order.Status = "Pending";
+                    await _unitOfWork.OrderRepository.UpdateAsync(order);
+                }
 
                 var result = await _unitOfWork.TransactionRepository.UpdateAsync(transaction);
                 if (result <= 0)
@@ -239,10 +291,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     trans.PaymentDate = DateTime.Now;
 
                     var order = await _unitOfWork.OrderRepository.GetByIdAsync(trans.OrderId);
-                    order.Status = trans.Type.ToLower().Trim().Equals("deposit") ? "Deposit" : "Paid";
+                    if (trans.Type.ToLower().Trim().Equals("deposit"))
+                    {
+                        order.Status = "Deposit";
+                    }
+                    else
+                    {
+                        order.Status = "Paid";
+                        var products = await _unitOfWork.OrderProductRepository.GetAllOrderProductsByOrderId(trans.OrderId);
+                        foreach (var product in products)
+                        {
+                            product.Status = "Received";
+                            _unitOfWork.OrderProductRepository.PrepareUpdate(product);
+
+                            var availablePro = await _unitOfWork.PackagingProductRepository.GetByIdAsync(product.ProductId);
+                            availablePro.PackQuantity -= product.QuantityOfPacks;
+                            _unitOfWork.PackagingProductRepository.PrepareUpdate(availablePro);
+                        }
+                    }
 
                     await _unitOfWork.TransactionRepository.UpdateAsync(trans);
                     await _unitOfWork.OrderRepository.UpdateAsync(order);
+                    await _unitOfWork.OrderProductRepository.SaveAsync();
+                    await _unitOfWork.PackagingProductRepository.SaveAsync();
                 }
                 else
                 {

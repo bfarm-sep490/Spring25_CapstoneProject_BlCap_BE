@@ -1,4 +1,5 @@
-﻿using Spring25.BlCapstone.BE.Repositories.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Spring25.BlCapstone.BE.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public OrderProductRepository(Context context)
         {
             _context = context;
+        }
+
+        public async Task<List<OrderProduct>> GetAllOrderProductsByOrderId(int orderId)
+        {
+            return await _context.OrderProducts
+                                .Where(op => op.OrderId == orderId && op.Status.Trim().ToLower().Equals("waitingforpayment"))
+                                .ToListAsync();
         }
     }
 }

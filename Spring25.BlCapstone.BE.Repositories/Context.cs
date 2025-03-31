@@ -470,7 +470,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<OrderProduct>(entity =>
             {
                 entity.ToTable("OrderProduct");
-                entity.HasKey(py => new { py.OrderId, py.ProductId });
                 entity.HasOne(fpt => fpt.Order)
                       .WithMany(fpt => fpt.OrderProducts)
                       .HasForeignKey(fpt => fpt.OrderId)
