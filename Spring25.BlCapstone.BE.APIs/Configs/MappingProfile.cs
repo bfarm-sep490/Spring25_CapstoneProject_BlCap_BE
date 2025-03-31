@@ -65,10 +65,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
                 .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ForMember(dest => dest.PackagingTypeName, opt => opt.MapFrom(src => src.PackagingType.Name))
+                .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts))
                 .ReverseMap();
             CreateMap<Transaction, TransactionOrder>()
                 .ReverseMap();
             CreateMap<Order, CreateOrderModel>()
+                .ReverseMap();
+            CreateMap<OrderProduct, ProOr>()
                 .ReverseMap();
         }
 

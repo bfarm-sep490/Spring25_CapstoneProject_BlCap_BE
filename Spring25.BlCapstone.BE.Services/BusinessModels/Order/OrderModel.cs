@@ -45,6 +45,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("transactions")]
         public List<TransactionOrder>? transactionOrders { get; set; }
+        [JsonPropertyName("products")]
+        public List<ProOr> OrderProducts { get; set; }
     }
 
     public class TransactionOrder
@@ -57,6 +59,16 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public float Price { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
+    }
+
+    public class ProOr
+    {
+        [JsonPropertyName("product_id")]
+        public int ProductId { get; set; }
+        [JsonPropertyName("quantity_of_packs")]
+        public int QuantityOfPacks { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
     }
