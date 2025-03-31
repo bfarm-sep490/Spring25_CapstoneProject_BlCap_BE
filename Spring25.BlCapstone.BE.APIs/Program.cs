@@ -54,6 +54,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
                    };
                });
+builder.Services.AddHttpClient();
+
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSwaggerGen(opt =>
 {

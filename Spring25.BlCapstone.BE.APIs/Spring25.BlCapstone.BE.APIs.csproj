@@ -16,6 +16,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Nethereum.ABI" Version="4.29.0" />
+    <PackageReference Include="Nethereum.Accounts" Version="4.29.0" />
+    <PackageReference Include="Nethereum.HdWallet" Version="4.29.0" />
+    <PackageReference Include="Nethereum.Web3" Version="4.29.0" />
+    <PackageReference Include="Org.VeChain.Thor.Devkit" Version="1.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
