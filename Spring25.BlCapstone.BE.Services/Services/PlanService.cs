@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId);
         Task<IBusinessResult> AddOrderToPlan(int id, int orderId);
         Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime start, DateTime end);
-
+        Task<IBusinessResult> GenarateTasksForFarmer(int id, List<int> farmerid);
     }
 
     public class PlanService : IPlanService
@@ -989,6 +990,70 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+
+        public async Task<IBusinessResult> GenarateTasksForFarmer(int id,List<int> farmerIds)
+        {
+            var result = new GenerateTasksModel();
+            var plan = await _unitOfWork.PlanRepository.GetPlan(id);
+            var listFarmer = await _unitOfWork.FarmerRepository.GetFarmersByListId(farmerIds);
+            if (plan == null) return new BusinessResult(400, "Not found this plan");
+            if (listFarmer == null) return new BusinessResult(400, "Do not have any Farmer permissions");
+            var caringTasks = plan.CaringTasks.ToList();
+            var harvestingTasks = plan.HarvestingTasks.ToList();
+            var packagingTasks = plan.PackagingTasks.ToList();
+            int farmerIndex = 0;
+            foreach (var task in harvestingTasks)
+            {
+                var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
+                if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(500,$"Do not have free farmer to harvesting task id {task.Id}");
+                var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
+                    result.HavestingTasks.Add(new HarvestingTaskGenerate
+                    {
+                        HarvestingTaskId = task.Id,
+                        FarmerId = farmer.Id,
+                        Avatar = farmer.Avatar,
+                        StartDate = task.StartDate,
+                        EndDate = task.EndDate,
+                        ExpiredDate = task.EndDate.AddDays(1)
+                    });
+                farmerIndex++;
+            }
+
+            foreach (var task in caringTasks)
+            {
+                var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to caring task id {task.Id}");
+                var farmer = freeFarmers[farmerIndex % freeFarmers.Count];         
+                    result.CaringTasks.Add(new CaringTaskGenerate
+                    {
+                        CaringTaskId = task.Id,
+                        FarmerId = farmer.Id,
+                        Avatar = farmer.Avatar,
+                        StartDate = task.StartDate,
+                        EndDate = task.EndDate,
+                        ExpiredDate = task.EndDate.AddDays(1)
+                    });
+                farmerIndex++;
+            }
+
+            foreach (var task in packagingTasks)
+            {
+                var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to packaging task id {task.Id}");
+                var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
+                    result.PackingTasks.Add(new PackagingTaskGenerate
+                    {
+                        PackagingTaskId = task.Id,
+                        FarmerId = farmer.Id,
+                        Avatar = farmer.Avatar,
+                        StartDate = task.StartDate,
+                        EndDate = task.EndDate,
+                        ExpiredDate = task.EndDate.AddDays(1)
+                    });
+                farmerIndex++;
+            }
+            return new BusinessResult(200, "Get Generate Tasks", result);
         }
     }
 }

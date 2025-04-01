@@ -321,5 +321,18 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{id}/genarated-tasks")]
+        public async Task<IActionResult> GenarateTasks([FromRoute]int id,[FromQuery] List<int> farmer_ids)
+        {
+            try
+            {
+                var res = await _planService.GenarateTasksForFarmer(id,farmer_ids);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
