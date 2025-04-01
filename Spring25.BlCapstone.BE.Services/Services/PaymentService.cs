@@ -64,6 +64,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                var transactions = await _unitOfWork.TransactionRepository.GetPendingTransactionByOrderId(model.OrderId);
+                if (transactions.Count > 0)
+                {
+                    foreach (var transaction in transactions)
+                    {
+                        transaction.Status = "Cancel";
+                        _unitOfWork.TransactionRepository.PrepareUpdate(transaction);
+                    }
+                }
+
                 var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
                 if (order == null)
                 {
@@ -93,6 +103,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(500, "Create Payment link fail !");
                 }
                 await _unitOfWork.OrderRepository.SaveAsync();
+                await _unitOfWork.TransactionRepository.SaveAsync();
 
                 var trans = new Repositories.Models.Transaction
                 {
@@ -118,6 +129,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                var transactions = await _unitOfWork.TransactionRepository.GetPendingTransactionByOrderId(model.OrderId);
+                if (transactions.Count > 0)
+                {
+                    foreach (var transaction in transactions)
+                    {
+                        transaction.Status = "Cancel";
+                        _unitOfWork.TransactionRepository.PrepareUpdate(transaction);
+                    }
+                }
+
                 var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
                 if (order == null)
                 {
@@ -163,7 +184,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
                 var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
-                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
+                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, "http://localhost:5173/payment-cancelled", "http://localhost:5173/payment-success", expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
                 if (createPayment == null)
@@ -171,6 +192,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(500, "Create Payment link fail !");
                 }
                 await _unitOfWork.OrderRepository.SaveAsync();
+                await _unitOfWork.TransactionRepository.SaveAsync();
 
                 var trans = new Repositories.Models.Transaction
                 {

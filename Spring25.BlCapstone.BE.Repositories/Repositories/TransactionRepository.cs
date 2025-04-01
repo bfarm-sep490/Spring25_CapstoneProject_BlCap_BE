@@ -39,5 +39,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<List<Transaction>> GetPendingTransactionByOrderId(int orderId)
+        {
+            return await _context.Transactions
+                                 .Where(t => t.OrderId == orderId && t.Status.ToLower().Trim().Equals("pending"))
+                                 .ToListAsync();
+        }
     }
 }
