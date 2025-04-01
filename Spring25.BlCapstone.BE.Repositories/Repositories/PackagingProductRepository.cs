@@ -35,7 +35,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             if (!string.IsNullOrEmpty(status))
             {
-                query = query.Where(x => x.Status.ToLower().Trim().Equals(status.ToLower().Trim());
+                query = query.Where(x => x.Status.ToLower().Trim().Equals(status.ToLower().Trim()));
             }
 
             return await query.ToListAsync();
