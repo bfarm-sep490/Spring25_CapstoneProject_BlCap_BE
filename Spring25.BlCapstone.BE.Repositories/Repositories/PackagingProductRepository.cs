@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<PackagingProduct>> GetPackagingProducts(int? planId)
+        public async Task<List<PackagingProduct>> GetPackagingProducts(int? planId, string? status)
         {
             var query = _context.PackagingProducts
                                 .Include(pp => pp.PackagingTask)
@@ -28,7 +28,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                         .ThenInclude(pp =>  pp.Plant)
                                 .Include(pp => pp.HarvestingTask)
                                 .AsQueryable();
-            if(planId.HasValue) query = query.Where(x=>x.PackagingTask.PlanId == planId);
+            if (planId.HasValue)
+            {
+                query = query.Where(x => x.PackagingTask.PlanId == planId);
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                query = query.Where(x => x.Status.ToLower().Trim().Equals(status.ToLower().Trim());
+            }
+
             return await query.ToListAsync();
         }
 
@@ -36,6 +45,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.PackagingProducts
                                  .Include(pp => pp.PackagingTask)
+                                    .ThenInclude(pp => pp.Plan)
+                                        .ThenInclude(pp => pp.InspectingForms)
+                                            .ThenInclude(pp => pp.InspectingResult)
+                                .Include(pp => pp.PackagingTask)
                                     .ThenInclude(pp => pp.Plan)
                                         .ThenInclude(pp => pp.Plant)
                                 .Include(pp => pp.HarvestingTask)

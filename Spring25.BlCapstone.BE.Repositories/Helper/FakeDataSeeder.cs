@@ -625,11 +625,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(
-                new PackagingProduct { Id = 1, PackagingTaskId = 1, HarvestingTaskId = 1, OrderId = 1, QRCode = "QR_001", Status = "Complete", QuantityPerPack = 100, PackQuantity = 2},
-                new PackagingProduct { Id = 2, PackagingTaskId = 2, HarvestingTaskId = 2, OrderId = 2, QRCode = "QR_002", Status = "Pending", QuantityPerPack = 10, PackQuantity = 5},
-                new PackagingProduct { Id = 3, PackagingTaskId = 3, HarvestingTaskId = 3, OrderId = 3, QRCode = "QR_003", Status = "Cancel", QuantityPerPack = 20, PackQuantity = 1},
-                new PackagingProduct { Id = 4, PackagingTaskId = 4, HarvestingTaskId = 4, OrderId = 4, QRCode = "QR_004", Status = "Pending", QuantityPerPack = 50, PackQuantity = 2 },
-                new PackagingProduct { Id = 5, PackagingTaskId = 5, HarvestingTaskId = 5, OrderId = 5, QRCode = "QR_005", Status = "Complete", QuantityPerPack = 20, PackQuantity = 3 }
+                new PackagingProduct { Id = 1, PackagingTaskId = 1, HarvestingTaskId = 1, OrderId = 1, QRCode = "QR_001", Status = "Active", QuantityPerPack = 100, PackQuantity = 2 },
+                new PackagingProduct { Id = 2, PackagingTaskId = 2, HarvestingTaskId = 2, OrderId = 2, QRCode = "QR_002", Status = "Active", QuantityPerPack = 10, PackQuantity = 5 },
+                new PackagingProduct { Id = 3, PackagingTaskId = 3, HarvestingTaskId = 3, OrderId = 3, QRCode = "QR_003", Status = "Expired", QuantityPerPack = 20, PackQuantity = 1 },
+                new PackagingProduct { Id = 4, PackagingTaskId = 4, HarvestingTaskId = 4, OrderId = 4, QRCode = "QR_004", Status = "Active", QuantityPerPack = 50, PackQuantity = 2 },
+                new PackagingProduct { Id = 5, PackagingTaskId = 5, HarvestingTaskId = 5, OrderId = 5, QRCode = "QR_005", Status = "Active", QuantityPerPack = 20, PackQuantity = 3 }
             );
 
             modelBuilder.Entity<NotificationExpert>().HasData(
