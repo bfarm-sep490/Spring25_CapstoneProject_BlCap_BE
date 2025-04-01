@@ -22,7 +22,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         [JsonPropertyName("phone")]
         public string Phone { get; set; }
         [JsonPropertyName("preorder_quantity")]
-        public float EstimatedQuantity { get; set; }
+        public float PreOrderQuantity { get; set; }
         [JsonPropertyName("estimate_pick_up_date")]
         public DateTime EstimatedPickupDate { get; set; }
     }
