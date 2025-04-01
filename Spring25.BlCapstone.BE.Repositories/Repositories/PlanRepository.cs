@@ -69,10 +69,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Where(x => (x.Orders.Count() == 0))
                 .ToListAsync();
         }
-        public async Task<List<Plan>> GetPlanHaveOnlyOrdersCancle()
+        public async Task<List<Plan>> GetPlanHaveOnlyOrdersCancel()
         {
             return await _context.Plans
-                .Where(x => x.Orders.Any() && x.Orders.All(o => o.Status.ToLower() == "Cancle"))
+                .Where(x => x.Orders.Any() && x.Orders.All(o => o.Status.ToLower() == "Cancel"))
                 .ToListAsync();
         }
         public async Task<int> GetPlanNotHaveOrderOrHaveOnlyOrdersCancle()
