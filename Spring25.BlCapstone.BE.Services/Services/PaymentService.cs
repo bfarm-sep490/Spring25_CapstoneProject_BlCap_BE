@@ -75,9 +75,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, $"Can not deposit order with {order.Status} status");
                 }
 
-                order.Status = "WaitingForDeposit";
-                _unitOfWork.OrderRepository.PrepareUpdate(order);
-
                 var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
                 List<ItemData> items = new List<ItemData>
                     {

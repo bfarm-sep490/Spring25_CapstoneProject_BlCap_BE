@@ -62,5 +62,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Where(pp => pp.HarvestingTask.ProductExpiredDate < DateTime.Now && pp.HarvestingTask.ProductExpiredDate.HasValue)
                                  .ToListAsync();
         }
+
+        public async Task<List<PackagingProduct>> GetOutStockProducts()
+        {
+            return await _context.PackagingProducts
+                                 .Where(pp => pp.PackQuantity == 0)
+                                 .ToListAsync();
+        }
     }
 }
