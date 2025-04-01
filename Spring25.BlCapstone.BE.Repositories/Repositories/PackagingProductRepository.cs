@@ -59,7 +59,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.PackagingProducts
                                  .Include(pp => pp.HarvestingTask)
-                                 .Where(pp => pp.HarvestingTask.ProductExpiredDate < DateTime.Now && pp.HarvestingTask.ProductExpiredDate.HasValue)
+                                 .Where(pp => pp.HarvestingTask.ProductExpiredDate < DateTime.Now && pp.HarvestingTask.ProductExpiredDate.HasValue && pp.Status.Trim().ToLower().Equals("active"))
                                  .ToListAsync();
         }
 
