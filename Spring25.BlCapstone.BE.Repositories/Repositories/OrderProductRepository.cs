@@ -19,7 +19,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<List<OrderProduct>> GetAllOrderProductsByOrderId(int orderId)
         {
             return await _context.OrderProducts
-                                .Where(op => op.OrderId == orderId && op.Status.Trim().ToLower().Equals("waitingforpayment"))
+                                .Where(op => op.OrderId == orderId && !op.Status.Trim().ToLower().Equals("cancel"))
                                 .ToListAsync();
         }
     }
