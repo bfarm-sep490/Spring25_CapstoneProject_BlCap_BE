@@ -43,6 +43,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                 try
                 {
                     var expiredProducts = await unitOfWork.PackagingProductRepository.GetExpiredProducts();
+                    var outstockProducts = await unitOfWork.PackagingProductRepository.GetOutStockProducts();
 
                     try
                     {
@@ -60,7 +61,26 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogInformation($"Product update error: {ex.Message}");
+                        _logger.LogInformation($"Product update expired error: {ex.Message}");
+                    }
+
+                    try
+                    {
+                        if (outstockProducts.Any())
+                        {
+                            foreach (var product in outstockProducts)
+                            {
+                                product.Status = "OutOfStock";
+                                unitOfWork.PackagingProductRepository.PrepareUpdate(product);
+                            }
+
+                            await unitOfWork.PackagingProductRepository.SaveAsync();
+                            _logger.LogInformation("complete !");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogInformation($"Product update out stock error: {ex.Message}");
                     }
                 }
                 catch (Exception ex)
