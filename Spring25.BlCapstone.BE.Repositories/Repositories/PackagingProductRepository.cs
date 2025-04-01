@@ -54,5 +54,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(pp => pp.HarvestingTask)
                                 .FirstOrDefaultAsync(pp => pp.Id == id);
         }
+
+        public async Task<List<PackagingProduct>> GetExpiredProducts()
+        {
+            return await _context.PackagingProducts
+                                 .Include(pp => pp.HarvestingTask)
+                                 .Where(pp => pp.HarvestingTask.ProductExpiredDate < DateTime.Now && pp.HarvestingTask.ProductExpiredDate.HasValue)
+                                 .ToListAsync();
+        }
     }
 }
