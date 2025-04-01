@@ -17,6 +17,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllOrders(string? status,int? retailer, int? planId);
         Task<IBusinessResult> GetOrderById(int id);
         Task<IBusinessResult> GetOrderWithNoPlan();
+        Task<IBusinessResult> CancelOrder(int orderId);
     }
     public class OrderService : IOrderService
     {
@@ -51,7 +52,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             var list = await _unitOfWork.OrderRepository.GetAllOrder(status, retailer, planId);
             var result = _mapper.Map<List<OrderModel>>(list);
-            return new BusinessResult(200,"List Order",result);
+            return new BusinessResult(200, "List Order", result);
         }
 
         public async Task<IBusinessResult> GetOrderById(int id)
@@ -74,6 +75,32 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = _mapper.Map<List<OrderModel>>(orders);
                 return new BusinessResult(200, "List order with no plan: ", rs);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> CancelOrder(int orderId)
+        {
+            try
+            {
+                var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+                if (order == null) 
+                {
+                    return new BusinessResult(404, "Not found any orders !");
+                }
+
+                if (order.PlanId.HasValue)
+                {
+                    return new BusinessResult(400, "Can not cancel order which already has a plan for it !");
+                }
+
+                order.Status = "Cancel";
+                await _unitOfWork.OrderRepository.UpdateAsync(order);
+                var rs = _mapper.Map<OrderModel>(order);
+                return new BusinessResult(200, "Cancel order success !", rs);
             }
             catch (Exception ex)
             {
