@@ -45,13 +45,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("inspecting-forms/images/upload")]
-        public async Task<IActionResult> UploadImage(List<IFormFile> image)
-        {
-            var rs = await _inspectingFormService.UploadImage(image);
-            return Ok(rs);
-        }
-
         [HttpPost("inspecting-forms")]
         public async Task<IActionResult> Create(CreateInspectingPlan model)
         {

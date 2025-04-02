@@ -20,7 +20,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetInspectingFormById(int id);
         Task<IBusinessResult> CreateInspectingForm(CreateInspectingPlan model);
         Task<IBusinessResult> UpdateInspectingForm(int id, UpdateInspectingForm model);
-        Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> DeleteForm(int id);
     }
 
@@ -101,31 +100,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, ex.Message);
-            }
-        }
-
-        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
-        {
-            try
-            {
-                var image = await CloudinaryHelper.UploadMultipleImages(file);
-                var url = image.Select(x => x.Url).ToList();
-
-                return new BusinessResult
-                {
-                    Status = 200,
-                    Message = "Upload success !",
-                    Data = url
-                };
-            }
-            catch (Exception ex)
-            {
-                return new BusinessResult
-                {
-                    Status = 500,
-                    Message = ex.Message,
-                    Data = null
-                };
             }
         }
 
