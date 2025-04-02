@@ -1008,7 +1008,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in harvestingTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(500,$"Do not have free farmer to harvesting task id {task.Id}");
+                if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(500,$"Do not have free farmer to harvesting task id {task.Id}", $"Do not have free farmer to harvesting task id {task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
                     result.HavestingTasks.Add(new HarvestingTaskGenerate
                     {
@@ -1025,7 +1025,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in caringTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to caring task id {task.Id}");
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to caring task id {task.Id}", $"Do not have free farmer to caring task id {task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];         
                     result.CaringTasks.Add(new CaringTaskGenerate
                     {
@@ -1042,7 +1042,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in packagingTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to packaging task id {task.Id}");
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to packaging task id {task.Id}", $"Do not have free farmer to packaging task id {task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
                     result.PackingTasks.Add(new PackagingTaskGenerate
                     {
