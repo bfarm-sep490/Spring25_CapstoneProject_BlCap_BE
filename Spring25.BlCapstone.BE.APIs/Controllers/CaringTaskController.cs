@@ -109,6 +109,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("caring-tasks/dashboard")]
         public async Task<IActionResult> GetDashboard()
         {
@@ -122,6 +123,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("caring-tasks/dashboard/plan/{id}")]
         public async Task<IActionResult> GetDashboardByPlanId([FromRoute] int id)
         {
@@ -149,6 +151,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("caring-tasks/count/plans/{id}")]
         public async Task<IActionResult> GetCountPlanTypeByPlanId([FromRoute] int id)
         {

@@ -46,6 +46,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AddOrderToPlan(int id, int orderId);
         Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime start, DateTime end);
         Task<IBusinessResult> GenarateTasksForFarmer(int id, List<int> farmerid);
+        Task<IBusinessResult> ChangeCompleteStatus(int id);
+        Task<IBusinessResult> ChangeCancelStatus(int id);
     }
 
     public class PlanService : IPlanService
@@ -1054,6 +1056,138 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerIndex++;
             }
             return new BusinessResult(200, "Get Generate Tasks", result);
+        }
+
+        public async Task<IBusinessResult> ChangeCompleteStatus(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plans !");
+                }
+
+                if (plan.Status.ToLower().Trim().Equals("ongoing"))
+                {
+                    return new BusinessResult(400, $"Can not complete plan with {plan.Status} status");
+                }
+
+                plan.Status = "Complete";
+                _unitOfWork.PlanRepository.PrepareUpdate(plan);
+
+                var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId: id);
+                foreach (var caringTask in caringTasks)
+                {
+                    if (caringTask.Status.Trim().ToLower().Equals("ongoing"))
+                    {
+                        caringTask.Status = "InComplete";
+                        _unitOfWork.CaringTaskRepository.PrepareUpdate(caringTask);
+                    }
+                }
+
+                var harvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(planId: id);
+                foreach (var harvestingTask in harvestingTasks)
+                {
+                    if (harvestingTask.Status.Trim().ToLower().Equals("ongoing"))
+                    {
+                        harvestingTask.Status = "InComplete";
+                        _unitOfWork.HarvestingTaskRepository.PrepareUpdate(harvestingTask);
+                    }
+                }
+
+                var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId: id);
+                foreach (var packagingTask in packagingTasks)
+                {
+                    if (packagingTask.Status.Trim().ToLower().Equals("ongoing"))
+                    {
+                        packagingTask.Status = "InComplete";
+                        _unitOfWork.PackagingTaskRepository.PrepareUpdate(packagingTask);
+                    }
+                }
+
+                var inspectingForms = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId: id);
+                foreach (var inspectingForm in inspectingForms)
+                {
+                    if (inspectingForm.Status.Trim().ToLower().Equals("ongoing"))
+                    {
+                        inspectingForm.Status = "InComplete";
+                        _unitOfWork.InspectingFormRepository.PrepareUpdate(inspectingForm);
+                    }
+                }
+
+                await _unitOfWork.PlanRepository.SaveAsync();
+                await _unitOfWork.CaringTaskRepository.SaveAsync();
+                await _unitOfWork.HarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.PackagingTaskRepository.SaveAsync();
+                await _unitOfWork.InspectingFormRepository.SaveAsync();
+
+                return new BusinessResult(200, "Complete plan successfull !");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> ChangeCancelStatus(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plans !");
+                }
+
+                if (plan.Status.ToLower().Trim().Equals("ongoing"))
+                {
+                    return new BusinessResult(400, $"Can not cancel plan with {plan.Status} status");
+                }
+
+                plan.Status = "Cancel";
+                _unitOfWork.PlanRepository.PrepareUpdate(plan);
+
+                var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId: id);
+                foreach (var caringTask in caringTasks)
+                {
+                    caringTask.Status = "Cancel";
+                    _unitOfWork.CaringTaskRepository.PrepareUpdate(caringTask);
+                }
+
+                var harvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(planId: id);
+                foreach (var harvestingTask in harvestingTasks)
+                {
+                    harvestingTask.Status = "Cancel";
+                    _unitOfWork.HarvestingTaskRepository.PrepareUpdate(harvestingTask);
+                }
+
+                var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId: id);
+                foreach (var packagingTask in packagingTasks)
+                {
+                    packagingTask.Status = "Cancel";
+                    _unitOfWork.PackagingTaskRepository.PrepareUpdate(packagingTask);
+                }
+
+                var inspectingForms = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId: id);
+                foreach (var inspectingForm in inspectingForms)
+                {
+                    inspectingForm.Status = "Cancel";
+                    _unitOfWork.InspectingFormRepository.PrepareUpdate(inspectingForm);
+                }
+
+                await _unitOfWork.PlanRepository.SaveAsync();
+                await _unitOfWork.CaringTaskRepository.SaveAsync();
+                await _unitOfWork.HarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.PackagingTaskRepository.SaveAsync();
+                await _unitOfWork.InspectingFormRepository.SaveAsync();
+
+                return new BusinessResult(200, "Cancel plan successfull !");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }

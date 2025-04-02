@@ -183,6 +183,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("{id}/dashboard")]
         public async Task<IActionResult> GetStatusTasksDashboardByPlanId([FromRoute]int id)
         {
@@ -308,6 +309,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("{id}/free-farmers")]
         public async Task<IActionResult> GetAllFarmers(int id, DateTime start, DateTime end)
         {
@@ -321,6 +323,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("{id}/genarated-tasks")]
         public async Task<IActionResult> GenarateTasks([FromRoute]int id,[FromQuery] List<int> farmer_ids)
         {
@@ -328,6 +331,34 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 var res = await _planService.GenarateTasksForFarmer(id,farmer_ids);
                 return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/status/complete")]
+        public async Task<IActionResult> ChangeCompleteStatus(int id)
+        {
+            try
+            {
+                var rs = await _planService.ChangeCompleteStatus(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpPut("{id}/status/cancel")]
+        public async Task<IActionResult> ChangeCancelStatus(int id)
+        {
+            try
+            {
+                var rs = await _planService.ChangeCancelStatus(id);
+                return Ok(rs);
             }
             catch (Exception ex)
             {
