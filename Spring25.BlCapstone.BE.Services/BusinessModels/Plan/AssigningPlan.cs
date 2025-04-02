@@ -35,6 +35,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public List<AssignInspectingForm>? AssignInspectingTasks { get; set; }
         [JsonPropertyName("packaging_tasks")]
         public List<AssignPackagingTask>? AssignPackagingTasks { get; set; }
+        [JsonPropertyName("farmers")]
+        public List<int>? Farmers { get; set; }
     }
 
     public class AssignCaringTask

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using IO.Ably;
+using Microsoft.EntityFrameworkCore;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
@@ -267,6 +268,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 foreach (var farmer in farmerPackagingTask)
                 {
                     await _unitOfWork.FarmerPackagingTaskRepository.RemoveAsync(farmer);
+                }
+
+                if (model.Farmers.Any())
+                {
+                    var farmerInPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
+                    var farmerids = farmerInPlan.Select(f => f.FarmerId).ToList();
+                    var newFarmerIds = model.Farmers.Except(farmerids);
+
+                    if (newFarmerIds.Any())
+                    {
+                        foreach (var fid in newFarmerIds)
+                        {
+                            var newPermission = new FarmerPermission
+                            {
+                                FarmerId = fid,
+                                PlanId = id,
+                                CreatedAt = DateTime.Now,
+                                Status = "Active"
+                            };
+
+                            _unitOfWork.FarmerPermissionRepository.PrepareCreate(newPermission);
+                        }
+
+                        await _unitOfWork.FarmerPermissionRepository.SaveAsync();
+                    }
                 }
 
                 if (model.AssignCaringTasks != null)
