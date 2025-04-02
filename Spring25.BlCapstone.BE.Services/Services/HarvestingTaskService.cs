@@ -350,8 +350,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     {
                         float harvestedQuantity = harvestingTask.HarvestedQuantity ?? 0;
                         float totalPackagedWeight = harvestingTask.PackagingProducts
-                            .Sum(pp => pp.PackagingTask?.TotalPackagedWeight ?? 0);
+                            .Sum(pp => pp.QuantityPerPack * pp.PackQuantity);
                         item.AvailableHarvestingQuantity = harvestedQuantity - totalPackagedWeight;
+                        item.Status = "Active";
+
+                        if (item.ProductExpiredDate < DateTime.Now && item.Status == "Active")
+                        {
+                            item.Status = "Expired";
+                        }
+
+                        if (item.AvailableHarvestingQuantity <= 0)
+                        {
+                            item.Status = "OutOfStock";
+                        }
                     }
                 });
 
