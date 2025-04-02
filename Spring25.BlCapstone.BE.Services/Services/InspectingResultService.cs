@@ -106,6 +106,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                var insForm = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
+                insForm.Status = "Complete";
+                await _unitOfWork.InspectingFormRepository.UpdateAsync(insForm);
+
                 var re = _mapper.Map<InspectingResultModel>(result);
 
                 return new BusinessResult(200, "Create inspecting result success !", re);

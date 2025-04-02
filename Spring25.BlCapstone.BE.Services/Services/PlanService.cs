@@ -288,7 +288,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         });
 
                         var farmerPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(caring.PlanId, task.FarmerId);
-                        if (farmerPlan != null)
+                        if (farmerPlan == null)
                         {
                             await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
                             {
@@ -320,7 +320,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         });
 
                         var farmerPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(harvesting.PlanId, task.FarmerId);
-                        if (farmerPlan != null)
+                        if (farmerPlan == null)
                         {
                             await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
                             {
@@ -364,7 +364,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         });
 
                         var farmerPlan = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(packaging.PlanId, task.FarmerId);
-                        if (farmerPlan != null)
+                        if (farmerPlan == null)
                         {
                             await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
                             {

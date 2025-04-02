@@ -12,7 +12,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int TaskId { get; set; }
         public string? Description { get; set; }
         public string Status { get; set; }
-        public DateTime ExpiredDate { get; set; }
+        public DateTime? ExpiredDate { get; set; }
 
         public Farmer Farmer { get; set; }
         public HarvestingTask HarvestingTask { get; set; }
