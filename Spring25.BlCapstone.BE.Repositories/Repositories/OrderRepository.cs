@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<Order>> GetAllOrder(string? status, int? retailer, int? planId)
+        public async Task<List<Order>> GetAllOrder(string? status = null, int? retailer = null, int? planId = null)
         {
             var query = _context.Orders
                                 .Include(o => o.Transactions)

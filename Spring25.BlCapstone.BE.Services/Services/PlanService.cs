@@ -703,6 +703,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     await _unitOfWork.CaringTaskRepository.RemoveAsync(task);
                 }
 
+                var orders = await _unitOfWork.OrderRepository.GetAllOrder(planId: id);
+                foreach (var order in orders)
+                {
+                    order.PlanId = null;
+                    _unitOfWork.OrderRepository.PrepareUpdate(order);
+                }
+
+                await _unitOfWork.OrderRepository.SaveAsync();
+
                 var rs = await _unitOfWork.PlanRepository.RemoveAsync(plan);
                 if (rs)
                 {
