@@ -71,5 +71,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public int QuantityOfPacks { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("evaluated_result")]
+        public string EvaluatedResult { get; set; }
     }
 }

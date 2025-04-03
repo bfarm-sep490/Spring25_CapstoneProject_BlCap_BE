@@ -33,5 +33,19 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public string Status { get; set; }
         [JsonPropertyName("evaluated_result")]
         public string EvaluatedResult { get; set; }
+        [JsonPropertyName("orders")]
+        public List<OrPro> OrderProducts { get; set; }
+    }
+
+    public class OrPro
+    {
+        [JsonPropertyName("order_id")]
+        public int Id { get; set; }
+        [JsonPropertyName("retailer_id")]
+        public int RetailerId { get; set; }
+        [JsonPropertyName("retailer_name")]
+        public string RetailerName { get; set; }
+        [JsonPropertyName("quantity_of_packs")]
+        public int QuantityOfPacks { get; set; }
     }
 }

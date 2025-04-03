@@ -72,6 +72,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Order, CreateOrderModel>()
                 .ReverseMap();
             CreateMap<OrderProduct, ProOr>()
+                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.Order.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ReverseMap();
         }
 
@@ -447,6 +448,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.ProductExpiredDate, opt => opt.MapFrom(src => src.HarvestingTask.ProductExpiredDate))
                 .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.PackagingTask.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ForMember(dest => dest.TotalPacks, opt => opt.MapFrom(src => src.PackQuantity + src.OrderProducts.Sum(op => op.QuantityOfPacks)))
+                .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts))
+                .ReverseMap();
+            CreateMap<OrderProduct, OrPro>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Order.Id))
+                .ForMember(dest => dest.RetailerId, opt => opt.MapFrom(src => src.Order.RetailerId))
+                .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Order.Retailer.Account.Name))
                 .ReverseMap();
         }
     }
