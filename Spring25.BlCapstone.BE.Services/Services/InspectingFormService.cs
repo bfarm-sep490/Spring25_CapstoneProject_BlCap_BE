@@ -39,7 +39,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var form = _mapper.Map<InspectingForm>(model);
 
-                form.Status = "Draft";
+                form.Status = model.Status != null ? model.Status : "Draft";
                 form.CanHarvest = false;
                 form.CreatedAt = DateTime.Now;
 
@@ -84,13 +84,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any Inspecting form");
                 }
 
+                model.Status = model.Status != null ? model.Status : form.Status;
                 _mapper.Map(model, form);
                 form.UpdatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
-                if (rs != null)
+                if (rs > 0)
                 {
-                    return new BusinessResult(200, "Update successfully!", rs);
+                    return new BusinessResult(200, "Update successfully!", form);
                 }
                 else
                 {

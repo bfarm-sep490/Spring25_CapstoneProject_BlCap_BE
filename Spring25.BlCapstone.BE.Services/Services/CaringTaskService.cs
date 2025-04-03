@@ -124,11 +124,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                model.Status = model.Status != null ? model.Status : task.Status;
                 _mapper.Map(model, task);
                 task.UpdatedAt = DateTime.Now;
                 var rs = await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
 
-                if (rs != null)
+                if (rs > 0)
                 {
                     return new BusinessResult(200, "Update successfull", task);
                 }
@@ -173,7 +174,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var task = _mapper.Map<CaringTask>(model);
-                task.Status = "Draft";
+                task.Status = model.Status != null ? model.Status : "Draft";
                 task.CreatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.CaringTaskRepository.CreateAsync(task);
