@@ -27,6 +27,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public float QuantityPerPack { get; set; }
         [JsonPropertyName("pack_quantity")]
         public int PackQuantity { get; set; }
+        [JsonPropertyName("total_packs")]
+        public int TotalPacks { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("evaluated_result")]

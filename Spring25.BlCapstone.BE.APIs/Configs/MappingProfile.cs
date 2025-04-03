@@ -366,6 +366,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ForMember(dest => dest.PlantId, opt => opt.MapFrom(src => src.Plan.Plant.Id))
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plan.Plant.PlantName))
+                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ReverseMap();
         }
 
@@ -445,6 +446,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.CompleteDate, opt => opt.MapFrom(src => src.PackagingTask.CompleteDate))
                 .ForMember(dest => dest.ProductExpiredDate, opt => opt.MapFrom(src => src.HarvestingTask.ProductExpiredDate))
                 .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.PackagingTask.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
+                .ForMember(dest => dest.TotalPacks, opt => opt.MapFrom(src => src.PackQuantity + src.OrderProducts.Sum(op => op.QuantityOfPacks)))
                 .ReverseMap();
         }
     }

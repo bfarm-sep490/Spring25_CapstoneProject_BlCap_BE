@@ -16,11 +16,25 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetHarvestingProduction(int? plan_id)
+        public async Task<IActionResult> GetHarvestingProductions(int? plan_id, int? packaging_task_id, string? status)
         {
             try
             {
-                var result = await _harvestingTaskService.GetListProductionHarvestingTask(plan_id);
+                var result = await _harvestingTaskService.GetListProductionHarvestingTask(plan_id, packaging_task_id, status);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetHarvestingProduction(int id)
+        {
+            try
+            {
+                var result = await _harvestingTaskService.GetProductionHarvestingTask(id);
                 return Ok(result);
             }
             catch (Exception ex)

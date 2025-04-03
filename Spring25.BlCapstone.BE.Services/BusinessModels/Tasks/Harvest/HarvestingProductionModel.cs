@@ -31,5 +31,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest
         public float? AvailableHarvestingQuantity { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("evaluated_result")]
+        public string EvaluatedResult { get; set; }
     }
 }

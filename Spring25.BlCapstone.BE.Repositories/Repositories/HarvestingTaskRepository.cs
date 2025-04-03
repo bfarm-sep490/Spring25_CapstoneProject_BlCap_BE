@@ -143,13 +143,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<HarvestingTask>> GetHarvestingProductions(int? planId = null)
+        public async Task<List<HarvestingTask>> GetHarvestingProductions(int? planId = null, int? packagingTaskId = null)
         {
             var query = _context.HarvestingTasks
                                 .Include(x => x.Plan)
                                     .ThenInclude(x => x.Plant)
                                 .Include(x => x.PackagingProducts)
                                     .ThenInclude(x => x.PackagingTask)
+                                .Include(x => x.Plan)
+                                    .ThenInclude(x => x.InspectingForms)
+                                        .ThenInclude(x => x.InspectingResult)
                                 .AsQueryable();
 
             if (planId.HasValue)
@@ -157,7 +160,25 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(p => p.PlanId == planId);
             }
 
+            if (packagingTaskId.HasValue)
+            {
+                query = query.Where(p => p.PackagingProducts.Any(pp => pp.PackagingTaskId == packagingTaskId));
+            }
+
             return await query.ToListAsync();
+        }
+
+        public async Task<HarvestingTask> GetHarvestingProduction(int id)
+        {
+            return await _context.HarvestingTasks
+                                .Include(x => x.Plan)
+                                    .ThenInclude(x => x.Plant)
+                                .Include(x => x.PackagingProducts)
+                                    .ThenInclude(x => x.PackagingTask)
+                                .Include(x => x.Plan)
+                                    .ThenInclude(x => x.InspectingForms)
+                                        .ThenInclude(x => x.InspectingResult)
+                                .FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

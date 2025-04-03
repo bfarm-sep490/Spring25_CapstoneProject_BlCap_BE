@@ -12,6 +12,7 @@ using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -32,7 +33,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DashboardHarvestByPlanId(int id);
         Task<IBusinessResult> GetHistoryFarmers(int id);
         Task<IBusinessResult> GetHavestedTasksDashboardByPlanId(int id);
-        Task<IBusinessResult> GetListProductionHarvestingTask(int? planId);
+        Task<IBusinessResult> GetListProductionHarvestingTask(int? planId, int? packagingTaskId, string? status);
+        Task<IBusinessResult> GetProductionHarvestingTask(int id);
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -336,11 +338,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> GetListProductionHarvestingTask(int? planId)
+        public async Task<IBusinessResult> GetListProductionHarvestingTask(int? planId, int? packagingTaskId, string? status)
         {
             try
             {
-                var task = await _unitOfWork.HarvestingTaskRepository.GetHarvestingProductions(planId);
+                var task = await _unitOfWork.HarvestingTaskRepository.GetHarvestingProductions(planId, packagingTaskId);
                 var res = _mapper.Map<List<HarvestingProductionModel>>(task);
 
                 res.ForEach(r => r.HarvestedUnit = "kg");
@@ -367,7 +369,44 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 });
 
+                if (!string.IsNullOrEmpty(status))
+                {
+                    res = res.Where(item => item.Status.Equals(status, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+
                 return new BusinessResult(200, "List of product of harvesting Task: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetProductionHarvestingTask(int id)
+        {
+            try
+            {
+                var task = await _unitOfWork.HarvestingTaskRepository.GetHarvestingProduction(id);
+                var res = _mapper.Map<HarvestingProductionModel>(task);
+
+                res.HarvestedUnit = "kg";
+                float harvestedQuantity = task.HarvestedQuantity ?? 0;
+                float totalPackagedWeight = task.PackagingProducts
+                    .Sum(pp => pp.QuantityPerPack * pp.PackQuantity);
+                res.AvailableHarvestingQuantity = harvestedQuantity - totalPackagedWeight;
+                res.Status = "Active";
+
+                if (res.ProductExpiredDate < DateTime.Now && res.Status == "Active")
+                {
+                    res.Status = "Expired";
+                }
+
+                if (res.AvailableHarvestingQuantity <= 0)
+                {
+                    res.Status = "OutOfStock";
+                }
+
+                return new BusinessResult(200, "Production of harvesting Task: ", res);
             }
             catch (Exception ex)
             {
