@@ -365,5 +365,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        [HttpPut("{id}/plan-public")]
+        public async Task<IActionResult> PublicPlan(int id)
+        {
+            try
+            {
+                var rs = await _planService.PublicPlan(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
