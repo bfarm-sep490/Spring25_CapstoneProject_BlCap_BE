@@ -336,6 +336,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<CaringTask, CaringTaskReport>()
                 .ReverseMap();
+            CreateMap<ItemCare, CaringItem>()
+                .ReverseMap();
+            CreateMap<FerCare, CaringFertilizer>()
+                .ReverseMap();
+            CreateMap<PesCare, CaringPesticide>()
+                .ReverseMap();
         }
 
         private void HarvestingProfile()
@@ -369,6 +375,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plan.Plant.PlantName))
                 .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ReverseMap();
+            CreateMap<HarvestItem, HarvestingItem>()
+                .ReverseMap();
         }
 
         private void PackagingProfile()
@@ -397,6 +405,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingTask, CreatePackagingPlan>()
                 .ReverseMap();
             CreateMap<PackagingType, PackagingTypeModel>()
+                .ReverseMap();
+            CreateMap<PackageItem, PackagingItem>()
                 .ReverseMap();
         }
 

@@ -379,5 +379,31 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{id}/suggested/{suggest_id}")]
+        public async Task<IActionResult> GenarateTasksbyPlanIdAndSuggestId([FromRoute] int id, [FromRoute]int suggest_id)
+        {
+            try
+            {
+                var res = await _planService.GetSuggestTasksByPlanId(id, suggest_id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("{id}/suggested")]
+        public async Task<IActionResult> GetSuggestPlansByPlanId([FromRoute] int id)
+        {
+            try
+            {
+                var res = await _planService.GetSuggestPlansByPlanId(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

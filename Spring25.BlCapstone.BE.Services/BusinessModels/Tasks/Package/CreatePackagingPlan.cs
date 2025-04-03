@@ -26,7 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("items")]
-        public List<PackageItem>? Items { get; set; }
+        public List<PackageItem>? Items { get; set; } = new List<PackageItem>();
     }
 
     public class PackageItem

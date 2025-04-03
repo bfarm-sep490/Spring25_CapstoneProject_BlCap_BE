@@ -24,7 +24,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("items")]
-        public List<HarvestItem>? Items { get; set; }
+        public List<HarvestItem>? Items { get; set; } = new List<HarvestItem>();
     }
 
     public class HarvestItem
