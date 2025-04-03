@@ -19,7 +19,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<Plan> GetPlan(int id)
         {
             return await _context.Plans
-                .Include(p => p.Plant)        
+                .Include(p => p.Plant)
                 .Include(p => p.CaringTasks)
                 .Include(p => p.HarvestingTasks)
                 .Include(p => p.InspectingForms)
@@ -82,8 +82,34 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 && x.StartDate >= DateTime.Now && x.Status.ToLower() == "cancel")
                 .ExecuteUpdateAsync(p => p.SetProperty(plan => plan.Status, "Cancel")
                     .SetProperty(plan => plan.UpdatedAt, DateTime.Now)
-                    .SetProperty(plan => plan.UpdatedBy,"Auto")
+                    .SetProperty(plan => plan.UpdatedBy, "Auto")
                 );
+        }
+
+        public async Task<List<Plan>> GetSuggestPlansByPlanId(int planId, float estimatedProduct)
+        {
+            var result = await _context.Plans.Where(x => x.PlantId == planId && x.Id != planId && x.Status.ToLower() == "complete")
+                 .OrderBy(x => Math.Abs(x.EstimatedProduct.Value - estimatedProduct))
+                 .ToListAsync();
+            return result;
+        }
+        public async Task<Plan> GetTasksByPlanId(int planid)
+        {
+            var result = await _context.Plans.Where(x => x.Id == planid)
+                .Include(x => x.HarvestingTasks).ThenInclude(x => x.HarvestingItems)
+                .Include(x => x.CaringTasks)
+                    .ThenInclude(x => x.CaringItems)
+                .Include(x => x.CaringTasks)
+                    .ThenInclude(x => x.CaringFertilizers)
+                .Include(x => x.CaringTasks)
+                    .ThenInclude(x => x.CaringPesticides)
+                .Include(x => x.HarvestingTasks)
+                    .ThenInclude(x => x.HarvestingItems)
+                .Include(x => x.InspectingForms)
+                .Include(x => x.PackagingTasks)
+                    .ThenInclude(x=>x.PackagingItems)
+                .FirstOrDefaultAsync();
+            return result;
         }
     }
 }

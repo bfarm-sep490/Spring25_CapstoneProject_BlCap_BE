@@ -26,11 +26,11 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("fertilizers")]
-        public List<FerCare>? Fertilizers { get; set; }
+        public List<FerCare>? Fertilizers { get; set; } = new List<FerCare>();
         [JsonPropertyName("pesticides")]
-        public List<PesCare>? Pesticides { get; set; }
+        public List<PesCare>? Pesticides { get; set; } = new List<PesCare>();
         [JsonPropertyName("items")]
-        public List<ItemCare>? Items { get; set; }
+        public List<ItemCare>? Items { get; set; } = new List<ItemCare>();
     }
 
     public class FerCare

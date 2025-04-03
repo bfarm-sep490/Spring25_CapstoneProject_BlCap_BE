@@ -13,6 +13,9 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +53,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> ChangeCompleteStatus(int id);
         Task<IBusinessResult> ChangeCancelStatus(int id);
         Task<IBusinessResult> PublicPlan(int id);
+        Task<IBusinessResult> GetSuggestTasksByPlanId(int planId, int suggestPlanId);
+        Task<IBusinessResult> GetSuggestPlansByPlanId(int planId);
     }
 
     public class PlanService : IPlanService
@@ -1035,8 +1040,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var result = new GenerateTasksModel();
             var plan = await _unitOfWork.PlanRepository.GetPlan(id);
             var listFarmer = await _unitOfWork.FarmerRepository.GetFarmersByListId(farmerIds);
-            if (plan == null) return new BusinessResult(400, "Not found this plan");
-            if (listFarmer == null) return new BusinessResult(400, "Do not have any Farmer permissions");
+            if (plan == null) return new BusinessResult(400, "Không thể tìm thấy kế hoạch này");
+            if (listFarmer == null) return new BusinessResult(400, "Không có nông dân nào có quyền trong plan này");
+            result.PlanId = id;
             var caringTasks = plan.CaringTasks.ToList();
             var harvestingTasks = plan.HarvestingTasks.ToList();
             var packagingTasks = plan.PackagingTasks.ToList();
@@ -1044,7 +1050,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in harvestingTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(500,$"Do not have free farmer to harvesting task id {task.Id}", $"Do not have free farmer to harvesting task id {task.Id}");
+                if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(400,$"Không có Nông Dân nào thực hiện được Việc Thu Hoạch:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch:{task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
                     result.HavestingTasks.Add(new HarvestingTaskGenerate
                     {
@@ -1061,7 +1067,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in caringTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to caring task id {task.Id}", $"Do not have free farmer to caring task id {task.Id}");
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400, $"Không có Nông Dân nào thực hiện được Việc Chăm Sóc:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Chăm Sóc:{task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];         
                     result.CaringTasks.Add(new CaringTaskGenerate
                     {
@@ -1078,7 +1084,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in packagingTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(500, $"Do not have free farmer to packaging task id {task.Id}", $"Do not have free farmer to packaging task id {task.Id}");
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400, $"Không có Nông Dân nào thực hiện được Việc Đóng Gói:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Đóng Gói:{task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
                     result.PackingTasks.Add(new PackagingTaskGenerate
                     {
@@ -1284,6 +1290,87 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+        public async Task<IBusinessResult> GetSuggestTasksByPlanId(int planId,int suggestPlanId)
+        {
+            var result = new SuggestTasksModel();
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
+            if (plan == null) { return new BusinessResult(400, "Not Found this Plan"); }
+            var suggestPlan = await _unitOfWork.PlanRepository.GetTasksByPlanId(suggestPlanId);
+            if (suggestPlan == null) { return new BusinessResult(400, "Not Found this Suggest Plan"); }
+            if (suggestPlan.EstimatedProduct == null) { return new BusinessResult(400, "This Plan do not have EstimatedProduct"); }
+            var ratioEstimate = MathF.Round(plan.EstimatedProduct.Value/suggestPlan.EstimatedProduct.Value, 2);
+            if (suggestPlan.StartDate == null) { return new BusinessResult(400, "This Plan do not have StartDate"); }
+            var ratioDate = (suggestPlan.StartDate - plan.StartDate).Value.Days;
+            foreach (var care in suggestPlan.CaringTasks) {
+                var caringtask = _mapper.Map<CreateCaringPlan>(care);
+                caringtask.PlanId = planId;
+                caringtask.StartDate = caringtask.StartDate.AddDays(ratioDate);
+                caringtask.EndDate = caringtask.EndDate.AddDays(ratioDate);
+                foreach (var pesticide in care.CaringPesticides) {
+                    var pesticideTask = _mapper.Map<PesCare>(pesticide);
+                    pesticideTask.Quantity = pesticideTask.Quantity * ratioEstimate;
+                    caringtask.Pesticides.Add(pesticideTask);
+                }
+                foreach (var item in care.CaringItems)
+                {
+                    var ItemTask = _mapper.Map<ItemCare>(item);
+                    ItemTask.Quantity = (int)(ItemTask.Quantity * ratioEstimate);
+                    caringtask.Items.Add(ItemTask);
+                }
+                foreach (var fertilizer in care.CaringFertilizers)
+                {
+                    var fertilizerTask = _mapper.Map<FerCare>(fertilizer);
+                    fertilizerTask.Quantity = (int)fertilizerTask.Quantity * ratioEstimate;
+                    caringtask.Fertilizers.Add(fertilizerTask);
+                }
+                result.CreateCaringPlans.Add(caringtask);
+            }
+            foreach (var harvest in suggestPlan.HarvestingTasks)
+            {
+                var harvestingTask = _mapper.Map<CreateHarvestingPlan>(harvest);
+                harvest.PlanId = planId;
+                harvest.StartDate = harvest.StartDate.AddDays(ratioDate);
+                harvest.EndDate = harvest.EndDate.AddDays(ratioDate);
+                foreach (var item in harvest.HarvestingItems)
+                {
+                    var ItemTask = _mapper.Map<HarvestItem>(item);
+                    ItemTask.Quantity = (int)(ItemTask.Quantity * ratioEstimate);
+                    harvestingTask.Items.Add(ItemTask);
+                }
+                result.CreateHarvestingPlans.Add(harvestingTask);
+            }
+            foreach (var inspect in suggestPlan.InspectingForms)
+            {
+                var inspectingForm = _mapper.Map<CreateInspectingPlan>(inspect);
+                inspectingForm.PlanId = planId;
+                inspectingForm.StartDate = inspectingForm.StartDate.AddDays(ratioDate);
+                inspectingForm.EndDate = inspectingForm.EndDate.AddDays(ratioDate);
+                result.CreateInspectingPlans.Add(inspectingForm);
+            }
+            foreach (var packing in suggestPlan.PackagingTasks)
+            {
+                var packagingTasks = _mapper.Map<CreatePackagingPlan>(packing);
+                packagingTasks.PlanId = planId;
+                packagingTasks.StartDate = packagingTasks.StartDate.AddDays(ratioDate);
+                packagingTasks.EndDate = packagingTasks.EndDate.AddDays(ratioDate);
+                foreach (var item in packing.PackagingItems)
+                {
+                    var ItemTask = _mapper.Map<PackageItem>(item);
+                    ItemTask.Quantity = (int)(ItemTask.Quantity * ratioEstimate);
+                    packagingTasks.Items.Add(ItemTask);
+                }
+                result.CreatePackagingPlans.Add(packagingTasks);
+            }
+            return new BusinessResult(200,"Suggest Tasks by PlanId",result);
+        }
+        public async Task<IBusinessResult> GetSuggestPlansByPlanId(int planId)
+        {
+            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
+            if (plan == null) { return new BusinessResult(400,"Not found this plan"); }
+            var list = await _unitOfWork.PlanRepository.GetSuggestPlansByPlanId(planId, plan.EstimatedProduct.Value);
+            var result = _mapper.Map<List<PlanModel>>(list);
+            return new BusinessResult(200, "Get list suggested plans by plan id",result);
         }
     }
 }
