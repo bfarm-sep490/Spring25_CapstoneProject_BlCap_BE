@@ -41,7 +41,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId)
         {
-            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId, problemId);
+            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId, problemId: problemId);
             var result = _mapper.Map<List<CaringTaskModel>>(list);
             return new BusinessResult(200, "List caring task", result);
         }
