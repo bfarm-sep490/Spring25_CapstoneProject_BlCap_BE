@@ -27,7 +27,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId = null, int? farmerId = null, int? taskId = null)
+        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId = null, int? farmerId = null, int? taskId = null, int? problemId = null)
         {
             var query = _context.CaringTasks
                                       .Include(x => x.CaringItems)
@@ -57,6 +57,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (taskId.HasValue)
             {
                 query = query.Where(ct => ct.Id == taskId);
+            }
+
+            if (problemId.HasValue)
+            {
+                query = query.Where(ct => ct.ProblemId == problemId);
             }
 
             return await query.ToListAsync();

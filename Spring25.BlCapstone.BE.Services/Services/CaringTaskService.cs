@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface ICaringTaskService
     {
-        Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId);
+        Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId);
         Task<IBusinessResult> GetCaringTaskById(int id);
         Task<IBusinessResult> CreateCaringTask(CreateCaringPlan model);
         Task<IBusinessResult> UpdateDetailCaringTask(int id, UpdateCaringTask model);
@@ -39,7 +39,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId)
+        public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId)
         {
             var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId);
             var result = _mapper.Map<List<CaringTaskModel>>(list);

@@ -20,11 +20,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("caring-tasks")]
-        public async Task<IActionResult> GetAll(int? plan_id, int? farmer_id)
+        public async Task<IActionResult> GetAll(int? plan_id, int? farmer_id, int? problem_id)
         {
             try
             {
-                var result = await _caringTaskService.GetAllCaringTask(plan_id, farmer_id);
+                var result = await _caringTaskService.GetAllCaringTask(plan_id, farmer_id, problem_id);
                 return Ok(result);
             }
             catch (Exception ex)

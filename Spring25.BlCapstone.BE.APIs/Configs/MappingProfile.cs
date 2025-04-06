@@ -180,9 +180,10 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void FarmerProfile()
         {
             CreateMap<FarmerPermission, FarmerPlan>()
-                .ForMember(dest=>dest.Id, opt=>opt.MapFrom(src=>src.FarmerId))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.FarmerId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Farmer.Account.Name))
-                .ForMember(dest=>dest.Status, opt => opt.MapFrom(src=> src.Status))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
+                .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Farmer.Avatar))
                 .ReverseMap();
             CreateMap<Farmer, FarmerModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
