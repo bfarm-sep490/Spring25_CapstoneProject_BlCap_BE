@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
@@ -17,7 +18,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface ICaringTaskService
     {
-        Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId);
+        Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status);
         Task<IBusinessResult> GetCaringTaskById(int id);
         Task<IBusinessResult> CreateCaringTask(CreateCaringPlan model);
         Task<IBusinessResult> UpdateDetailCaringTask(int id, UpdateCaringTask model);
@@ -39,9 +40,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId)
+        public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status)
         {
-            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId, problemId: problemId);
+            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId, problemId: problemId, status: status);
             var result = _mapper.Map<List<CaringTaskModel>>(list);
             return new BusinessResult(200, "List caring task", result);
         }

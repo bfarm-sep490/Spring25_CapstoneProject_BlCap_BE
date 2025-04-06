@@ -2,6 +2,7 @@
 using MailKit.Net.Imap;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.Services;
 
@@ -20,11 +21,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("caring-tasks")]
-        public async Task<IActionResult> GetAll(int? plan_id, int? farmer_id, int? problem_id)
+        public async Task<IActionResult> GetAll([FromQuery] GetCaringTaskRequest request)
         {
             try
             {
-                var result = await _caringTaskService.GetAllCaringTask(plan_id, farmer_id, problem_id);
+                var result = await _caringTaskService.GetAllCaringTask(request.plan_id, request.farmer_id, request.problem_id, request.status_list);
                 return Ok(result);
             }
             catch (Exception ex)
