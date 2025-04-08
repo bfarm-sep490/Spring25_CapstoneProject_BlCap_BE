@@ -59,7 +59,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
 
                                 var farmer = await unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(caringTaskId: task.Id);
                                 farmer.IncompleteTasks += 1;
-                                farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+                                farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                                 unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                             }
@@ -85,7 +85,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
 
                                 var farmer = await unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: task.Id);
                                 farmer.IncompleteTasks += 1;
-                                farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+                                farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                                 unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                             }
@@ -111,7 +111,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
 
                                 var farmer = await unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(packagingTaskId: task.Id);
                                 farmer.IncompleteTasks += 1;
-                                farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+                                farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                                 unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                             }

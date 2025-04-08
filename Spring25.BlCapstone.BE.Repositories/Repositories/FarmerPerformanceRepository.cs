@@ -25,8 +25,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .ThenInclude(f => f.FarmerHarvestingTasks)
                                 .Include(f => f.Farmer)
                                     .ThenInclude(f => f.FarmerPackagingTasks)
-                                .Include(f => f.Farmer)
-                                    .ThenInclude(f => f.FarmerPerformance)
                                 .AsQueryable();
 
             if (caringTaskId.HasValue)

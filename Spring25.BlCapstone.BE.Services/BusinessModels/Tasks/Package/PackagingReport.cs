@@ -22,6 +22,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         [JsonPropertyName("report_by")]
         public string? UpdatedBy { get; set; }
         [JsonPropertyName("list_of_image_urls")]
-        public List<string> Images { get; set; }
+        public List<string>? Images { get; set; }
     }
 }

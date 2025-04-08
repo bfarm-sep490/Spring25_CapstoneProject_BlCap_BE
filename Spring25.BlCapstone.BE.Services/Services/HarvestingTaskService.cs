@@ -141,7 +141,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: id);
                     farmer.CompletedTasks += 1;
-                    farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+                    farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                 }
@@ -149,7 +149,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: id);
                     farmer.IncompleteTasks += 1;
-                    farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+                    farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                 }
