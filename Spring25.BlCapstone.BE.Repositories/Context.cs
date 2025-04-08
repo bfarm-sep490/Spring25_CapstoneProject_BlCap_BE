@@ -58,6 +58,8 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<Yield> Yields { get; set; }
         public virtual DbSet<PlanTransaction> PlanTransactions { get; set; }
         public virtual DbSet<OrderProduct> OrderProducts { get; set; }
+        public virtual DbSet<FarmerSpecialization> FarmerSpecializations { get; set; }
+        public virtual DbSet<Specialization> Specializations { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -191,6 +193,10 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(p => p.Plans)
                       .HasForeignKey(p => p.YieldId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(it => it.PlanTransaction)
+                      .WithOne(it => it.Plan)
+                      .HasForeignKey<PlanTransaction>(p => p.Id)
+                      .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Device>()
@@ -461,11 +467,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             });
 
             modelBuilder.Entity<PlanTransaction>()
-                .ToTable("PlanTransaction")
-                .HasOne(pt => pt.Plan)
-                    .WithMany(pt => pt.PlanTransactions)
-                    .HasForeignKey(pt => pt.PlanId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
+                .ToTable("PlanTransaction");
 
             modelBuilder.Entity<OrderProduct>(entity =>
             {
@@ -477,6 +479,23 @@ namespace Spring25.BlCapstone.BE.Repositories
                 entity.HasOne(fpt => fpt.PackagingProduct)
                       .WithMany(fpt => fpt.OrderProducts)
                       .HasForeignKey(fpt => fpt.ProductId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<Specialization>()
+                .ToTable("Specialization");
+
+            modelBuilder.Entity<FarmerSpecialization>(entity =>
+            {
+                entity.ToTable("FarmerSpecialization");
+                entity.HasKey(fs => new { fs.FarmerId, fs.SpecializationId });
+                entity.HasOne(fs => fs.Farmer)
+                      .WithMany(fs => fs.FarmerSpecializations)
+                      .HasForeignKey(fs => fs.FarmerId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(fs => fs.Specialization)
+                      .WithMany(fs => fs.FarmerSpecializations)
+                      .HasForeignKey(fs => fs.SpecializationId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
 

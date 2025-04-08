@@ -34,6 +34,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public Plant Plant { get; set; }
         public Expert Expert { get; set; }
         public Yield Yield { get; set; }  
+        public PlanTransaction PlanTransaction { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<FarmerPermission> FarmerPermissions { get; set; }
         public ICollection<Problem> Problems { get; set; }
@@ -41,6 +42,5 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public ICollection<HarvestingTask> HarvestingTasks { get; set; }
         public ICollection<InspectingForm> InspectingForms { get; set; }
         public ICollection<PackagingTask> PackagingTasks { get; set; }
-        public ICollection<PlanTransaction> PlanTransactions { get; set; }
     }
 }

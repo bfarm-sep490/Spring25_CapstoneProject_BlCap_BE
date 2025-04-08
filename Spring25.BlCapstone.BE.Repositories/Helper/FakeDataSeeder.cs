@@ -772,6 +772,61 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 }
             );
 
+            modelBuilder.Entity<Specialization>().HasData(
+                // Caring Tasks
+                new Specialization { Id = 1, Name = "Trồng rau sạch" },
+                new Specialization { Id = 2, Name = "Trồng cây ăn quả" },
+                new Specialization { Id = 3, Name = "Trồng lúa hữu cơ" },
+                new Specialization { Id = 4, Name = "Trồng hoa màu" },
+                new Specialization { Id = 5, Name = "Sử dụng phân bón hữu cơ" },
+                new Specialization { Id = 6, Name = "Ứng dụng IoT trong nông nghiệp" },
+                new Specialization { Id = 7, Name = "Tưới tiêu tự động" },
+
+                // Harvesting tasks
+                new Specialization { Id = 8, Name = "Thu hoạch thủ công" },
+                new Specialization { Id = 9, Name = "Thu hoạch bằng máy móc" },
+                new Specialization { Id = 10, Name = "Phân loại sản phẩm sau thu hoạch" },
+                new Specialization { Id = 11, Name = "Bảo quản sản phẩm sau thu hoạch" },
+
+                // Packaging Tasks
+                new Specialization { Id = 12, Name = "Đóng gói theo tiêu chuẩn VietGAP" },
+                new Specialization { Id = 13, Name = "Đóng gói xuất khẩu" },
+                new Specialization { Id = 14, Name = "Gắn nhãn truy xuất nguồn gốc" },
+                new Specialization { Id = 15, Name = "Xử lý sản phẩm trước khi đóng gói" },
+                new Specialization { Id = 16, Name = "Bảo quản lạnh" }
+            );
+
+            modelBuilder.Entity<FarmerSpecialization>().HasData(
+                new FarmerSpecialization { FarmerId = 1, SpecializationId = 1 },
+                new FarmerSpecialization { FarmerId = 1, SpecializationId = 4 },
+                new FarmerSpecialization { FarmerId = 1, SpecializationId = 7 },
+                new FarmerSpecialization { FarmerId = 1, SpecializationId = 8 },
+            
+                new FarmerSpecialization { FarmerId = 2, SpecializationId = 2 },
+                new FarmerSpecialization { FarmerId = 2, SpecializationId = 5 },
+                new FarmerSpecialization { FarmerId = 2, SpecializationId = 12 },
+                new FarmerSpecialization { FarmerId = 2, SpecializationId = 14 },
+            
+                new FarmerSpecialization { FarmerId = 3, SpecializationId = 3 },
+                new FarmerSpecialization { FarmerId = 3, SpecializationId = 9 },
+                new FarmerSpecialization { FarmerId = 3, SpecializationId = 10 },
+                new FarmerSpecialization { FarmerId = 3, SpecializationId = 11 },
+            
+                new FarmerSpecialization { FarmerId = 4, SpecializationId = 1 },
+                new FarmerSpecialization { FarmerId = 4, SpecializationId = 6 },
+                new FarmerSpecialization { FarmerId = 4, SpecializationId = 13 },
+                new FarmerSpecialization { FarmerId = 4, SpecializationId = 15 },
+            
+                new FarmerSpecialization { FarmerId = 5, SpecializationId = 2 },
+                new FarmerSpecialization { FarmerId = 5, SpecializationId = 10 },
+                new FarmerSpecialization { FarmerId = 5, SpecializationId = 11 },
+                new FarmerSpecialization { FarmerId = 5, SpecializationId = 16 },
+            
+                new FarmerSpecialization { FarmerId = 6, SpecializationId = 6 },
+                new FarmerSpecialization { FarmerId = 6, SpecializationId = 7 },
+                new FarmerSpecialization { FarmerId = 6, SpecializationId = 14 },
+                new FarmerSpecialization { FarmerId = 6, SpecializationId = 15 }
+            );
         }
     }
 }
