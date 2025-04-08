@@ -137,6 +137,23 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult { Status = 404, Message = "Not found any Harvesting Task", Data = null };
                 }
 
+                if (model.Status.ToLower().Trim().Equals("complete"))
+                {
+                    var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: id);
+                    farmer.CompletedTasks += 1;
+                    farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                    _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
+                }
+                else if (model.Status.ToLower().Trim().Equals("incomplete"))
+                {
+                    var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: id);
+                    farmer.IncompleteTasks += 1;
+                    farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                    _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
+                }
+
                 _mapper.Map(model, harvestingTask);
                 harvestingTask.UpdatedAt = DateTime.Now;
                 harvestingTask.CompleteDate = DateTime.Now;
@@ -144,6 +161,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plant = await _unitOfWork.PlantRepository.GetPlantByHarvestingTask(id);
                 harvestingTask.ProductExpiredDate = DateTime.Now.AddDays(plant.PreservationDay);
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
+                await _unitOfWork.FarmerPerformanceRepository.SaveAsync();
 
                 var images = await _unitOfWork.HarvestingImageRepository.GetHarvestingImagesByTaskId(id);
                 if (!images.Any() || images.Count > 0)

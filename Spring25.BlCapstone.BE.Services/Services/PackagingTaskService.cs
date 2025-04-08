@@ -111,6 +111,23 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any Harvesting Task !");
                 }
 
+                if (model.Status.ToLower().Trim().Equals("complete"))
+                {
+                    var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(packagingTaskId: id);
+                    farmer.CompletedTasks += 1;
+                    farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                    _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
+                }
+                else if (model.Status.ToLower().Trim().Equals("incomplete"))
+                {
+                    var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(packagingTaskId: id);
+                    farmer.IncompleteTasks += 1;
+                    farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                    _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
+                }
+
                 _mapper.Map(model, task);
                 task.CompleteDate = DateTime.Now;
                 task.UpdatedAt = DateTime.Now;
@@ -168,6 +185,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 await _unitOfWork.PackagingProductRepository.SaveAsync();
+                await _unitOfWork.FarmerPerformanceRepository.SaveAsync();
 
                 if (model.Images != null && model.Images.Any())
                 {

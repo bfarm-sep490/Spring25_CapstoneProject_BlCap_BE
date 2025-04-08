@@ -26,6 +26,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(f => f.Account)
                 .Include(f => f.FarmerSpecializations)
                     .ThenInclude(f => f.Specialization)
+                .Include(f => f.FarmerPerformance)
                 .ToListAsync();
         }
         public async Task<Farmer> GetFarmerbyAccountId(int id)
@@ -97,6 +98,5 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToListAsync();
             return freeFarmers;
         }
-
     }
 }

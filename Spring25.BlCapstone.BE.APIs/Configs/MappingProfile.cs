@@ -193,6 +193,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Account.CreatedAt))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Account.UpdatedAt))
                 .ForMember(dest => dest.FarmerSpecials, opt => opt.MapFrom(src => src.FarmerSpecializations.Select(f => f.Specialization)))
+                .ForMember(dest => dest.CompletedTasks, opt => opt.MapFrom(src => src.FarmerPerformance.CompletedTasks))
+                .ForMember(dest => dest.IncompleteTasks, opt => opt.MapFrom(src => src.FarmerPerformance.IncompleteTasks))
+                .ForMember(dest => dest.PerformanceScore, opt => opt.MapFrom(src => src.FarmerPerformance.PerformanceScore))
                 .ReverseMap();
             CreateMap<Farmer, CreateFarmer>()
                 .ReverseMap();

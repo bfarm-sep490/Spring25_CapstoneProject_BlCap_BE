@@ -56,9 +56,16 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                             {
                                 task.Status = "Incomplete";
                                 unitOfWork.CaringTaskRepository.PrepareUpdate(task);
+
+                                var farmer = await unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(caringTaskId: task.Id);
+                                farmer.IncompleteTasks += 1;
+                                farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                                unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                             }
 
                             await unitOfWork.CaringTaskRepository.SaveAsync();
+                            await unitOfWork.FarmerPerformanceRepository.SaveAsync();
                             _logger.LogInformation("complete !");
                         }
                     }
@@ -75,9 +82,16 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                             {
                                 task.Status = "Incomplete";
                                 unitOfWork.HarvestingTaskRepository.PrepareUpdate(task);
+
+                                var farmer = await unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: task.Id);
+                                farmer.IncompleteTasks += 1;
+                                farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                                unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                             }
 
                             await unitOfWork.HarvestingTaskRepository.SaveAsync();
+                            await unitOfWork.FarmerPerformanceRepository.SaveAsync();
                             _logger.LogInformation("complete !");
                         }
                     }
@@ -94,9 +108,16 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                             {
                                 task.Status = "Incomplete";
                                 unitOfWork.PackagingTaskRepository.PrepareUpdate(task);
+
+                                var farmer = await unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(packagingTaskId: task.Id);
+                                farmer.IncompleteTasks += 1;
+                                farmer.PerformanceScore = (farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0));
+
+                                unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                             }
 
                             await unitOfWork.PackagingTaskRepository.SaveAsync();
+                            await unitOfWork.FarmerPerformanceRepository.SaveAsync();
                             _logger.LogInformation("complete !");
                         }
                     }

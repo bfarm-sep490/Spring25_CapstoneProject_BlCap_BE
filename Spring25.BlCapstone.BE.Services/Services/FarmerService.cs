@@ -221,6 +221,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 
                 var rsf = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
 
+                await _unitOfWork.FarmerPerformanceRepository.CreateAsync(new FarmerPerformance
+                {
+                    Id = newAccount.Id,
+                    CompletedTasks = 0,
+                    IncompleteTasks = 0,
+                    PerformanceScore = null
+                });
+
                 if (rsf == null)
                 {
                     return new BusinessResult

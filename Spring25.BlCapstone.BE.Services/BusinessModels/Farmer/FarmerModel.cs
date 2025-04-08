@@ -27,6 +27,12 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Farmer
         public bool IsActive { get; set; }
         [JsonPropertyName("list_farmer_specializations")]
         public List<Special> FarmerSpecials { get; set; }
+        [JsonPropertyName("complete-tasks")]
+        public int CompletedTasks { get; set; }
+        [JsonPropertyName("incomplete-tasks")]
+        public int IncompleteTasks { get; set; }
+        [JsonPropertyName("performance-score")]
+        public double? PerformanceScore { get; set; }
     }
 
     public class Special
