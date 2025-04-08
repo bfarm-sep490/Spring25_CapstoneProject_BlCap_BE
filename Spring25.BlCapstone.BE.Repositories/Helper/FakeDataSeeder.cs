@@ -51,6 +51,52 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new Farmer { Id = 6, AccountId = 15, DOB = new DateTime(2003, 5, 21), Phone = "0838097512", Avatar = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGdR1EiC3BMaU8EUeRTp7Vo8oqhfLkySpTsw&s" }
             );
 
+            modelBuilder.Entity<FarmerPerformance>().HasData(
+                new FarmerPerformance
+                {
+                    Id = 1,
+                    CompletedTasks = 20,
+                    IncompleteTasks = 2,
+                    PerformanceScore = 90.5
+                },
+                new FarmerPerformance
+                {
+                    Id = 2,
+                    CompletedTasks = 15,
+                    IncompleteTasks = 5,
+                    PerformanceScore = 75.0
+                },
+                new FarmerPerformance
+                {
+                    Id = 3,
+                    CompletedTasks = 10,
+                    IncompleteTasks = 10,
+                    PerformanceScore = 50.0
+                },
+                new FarmerPerformance
+                {
+                    Id = 4,
+                    CompletedTasks = 25,
+                    IncompleteTasks = 1,
+                    PerformanceScore = 96.0
+                },
+                new FarmerPerformance
+                {
+                    Id = 5,
+                    CompletedTasks = 12,
+                    IncompleteTasks = 3,
+                    PerformanceScore = 80.0
+                },
+                new FarmerPerformance
+                {
+                    Id = 6,
+                    CompletedTasks = 8,
+                    IncompleteTasks = 7,
+                    PerformanceScore = 53.3
+                }
+            );
+
+
             modelBuilder.Entity<Inspector>().HasData(
                 new Inspector
                 {

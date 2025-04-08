@@ -60,6 +60,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<OrderProduct> OrderProducts { get; set; }
         public virtual DbSet<FarmerSpecialization> FarmerSpecializations { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
+        public virtual DbSet<FarmerPerformance> FarmerPerformances { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,12 +72,14 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<NotificationOwner>()
                 .ToTable("NotificationOwner");
 
-            modelBuilder.Entity<Farmer>()
-                .ToTable("Farmer")
-                .HasOne(f => f.Account)
-                    .WithMany(f => f.Farmers)
-                    .HasForeignKey(f => f.AccountId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<Farmer>(entity =>
+            {
+                entity.ToTable("Farmer");
+                entity.HasOne(it => it.FarmerPerformance)
+                            .WithOne(it => it.Farmer)
+                            .HasForeignKey<FarmerPerformance>(f => f.Id)
+                            .OnDelete(DeleteBehavior.Cascade);
+            });
 
             modelBuilder.Entity<NotificationFarmer>()
                 .ToTable("NotificationFarmer")
@@ -498,6 +501,9 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .HasForeignKey(fs => fs.SpecializationId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
             });
+
+            modelBuilder.Entity<FarmerPerformance>()
+                .ToTable("FarmerPerformance");
 
             FakeDataSeeder.Seed(modelBuilder);
         }

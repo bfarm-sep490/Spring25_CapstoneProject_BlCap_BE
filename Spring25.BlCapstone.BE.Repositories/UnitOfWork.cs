@@ -56,6 +56,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         private OrderProductRepository _orderProductRepository;
         private SpecializationRepository _specializationRepository;
         private FarmerSpecializationRepository _farmerSpecializationRepository;
+        private FarmerPerformanceRepository _farmerPerformanceRepository;
 
         public UnitOfWork()
         {
@@ -105,6 +106,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             _orderProductRepository ??= new OrderProductRepository();
             _specializationRepository ??= new SpecializationRepository();
             _farmerSpecializationRepository ??= new FarmerSpecializationRepository();
+            _farmerPerformanceRepository ??= new FarmerPerformanceRepository();
         }
 
         public UnitOfWork(AccountRepository accountRepository, FarmerRepository farmerRepository,
@@ -125,7 +127,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             ProblemImageRepository problemImageRepository, NotificationFarmerRepository notificationFarmerRepository, NotificationOwnerRepository notificationOwnerRepository, NotificationRetailerRepository notificationRetailerRepository,
             ProblemRepository problemRepository, PackagingProductRepository packagingProductRepository, PackagingTypeRepository packagingTypeRepository,
             PlantYieldRepository plantYieldRepository, PlanTransactionRepository planTransactionRepository, OrderProductRepository orderProductRepository,
-            SpecializationRepository specializationRepository, FarmerSpecializationRepository farmerSpecializationRepository)
+            SpecializationRepository specializationRepository, FarmerSpecializationRepository farmerSpecializationRepository, FarmerPerformanceRepository farmerPerformanceRepository)
         {
             _accountRepository = accountRepository;
             _farmerRepository = farmerRepository;
@@ -173,6 +175,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             _orderProductRepository = orderProductRepository;
             _specializationRepository = specializationRepository;
             _farmerSpecializationRepository = farmerSpecializationRepository;
+            _farmerPerformanceRepository = farmerPerformanceRepository;
         }
 
         public AccountRepository AccountRepository { get { return _accountRepository; } }
@@ -221,5 +224,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public OrderProductRepository OrderProductRepository { get { return _orderProductRepository; } }
         public SpecializationRepository SpecializationRepository { get { return _specializationRepository; } }
         public FarmerSpecializationRepository FarmerSpecializationRepository { get { return _farmerSpecializationRepository; } }
+        public FarmerPerformanceRepository FarmerPerformanceRepository { get { return _farmerPerformanceRepository; } }
     }
 }

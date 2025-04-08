@@ -17,6 +17,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? Avatar { get; set; }
 
         public Account Account { get; set; }
+        public FarmerPerformance FarmerPerformance { get; set; }
         public ICollection<FarmerPermission> FarmerPermissions { get; set; }
         public ICollection<NotificationFarmer> NotificationFarmers { get; set; }
         public ICollection<Problem> Problems { get; set; }
