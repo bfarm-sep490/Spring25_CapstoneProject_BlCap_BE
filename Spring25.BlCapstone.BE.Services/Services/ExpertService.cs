@@ -7,6 +7,7 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -50,7 +51,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> GetAll()
         {
             var list = await _unitOfWork.ExpertRepository.GetExperts();
-            var result = _mapper.Map<List<FarmerModel>>(list);
+            var result = _mapper.Map<List<ExpertModel>>(list);
 
             if(list.Count > 0)
             {
@@ -67,7 +68,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var users = await _unitOfWork.ExpertRepository.GetExperts(id);
-                var result = _mapper.Map<List<FarmerModel>>(users);
+                var result = _mapper.Map<List<ExpertModel>>(users);
 
                 if (users.Count <= 0)
                 {

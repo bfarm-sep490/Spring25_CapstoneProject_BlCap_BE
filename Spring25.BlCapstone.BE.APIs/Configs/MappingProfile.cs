@@ -6,6 +6,7 @@ using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Device;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
@@ -78,7 +79,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 
         private void ExpertProfile()
         {
-            CreateMap<Expert, FarmerModel>()
+            CreateMap<Expert, ExpertModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Account.IsActive))
@@ -191,8 +192,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.IsActive, opt => opt.MapFrom(src => src.Account.IsActive))
                 .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Account.CreatedAt))
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Account.UpdatedAt))
+                .ForMember(dest => dest.FarmerSpecials, opt => opt.MapFrom(src => src.FarmerSpecializations.Select(f => f.Specialization)))
                 .ReverseMap();
             CreateMap<Farmer, CreateFarmer>()
+                .ReverseMap();
+            CreateMap<Specialization, Special>()
                 .ReverseMap();
         }
 

@@ -6,6 +6,7 @@ using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
@@ -1018,7 +1019,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start, end);
                
-                var rs = _mapper.Map<List<FarmerModel>>(farmers);
+                var rs = _mapper.Map<List<ExpertModel>>(farmers);
 
                 if (rs.Count <= 0)
                 {

@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Spring25.BlCapstone.BE.Services.BusinessModels.Farmer
+namespace Spring25.BlCapstone.BE.Services.BusinessModels.Expert
 {
-    public class FarmerModel
+    public class ExpertModel
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -25,15 +25,5 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Farmer
         public DateTime? UpdatedAt { get; set; }
         [JsonPropertyName("is_active")]
         public bool IsActive { get; set; }
-        [JsonPropertyName("list_farmer_specializations")]
-        public List<Special> FarmerSpecials { get; set; }
-    }
-
-    public class Special
-    {
-        [JsonPropertyName("special_id")]
-        public int Id { get; set; }
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
     }
 }
