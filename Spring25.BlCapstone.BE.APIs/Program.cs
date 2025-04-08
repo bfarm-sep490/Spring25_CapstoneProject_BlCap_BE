@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using Spring25.BlCapstone.BackgroundServices.BackgroundServices;
 using Spring25.BlCapstone.BE.APIs.Configs;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
@@ -118,7 +119,7 @@ builder.Services.AddSingleton<RedisManagement>();
 builder.Services.AddHostedService<TaskCheckStatusService>();
 builder.Services.AddHostedService<TaskChangeStatusPlanByOrder>();
 builder.Services.AddHostedService<ExpiredProductCheckStatusService>();
-
+builder.Services.AddScoped<IVechainInteraction, VechainInteraction>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -2,6 +2,7 @@
 using IO.Ably;
 using Microsoft.EntityFrameworkCore;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -62,10 +63,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly VechainInteraction _veChainInteraction;
         public PlanService(IMapper mapper)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _veChainInteraction ??= new VechainInteraction();
         }
         
         public async Task<IBusinessResult> GetById(int id)
@@ -73,13 +76,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var plan = await _unitOfWork.PlanRepository.GetPlan(id);
-
                 var res = _mapper.Map<PlanModel>(plan);
                 if (res != null)
                 {
                     return new BusinessResult(200, "Plan ne", res);
                 }
-
                 return new BusinessResult(404, "Not found any Plans", null);
             }
             catch (Exception ex)
