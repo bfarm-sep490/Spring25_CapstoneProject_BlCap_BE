@@ -28,20 +28,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             return Ok(rs);
         }
 
-        [HttpPut("{id}/result-content")]
-        public async Task<IActionResult> UpdateRC(int id, UpdateResult model)
-        {
-            try
-            {
-                var rs = await _problemService.UpdateResult(id, model);
-                return Ok(rs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create(CreateProblem model)
         {
@@ -63,7 +49,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             return Ok(rs);
         }
 
-        [HttpPost("{id}/problem-report")]
+        [HttpPut("{id}/problem-report")]
         public async Task<IActionResult> ReportProblem(int id, ReportProblem model)
         {
             try
