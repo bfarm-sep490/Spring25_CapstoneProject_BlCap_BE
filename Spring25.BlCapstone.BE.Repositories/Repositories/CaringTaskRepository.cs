@@ -176,5 +176,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToListAsync();
             return tasks;
         }
+
+        public async Task<List<CaringTask>> GetAllCaringTasksByProblemId(int problemId)
+        {
+            return await _context.CaringTasks
+                                 .Include(ct => ct.Problem)
+                                 .Where(ct => ct.ProblemId == problemId)
+                                 .ToListAsync();
+        }
     }
 }

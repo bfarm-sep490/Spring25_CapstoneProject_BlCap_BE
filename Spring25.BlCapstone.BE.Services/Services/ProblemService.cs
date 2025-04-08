@@ -20,6 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateResult(int id, UpdateResult model);
         Task<IBusinessResult> Create(CreateProblem model);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> ReportProblem(int id, ReportProblem model);
     }
 
     public class ProblemService : IProblemService
@@ -165,6 +166,54 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var url = image.Select(x => x.Url).ToList();
 
                 return new BusinessResult(200, "Upload success !", url);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> ReportProblem(int id, ReportProblem model)
+        {
+            try
+            {
+                var problem = await _unitOfWork.ProblemRepository.GetByIdAsync(id);
+                if (problem == null)
+                {
+                    return new BusinessResult(404, "Not found any problems");
+                }
+
+                if (!model.Status.ToLower().Trim().Equals("cancel") && !model.Status.ToLower().Trim().Equals("resolve"))
+                {
+                    return new BusinessResult(400, $"Invalid status for problem: {model.Status}");
+                }
+
+                problem.Status = model.Status;
+                problem.ResultContent = model.ResultContent;
+                await _unitOfWork.ProblemRepository.UpdateAsync(problem);
+                var rs = _mapper.Map<ProblemModel>(problem);
+
+                var tasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasksByProblemId(id);
+
+                if (model.Status.ToLower().Trim().Equals("cancel"))
+                {
+                    foreach (var task in tasks)
+                    {
+                        task.Status = "Cancel";
+                        _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
+                    }
+                } 
+                else
+                {
+                    foreach (var task in tasks)
+                    {
+                        task.Status = "Ongoing";
+                        _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
+                    }
+                }
+
+                await _unitOfWork.CaringTaskRepository.SaveAsync();
+                return new BusinessResult(200, "Report successfully", rs);
             }
             catch (Exception ex)
             {
