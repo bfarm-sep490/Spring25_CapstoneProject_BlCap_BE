@@ -34,7 +34,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
         public double EstimatedProduct { get; set; }
 
         [JsonPropertyName("_estimatedUnit")]
-        public int EstimatedUnit { get; set; }
+        public string EstimatedUnit { get; set; }
 
         [JsonPropertyName("_status")]
         public string Status { get; set; }

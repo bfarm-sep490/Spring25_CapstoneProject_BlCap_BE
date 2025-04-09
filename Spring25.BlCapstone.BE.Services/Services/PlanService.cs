@@ -64,13 +64,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly VechainInteraction _veChainInteraction;
-        public PlanService(IMapper mapper)
+        private readonly IVechainInteraction _vechainInteraction;
+        public PlanService(IMapper mapper, IVechainInteraction vechainInteraction)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
             _veChainInteraction ??= new VechainInteraction();
+            _vechainInteraction = vechainInteraction;
         }
-        
+
         public async Task<IBusinessResult> GetById(int id)
         {
             try
@@ -490,7 +492,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach (var task in caringTasks)
                     {
                         task.Status = "Ongoing";
-                        await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
+                        _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
                     }
                 }
 
@@ -500,7 +502,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach (var form in inspectingForms)
                     {
                         form.Status = "Ongoing";
-                        await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
+                        _unitOfWork.InspectingFormRepository.PrepareUpdate(form);
                     }
                 }
 
@@ -510,7 +512,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach(var task in packagingTasks)
                     {
                         task.Status = "Ongoing";
-                        await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
+                        _unitOfWork.PackagingTaskRepository.PrepareUpdate(task);
                     }
                 }
 
@@ -520,11 +522,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     foreach(var task in harvestingTasks)
                     {
                         task.Status = "Ongoing";
-                        await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
+                        _unitOfWork.HarvestingTaskRepository.PrepareUpdate(task);
                     }
                 }
 
+                var result = await _vechainInteraction.CreateNewVechainPlan(new CreatedVeChainPlan
+                {
+                    PlanId = id,
+                    PlantId = plan.PlantId,
+                    YieldId = plan.YieldId.Value,
+                    ExpertId = plan.ExpertId,
+                    PlanName = plan.PlanName,
+                    StartDate = plan.StartDate.Value.Date.ToString(),
+                    EndDate = plan.EndDate.Value.Date.ToString(),
+                    EstimatedProduct = plan.EstimatedProduct.Value,
+                    EstimatedUnit = plan.EstimatedUnit,
+                    Status = plan.Status,
+                });
+
+                await _unitOfWork.PlanTransactionRepository.CreateAsync(new PlanTransaction
+                {
+                    Id = id,
+                    UrlAddress = result
+                });
+
                 await _unitOfWork.PlanRepository.SaveAsync();
+                await _unitOfWork.CaringTaskRepository.SaveAsync();
+                await _unitOfWork.InspectingFormRepository.SaveAsync();
+                await _unitOfWork.PackagingTaskRepository.SaveAsync();
+                await _unitOfWork.HarvestingTaskRepository.SaveAsync();
 
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
             }

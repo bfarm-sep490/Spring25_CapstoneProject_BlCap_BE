@@ -23,7 +23,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
         {
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri("http://localhost:3000/vechain/contracts/")
+                BaseAddress = new Uri("https://ve-api.outfit4rent.online/vechain/contracts/")
             };
         }
 
