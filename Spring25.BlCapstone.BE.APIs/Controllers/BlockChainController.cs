@@ -14,7 +14,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             _blockchain = blockchain;
         }
-        [HttpGet("/plan/{contractAddress}")]
+
+        [HttpGet("plan/{contractAddress}")]
         public async Task<IActionResult> GetPlanByContractAddress([FromRoute]string contractAddress)
         {
             try
@@ -27,7 +28,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("/plan")]
+
+        [HttpPost("plan")]
         public async Task<IActionResult> CreateVechainPlan([FromBody]CreatedVeChainPlan model)
         {
             try
@@ -40,7 +42,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("/{addressContract}/inspect")]
+
+        [HttpPost("{addressContract}/inspect")]
         public async Task<IActionResult> CreateVechainInspect([FromRoute]string addressContract ,[FromBody] CreateVechainInspect model)
         {
             try
@@ -53,7 +56,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("/{addressContract}/task")]
+
+        [HttpPost("{addressContract}/task")]
         public async Task<IActionResult> CreateVechainTask([FromRoute] string addressContract, [FromBody] CreateVechainTask model)
         {
             try
