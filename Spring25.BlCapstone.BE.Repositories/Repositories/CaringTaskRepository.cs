@@ -184,5 +184,20 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Where(ct => ct.ProblemId == problemId)
                                  .ToListAsync();
         }
+
+        public async Task<CaringTask> GetCaringTaskById(int id)
+        {
+            return await _context.CaringTasks
+                                 .Include(ct => ct.FarmerCaringTasks)
+                                        .ThenInclude(ct => ct.Farmer)
+                                            .ThenInclude(ct => ct.Account)
+                                 .Include(ct => ct.CaringFertilizers)
+                                        .ThenInclude(ct => ct.Fertilizer)
+                                 .Include(ct => ct.CaringPesticides)
+                                        .ThenInclude(ct => ct.Pesticide)
+                                 .Include(ct => ct.CaringItems)
+                                        .ThenInclude(ct => ct.Item)
+                                 .FirstOrDefaultAsync(ct => ct.Id == id);
+        }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -34,10 +36,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private IMapper _mapper;
-        public CaringTaskService(UnitOfWork unitOfWork, IMapper mapper)
+        private readonly IVechainInteraction _vechainInteraction;
+        public CaringTaskService(UnitOfWork unitOfWork, IMapper mapper, IVechainInteraction vechainInteraction)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _vechainInteraction = vechainInteraction;
         }
 
         public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status)
@@ -285,7 +289,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
+                var caringTask = await _unitOfWork.CaringTaskRepository.GetCaringTaskById(id);
                 if (caringTask == null)
                 {
                     return new BusinessResult(404, "Not found any Caring Tasks");
@@ -298,6 +302,47 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
+
+                    var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(caringTaskId: id);
+                    var task = new DataTask
+                    {
+                        Description = caringTask.Description,
+                        Farmer = caringTask.FarmerCaringTasks.Select(ct => new VeChainFarmer
+                        {
+                            Id = ct.FarmerId,
+                            Name = ct.Farmer.Account.Name,
+                        }).FirstOrDefault(),
+                        Fertilizers = caringTask.CaringFertilizers.Select(ct => new VeChainItem
+                        {
+                            Id = ct.Id,
+                            Name = ct.Fertilizer.Name,
+                            Quantity = ct.Quantity,
+                            Unit = ct.Unit,
+                        }).ToList(),
+                        Pesticides = caringTask.CaringPesticides.Select(ct => new VeChainItem
+                        {
+                            Id = ct.Id,
+                            Name = ct.Pesticide.Name,
+                            Quantity = ct.Quantity,
+                            Unit = ct.Unit,
+                        }).ToList(),
+                        Items = caringTask.CaringItems.Select(ct => new VeChainItem
+                        {
+                            Id = ct.Id,
+                            Name = ct.Item.Name,
+                            Quantity = ct.Quantity,
+                            Unit = ct.Unit,
+                        }).ToList(),
+                        Timestamp = DateTime.Now.Date.ToString()
+                    };
+
+                    var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
+                    {
+                        TaskId = id,
+                        TaskType = caringTask.TaskType,
+                        Status = "Complete",
+                        Data = JsonConvert.SerializeObject(task)
+                    });
                 } 
                 else if (model.Status.ToLower().Trim().Equals("incomplete"))
                 {

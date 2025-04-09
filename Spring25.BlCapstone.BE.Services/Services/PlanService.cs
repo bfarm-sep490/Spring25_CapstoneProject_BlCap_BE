@@ -801,6 +801,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
         }
+
         public async Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id)
         {
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
@@ -1320,6 +1321,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult(500, ex.Message);
             }
         }
+
         public async Task<IBusinessResult> GetSuggestTasksByPlanId(int planId,int suggestPlanId)
         {
             var result = new SuggestTasksModel();
@@ -1393,6 +1395,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             return new BusinessResult(200,"Suggest Tasks by PlanId",result);
         }
+
         public async Task<IBusinessResult> GetSuggestPlansByPlanId(int planId)
         {
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);

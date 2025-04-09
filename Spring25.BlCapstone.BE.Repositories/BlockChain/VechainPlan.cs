@@ -54,32 +54,35 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
     }
     public class VeChainFarmer
     {
-        public string Id { get; set; }
-        public string N { get; set; } // Name
+        public int Id { get; set; }
+        public string Name { get; set; } // Name
     }
+
     public class DataInspect
     {
-        public string D { get; set; }          // Description
-        public VeChainFarmer F { get; set; }          // Farmer
-        public List<VeChainItem> Ft { get; set; }     // Fertilizers
-        public List<VeChainItem> P { get; set; }      // Pesticides
-        public List<VeChainItem> I { get; set; }      // Item
-        public string T { get; set; }            // Timestamp
+        public string Description { get; set; }          // Description
+        public VeChainFarmer Farmer { get; set; }          // Farmer
+        public List<VeChainItem> Fertilizers { get; set; }     // Fertilizers
+        public List<VeChainItem> Pesticides { get; set; }      // Pesticides
+        public List<VeChainItem> Item { get; set; }      // Item
+        public string Timestamp { get; set; }            // Timestamp
     }
+
     public class DataTask
     {
-        public string D { get; set; }// Description
-        public Farmer F { get; set; }// Farmer
-        public List<VeChainItem> Ft { get; set; }// Fertilizers
-        public List<VeChainItem> P { get; set; } // Pesticides
-        public List<VeChainItem> I { get; set; }  // Item
-        public string T { get; set; } // Timestamp
+        public string Description { get; set; } // Description
+        public VeChainFarmer Farmer { get; set; } // Farmer
+        public List<VeChainItem> Fertilizers { get; set; } = new List<VeChainItem>(); // Fertilizers
+        public List<VeChainItem> Pesticides { get; set; } = new List<VeChainItem>();  // Pesticides
+        public List<VeChainItem> Items { get; set; } = new List<VeChainItem>();  // Item
+        public string Timestamp { get; set; } // Timestamp
     }
+
     public class VeChainItem
     {
-        public string Id { get; set; }
-        public string N { get; set; } // Name
-        public int Q { get; set; }    // Quantity
-        public string U { get; set; } // Unit
+        public int Id { get; set; }
+        public string Name { get; set; } // Name
+        public float Quantity { get; set; }    // Quantity
+        public string Unit { get; set; } // Unit
     }
 }
