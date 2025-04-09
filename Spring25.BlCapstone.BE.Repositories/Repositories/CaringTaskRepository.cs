@@ -187,7 +187,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
         public async Task<CaringTask> GetCaringTaskById(int id)
         {
-            return await _context.CaringTasks
+            var rs = await _context.CaringTasks
                                  .Include(ct => ct.FarmerCaringTasks)
                                         .ThenInclude(ct => ct.Farmer)
                                             .ThenInclude(ct => ct.Account)
@@ -198,6 +198,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(ct => ct.CaringItems)
                                         .ThenInclude(ct => ct.Item)
                                  .FirstOrDefaultAsync(ct => ct.Id == id);
+            return rs;
         }
     }
 }

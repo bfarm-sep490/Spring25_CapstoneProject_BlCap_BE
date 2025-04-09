@@ -13,6 +13,7 @@ using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -329,11 +330,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Items = caringTask.CaringItems.Select(ct => new VeChainItem
                         {
                             Id = ct.Id,
-                            Name = ct.Item.Name,
+                            Name = ct.Item != null ? ct.Item.Name : "",
                             Quantity = ct.Quantity,
                             Unit = ct.Unit,
                         }).ToList(),
-                        Timestamp = DateTime.Now.Date.ToString()
+                        Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString()
                     };
 
                     var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
@@ -380,7 +381,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                return new BusinessResult { Status = 200, Message = "Update successfull", Data = caringTask };
+                return new BusinessResult { Status = 200, Message = "Update successfull", Data = model };
             }
             catch (Exception ex)
             {
