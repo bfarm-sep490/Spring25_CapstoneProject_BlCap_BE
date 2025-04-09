@@ -36,7 +36,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<VechainTxResponse>();
-                    if (result.TxId == null) throw new Exception($"Error creating VeChain plan");
+                    if (result.Data == null) throw new Exception($"Error creating VeChain plan");
                     return result;
                 }
                 else
@@ -60,8 +60,8 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<VechainTxResponse>();
-                    if (result.TxId == null) throw new Exception($"Error creating VeChain plan");             
-                    return result.TxId.ContractAddress;
+                    if (result == null) throw new Exception($"Error creating VeChain plan");             
+                    return result.Data.ContractAddress;
                 }
                 else
                 {
@@ -84,7 +84,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<VechainTxResponse>();
-                    if (result.TxId == null) throw new Exception($"Error creating VeChain plan");
+                    if (result.Data == null) throw new Exception($"Error creating VeChain plan");
                     return result;
                 }
                 else

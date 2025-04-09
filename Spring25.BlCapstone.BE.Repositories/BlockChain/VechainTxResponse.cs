@@ -10,7 +10,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
     {
         public int Status { get; set; }
         public string Message { get; set; }
-        public TxId TxId { get; set; } = new TxId();
+        public TxId Data { get; set; } = new TxId();
      }
 
     public class TxId
