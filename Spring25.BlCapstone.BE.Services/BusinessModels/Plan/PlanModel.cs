@@ -43,6 +43,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string? UpdatedBy { get; set; }
         [JsonPropertyName("is_approved")]
         public bool IsApproved { get; set; }
+        [JsonPropertyName("contract_address")]
+        public string UrlAddress { get; set; }
         [JsonPropertyName("order_information")]
         public List<OrderInfor> OrderInfor { get; set; }
         [JsonPropertyName("plant_information")]

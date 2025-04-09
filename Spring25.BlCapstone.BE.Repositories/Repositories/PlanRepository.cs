@@ -29,6 +29,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(p => p.Expert)
                     .ThenInclude(p => p.Account)
                 .Include(p => p.Orders)
+                .Include(p => p.PlanTransaction)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -39,6 +40,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .ThenInclude(e => e.Account)
                                 .Include(p => p.Plant)
                                 .Include(p => p.Yield)
+                                .Include(p => p.PlanTransaction)
                                 .AsQueryable();
 
             if (expertId != null)
