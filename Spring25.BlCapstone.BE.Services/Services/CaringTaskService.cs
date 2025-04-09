@@ -381,7 +381,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                return new BusinessResult { Status = 200, Message = "Update successfull", Data = model };
+                var rs = _mapper.Map<CaringTaskModel>(caringTask);
+
+                return new BusinessResult { Status = 200, Message = "Update successfull", Data = rs };
             }
             catch (Exception ex)
             {

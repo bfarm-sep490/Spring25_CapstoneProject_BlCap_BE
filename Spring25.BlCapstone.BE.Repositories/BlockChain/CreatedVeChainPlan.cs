@@ -59,7 +59,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
         public int InspectionId { get; set; }
 
         [JsonPropertyName("_inspectionType")]
-        public int InspectionType { get; set; }
+        public string InspectionType { get; set; }
 
         [JsonPropertyName("_data")]
         public string Data { get; set; }

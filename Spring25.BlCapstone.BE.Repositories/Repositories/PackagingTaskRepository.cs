@@ -106,5 +106,17 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 })
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<PackagingTask> GetPackagingTaskById(int id)
+        {
+            var rs = await _context.PackagingTasks
+                                 .Include(ct => ct.FarmerPackagingTasks)
+                                        .ThenInclude(ct => ct.Farmer)
+                                            .ThenInclude(ct => ct.Account)
+                                 .Include(ct => ct.PackagingItems)
+                                        .ThenInclude(ct => ct.Item)
+                                 .FirstOrDefaultAsync(ct => ct.Id == id);
+            return rs;
+        }
     }
 }

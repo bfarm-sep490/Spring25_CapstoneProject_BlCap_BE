@@ -60,12 +60,25 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
 
     public class DataInspect
     {
-        public string Description { get; set; }          // Description
-        public VeChainFarmer Farmer { get; set; }          // Farmer
-        public List<VeChainItem> Fertilizers { get; set; }     // Fertilizers
-        public List<VeChainItem> Pesticides { get; set; }      // Pesticides
-        public List<VeChainItem> Item { get; set; }      // Item
-        public string Timestamp { get; set; }            // Timestamp
+        public VeChainFarmer Inspector { get; set; }
+        public float Arsen { get; set; }
+        public float Plumbum { get; set; }
+        public float Cadmi { get; set; }
+        public float Hydrargyrum { get; set; }
+        public float Salmonella { get; set; }
+        public float Coliforms { get; set; }
+        public float Ecoli { get; set; }
+        public float Glyphosate_Glufosinate { get; set; }
+        public float SulfurDioxide { get; set; }
+        public float MethylBromide { get; set; }
+        public float HydrogenPhosphide { get; set; }
+        public float Dithiocarbamate { get; set; }
+        public float Nitrat { get; set; }
+        public float NaNO3_KNO3 { get; set; }
+        public float Chlorate { get; set; }
+        public float Perchlorate { get; set; }
+        public string ResultContent { get; set; }
+        public string Timestamp { get; set; } 
     }
 
     public class DataTask

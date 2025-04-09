@@ -180,5 +180,17 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                         .ThenInclude(x => x.InspectingResult)
                                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<HarvestingTask> GetHarvestingTaskById(int id)
+        {
+            var rs = await _context.HarvestingTasks
+                                 .Include(ct => ct.FarmerHarvestingTasks)
+                                        .ThenInclude(ct => ct.Farmer)
+                                            .ThenInclude(ct => ct.Account)
+                                 .Include(ct => ct.HarvestingItems)
+                                        .ThenInclude(ct => ct.Item)
+                                 .FirstOrDefaultAsync(ct => ct.Id == id);
+            return rs;
+        }
     }
 }

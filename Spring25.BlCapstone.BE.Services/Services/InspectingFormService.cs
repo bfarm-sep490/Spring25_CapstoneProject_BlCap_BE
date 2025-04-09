@@ -27,6 +27,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly IMapper _mapper;
         private readonly UnitOfWork _unitOfWork;
+
         public InspectingFormService(IMapper mapper, UnitOfWork unitOfWork)
         {
             _mapper = mapper;

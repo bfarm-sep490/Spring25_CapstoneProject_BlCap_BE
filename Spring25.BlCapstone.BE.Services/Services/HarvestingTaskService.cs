@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -40,11 +42,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly IMapper _mapper;
         private readonly UnitOfWork _unitOfWork;
+        private readonly IVechainInteraction _vechainInteraction;
 
-        public HarvestingTaskService(IMapper mapper, UnitOfWork unitOfWork)
+        public HarvestingTaskService(IMapper mapper, UnitOfWork unitOfWork, IVechainInteraction vechainInteraction)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _vechainInteraction = vechainInteraction;
         }
 
         public async Task<IBusinessResult> CreateHarvestingTask(CreateHarvestingPlan model)
@@ -131,7 +135,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+                var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTaskById(id);
                 if (harvestingTask == null)
                 {
                     return new BusinessResult { Status = 404, Message = "Not found any Harvesting Task", Data = null };
@@ -139,6 +143,33 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (model.Status.ToLower().Trim().Equals("complete"))
                 {
+                    var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(harvestingTaskId: id);
+                    var task = new DataTask
+                    {
+                        Description = harvestingTask.Description,
+                        Farmer = harvestingTask.FarmerHarvestingTasks.Select(ct => new VeChainFarmer
+                        {
+                            Id = ct.FarmerId,
+                            Name = ct.Farmer.Account.Name,
+                        }).FirstOrDefault(),
+                        Items = harvestingTask.HarvestingItems.Select(ct => new VeChainItem
+                        {
+                            Id = ct.Id,
+                            Name = ct.Item != null ? ct.Item.Name : "",
+                            Quantity = ct.Quantity,
+                            Unit = ct.Unit,
+                        }).ToList(),
+                        Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString()
+                    };
+
+                    var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
+                    {
+                        TaskId = id,
+                        TaskType = "Harvesting",
+                        Status = "Complete",
+                        Data = JsonConvert.SerializeObject(task)
+                    });
+
                     var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: id);
                     farmer.CompletedTasks += 1;
                     farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
@@ -184,7 +215,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                return new BusinessResult { Status = 200, Message = "Update successfull", Data = harvestingTask };
+                var rs = _mapper.Map<HarvestingTaskModel>(harvestingTask);
+
+                return new BusinessResult { Status = 200, Message = "Update successfull", Data = rs };
             }
             catch (Exception ex)
             {

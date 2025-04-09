@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
@@ -29,11 +31,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly IMapper _mapper;
         private readonly UnitOfWork _unitOfWork;
+        private readonly IVechainInteraction _vechainInteraction;
 
-        public PackagingTaskService(IMapper mapper)
+        public PackagingTaskService(IMapper mapper, IVechainInteraction vechainInteraction)
         {
             _mapper = mapper;
             _unitOfWork ??= new UnitOfWork();
+            _vechainInteraction = vechainInteraction;
         }
 
         public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId)
@@ -99,8 +103,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var task = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
-                if (task == null)
+                var packTask = await _unitOfWork.PackagingTaskRepository.GetPackagingTaskById(id);
+                if (packTask == null)
                 {
                     return new BusinessResult(404, "Not found any Packaging tasks");
                 }
@@ -113,6 +117,33 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (model.Status.ToLower().Trim().Equals("complete"))
                 {
+                    var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(packagingTaskId: id);
+                    var task = new DataTask
+                    {
+                        Description = packTask.Description,
+                        Farmer = packTask.FarmerPackagingTasks.Select(ct => new VeChainFarmer
+                        {
+                            Id = ct.FarmerId,
+                            Name = ct.Farmer.Account.Name,
+                        }).FirstOrDefault(),
+                        Items = packTask.PackagingItems.Select(ct => new VeChainItem
+                        {
+                            Id = ct.Id,
+                            Name = ct.Item != null ? ct.Item.Name : "",
+                            Quantity = ct.Quantity,
+                            Unit = ct.Unit,
+                        }).ToList(),
+                        Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString()
+                    };
+
+                    var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
+                    {
+                        TaskId = id,
+                        TaskType = "Packaging",
+                        Status = "Complete",
+                        Data = JsonConvert.SerializeObject(task)
+                    });
+
                     var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(packagingTaskId: id);
                     farmer.CompletedTasks += 1;
                     farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
@@ -128,11 +159,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                 }
 
-                _mapper.Map(model, task);
-                task.CompleteDate = DateTime.Now;
-                task.UpdatedAt = DateTime.Now;
+                _mapper.Map(model, packTask);
+                packTask.CompleteDate = DateTime.Now;
+                packTask.UpdatedAt = DateTime.Now;
 
-                var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
+                var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(packTask);
 
                 var images = await _unitOfWork.PackagingImageRepository.GetPackagingImagesByTaskId(id);
                 if (!images.Any() || images.Count > 0)
@@ -143,14 +174,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(task.PackagingTypeId.Value);
+                var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(packTask.PackagingTypeId.Value);
                 float isSpare = model.TotalPackagedWeight - (model.PackagedItemCount * type.QuantityPerPack);
 
                 if (isSpare == 0)
                 {
                     _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
                     {
-                        PackagingTaskId = task.Id,
+                        PackagingTaskId = packTask.Id,
                         HarvestingTaskId = model.HarvestingTaskId,
                         QuantityPerPack = type.QuantityPerPack,
                         PackQuantity = model.PackagedItemCount,
@@ -163,7 +194,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
                     {
-                        PackagingTaskId = task.Id,
+                        PackagingTaskId = packTask.Id,
                         HarvestingTaskId = model.HarvestingTaskId,
                         QuantityPerPack = type.QuantityPerPack,
                         PackQuantity = model.PackagedItemCount - 1,
@@ -174,7 +205,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                     _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
                     {
-                        PackagingTaskId = task.Id,
+                        PackagingTaskId = packTask.Id,
                         HarvestingTaskId = model.HarvestingTaskId,
                         QuantityPerPack = Math.Abs(isSpare),
                         PackQuantity = 1,
@@ -199,9 +230,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                var res = _mapper.Map<PackagingTaskModel>(packTask);
+
                 if (rs > 0)
                 {
-                    return new BusinessResult(200, "Update successfully!", task);
+                    return new BusinessResult(200, "Update successfully!", res);
                 }
                 else
                 {

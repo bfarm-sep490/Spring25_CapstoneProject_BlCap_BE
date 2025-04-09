@@ -42,5 +42,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<InspectingForm> GetInspectingFormById(int id)
+        {
+            return await _context.InspectingForms
+                                        .Include(ir => ir.Inspector)
+                                            .ThenInclude(ir => ir.Account)
+                                 .FirstOrDefaultAsync(ir => ir.Id == id);
+        }
     }
 }

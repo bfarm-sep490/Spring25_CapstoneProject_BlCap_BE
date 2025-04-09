@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using IO.Ably;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
@@ -26,10 +28,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public InspectingResultService(IMapper mapper)
+        private readonly IVechainInteraction _vechainInteraction;
+
+        public InspectingResultService(IMapper mapper, IVechainInteraction vechainInteraction)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
+            _vechainInteraction = vechainInteraction;
         }
 
         public async Task<IBusinessResult> GetAllResults(string? evaluatedResult)
@@ -96,12 +101,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 string res = await ClassifyResult(model, plant.Id);
                 result.EvaluatedResult = res;
-                await _unitOfWork.InspectingResultRepository.CreateAsync(result);
+                _unitOfWork.InspectingResultRepository.PrepareCreate(result);
                 if (model.Images != null && model.Images.Any())
                 {
                     foreach (var image in model.Images)
                     {
-                        await _unitOfWork.InspectingImageRepository.CreateAsync(new InspectingImage
+                        _unitOfWork.InspectingImageRepository.PrepareCreate(new InspectingImage
                         {
                             ResultId = id,
                             Url = image
@@ -109,11 +114,50 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                var insForm = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
+                var insForm = await _unitOfWork.InspectingFormRepository.GetInspectingFormById(id);
                 insForm.Status = "Complete";
-                await _unitOfWork.InspectingFormRepository.UpdateAsync(insForm);
+                _unitOfWork.InspectingFormRepository.PrepareUpdate(insForm);
 
                 var re = _mapper.Map<InspectingResultModel>(result);
+
+                var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(inspectingFormId: id);
+                var task = new DataInspect
+                {
+                    Arsen = model.Arsen,
+                    Plumbum = model.Plumbum,
+                    Cadmi = model.Cadmi,
+                    Hydrargyrum = model.Hydrargyrum,
+                    Salmonella = model.Salmonella,
+                    Coliforms = model.Coliforms,
+                    Ecoli = model.Ecoli,
+                    Glyphosate_Glufosinate = model.Glyphosate_Glufosinate,
+                    SulfurDioxide = model.SulfurDioxide,
+                    MethylBromide = model.MethylBromide,
+                    HydrogenPhosphide = model.HydrogenPhosphide,
+                    Dithiocarbamate = model.Dithiocarbamate,
+                    Nitrat = model.Nitrat,
+                    NaNO3_KNO3 = model.NaNO3_KNO3,
+                    Chlorate = model.Chlorate,
+                    Perchlorate = model.Perchlorate,
+                    ResultContent = model.ResultContent == null ? "" : model.ResultContent,
+                    Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString(),
+                    Inspector = new VeChainFarmer
+                    {
+                        Id = insForm.InspectorId == null ? 0 : insForm.InspectorId.Value,
+                        Name = insForm.Inspector.Account.Name
+                    }
+                };
+
+                var resultBlock = await _vechainInteraction.CreateNewVechainInspect(blTransaction.UrlAddress, new CreateVechainInspect
+                {
+                    InspectionId = id,
+                    InspectionType = res,
+                    Data = JsonConvert.SerializeObject(task)
+                });
+
+                await _unitOfWork.InspectingResultRepository.SaveAsync();
+                await _unitOfWork.InspectingImageRepository.SaveAsync();
+                await _unitOfWork.InspectingFormRepository.SaveAsync();
 
                 return new BusinessResult(200, "Create inspecting result success !", re);
             }
