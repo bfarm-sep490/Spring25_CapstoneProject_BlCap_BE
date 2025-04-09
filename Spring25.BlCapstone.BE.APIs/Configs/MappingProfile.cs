@@ -432,10 +432,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void HistoryFarmerProfile()
         {
             CreateMap<FarmerCaringTask, HistoryFarmersTask>()
+                .ForMember(dest => dest.FarmerName, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<FarmerHarvestingTask, HistoryFarmersTask>()
+                .ForMember(dest => dest.FarmerName, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
             CreateMap<FarmerPackagingTask, HistoryFarmersTask>()
+                .ForMember(dest => dest.FarmerName, opt => opt.MapFrom(src => src.Farmer.Account.Name))
                 .ReverseMap();
         }
 

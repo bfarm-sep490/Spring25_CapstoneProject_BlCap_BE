@@ -11,6 +11,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks
     {
         [JsonPropertyName("farmer_id")]
         public int FarmerId { get; set; }
+        [JsonPropertyName("farmer_name")]
+        public string FarmerName { get; set; } 
         [JsonPropertyName("description")]
         public string? Description { get; set; }
         [JsonPropertyName("status")]

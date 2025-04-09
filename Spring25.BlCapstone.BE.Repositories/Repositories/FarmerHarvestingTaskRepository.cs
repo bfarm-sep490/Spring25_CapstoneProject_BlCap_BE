@@ -27,6 +27,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<List<FarmerHarvestingTask>> GetFarmerHarvestingTasks(int? taskId = null)
         {
             var query = _context.FarmerHarvestingTasks
+                                .Include(h => h.Farmer)
+                                    .ThenInclude(h => h.Account)
                                 .AsQueryable();
 
             if (taskId.HasValue)
