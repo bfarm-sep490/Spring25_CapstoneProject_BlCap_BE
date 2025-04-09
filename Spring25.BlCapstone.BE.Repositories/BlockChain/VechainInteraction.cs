@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
@@ -9,9 +10,10 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
 {
     public interface IVechainInteraction
     {
-        Task<VechainPlan> GetTransactionByContractAddress(string contractAddress);
-        Task<VechainTxResponse> CreateVechainPlan(CreatedVeChainPlan createdVeChainPlan);
-        
+        Task<VechainResponse> GetTransactionByContractAddress(string contractAddress);
+        Task<string> CreateNewVechainPlan(CreatedVeChainPlan createdVeChainPlan);
+        Task<VechainTxResponse> CreateNewVechainTask(string addressContract,CreateVechainTask createVechainTask);
+        Task<VechainTxResponse> CreateNewVechainInspect(string addressContract,CreateVechainInspect createVechainInspect);
     }
     public class VechainInteraction:IVechainInteraction
     {
@@ -25,15 +27,16 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
             };
         }
 
-        public async Task<VechainTxResponse> CreateVechainPlan(CreatedVeChainPlan createdVeChainPlan)
+        public async Task<VechainTxResponse> CreateNewVechainInspect(string addressContract,CreateVechainInspect createVechainInspect)
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("plans", createdVeChainPlan);
+                var response = await _httpClient.PostAsJsonAsync($"{addressContract}/inspect", createVechainInspect);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<VechainTxResponse>();
+                    if (result.TxId == null) throw new Exception($"Error creating VeChain plan");
                     return result;
                 }
                 else
@@ -48,7 +51,55 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
             }
         }
 
-        public async Task<VechainPlan> GetTransactionByContractAddress(string contractAddress)
+        public async Task<string> CreateNewVechainPlan(CreatedVeChainPlan createdVeChainPlan)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("plans", createdVeChainPlan);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<VechainTxResponse>();
+                    if (result.TxId == null) throw new Exception($"Error creating VeChain plan");             
+                    return result.TxId.ContractAddress;
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error creating VeChain plan: {response.StatusCode} - {errorContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Exception during VeChain plan creation", ex);
+            }
+        }
+
+        public async Task<VechainTxResponse> CreateNewVechainTask(string addressContract, CreateVechainTask createVechainTask)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync($"{addressContract}/task", createVechainTask);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<VechainTxResponse>();
+                    if (result.TxId == null) throw new Exception($"Error creating VeChain plan");
+                    return result;
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Error creating VeChain plan: {response.StatusCode} - {errorContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Exception during VeChain plan creation", ex);
+            }
+        }
+
+        public async Task<VechainResponse> GetTransactionByContractAddress(string contractAddress)
         {
             try
             {
@@ -57,7 +108,7 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
                 if (response.IsSuccessStatusCode)
                 {
                     var wrapper = await response.Content.ReadFromJsonAsync<VechainResponse>();
-                    return wrapper?.Data;
+                    return wrapper;
                 }
                 else
                 {
