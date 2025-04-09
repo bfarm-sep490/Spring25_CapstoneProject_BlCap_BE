@@ -15,7 +15,8 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
         Task<VechainTxResponse> CreateNewVechainTask(string addressContract,CreateVechainTask createVechainTask);
         Task<VechainTxResponse> CreateNewVechainInspect(string addressContract,CreateVechainInspect createVechainInspect);
     }
-    public class VechainInteraction:IVechainInteraction
+
+    public class VechainInteraction : IVechainInteraction
     {
         private readonly HttpClient _httpClient;
 
