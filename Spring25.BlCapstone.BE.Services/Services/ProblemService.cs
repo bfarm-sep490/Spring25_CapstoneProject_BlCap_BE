@@ -17,7 +17,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetAll(int? planId, int? farmerId, string? name, string? status);
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> UpdateResult(int id, UpdateResult model);
         Task<IBusinessResult> Create(CreateProblem model);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> ReportProblem(int id, ReportProblem model);
@@ -85,35 +84,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = ex.Message,
                     Data = null
                 };
-            }
-        }
-
-        public async Task<IBusinessResult> UpdateResult(int id, UpdateResult model)
-        {
-            try
-            {
-                var problem = await _unitOfWork.ProblemRepository.GetByIdAsync(id);
-                if (problem == null)
-                {
-                    return new BusinessResult { Status = 404, Message = "Not found any problems", Data = null };
-                }
-
-                problem.Status = model.Status;
-                problem.ResultContent = model.ResultContent;
-
-                var rs = await _unitOfWork.ProblemRepository.UpdateAsync(problem);
-                if (rs > 0)
-                {
-                    return new BusinessResult { Status = 200, Message = "Update result successfull", Data = problem };
-                }
-                else
-                {
-                    return new BusinessResult { Status = 500, Message = "Update failed !", Data = null };
-                }
-            }
-            catch (Exception ex)
-            {
-                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
             }
         }
 
