@@ -79,18 +79,17 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("{id}/cancel")]
-        public async Task<IActionResult> CancelOrder(int id)
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> CancelOrder(int id, string status)
         {
             try
             {
-                var result = await _orderService.CancelOrder(id);
+                var result = await _orderService.UpdateOrderStatus(id, status);
                 return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
-
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllOrders(string? status,int? retailer, int? planId);
         Task<IBusinessResult> GetOrderById(int id);
         Task<IBusinessResult> GetOrderWithNoPlan();
-        Task<IBusinessResult> CancelOrder(int orderId);
+        Task<IBusinessResult> UpdateOrderStatus(int id, string status);
     }
     public class OrderService : IOrderService
     {
@@ -34,7 +34,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var newOrder = _mapper.Map<Order>(order);
-                newOrder.Status = "Pending";
+                newOrder.Status = "PendingConfirmation";
                 newOrder.CreatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.OrderRepository.CreateAsync(newOrder);
@@ -82,25 +82,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> CancelOrder(int orderId)
+        public async Task<IBusinessResult> UpdateOrderStatus(int id, string status)
         {
             try
             {
-                var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
-                if (order == null) 
+                var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+                if (order == null)
                 {
                     return new BusinessResult(404, "Not found any orders !");
                 }
 
                 if (order.PlanId.HasValue)
                 {
-                    return new BusinessResult(400, "Can not cancel order which already has a plan for it !");
+                    return new BusinessResult(400, "Can not change status order which already has a plan for it !");
                 }
 
-                order.Status = "Cancel";
+                order.Status = status;
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
                 var rs = _mapper.Map<OrderModel>(order);
-                return new BusinessResult(200, "Cancel order success !", rs);
+                return new BusinessResult(200, "Change status order success !", rs);
             }
             catch (Exception ex)
             {
