@@ -525,6 +525,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 await _unitOfWork.PlanRepository.SaveAsync();
+
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
             }
             catch (Exception ex)

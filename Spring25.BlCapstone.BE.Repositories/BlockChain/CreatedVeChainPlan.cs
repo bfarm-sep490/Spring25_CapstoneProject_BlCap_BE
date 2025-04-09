@@ -39,5 +39,29 @@ namespace Spring25.BlCapstone.BE.Repositories.BlockChain
         [JsonPropertyName("_status")]
         public string Status { get; set; }
     }
+    public class CreateVechainTask
+    {
+        [JsonPropertyName("_taskId")]
+        public int TaskId { get; set; }
 
+        [JsonPropertyName("_taskType")]
+        public string TaskType { get; set; }
+
+        [JsonPropertyName("_status")]
+        public string Status { get; set; }
+
+        [JsonPropertyName("_data")]
+        public string Data { get; set; }
+    }
+    public class CreateVechainInspect
+    {
+        [JsonPropertyName("_inspectionId")]
+        public int InspectionId { get; set; }
+
+        [JsonPropertyName("_inspectionType")]
+        public int InspectionType { get; set; }
+
+        [JsonPropertyName("_data")]
+        public string Data { get; set; }
+    }
 }

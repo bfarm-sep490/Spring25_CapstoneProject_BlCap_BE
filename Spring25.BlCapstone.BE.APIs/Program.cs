@@ -119,6 +119,7 @@ builder.Services.AddSingleton<RedisManagement>();
 builder.Services.AddHostedService<TaskCheckStatusService>();
 builder.Services.AddHostedService<TaskChangeStatusPlanByOrder>();
 builder.Services.AddHostedService<ExpiredProductCheckStatusService>();
+builder.Services.AddScoped<IBlockChainService, BlockChainService>();
 builder.Services.AddScoped<IVechainInteraction, VechainInteraction>();
 var app = builder.Build();
 
