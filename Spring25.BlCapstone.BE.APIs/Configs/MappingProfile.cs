@@ -469,6 +469,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.PackagingTask.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ForMember(dest => dest.TotalPacks, opt => opt.MapFrom(src => src.PackQuantity + src.OrderProducts.Sum(op => op.QuantityOfPacks)))
                 .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts))
+                .ForMember(dest => dest.PackagingTypeId, opt => opt.MapFrom(src => src.PackagingTask.PackagingTypeId))
                 .ReverseMap();
             CreateMap<OrderProduct, OrPro>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Order.Id))

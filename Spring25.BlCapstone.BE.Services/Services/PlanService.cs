@@ -900,19 +900,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var isInCaringPlan = await _unitOfWork.FarmerCaringTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
                 if (isInCaringPlan)
                 {
-                    return new BusinessResult(400, "Can not remove farmer because he/she have been assign in a Caring Task !");
+                    return new BusinessResult(400, null, "Can not remove farmer because he/she have been assign in a Caring Task !");
                 }
 
                 var isInHarvestingPlan = await _unitOfWork.FarmerHarvestingTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
                 if (isInHarvestingPlan)
                 {
-                    return new BusinessResult(400, "Can not remove farmer because he/she have been assign in a Harvesting Task !");
+                    return new BusinessResult(400, null, "Can not remove farmer because he/she have been assign in a Harvesting Task !");
                 }
 
                 var isInPackagingPlan = await _unitOfWork.FarmerPackagingTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
                 if (isInPackagingPlan)
                 {
-                    return new BusinessResult(400, "Can not remove farmer because he/she have been assign in a Packaging Task !");
+                    return new BusinessResult(400, null, "Can not remove farmer because he/she have been assign in a Packaging Task !");
                 }
 
                 var farmerPermission = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(planId, farmerId);
