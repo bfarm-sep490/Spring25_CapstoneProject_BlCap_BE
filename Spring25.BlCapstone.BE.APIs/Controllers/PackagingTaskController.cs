@@ -114,5 +114,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost("{id}/farmers/{farmer_id}")]
+        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, string? reason)
+        {
+            try
+            {
+                var res = await _service.ReplaceFarmer(id, farmer_id, reason);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

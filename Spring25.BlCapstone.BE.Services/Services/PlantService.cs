@@ -22,7 +22,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPlantService
     {
-        Task<IBusinessResult> GetAll(string? status);
+        Task<IBusinessResult> GetAll(string? status, string? name);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(PlantModel model);
         Task<IBusinessResult> Update(int id,PlantModel model);
@@ -82,7 +82,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Removed successfully.", model);
         }
 
-        public async Task<IBusinessResult> GetAll(string? status)
+        public async Task<IBusinessResult> GetAll(string? status, string? name)
         {
             var result = new List<PlantModel>();
             try 
@@ -110,6 +110,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 result = result.Where(x => x.Status.ToLower() == status.ToLower()).ToList();
             }
+
+            if (name != null)
+            {
+                result = result.Where(x => x.PlantName.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
+            }
+
             return new BusinessResult(200, "Get all plants", result);
         }
 

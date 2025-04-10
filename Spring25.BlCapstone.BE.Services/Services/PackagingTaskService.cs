@@ -26,6 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdatePackagingTask(int id, UpdatePackaging model);
         Task<IBusinessResult> DeleteTask(int id);
         Task<IBusinessResult> GetHistoryFarmers(int id);
+        Task<IBusinessResult> ReplaceFarmer(int id, int farmerId, string? reasons);
     }
     public class PackagingTaskService : IPackagingTaskService
     {
@@ -386,6 +387,55 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var res = _mapper.Map<List<HistoryFarmersTask>>(history);
                 return new BusinessResult(200, "List of history: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> ReplaceFarmer(int id, int farmerId, string? reasons)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found any farmer !");
+                }
+
+                var packTask = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
+                if (packTask == null)
+                {
+                    return new BusinessResult(404, "Packaging Task not found !");
+                }
+
+                var farmerPa = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasks(id);
+                if (farmerPa.Any(fc => fc.FarmerId == farmerId))
+                {
+                    return new BusinessResult(400, "This farmer is already assigned to the packaging task.");
+                }
+
+                farmerPa.ForEach(fc =>
+                {
+                    if (fc.Status.ToLower().Trim().Equals("active"))
+                    {
+                        fc.Status = "Inactive";
+                        fc.ExpiredDate = DateTime.Now;
+                        fc.Description = string.IsNullOrEmpty(reasons) ? null : reasons;
+                    }
+                    _unitOfWork.FarmerPackagingTaskRepository.PrepareUpdate(fc);
+                });
+                await _unitOfWork.FarmerPackagingTaskRepository.SaveAsync();
+
+                await _unitOfWork.FarmerPackagingTaskRepository.CreateAsync(new FarmerPackagingTask
+                {
+                    TaskId = id,
+                    FarmerId = farmerId,
+                    Status = "Active"
+                });
+
+                return new BusinessResult(200, "Add Farmer to Packaging Task successfully !", farmerPa);
             }
             catch (Exception ex)
             {
