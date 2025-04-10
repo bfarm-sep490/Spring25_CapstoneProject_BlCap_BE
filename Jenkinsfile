@@ -15,7 +15,12 @@ pipeline {
                         string(credentialsId: 'ABLY_API_KEY', variable: 'ABLY_API_KEY'),
                         string(credentialsId: 'CLIENTID', variable: 'CLIENTID'),
                         string(credentialsId: 'APIKEY', variable: 'APIKEY'),
-                        string(credentialsId: 'CHECKSUM', variable: 'CHECKSUM')
+                        string(credentialsId: 'CHECKSUM', variable: 'CHECKSUM'),
+                        string(credentialsId: 'EMAIL_SMTP_SERVER', variable: 'EMAIL_SMTP_SERVER'),
+                        string(credentialsId: 'EMAIL_PORT', variable: 'EMAIL_PORT'),
+                        string(credentialsId: 'EMAIL_SENDER_EMAIL', variable: 'EMAIL_SENDER_EMAIL'),
+                        string(credentialsId: 'EMAIL_USERNAME', variable: 'EMAIL_USERNAME'),
+                        string(credentialsId: 'EMAIL_PASSWORD', variable: 'EMAIL_PASSWORD')
                         
                     ]) {
                         env.CLOUDINARY_URL = "${CLOUDINARY_URL}"
@@ -28,6 +33,11 @@ pipeline {
                         env.CLIENTID = "${CLIENTID}"
                         env.APIKEY = "${APIKEY}"
                         env.CHECKSUM = "${CHECKSUM}"
+                        env.CHECKSUM = "${EMAIL_SMTP_SERVER}"
+                        env.CHECKSUM = "${EMAIL_PORT}"
+                        env.CHECKSUM = "${EMAIL_SENDER_EMAIL}"
+                        env.CHECKSUM = "${EMAIL_USERNAME}"
+                        env.CHECKSUM = "${EMAIL_PASSWORD}"
                     }
                 }
             }
@@ -64,6 +74,11 @@ pipeline {
                     "-e CLIENTID=${env.CLIENTID} " +
                     "-e APIKEY=${env.APIKEY} " +
                     "-e CHECKSUM=${env.CHECKSUM} " +
+                    "-e CHECKSUM=${env.EMAIL_SMTP_SERVER} " +
+                    "-e CHECKSUM=${env.EMAIL_PORT} " +
+                    "-e CHECKSUM=${env.EMAIL_SENDER_EMAIL} " +
+                    "-e CHECKSUM=${env.EMAIL_USERNAME} " +
+                    "-e CHECKSUM=${env.EMAIL_PASSWORD} " +
                    'tuanhuu3264/blcapstone'
             }
         }
