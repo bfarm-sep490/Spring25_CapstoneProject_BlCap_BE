@@ -366,13 +366,31 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
             modelBuilder.Entity<CaringPesticide>().HasData(
                 new CaringPesticide { Id = 1, PesticideId = 1, TaskId = 6, Unit = "Lít", Quantity = 2.5f },
-                new CaringPesticide { Id = 2, PesticideId = 2, TaskId = 15, Unit = "Lít", Quantity = 3.0f }
+                new CaringPesticide { Id = 2, PesticideId = 2, TaskId = 1, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 3, PesticideId = 4, TaskId = 2, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 4, PesticideId = 15, TaskId = 3, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 5, PesticideId = 12, TaskId = 4, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 6, PesticideId = 11, TaskId = 5, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 7, PesticideId = 10, TaskId = 7, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 8, PesticideId = 4, TaskId = 8, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 9, PesticideId = 5, TaskId = 9, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 10, PesticideId = 6, TaskId = 10, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 11, PesticideId = 7, TaskId = 11, Unit = "Lít", Quantity = 3.0f }
             );
 
             modelBuilder.Entity<CaringFertilizer>().HasData(
                 new CaringFertilizer { Id = 1, FertilizerId = 1, TaskId = 2, Unit = "Kg", Quantity = 5.0f },
                 new CaringFertilizer { Id = 2, FertilizerId = 2, TaskId = 9, Unit = "Kg", Quantity = 4.0f },
-                new CaringFertilizer { Id = 3, FertilizerId = 3, TaskId = 14, Unit = "Kg", Quantity = 6.0f }
+                new CaringFertilizer { Id = 3, FertilizerId = 3, TaskId = 12, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 4, FertilizerId = 2, TaskId = 15, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 5, FertilizerId = 1, TaskId = 13, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 6, FertilizerId = 3, TaskId = 8, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 7, FertilizerId = 4, TaskId = 1, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 8, FertilizerId = 2, TaskId = 4, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 9, FertilizerId = 3, TaskId = 2, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 10, FertilizerId = 1, TaskId = 13, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 11, FertilizerId = 2, TaskId = 14, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 12, FertilizerId = 3, TaskId = 14, Unit = "Kg", Quantity = 6.0f }
             );
 
             modelBuilder.Entity<CaringImage>().HasData(
@@ -650,24 +668,26 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PackagingType>().HasData(
-                new PackagingType { Id = 1, Name = "Bao 10kg", Description = "Đóng gói theo bao 10kg", Status = "Active", QuantityPerPack = 10.0f },
-                new PackagingType { Id = 2, Name = "Bao 15kg", Description = "Đóng gói theo bao 15kg", Status = "Active", QuantityPerPack = 15.0f },
-                new PackagingType { Id = 3, Name = "Bao 20kg", Description = "Đóng gói theo bao 20kg", Status = "Active", QuantityPerPack = 20.0f },
-                new PackagingType { Id = 4, Name = "Bao 100kg", Description = "Đóng gói theo bao 100kg", Status = "Active", QuantityPerPack = 100.0f },
-                new PackagingType { Id = 5, Name = "Bao 150kg", Description = "Đóng gói theo bao 150kg", Status = "Active", QuantityPerPack = 150.0f },
-                new PackagingType { Id = 6, Name = "Bao 1000kg", Description = "Đóng gói theo bao 1000kg", Status = "Active", QuantityPerPack = 1000.0f },
-                new PackagingType { Id = 7, Name = "Bao 1500kg", Description = "Đóng gói theo bao 1500kg", Status = "Active", QuantityPerPack = 1500.0f }
+                new PackagingType { Id = 1, Name = "Bao 500g", Description = "Đóng gói theo túi nilon 500g", Status = "Active", QuantityPerPack = 0.5f },
+                new PackagingType { Id = 2, Name = "Bao 1kg", Description = "Đóng gói theo túi nilon 1kg", Status = "Active", QuantityPerPack = 1f },
+                new PackagingType { Id = 3, Name = "Bao 2kg", Description = "Đóng gói theo túi lưới 2kg", Status = "Active", QuantityPerPack = 2f },
+                new PackagingType { Id = 4, Name = "Bao 5kg", Description = "Đóng gói theo thùng giấy 5kg", Status = "Active", QuantityPerPack = 5f },
+                new PackagingType { Id = 5, Name = "Bao 10kg", Description = "Đóng gói theo bao PP 10kg", Status = "Active", QuantityPerPack = 10f },
+                new PackagingType { Id = 6, Name = "Bao 15kg", Description = "Đóng gói theo bao PP 15kg", Status = "Active", QuantityPerPack = 15f },
+                new PackagingType { Id = 7, Name = "Bao 20kg", Description = "Đóng gói theo thùng 20kg", Status = "Active", QuantityPerPack = 20f }
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = 2, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Deposit", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
-                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Complete", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
-                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 5, RetailerId = 2, PlantId = 2, PlanId = 1, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Cancel", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
-                new Order { Id = 6, RetailerId = 1, PlantId = 2, PlanId = 1, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "623 Đường F, Quận 6, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-5) },
-                new Order { Id = 7, RetailerId = 3, PlantId = 4, PlanId = 4, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "6004 Đường G, Quận 7, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(12), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 8, RetailerId = 1, PlantId = 3, PlanId = 3, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Deposit", Address = "1234 Đường H, Quận 9, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) }
+                new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = null, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "WaitingConfirmation", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = null, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Deposited", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
+                new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Paid", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
+                new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = null, PackagingTypeId = 4, DepositPrice = 5000.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 5, RetailerId = 2, PlantId = 2, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Cancelled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
+                new Order { Id = 6, RetailerId = 1, PlantId = 2, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Rejected", Address = "623 Đường F, Quận 6, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-5) },
+                new Order { Id = 7, RetailerId = 3, PlantId = 4, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "WaitingConfirmation", Address = "6004 Đường G, Quận 7, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(12), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 8, RetailerId = 1, PlantId = 3, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Forfeited", Address = "1234 Đường H, Quận 9, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 9, RetailerId = 2, PlantId = 1, PlanId = null, PackagingTypeId = 2, DepositPrice = 4500.0f, PreOrderQuantity = 150f, Status = "Deposited", Address = "900 Đường I, Quận 10, TP.HCM", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddDays(4), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 10, RetailerId = 3, PlantId = 4, PlanId = 1, PackagingTypeId = 1, DepositPrice = 8600.0f, PreOrderQuantity = 300f, Status = "Paid", Address = "567 Đường J, Quận Bình Thạnh, TP.HCM", Phone = "0967890123", EstimatedPickupDate = DateTime.Now.AddDays(8), CreatedAt = DateTime.Now.AddDays(-7) }
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(
