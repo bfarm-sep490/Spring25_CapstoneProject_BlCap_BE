@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.Untils
 {
-    public class EmailHelper
+    public static class EmailHelper
     {
-        private readonly string _smtpServer;
-        private readonly int _port;
-        private readonly string _senderName;
-        private readonly string _senderEmail;
-        private readonly string _username;
-        private readonly string _password;
+        private static readonly string _smtpServer;
+        private static readonly int _port;
+        private static readonly string _senderName;
+        private static readonly string _senderEmail;
+        private static readonly string _username;
+        private static readonly string _password;
 
-        public EmailHelper()
+        static EmailHelper()
         {
             _smtpServer = GetEnvironmentVariable("EMAIL_SMTP_SERVER");
             _port = int.Parse(GetEnvironmentVariable("EMAIL_PORT"));
@@ -26,7 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             _password = GetEnvironmentVariable("EMAIL_PASSWORD");
         }
 
-        private string GetEnvironmentVariable(string key)
+        private static string GetEnvironmentVariable(string key)
         {
             var value = Environment.GetEnvironmentVariable(key);
             if (string.IsNullOrEmpty(value))
@@ -36,7 +36,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             return value;
         }
 
-        public async Task SendMail(string to, string subject, string username, string body)
+        public static async Task SendMail(string to, string subject, string username, string body)
         {
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_senderName, _senderEmail));
@@ -66,6 +66,34 @@ namespace Spring25.BlCapstone.BE.Services.Untils
                     await client.DisconnectAsync(true);
                 }
             }
+        }
+
+        public static string GetEmailBody(string templateName, Dictionary<string, string> variables)
+        {
+            var assembly = typeof(EmailHelper).Assembly;
+
+            var resourceName = assembly.GetManifestResourceNames()
+                .FirstOrDefault(x => x.EndsWith(templateName));
+
+            if (resourceName == null)
+            {
+                throw new Exception($"Template '{templateName}' not found in embedded resources.");
+            }
+
+            string template;
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+            using (var reader = new StreamReader(stream))
+            {
+                template = reader.ReadToEnd();
+            }
+
+            foreach (var variable in variables)
+            {
+                template = template.Replace(variable.Key, variable.Value);
+            }
+
+            return template;
         }
     }
 }

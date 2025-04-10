@@ -214,37 +214,37 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newAccount.Password = password;
                 newAccount.CreatedAt = DateTime.Now;
 
-                var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
+                await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
                 var newFarmer = _mapper.Map<Farmer>(model);
                 newFarmer.AccountId = newAccount.Id;
-                
-                var rsf = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
+
+                await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
 
                 await _unitOfWork.FarmerPerformanceRepository.CreateAsync(new FarmerPerformance
                 {
-                    Id = newAccount.Id,
+                    Id = newFarmer.Id,
                     CompletedTasks = 0,
                     IncompleteTasks = 0,
                     PerformanceScore = null
                 });
-
-                if (rsf == null)
+                
+                var body = EmailHelper.GetEmailBody("RegisterAccount.html", new Dictionary<string, string>
                 {
-                    return new BusinessResult
-                    {
-                        Status = 500,
-                        Message = "Create failed !",
-                        Data = null
+                    { "{{UserName}}", model.Name },
+                    { "{{Email}}", model.Email },
+                    { "{{ResetPasswordLink}}", "yourdomain.com/reset-password" }
+                });
 
-                    };
-                };
+                await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
+
+                var rs = _mapper.Map<FarmerModel>(newFarmer);
 
                 return new BusinessResult
                 {
                     Status = 200,
                     Message = "Create farmer success !",
-                    Data = rsf
+                    Data = rs
                 };
 
             }
