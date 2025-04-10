@@ -33,11 +33,11 @@ pipeline {
                         env.CLIENTID = "${CLIENTID}"
                         env.APIKEY = "${APIKEY}"
                         env.CHECKSUM = "${CHECKSUM}"
-                        env.CHECKSUM = "${EMAIL_SMTP_SERVER}"
-                        env.CHECKSUM = "${EMAIL_PORT}"
-                        env.CHECKSUM = "${EMAIL_SENDER_EMAIL}"
-                        env.CHECKSUM = "${EMAIL_USERNAME}"
-                        env.CHECKSUM = "${EMAIL_PASSWORD}"
+                        env.EMAIL_SMTP_SERVER = "${EMAIL_SMTP_SERVER}"
+                        env.EMAIL_PORT = "${EMAIL_PORT}"
+                        env.EMAIL_SENDER_EMAIL = "${EMAIL_SENDER_EMAIL}"
+                        env.EMAIL_USERNAME = "${EMAIL_USERNAME}"
+                        env.EMAIL_PASSWORD = "${EMAIL_PASSWORD}"
                     }
                 }
             }
