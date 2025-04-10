@@ -477,6 +477,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, null, "Can not approve plan that not have status pending!");
                 }
 
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(plan.PlantId);
+                if (plant != null)
+                {
+                    return new BusinessResult(400, null, "Can not approve plan that not have seed");
+                }
+
+                if (plant.Quantity < plan.SeedQuantity)
+                {
+                    return new BusinessResult(400, null, "Seed quantity available in system is not enough for this plan. Please add more seed in system !");
+                }
+
+                plant.Quantity -= plan.SeedQuantity.Value;
+                await _unitOfWork.PlantRepository.UpdateAsync(plant);
+
                 plan.Status = "Ongoing";
                 plan.IsApproved = true;
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
