@@ -1281,7 +1281,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any plans !");
                 }
 
-                if (plan.Status.ToLower().Trim().Equals("draft"))
+                if (!plan.Status.ToLower().Trim().Equals("draft"))
                 {
                     return new BusinessResult(400, $"Can not public plan with {plan.Status} status");
                 }
