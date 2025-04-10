@@ -1322,7 +1322,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> GetSuggestTasksByPlanId(int planId,int suggestPlanId)
+        public async Task<IBusinessResult> GetSuggestTasksByPlanId(int planId, int suggestPlanId)
         {
             var result = new SuggestTasksModel();
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
@@ -1400,7 +1400,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
             if (plan == null) { return new BusinessResult(400,"Not found this plan"); }
-            var list = await _unitOfWork.PlanRepository.GetSuggestPlansByPlanId(planId, plan.EstimatedProduct.Value);
+            var list = await _unitOfWork.PlanRepository.GetSuggestPlansByPlanId(plan.PlantId, planId, plan.EstimatedProduct.Value);
             var result = _mapper.Map<List<PlanModel>>(list);
             return new BusinessResult(200, "Get list suggested plans by plan id",result);
         }

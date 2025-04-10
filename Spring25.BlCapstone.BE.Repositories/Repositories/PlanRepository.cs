@@ -88,9 +88,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 );
         }
 
-        public async Task<List<Plan>> GetSuggestPlansByPlanId(int planId, float estimatedProduct)
+        public async Task<List<Plan>> GetSuggestPlansByPlanId(int plantId, int planId, float estimatedProduct)
         {
-            var result = await _context.Plans.Where(x => x.PlantId == planId && x.Id != planId && x.Status.ToLower() == "complete")
+            var result = await _context.Plans.Where(x => x.PlantId == plantId && x.Id != planId && x.Status.ToLower() == "complete")
                  .OrderBy(x => Math.Abs(x.EstimatedProduct.Value - estimatedProduct))
                  .ToListAsync();
             return result;

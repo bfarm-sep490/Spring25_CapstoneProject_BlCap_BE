@@ -368,14 +368,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new CaringPesticide { Id = 1, PesticideId = 1, TaskId = 6, Unit = "Lít", Quantity = 2.5f },
                 new CaringPesticide { Id = 2, PesticideId = 2, TaskId = 1, Unit = "Lít", Quantity = 3.0f },
                 new CaringPesticide { Id = 3, PesticideId = 4, TaskId = 2, Unit = "Lít", Quantity = 3.0f },
-                new CaringPesticide { Id = 4, PesticideId = 15, TaskId = 3, Unit = "Lít", Quantity = 3.0f },
-                new CaringPesticide { Id = 5, PesticideId = 12, TaskId = 4, Unit = "Lít", Quantity = 3.0f },
-                new CaringPesticide { Id = 6, PesticideId = 11, TaskId = 5, Unit = "Lít", Quantity = 3.0f },
-                new CaringPesticide { Id = 7, PesticideId = 10, TaskId = 7, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 4, PesticideId = 5, TaskId = 3, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 5, PesticideId = 4, TaskId = 4, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 6, PesticideId = 3, TaskId = 5, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 7, PesticideId = 2, TaskId = 7, Unit = "Lít", Quantity = 3.0f },
                 new CaringPesticide { Id = 8, PesticideId = 4, TaskId = 8, Unit = "Lít", Quantity = 3.0f },
                 new CaringPesticide { Id = 9, PesticideId = 5, TaskId = 9, Unit = "Lít", Quantity = 3.0f },
-                new CaringPesticide { Id = 10, PesticideId = 6, TaskId = 10, Unit = "Lít", Quantity = 3.0f },
-                new CaringPesticide { Id = 11, PesticideId = 7, TaskId = 11, Unit = "Lít", Quantity = 3.0f }
+                new CaringPesticide { Id = 10, PesticideId = 1, TaskId = 10, Unit = "Lít", Quantity = 3.0f },
+                new CaringPesticide { Id = 11, PesticideId = 2, TaskId = 11, Unit = "Lít", Quantity = 3.0f }
             );
 
             modelBuilder.Entity<CaringFertilizer>().HasData(
