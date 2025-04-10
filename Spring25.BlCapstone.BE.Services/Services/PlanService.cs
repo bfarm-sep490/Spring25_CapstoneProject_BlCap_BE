@@ -1048,7 +1048,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start, end);
                
-                var rs = _mapper.Map<List<ExpertModel>>(farmers);
+                var rs = _mapper.Map<List<FarmerModel>>(farmers);
 
                 if (rs.Count <= 0)
                 {
