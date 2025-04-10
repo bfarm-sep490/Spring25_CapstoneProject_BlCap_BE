@@ -253,7 +253,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult
                 {
                     Status = 500,
-                    Message = $"{ex.InnerException}",
+                    Message = $"{ex.Message}",
                     Data = null
                 };
             }

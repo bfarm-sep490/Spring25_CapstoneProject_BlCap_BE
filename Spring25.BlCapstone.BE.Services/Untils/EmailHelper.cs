@@ -24,8 +24,6 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             _senderEmail = GetEnvironmentVariable("EMAIL_SENDER_EMAIL");
             _username = GetEnvironmentVariable("EMAIL_USERNAME");
             _password = GetEnvironmentVariable("EMAIL_PASSWORD").Replace("-", " ");
-
-            
         }
 
         private static string GetEnvironmentVariable(string key)
