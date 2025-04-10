@@ -20,10 +20,10 @@ namespace Spring25.BlCapstone.BE.Services.Untils
         {
             _smtpServer = GetEnvironmentVariable("EMAIL_SMTP_SERVER");
             _port = int.Parse(GetEnvironmentVariable("EMAIL_PORT"));
-            _senderName = GetEnvironmentVariable("EMAIL_SENDER_NAME");
+            _senderName = "bfarmx - Blockchain FarmXperience";
             _senderEmail = GetEnvironmentVariable("EMAIL_SENDER_EMAIL");
             _username = GetEnvironmentVariable("EMAIL_USERNAME");
-            _password = GetEnvironmentVariable("EMAIL_PASSWORD");
+            _password = GetEnvironmentVariable("EMAIL_PASSWORD").Replace("-", " ");
         }
 
         private static string GetEnvironmentVariable(string key)
