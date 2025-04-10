@@ -74,11 +74,11 @@ pipeline {
                     "-e CLIENTID=${env.CLIENTID} " +
                     "-e APIKEY=${env.APIKEY} " +
                     "-e CHECKSUM=${env.CHECKSUM} " +
-                    "-e CHECKSUM=${env.EMAIL_SMTP_SERVER} " +
-                    "-e CHECKSUM=${env.EMAIL_PORT} " +
-                    "-e CHECKSUM=${env.EMAIL_SENDER_EMAIL} " +
-                    "-e CHECKSUM=${env.EMAIL_USERNAME} " +
-                    "-e CHECKSUM=${env.EMAIL_PASSWORD} " +
+                    "-e EMAIL_SMTP_SERVER=${env.EMAIL_SMTP_SERVER} " +
+                    "-e EMAIL_PORT=${env.EMAIL_PORT} " +
+                    "-e EMAIL_SENDER_EMAIL=${env.EMAIL_SENDER_EMAIL} " +
+                    "-e EMAIL_USERNAME=${env.EMAIL_USERNAME} " +
+                    "-e EMAIL_PASSWORD=${env.EMAIL_PASSWORD} " +
                    'tuanhuu3264/blcapstone'
             }
         }
