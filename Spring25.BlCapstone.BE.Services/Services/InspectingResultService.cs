@@ -189,7 +189,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             { "HydrogenPhosphide", 0.01f },
             { "Dithiocarbamate", 0.01f },
             { "Chlorate", 0.01f },
-            { "Perchlorate", 0.01f }
+            { "Perchlorate", 0.01f },
+            { "Salmonella", 0f },
+            { "Coliforms", 10f }
         };
 
         private async Task<string> ClassifyResult(CreateInspectingResult model, int plantId)
@@ -210,6 +212,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var limits = _contaminantLimits.ContainsKey(plant.Type) ? _contaminantLimits[plant.Type] : new Dictionary<string, float>();
                 int minorViolations = 0; 
                 int majorViolations = 0;
+
+                if (_globalLimits.ContainsKey("Salmonella") && model.Salmonella > _globalLimits["Salmonella"])
+                {
+                    return "Grade 3";
+                }
 
                 void CheckLimit(string contaminant, float value)
                 {
@@ -233,10 +240,28 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         minorViolations++;
                 }
 
+                void CheckEColi(float value)
+                {
+                    float lowerBound = (float)(Math.Pow(10, 2) * 1.3);
+                    float upperBound = (float)(Math.Pow(10, 3) * 1.3);
+                    float boundL = (float)(Math.Pow(10, 2));
+                    float boundU = (float)(Math.Pow(10, 3));
+
+                    if (value <= lowerBound || value >= upperBound)
+                        majorViolations++;
+                    else if ((value > boundL && value < lowerBound) || (value > boundU && value < upperBound))
+                    {
+                        minorViolations++;
+                    }
+                }
+
+                CheckEColi(model.Ecoli);
+
                 CheckLimit("Cadmi", model.Cadmi);
                 CheckLimit("Plumbum", model.Plumbum);
                 CheckLimit("Hydrargyrum", model.Hydrargyrum);
                 CheckLimit("Arsen", model.Arsen);
+                CheckLimit("Coliforms", model.Coliforms);
 
                 CheckLimitGlobal("SulfurDioxide", model.SulfurDioxide);
                 CheckLimitGlobal("Nitrat", model.Nitrat);
