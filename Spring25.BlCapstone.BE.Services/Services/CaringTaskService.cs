@@ -32,6 +32,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> DashboardCaringTasksByPlanId(int id);
         Task<IBusinessResult> GetHistoryFarmers(int id);
         Task<IBusinessResult> GetTypeCaringTasksStatusByPlanId(int id);
+        Task<IBusinessResult> ReplaceFarmer(int id, int farmerId, string? reasons);
     }
     public class CaringTaskService : ICaringTaskService
     {
@@ -506,6 +507,55 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
 
             return new BusinessResult(200,"Count Type Status by Plan Id",result);
+        }
+
+        public async Task<IBusinessResult> ReplaceFarmer(int id, int farmerId, string? reasons)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found any farmer !");
+                }
+
+                var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
+                if (caringTask == null)
+                {
+                    return new BusinessResult(404, "Caring Task not found !");
+                }
+
+                var farmerCare = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasks(id);
+                if (farmerCare.Any(fc => fc.FarmerId == farmerId))
+                {
+                    return new BusinessResult(400, "This farmer is already assigned to the caring task.");
+                }
+
+                farmerCare.ForEach(fc =>
+                {
+                    if (fc.Status.ToLower().Trim().Equals("active"))
+                    {
+                        fc.Status = "Inactive";
+                        fc.ExpiredDate = DateTime.Now;
+                        fc.Description = string.IsNullOrEmpty(reasons) ? null : reasons;
+                    }
+                    _unitOfWork.FarmerCaringTaskRepository.PrepareUpdate(fc);
+                });
+                await _unitOfWork.FarmerCaringTaskRepository.SaveAsync();
+
+                await _unitOfWork.FarmerCaringTaskRepository.CreateAsync(new FarmerCaringTask
+                {
+                    TaskId = id,
+                    FarmerId = farmerId,
+                    Status = "Active"
+                });
+
+                return new BusinessResult(200, "Add Farmer to Caring Task successfully !", farmerCare);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }

@@ -37,6 +37,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetHavestedTasksDashboardByPlanId(int id);
         Task<IBusinessResult> GetListProductionHarvestingTask(int? planId, int? packagingTaskId, string? status);
         Task<IBusinessResult> GetProductionHarvestingTask(int id);
+        Task<IBusinessResult> ReplaceFarmer(int id, int farmerId, string? reasons);
     }
     public class HarvestingTaskService : IHarvestingTaskService
     {
@@ -458,6 +459,55 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 return new BusinessResult(200, "Production of harvesting Task: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> ReplaceFarmer(int id, int farmerId, string? reasons)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found any farmer !");
+                }
+
+                var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
+                if (harvestingTask == null)
+                {
+                    return new BusinessResult(404, "Harvesting Task not found !");
+                }
+
+                var farmerHar = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasks(id);
+                if (farmerHar.Any(fc => fc.FarmerId == farmerId))
+                {
+                    return new BusinessResult(400, "This farmer is already assigned to the harvesting task.");
+                }
+
+                farmerHar.ForEach(fc =>
+                {
+                    if (fc.Status.ToLower().Trim().Equals("active"))
+                    {
+                        fc.Status = "Inactive";
+                        fc.ExpiredDate = DateTime.Now;
+                        fc.Description = string.IsNullOrEmpty(reasons) ? null : reasons;
+                    }
+                    _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(fc);
+                });
+                await _unitOfWork.FarmerHarvestingTaskRepository.SaveAsync();
+
+                await _unitOfWork.FarmerHarvestingTaskRepository.CreateAsync(new FarmerHarvestingTask
+                {
+                    TaskId = id,
+                    FarmerId = farmerId,
+                    Status = "Active"
+                });
+
+                return new BusinessResult(200, "Add Farmer to Harvesting Task successfully !", farmerHar);
             }
             catch (Exception ex)
             {
