@@ -58,10 +58,10 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("images/upload")]
-        public async Task<IActionResult> UploadImage(List<IFormFile> image)
+        [HttpPost("documents/upload")]
+        public async Task<IActionResult> UploadDocument(List<IFormFile> image)
         {
-            var rs = await _service.UploadImage(image);
+            var rs = await _service.UploadDocument(image);
             return Ok(rs);
         }
     }

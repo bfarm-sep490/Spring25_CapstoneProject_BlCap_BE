@@ -21,7 +21,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllResults(string? evaluatedResult);
         Task<IBusinessResult> GetResultById(int id);
         Task<IBusinessResult> ReportForm(int id, CreateInspectingResult model);
-        Task<IBusinessResult> UploadImage(List<IFormFile> file);
+        Task<IBusinessResult> UploadDocument(List<IFormFile> file);
     }
 
     public class InspectingResultService : IInspectingResultService
@@ -262,11 +262,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> UploadImage(List<IFormFile> file)
+        public async Task<IBusinessResult> UploadDocument(List<IFormFile> file)
         {
             try
             {
-                var image = await CloudinaryHelper.UploadMultipleImages(file);
+                var image = await CloudinaryHelper.UploadMultipleDocuments(file);
                 var url = image.Select(x => x.Url).ToList();
 
                 return new BusinessResult
