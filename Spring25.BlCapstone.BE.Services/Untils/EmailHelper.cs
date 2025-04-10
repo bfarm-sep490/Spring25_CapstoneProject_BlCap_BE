@@ -40,8 +40,6 @@ namespace Spring25.BlCapstone.BE.Services.Untils
 
         public static async Task SendMail(string to, string subject, string username, string body)
         {
-            Console.WriteLine($"stmp: {_smtpServer}, port: {_port}, email: {_senderEmail}, username: {_username}, pass: {_password}");
-
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(_senderName, _senderEmail));
             message.To.Add(new MailboxAddress(username, to));
@@ -63,7 +61,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
                 }
                 catch (Exception ex)
                 {
-                    throw new Exception(ex.Message);
+                    throw new Exception($"stmp: {_smtpServer}, port: {_port}, email: {_senderEmail}, username: {_username}, pass: {_password}, ex: {ex.Message}, inner: {ex.InnerException}");
                 }
                 finally
                 {
