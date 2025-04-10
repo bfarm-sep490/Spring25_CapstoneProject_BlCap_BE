@@ -456,11 +456,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(404, "Plan does not have an end date. Can not approve!");
                 }
-                
-                if (!plan.CompleteDate.HasValue)
-                {
-                    return new BusinessResult(404, "Plan does not have an end date. Can not approve!");
-                }
 
                 if (!plan.EstimatedProduct.HasValue)
                 {

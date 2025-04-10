@@ -679,14 +679,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
             modelBuilder.Entity<Order>().HasData(
                 new Order { Id = 1, RetailerId = 1, PlantId = 1, PlanId = null, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "WaitingConfirmation", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = null, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Deposited", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
+                new Order { Id = 2, RetailerId = 2, PlantId = 2, PlanId = null, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Deposit", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
                 new Order { Id = 3, RetailerId = 3, PlantId = 3, PlanId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Paid", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
                 new Order { Id = 4, RetailerId = 1, PlantId = 4, PlanId = null, PackagingTypeId = 4, DepositPrice = 5000.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 5, RetailerId = 2, PlantId = 2, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Cancelled", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
-                new Order { Id = 6, RetailerId = 1, PlantId = 2, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Rejected", Address = "623 Đường F, Quận 6, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-5) },
+                new Order { Id = 5, RetailerId = 2, PlantId = 2, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Cancel", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
+                new Order { Id = 6, RetailerId = 1, PlantId = 2, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Reject", Address = "623 Đường F, Quận 6, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-5) },
                 new Order { Id = 7, RetailerId = 3, PlantId = 4, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "WaitingConfirmation", Address = "6004 Đường G, Quận 7, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(12), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 8, RetailerId = 1, PlantId = 3, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Forfeited", Address = "1234 Đường H, Quận 9, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 9, RetailerId = 2, PlantId = 1, PlanId = null, PackagingTypeId = 2, DepositPrice = 4500.0f, PreOrderQuantity = 150f, Status = "Deposited", Address = "900 Đường I, Quận 10, TP.HCM", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddDays(4), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 8, RetailerId = 1, PlantId = 3, PlanId = null, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Forfeit", Address = "1234 Đường H, Quận 9, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 9, RetailerId = 2, PlantId = 1, PlanId = null, PackagingTypeId = 2, DepositPrice = 4500.0f, PreOrderQuantity = 150f, Status = "Deposit", Address = "900 Đường I, Quận 10, TP.HCM", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddDays(4), CreatedAt = DateTime.Now.AddDays(-2) },
                 new Order { Id = 10, RetailerId = 3, PlantId = 4, PlanId = 1, PackagingTypeId = 1, DepositPrice = 8600.0f, PreOrderQuantity = 300f, Status = "Paid", Address = "567 Đường J, Quận Bình Thạnh, TP.HCM", Phone = "0967890123", EstimatedPickupDate = DateTime.Now.AddDays(8), CreatedAt = DateTime.Now.AddDays(-7) }
             );
 
@@ -892,6 +892,32 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new FarmerSpecialization { FarmerId = 6, SpecializationId = 7 },
                 new FarmerSpecialization { FarmerId = 6, SpecializationId = 14 },
                 new FarmerSpecialization { FarmerId = 6, SpecializationId = 15 }
+            );
+
+            modelBuilder.Entity<PlantYield>().HasData(
+                new PlantYield { PlantId = 1, YieldId = 1 },
+                new PlantYield { PlantId = 1, YieldId = 2 },
+                new PlantYield { PlantId = 1, YieldId = 3 },
+                new PlantYield { PlantId = 2, YieldId = 1 },
+                new PlantYield { PlantId = 2, YieldId = 4 },
+                new PlantYield { PlantId = 2, YieldId = 5 },
+                new PlantYield { PlantId = 3, YieldId = 6 },
+                new PlantYield { PlantId = 3, YieldId = 1 },
+                new PlantYield { PlantId = 3, YieldId = 5 },
+                new PlantYield { PlantId = 3, YieldId = 7 },
+                new PlantYield { PlantId = 4, YieldId = 4 },
+                new PlantYield { PlantId = 4, YieldId = 2 },
+                new PlantYield { PlantId = 4, YieldId = 7 },
+                new PlantYield { PlantId = 5, YieldId = 5 },
+                new PlantYield { PlantId = 6, YieldId = 6 },
+                new PlantYield { PlantId = 7, YieldId = 7 },
+                new PlantYield { PlantId = 8, YieldId = 3 },
+                new PlantYield { PlantId = 9, YieldId = 1 },
+                new PlantYield { PlantId = 10, YieldId = 2 }
+            );
+
+            modelBuilder.Entity<PlanTransaction>().HasData(
+                new PlanTransaction { Id = 2, UrlAddress = "0xea28dee1c7cf4dd2fd216ff9cda37a0aae86da13" }    
             );
         }
     }
