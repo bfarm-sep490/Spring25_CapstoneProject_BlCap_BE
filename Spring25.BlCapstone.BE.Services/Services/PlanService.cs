@@ -434,47 +434,47 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (!plan.YieldId.HasValue)
                 {
-                    return new BusinessResult(404, "Plan does not have any yield. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have any yield. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.PlanName))
                 {
-                    return new BusinessResult(404, "Plan does not have a name. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have a name. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.Description))
                 {
-                    return new BusinessResult(404, "Plan does not have a description. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have a description. Can not approve!");
                 }
 
                 if (!plan.StartDate.HasValue)
                 {
-                    return new BusinessResult(404, "Plan does not have a start date. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have a start date. Can not approve!");
                 }
 
                 if (!plan.EndDate.HasValue)
                 {
-                    return new BusinessResult(404, "Plan does not have an end date. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have an end date. Can not approve!");
                 }
 
                 if (!plan.EstimatedProduct.HasValue)
                 {
-                    return new BusinessResult(404, "Plan does not have an estimated product. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have an estimated product. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.EstimatedUnit))
                 {
-                    return new BusinessResult(404, "Plan does not have an estimated unit. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have an estimated unit. Can not approve!");
                 }
 
                 if (!plan.SeedQuantity.HasValue)
                 {
-                    return new BusinessResult(404, "Plan does not have a seed quantity. Can not approve!");
+                    return new BusinessResult(404, null, "Plan does not have a seed quantity. Can not approve!");
                 }
 
                 if (!plan.Status.ToLower().Trim().Equals("pending"))
                 {
-                    return new BusinessResult(400, "Can not approve plan that not have status pending!");
+                    return new BusinessResult(400, null, "Can not approve plan that not have status pending!");
                 }
 
                 plan.Status = "Ongoing";
