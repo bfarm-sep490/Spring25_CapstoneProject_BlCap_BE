@@ -184,7 +184,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
                 var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
-                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, "https://bfarmx-farmowner.netlify.app/orders", "https://bfarmx-farmowner.netlify.app/orders", expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
+                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, "http://localhost:5173/payment-success", "http://localhost:5173/payment-success", expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
                 if (createPayment == null)
