@@ -478,7 +478,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(plan.PlantId);
-                if (plant != null)
+                if (plant == null)
                 {
                     return new BusinessResult(400, null, "Can not approve plan that not have seed");
                 }
