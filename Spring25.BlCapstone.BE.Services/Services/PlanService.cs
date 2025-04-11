@@ -616,6 +616,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.CreatedAt = DateTime.Now;
                 plan.CreatedBy = expert.Account.Name;
                 plan.IsApproved = false;
+                plan.EstimatedUnit = "kg";
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
 
                 if (model.OrderIds != null)
