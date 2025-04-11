@@ -787,7 +787,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.PlanName = model.PlanName;
                 plan.Description = model.Description;
                 plan.EstimatedProduct = model.EstimatedProduct;
-                plan.EstimatedUnit = model.EstimatedUnit;
+                plan.EstimatedUnit = "kg";
                 plan.ExpertId = model.ExpertId;
                 plan.StartDate = model.StartDate;
                 plan.EndDate = model.EndDate;
