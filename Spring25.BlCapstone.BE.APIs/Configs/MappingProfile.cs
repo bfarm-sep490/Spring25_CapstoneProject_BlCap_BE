@@ -289,10 +289,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.HarvestingInfors, opt => opt.MapFrom(src => src.HarvestingTasks))
                 .ForMember(dest => dest.PackagingInfors, opt => opt.MapFrom(src => src.PackagingTasks))
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
-                //.ForMember(dest => dest.OrderInfor, opt => opt.MapFrom(src => src.Orders))
+                .ForMember(dest => dest.OrderInfor, opt => opt.MapFrom(src => src.OrderPlans))
                 .ForMember(dest => dest.UrlAddress, opt => opt.MapFrom(src => src.PlanTransaction.UrlAddress))
                 .ReverseMap();
-            CreateMap<Order, OrderInfor>()
+            CreateMap<OrderPlan, OrderInfor>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId))
+                .ForMember(dest => dest.PreOrderQuantity, opt => opt.MapFrom(src => src.Order.PreOrderQuantity))
+                .ForMember(dest => dest.OrderPlanQuantity, opt => opt.MapFrom(src => src.Quantity))
                 .ReverseMap();
             CreateMap<Yield, YieldInfor>()
                 .ReverseMap();

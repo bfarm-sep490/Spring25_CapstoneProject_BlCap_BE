@@ -44,7 +44,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("contract_address")]
         public string UrlAddress { get; set; }
         [JsonPropertyName("order_information")]
-        public List<OrderInfor> OrderInfor { get; set; }
+        public List<OrderInfor>? OrderInfor { get; set; }
         [JsonPropertyName("plant_information")]
         public PlantInfor PlantInfor { get; set; }
         [JsonPropertyName("yield_information")]
@@ -67,6 +67,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int Id { get; set; }
         [JsonPropertyName("pre_order_quantity")]
         public float PreOrderQuantity { get; set; }
+        [JsonPropertyName("order_plan_quantity")]
+        public float OrderPlanQuantity { get; set; }
     }
 
     public class PlantInfor
@@ -77,8 +79,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string PlantName { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
-        [JsonPropertyName("is_available")]
-        public bool IsAvailable { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
     }
 
     public class YieldInfor
@@ -87,8 +89,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int Id { get; set; }
         [JsonPropertyName("yield_name")]
         public string YieldName { get; set; }
-        [JsonPropertyName("is_completed")]
-        public bool IsAvailable { get; set; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
         [JsonPropertyName("area_unit")]
         public string AreaUnit { get; set; }
         [JsonPropertyName("area")]
@@ -111,8 +113,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
     }
@@ -125,16 +125,12 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? InspectorId { get; set; }
         [JsonPropertyName("task_name")]
         public string FormName { get; set; }
-        [JsonPropertyName("task_type")]
-        public string FormType { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
         public DateTime EndDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
     }
 
     public class PlanHarvestingInfor
@@ -153,8 +149,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public DateTime EndDate { get; set; }
         [JsonPropertyName("is_available")]
         public bool IsAvailable { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
     }
 
     public class PlanPackagingInfor
@@ -173,8 +167,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public DateTime EndDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("priority")]
-        public int Priority { get; set; }
     }
 
     public class ProblemInfor
@@ -184,7 +176,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("problem_name")]
         public string ProblemName { get; set; }
         [JsonPropertyName("date")]
-        public DateTime Date { get; set; }
+        public DateTime CreatedDate { get; set; }
         [JsonPropertyName("problem_type")]
         public string ProblemType { get; set; }
         [JsonPropertyName("status")]
