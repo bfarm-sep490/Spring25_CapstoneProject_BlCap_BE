@@ -186,6 +186,26 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
                 .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Farmer.Avatar))
                 .ReverseMap();
+            CreateMap<FarmerPermission, PlanListFarmerAssignTo>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Plan.Id))
+                .ForMember(dest => dest.PlantId, opt => opt.MapFrom(src => src.Plan.PlantId))
+                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plan.Plant.PlantName))
+                .ForMember(dest => dest.YieldId, opt => opt.MapFrom(src => src.Plan.YieldId))
+                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Plan.Yield.YieldName))
+                .ForMember(dest => dest.ExpertId, opt => opt.MapFrom(src => src.Plan.ExpertId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Plan.Expert.Account.Name))
+                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Plan.Description))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.Plan.StartDate))
+                .ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.Plan.EndDate))
+                .ForMember(dest => dest.PlanStatus, opt => opt.MapFrom(src => src.Plan.Status))
+                .ForMember(dest => dest.EstimatedProduct, opt => opt.MapFrom(src => src.Plan.EstimatedProduct))
+                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.Plan.CreatedAt))
+                .ForMember(dest => dest.CreatedBy, opt => opt.MapFrom(src => src.Plan.CreatedBy))
+                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Plan.UpdatedAt))
+                .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.Plan.UpdatedBy))
+                .ForMember(dest => dest.IsApproved, opt => opt.MapFrom(src => src.Plan.IsApproved))
+                .ReverseMap();
             CreateMap<Farmer, FarmerModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Account.Name))
@@ -304,11 +324,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Plan, AssigningPlan>()
                 .ReverseMap();
             CreateMap<Plan, CreatePlan>()
-                .ReverseMap();
-            CreateMap<Plan, PlanListFarmerAssignTo>()
-                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
-                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
-                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Expert.Account.Name))
                 .ReverseMap();
         }
 

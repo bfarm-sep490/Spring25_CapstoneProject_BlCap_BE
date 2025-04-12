@@ -26,7 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("plan_name")]
         public string? PlanName { get; set; }
         [JsonPropertyName("is_active_in_plan")]
-        public bool IsActive { get; set; }
+        public string Status { get; set; }
         [JsonPropertyName("description")]
         public string? Description { get; set; }
         [JsonPropertyName("start_date")]
@@ -34,7 +34,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("end_date")]
         public DateTime? EndDate { get; set; }
         [JsonPropertyName("status")]
-        public string Status { get; set; }
+        public string PlanStatus { get; set; }
         [JsonPropertyName("estimated_product")]
         public float? EstimatedProduct { get; set; }
         [JsonPropertyName("created_at")]

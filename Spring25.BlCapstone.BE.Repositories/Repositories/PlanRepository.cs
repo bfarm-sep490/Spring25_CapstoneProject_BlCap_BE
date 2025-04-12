@@ -57,16 +57,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<List<Plan>> GetPlanFarmerAssign(int farmerId)
-        {
-            return await _context.Plans
-                                 .Include(p => p.FarmerPermissions)
-                                 .Include(p => p.Plant)
-                                 .Include(p => p.Expert)
-                                    .Where(p => p.FarmerPermissions.Any(p => p.FarmerId == farmerId))
-                                 .ToListAsync();
-        }
-
         public async Task<List<Plan>> GetPlanNotHaveOrder()
         {
             return await _context.Plans

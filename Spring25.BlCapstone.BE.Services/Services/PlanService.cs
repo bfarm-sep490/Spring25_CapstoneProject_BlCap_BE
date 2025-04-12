@@ -826,7 +826,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any farmers !");
                 }
 
-                var plans = await _unitOfWork.PlanRepository.GetPlanFarmerAssign(id);
+                var plans = await _unitOfWork.FarmerPermissionRepository.GetPlanFarmerAssign(id);
                 var rs = _mapper.Map<List<PlanListFarmerAssignTo>>(plans);
 
                 if (rs.Count <= 0)
