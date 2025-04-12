@@ -61,7 +61,11 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<FarmerSpecialization> FarmerSpecializations { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
         public virtual DbSet<FarmerPerformance> FarmerPerformances { get; set; }
-        
+        public virtual DbSet<SeasonalPlant> SeasonalPlants { get; set; }
+        public virtual DbSet<OrderPlan> OrderPlans { get; set; }
+        public virtual DbSet<ProductPickupBatch> ProductPickupBatchs { get; set; }
+        public virtual DbSet<ConfigurationSystem> ConfigurationSystems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -159,10 +163,6 @@ namespace Spring25.BlCapstone.BE.Repositories
                 entity.HasOne(o => o.Retailer)
                       .WithMany(o => o.Orders)
                       .HasForeignKey(o => o.RetailerId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(o => o.Plan)
-                      .WithMany(o => o.Orders)
-                      .HasForeignKey(o => o.PlanId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
                 entity.HasOne(o => o.PackagingType)
                       .WithMany(o => o.Orders)
@@ -504,6 +504,41 @@ namespace Spring25.BlCapstone.BE.Repositories
 
             modelBuilder.Entity<FarmerPerformance>()
                 .ToTable("FarmerPerformance");
+
+            modelBuilder.Entity<SeasonalPlant>(entity =>
+            {
+                entity.ToTable("SeasonalPlant");
+                entity.HasOne(sp => sp.Plant)
+                      .WithMany(sp => sp.SeasonalPlants)
+                      .HasForeignKey(sp => sp.PlantId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<OrderPlan>(entity =>
+            {
+                entity.ToTable("OrderPlan");
+                entity.HasKey(op => new { op.OrderId, op.PlanId });
+                entity.HasOne(op => op.Order)
+                      .WithMany(op => op.OrderPlans)
+                      .HasForeignKey(op => op.OrderId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(op => op.Plan)
+                      .WithMany(op => op.OrderPlans)
+                      .HasForeignKey(op => op.PlanId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<ProductPickupBatch>(entity =>
+            {
+                entity.ToTable("ProductPickupBatch");
+                entity.HasOne(ppb => ppb.OrderProduct)
+                      .WithMany(ppb => ppb.ProductPickupBatches)
+                      .HasForeignKey(ppb => ppb.ProductId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<ConfigurationSystem>()
+                .ToTable("ConfigurationSystem");
 
             FakeDataSeeder.Seed(modelBuilder);
         }

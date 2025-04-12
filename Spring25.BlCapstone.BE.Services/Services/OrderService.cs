@@ -86,13 +86,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+                var order = await _unitOfWork.OrderRepository.GetOrderByOrderId(id);
                 if (order == null)
                 {
                     return new BusinessResult(404, "Not found any orders !");
                 }
 
-                if (order.PlanId.HasValue)
+                if (order.OrderPlans.Any())
                 {
                     return new BusinessResult(400, "Can not change status order which already has a plan for it !");
                 }

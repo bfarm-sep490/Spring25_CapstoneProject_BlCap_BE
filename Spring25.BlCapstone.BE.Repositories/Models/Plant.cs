@@ -23,10 +23,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public float DeltaTwo { get; set; }
         public float DeltaThree { get; set; }
         public int PreservationDay { get; set; }
-        public float EstimatedPerOne { get; set; }
 
         public ICollection<Plan> Plans { get; set; }
         public ICollection<PlantYield> PlantYields { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<SeasonalPlant> SeasonalPlants { get; set; }
     }
 }

@@ -14,7 +14,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int RetailerId { get; set; }
         public int PlantId { get; set; }
-        public int? PlanId { get; set; }
         public int PackagingTypeId { get; set; }
         public float DepositPrice { get; set; }
         public float? TotalPrice { get; set; }
@@ -26,10 +25,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public DateTime CreatedAt { get; set; }
 
         public Retailer Retailer { get; set; }
-        public Plan Plan { get; set; }
         public Plant Plant { get; set; }
         public PackagingType PackagingType { get; set; }
         public ICollection<Transaction> Transactions { get; set; }
         public ICollection<OrderProduct> OrderProducts { get; set; }
+        public ICollection<OrderPlan> OrderPlans { get; set; }
     }
 }

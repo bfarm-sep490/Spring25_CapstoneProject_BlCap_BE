@@ -23,12 +23,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(o => o.Retailer)
                                     .ThenInclude(o => o.Account)
                                 .Include(o => o.Plant)
-                                .Include(o => o.Plan)
+                                .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
                                 .Include(o => o.PackagingType)
                                 .Include(o => o.OrderProducts)
-                                .Include(o => o.Plan)
-                                    .ThenInclude(o => o.InspectingForms)
-                                        .ThenInclude(o => o.InspectingResult)
+                                .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
+                                        .ThenInclude(o => o.InspectingForms)
+                                            .ThenInclude(o => o.InspectingResult)
                                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(status))
@@ -41,10 +43,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(o => o.RetailerId == retailer);
             }
 
-            if (planId.HasValue)
-            {
-                query = query.Where(o => o.PlanId == planId);
-            }
+            //if (planId.HasValue)
+            //{
+            //    query = query.Where(o => o.OrderPlans. == planId);
+            //}
 
             return await query.ToListAsync();
         }
@@ -65,12 +67,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(o => o.Retailer)
                                     .ThenInclude(o => o.Account)
                                  .Include(o => o.Plant)
-                                 .Include(o => o.Plan)
+                                 .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
                                  .Include(o => o.PackagingType)
                                  .Include(o => o.OrderProducts)
-                                 .Include(o => o.Plan)
-                                    .ThenInclude(o => o.InspectingForms)
-                                        .ThenInclude(o => o.InspectingResult)
+                                 .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
+                                        .ThenInclude(o => o.InspectingForms)
+                                            .ThenInclude(o => o.InspectingResult)
                                  .FirstOrDefaultAsync(o => o.Id == id);
         }
 
@@ -81,14 +85,24 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(o => o.Retailer)
                                     .ThenInclude(o => o.Account)
                                 .Include(o => o.Plant)
-                                .Include(o => o.Plan)
+                                .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
                                 .Include(o => o.PackagingType)
                                 .Include(o => o.OrderProducts)
-                                .Include(o => o.Plan)
-                                    .ThenInclude(o => o.InspectingForms)
-                                        .ThenInclude(o => o.InspectingResult)
-                                .Where(o => o.PlanId == null)
+                                .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
+                                        .ThenInclude(o => o.InspectingForms)
+                                            .ThenInclude(o => o.InspectingResult)
+                                .Where(o => !o.OrderPlans.Any())
                                 .ToListAsync();
+        }
+
+        public async Task<Order> GetOrderByOrderId(int id)
+        {
+            return await _context.Orders
+                                 .Include(o => o.OrderPlans)
+                                    .ThenInclude(o => o.Plan)
+                                 .FirstOrDefaultAsync(o => o.Id == id);
         }
     }
 }

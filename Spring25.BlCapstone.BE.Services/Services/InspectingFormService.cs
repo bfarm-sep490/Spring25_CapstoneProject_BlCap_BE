@@ -41,7 +41,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var form = _mapper.Map<InspectingForm>(model);
 
                 form.Status = model.Status != null ? model.Status : "Draft";
-                form.CanHarvest = false;
                 form.CreatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.InspectingFormRepository.CreateAsync(form);

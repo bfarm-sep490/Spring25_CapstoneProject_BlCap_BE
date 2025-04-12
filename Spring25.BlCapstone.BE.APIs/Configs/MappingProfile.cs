@@ -64,7 +64,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.transactionOrders, opt => opt.MapFrom(src => src.Transactions))
                 .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Retailer.Account.Name))
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
-                .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
+                //.ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ForMember(dest => dest.PackagingTypeName, opt => opt.MapFrom(src => src.PackagingType.Name))
                 .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts))
                 .ReverseMap();
@@ -73,7 +73,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Order, CreateOrderModel>()
                 .ReverseMap();
             CreateMap<OrderProduct, ProOr>()
-                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.Order.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
+                //.ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.Order.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ReverseMap();
         }
 
@@ -264,7 +264,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.HarvestingInfors, opt => opt.MapFrom(src => src.HarvestingTasks))
                 .ForMember(dest => dest.PackagingInfors, opt => opt.MapFrom(src => src.PackagingTasks))
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
-                .ForMember(dest => dest.OrderInfor, opt => opt.MapFrom(src => src.Orders))
+                //.ForMember(dest => dest.OrderInfor, opt => opt.MapFrom(src => src.Orders))
                 .ForMember(dest => dest.UrlAddress, opt => opt.MapFrom(src => src.PlanTransaction.UrlAddress))
                 .ReverseMap();
             CreateMap<Order, OrderInfor>()

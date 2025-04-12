@@ -57,6 +57,10 @@ namespace Spring25.BlCapstone.BE.Repositories
         private SpecializationRepository _specializationRepository;
         private FarmerSpecializationRepository _farmerSpecializationRepository;
         private FarmerPerformanceRepository _farmerPerformanceRepository;
+        private SeasonalPlantRepository _seasonalPlantRepository;
+        private OrderPlanRepository _orderPlanRepository;
+        private ProductPickupBatchRepository _productPickupBatchRepository;
+        private ConfigurationSystemRepository _configurationSystemRepository;
 
         public UnitOfWork()
         {
@@ -107,6 +111,10 @@ namespace Spring25.BlCapstone.BE.Repositories
             _specializationRepository ??= new SpecializationRepository();
             _farmerSpecializationRepository ??= new FarmerSpecializationRepository();
             _farmerPerformanceRepository ??= new FarmerPerformanceRepository();
+            _seasonalPlantRepository ??= new SeasonalPlantRepository();
+            _orderPlanRepository ??= new OrderPlanRepository();
+            _productPickupBatchRepository ??= new ProductPickupBatchRepository();
+            _configurationSystemRepository ??= new ConfigurationSystemRepository();
         }
 
         public UnitOfWork(AccountRepository accountRepository, FarmerRepository farmerRepository,
@@ -127,7 +135,9 @@ namespace Spring25.BlCapstone.BE.Repositories
             ProblemImageRepository problemImageRepository, NotificationFarmerRepository notificationFarmerRepository, NotificationOwnerRepository notificationOwnerRepository, NotificationRetailerRepository notificationRetailerRepository,
             ProblemRepository problemRepository, PackagingProductRepository packagingProductRepository, PackagingTypeRepository packagingTypeRepository,
             PlantYieldRepository plantYieldRepository, PlanTransactionRepository planTransactionRepository, OrderProductRepository orderProductRepository,
-            SpecializationRepository specializationRepository, FarmerSpecializationRepository farmerSpecializationRepository, FarmerPerformanceRepository farmerPerformanceRepository)
+            SpecializationRepository specializationRepository, FarmerSpecializationRepository farmerSpecializationRepository, FarmerPerformanceRepository farmerPerformanceRepository,
+            SeasonalPlantRepository seasonalPlantRepository, OrderPlanRepository orderPlanRepository, 
+            ProductPickupBatchRepository productPickupBatchRepository, ConfigurationSystemRepository configurationSystemRepository)
         {
             _accountRepository = accountRepository;
             _farmerRepository = farmerRepository;
@@ -176,6 +186,10 @@ namespace Spring25.BlCapstone.BE.Repositories
             _specializationRepository = specializationRepository;
             _farmerSpecializationRepository = farmerSpecializationRepository;
             _farmerPerformanceRepository = farmerPerformanceRepository;
+            _seasonalPlantRepository = seasonalPlantRepository;
+            _orderPlanRepository = orderPlanRepository;
+            _productPickupBatchRepository = productPickupBatchRepository;
+            _configurationSystemRepository = configurationSystemRepository;
         }
 
         public AccountRepository AccountRepository { get { return _accountRepository; } }
@@ -225,5 +239,9 @@ namespace Spring25.BlCapstone.BE.Repositories
         public SpecializationRepository SpecializationRepository { get { return _specializationRepository; } }
         public FarmerSpecializationRepository FarmerSpecializationRepository { get { return _farmerSpecializationRepository; } }
         public FarmerPerformanceRepository FarmerPerformanceRepository { get { return _farmerPerformanceRepository; } }
+        public SeasonalPlantRepository SeasonalPlantRepository { get { return _seasonalPlantRepository; } }
+        public OrderPlanRepository OrderPlanRepository { get { return _orderPlanRepository; } }
+        public ProductPickupBatchRepository ProductPickupBatchRepository { get { return _productPickupBatchRepository; } }
+        public ConfigurationSystemRepository ConfigurationSystemRepository { get { return _configurationSystemRepository; } }
     }
 }

@@ -462,11 +462,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, null, "Plan does not have an estimated product. Can not approve!");
                 }
 
-                if (string.IsNullOrEmpty(plan.EstimatedUnit))
-                {
-                    return new BusinessResult(404, null, "Plan does not have an estimated unit. Can not approve!");
-                }
-
                 if (!plan.SeedQuantity.HasValue)
                 {
                     return new BusinessResult(404, null, "Plan does not have a seed quantity. Can not approve!");
@@ -545,7 +540,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     StartDate = (new DateTimeOffset(plan.StartDate.Value).ToUnixTimeSeconds()).ToString(),
                     EndDate = (new DateTimeOffset(plan.EndDate.Value).ToUnixTimeSeconds()).ToString(),
                     EstimatedProduct = plan.EstimatedProduct.Value,
-                    EstimatedUnit = plan.EstimatedUnit,
                     Status = plan.Status,
                 });
 
@@ -592,15 +586,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     foreach (var id in model.OrderIds)
                     {
-                        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+                        var order = await _unitOfWork.OrderRepository.GetOrderByOrderId(id);
                         if (order == null)
                         {
                             return new BusinessResult(404, $"Not found order {id} !");
-                        }
-
-                        if (order.PlanId.HasValue)
-                        {
-                            return new BusinessResult(400, "This order already has plan !");
                         }
                     }
                 }
@@ -616,21 +605,26 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.CreatedAt = DateTime.Now;
                 plan.CreatedBy = expert.Account.Name;
                 plan.IsApproved = false;
-                plan.EstimatedUnit = "kg";
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
 
-                if (model.OrderIds != null)
-                {
-                    foreach (var id in model.OrderIds)
-                    {
-                        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+                //if (model.OrderIds != null)
+                //{
+                //    foreach (var id in model.OrderIds)
+                //    {
+                //        await _unitOfWork.OrderPlanRepository.CreateAsync(new OrderPlan
+                //        {
+                //            OrderId = id,
+                //            PlanId = plan.Id,
+                //            Quantity = 
+                //        })
+                //        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
 
-                        order.PlanId = plan.Id;
-                        _unitOfWork.OrderRepository.PrepareUpdate(order);
-                    }
+                //        order.PlanId = plan.Id;
+                //        _unitOfWork.OrderRepository.PrepareUpdate(order);
+                //    }
 
-                    await _unitOfWork.OrderRepository.SaveAsync();
-                }
+                //    await _unitOfWork.OrderRepository.SaveAsync();
+                //}
 
                 if (rs != null)
                 {
@@ -747,14 +741,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     await _unitOfWork.CaringTaskRepository.RemoveAsync(task);
                 }
 
-                var orders = await _unitOfWork.OrderRepository.GetAllOrder(planId: id);
+                var orders = await _unitOfWork.OrderPlanRepository.GetOrderPlansByPlanId(id);
                 foreach (var order in orders)
                 {
-                    order.PlanId = null;
-                    _unitOfWork.OrderRepository.PrepareUpdate(order);
+                    _unitOfWork.OrderPlanRepository.PrepareRemove(order);
                 }
 
-                await _unitOfWork.OrderRepository.SaveAsync();
+                await _unitOfWork.OrderPlanRepository.SaveAsync();
 
                 var rs = await _unitOfWork.PlanRepository.RemoveAsync(plan);
                 if (rs)
@@ -787,7 +780,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.PlanName = model.PlanName;
                 plan.Description = model.Description;
                 plan.EstimatedProduct = model.EstimatedProduct;
-                plan.EstimatedUnit = "kg";
                 plan.ExpertId = model.ExpertId;
                 plan.StartDate = model.StartDate;
                 plan.EndDate = model.EndDate;
@@ -999,12 +991,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any order !");
                 }
 
-                if (order.PlanId.HasValue)
-                {
-                    return new BusinessResult(400, "This order already has plan for it !");
-                }
-
-                order.PlanId = id;
+                //add orderplan co quantity nho check
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
                 var rs = _mapper.Map<OrderModel>(order);
                 return new BusinessResult(200, "Add plan to order successfull", rs);
@@ -1025,23 +1012,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any plan !");
                 }
 
-                var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
+                var order = await _unitOfWork.OrderRepository.GetOrderByOrderId(orderId);
                 if (order == null)
                 {
                     return new BusinessResult(404, "Not found any order !");
                 }
 
-                if (!order.PlanId.HasValue)
+                if (!order.OrderPlans.Any())
                 {
                     return new BusinessResult(400, "This order doesn't have any plans ?");
                 }
 
-                if (order.PlanId != id)
+                if (!order.OrderPlans.Any(c => c.PlanId == id))
                 {
                     return new BusinessResult(400, "This order is not belong to this plan !");
                 }
 
-                order.PlanId = null;
+                var orderPlan = await _unitOfWork.OrderPlanRepository.GetOrderPlansByPlanId(id, orderId);
+                if (orderPlan.Any() || orderPlan.Count > 0)
+                {
+                    orderPlan.ForEach(o => _unitOfWork.OrderPlanRepository.PrepareRemove(o));
+                }
+                await _unitOfWork.OrderPlanRepository.SaveAsync();
+
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
                 var rs = _mapper.Map<OrderModel>(order);
                 return new BusinessResult(200, "Remove order from plan successfull", rs);

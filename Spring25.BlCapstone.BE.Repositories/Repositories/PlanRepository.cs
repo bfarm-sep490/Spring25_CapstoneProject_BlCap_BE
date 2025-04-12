@@ -28,7 +28,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(p => p.Yield)
                 .Include(p => p.Expert)
                     .ThenInclude(p => p.Account)
-                .Include(p => p.Orders)
+                .Include(p => p.OrderPlans)
+                    .ThenInclude(p => p.Order)
                 .Include(p => p.PlanTransaction)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
@@ -65,22 +66,20 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .Where(p => p.FarmerPermissions.Any(p => p.FarmerId == farmerId))
                                  .ToListAsync();
         }
+
         public async Task<List<Plan>> GetPlanNotHaveOrder()
         {
             return await _context.Plans
-                .Where(x => (x.Orders.Count() == 0))
+                .Where(x => !x.OrderPlans.Any())
                 .ToListAsync();
         }
-        public async Task<List<Plan>> GetPlanHaveOnlyOrdersCancel()
-        {
-            return await _context.Plans
-                .Where(x => x.Orders.Any() && x.Orders.All(o => o.Status.ToLower() == "Cancel"))
-                .ToListAsync();
-        }
+
         public async Task<int> GetPlanNotHaveOrderOrHaveOnlyOrdersCancle()
         {
             return await _context.Plans
-                .Where(x => (!x.Orders.Any() || x.Orders.All(o => o.Status.ToLower() == "cancel"))
+                .Include(x => x.OrderPlans)
+                    .ThenInclude(x => x.Order)
+                .Where(x => (!x.OrderPlans.Any() || x.OrderPlans.All(o => o.Order.Status.ToLower() == "cancel"))
                 && x.StartDate >= DateTime.Now && x.Status.ToLower() == "cancel")
                 .ExecuteUpdateAsync(p => p.SetProperty(plan => plan.Status, "Cancel")
                     .SetProperty(plan => plan.UpdatedAt, DateTime.Now)
@@ -95,6 +94,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                  .ToListAsync();
             return result;
         }
+
         public async Task<Plan> GetTasksByPlanId(int planid)
         {
             var result = await _context.Plans.Where(x => x.Id == planid)

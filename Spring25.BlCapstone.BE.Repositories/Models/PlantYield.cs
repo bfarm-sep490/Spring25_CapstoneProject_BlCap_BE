@@ -10,6 +10,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
     {
         public int YieldId { get; set; }
         public int PlantId { get; set; }
+        public float MaximumQuantity { get; set; }
 
         public Yield Yield { get; set; }
         public Plant Plant { get; set; }

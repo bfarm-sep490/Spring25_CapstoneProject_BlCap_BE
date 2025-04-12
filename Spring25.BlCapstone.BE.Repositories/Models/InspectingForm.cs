@@ -21,7 +21,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int? NumberOfSample { get; set; }
         public float? SampleWeight { get; set; }
         public DateTime? CompleteDate { get; set; }
-        public bool CanHarvest { get; set; }
         public string Status { get; set; }
         public DateTime CreatedAt { get; set; }
         public string CreatedBy { get; set; }

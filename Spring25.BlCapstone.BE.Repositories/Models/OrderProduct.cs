@@ -18,5 +18,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public Order Order { get; set; }
         public PackagingProduct PackagingProduct { get; set; }
+        public ICollection<ProductPickupBatch> ProductPickupBatches { get; set; }
     }
 }
