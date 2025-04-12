@@ -37,8 +37,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string Status { get; set; }
         [JsonPropertyName("estimated_product")]
         public float? EstimatedProduct { get; set; }
-        [JsonPropertyName("estimated_unit")]
-        public string? EstimatedUnit { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]
