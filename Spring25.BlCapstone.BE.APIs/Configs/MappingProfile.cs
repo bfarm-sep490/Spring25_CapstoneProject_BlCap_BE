@@ -205,6 +205,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.Plan.UpdatedAt))
                 .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.Plan.UpdatedBy))
                 .ForMember(dest => dest.IsApproved, opt => opt.MapFrom(src => src.Plan.IsApproved))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToLower().Trim().Equals("active")))
                 .ReverseMap();
             CreateMap<Farmer, FarmerModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))

@@ -199,11 +199,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("farmer/{farmer_id}")]
-        public async Task<IActionResult> GetPlansFarmerAssignedTo(int farmer_id)
+        public async Task<IActionResult> GetPlansFarmerAssignedTo(int farmer_id, bool? is_active_in_plan)
         {
             try
             {
-                var res = await _planService.GetAllPlanFarmerAssigned(farmer_id);
+                var res = await _planService.GetAllPlanFarmerAssigned(farmer_id, is_active_in_plan);
                 return Ok(res);
             }
             catch (Exception ex)

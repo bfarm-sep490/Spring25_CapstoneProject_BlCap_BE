@@ -29,9 +29,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .FirstOrDefaultAsync(fp => fp.PlanId == planId && fp.FarmerId == farmerId);
         }
 
-        public async Task<List<FarmerPermission>> GetPlanFarmerAssign(int farmerId)
+        public async Task<List<FarmerPermission>> GetPlanFarmerAssign(int farmerId, bool? is_active_in_plan = null)
         {
-            return await _context.FarmerPermissions
+            var query = _context.FarmerPermissions
                                  .Include(p => p.Plan)
                                     .ThenInclude(p => p.Plant)
                                  .Include(p => p.Plan)
@@ -39,8 +39,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(p => p.Plan)
                                     .ThenInclude(p => p.Expert)
                                         .ThenInclude(p => p.Account)
-                                    .Where(p => p.FarmerId == farmerId)
-                                 .ToListAsync();
+                                 .Where(p => p.FarmerId == farmerId);
+
+            if (is_active_in_plan.HasValue)
+            {
+                var status = is_active_in_plan.Value ? "active" : "inactive";
+                query = query.Where(p => p.Status.Trim().ToLower() == status);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

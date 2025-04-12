@@ -42,7 +42,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> UpdateStatus(int id, string status, string? reportBy);
         Task<IBusinessResult> DeletePlan(int id);
         Task<IBusinessResult> GetStatusTasksDashboardByPlanId(int id);
-        Task<IBusinessResult> GetAllPlanFarmerAssigned(int id);
+        Task<IBusinessResult> GetAllPlanFarmerAssigned(int id, bool? is_active_in_plan);
         Task<IBusinessResult> GetInfomationOfFertilizerTasksByPlanId(int id);
         Task<IBusinessResult> GetInfomationOfPesticideTasksByPlanId(int id);
         Task<IBusinessResult> RemoveFarmerFromPlan(int planId, int farmerId);
@@ -816,7 +816,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get Tasks Dashboard", result);
         }
 
-        public async Task<IBusinessResult> GetAllPlanFarmerAssigned(int id)
+        public async Task<IBusinessResult> GetAllPlanFarmerAssigned(int id, bool? is_active_in_plan)
         {
             try
             {
@@ -826,7 +826,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any farmers !");
                 }
 
-                var plans = await _unitOfWork.FarmerPermissionRepository.GetPlanFarmerAssign(id);
+                var plans = await _unitOfWork.FarmerPermissionRepository.GetPlanFarmerAssign(id, is_active_in_plan);
                 var rs = _mapper.Map<List<PlanListFarmerAssignTo>>(plans);
 
                 if (rs.Count <= 0)

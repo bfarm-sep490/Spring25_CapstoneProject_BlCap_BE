@@ -26,7 +26,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("plan_name")]
         public string? PlanName { get; set; }
         [JsonPropertyName("is_active_in_plan")]
-        public string Status { get; set; }
+        public bool Status { get; set; }
         [JsonPropertyName("description")]
         public string? Description { get; set; }
         [JsonPropertyName("start_date")]
