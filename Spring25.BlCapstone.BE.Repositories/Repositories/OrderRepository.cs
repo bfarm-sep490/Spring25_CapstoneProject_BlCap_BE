@@ -43,10 +43,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(o => o.RetailerId == retailer);
             }
 
-            //if (planId.HasValue)
-            //{
-            //    query = query.Where(o => o.OrderPlans. == planId);
-            //}
+            if (planId.HasValue)
+            {
+                query = query.Where(o => o.OrderPlans.Any(p => p.PlanId == planId));
+            }
 
             return await query.ToListAsync();
         }

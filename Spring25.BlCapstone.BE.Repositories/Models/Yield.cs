@@ -22,7 +22,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public ICollection<Device> Devices { get; set; }
         public ICollection<Plan> Plans { get; set; }
-        public ICollection<DataEnvironment> DataEnvironments { get; set; }
         public ICollection<PlantYield> PlantYields { get; set; }
     }
 }

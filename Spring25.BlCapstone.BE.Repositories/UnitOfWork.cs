@@ -40,7 +40,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         private RetailerRepository _retailerRepository;
         private TransactionRepository _transactionRepository;
         private YieldRepository _yieldRepository;
-        private DataEnvironmentRepository _dataEnvironmentRepository;   
         private FarmerCaringTaskRepository _farmerCaringTaskRepository;
         private FarmerHarvestingTaskRepository _farmerHarvestingTaskRepository;
         private FarmerPackagingTaskRepository _farmerPackagingTaskRepository;
@@ -94,7 +93,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             _inspectorRepository ??= new InspectorRepository();
             _problemImageRepository ??= new ProblemImageRepository();
             _problemRepository ??= new ProblemRepository();
-            _dataEnvironmentRepository ??= new DataEnvironmentRepository();
             _farmerCaringTaskRepository ??= new FarmerCaringTaskRepository();
             _farmerHarvestingTaskRepository ??= new FarmerHarvestingTaskRepository();
             _farmerPackagingTaskRepository ??= new FarmerPackagingTaskRepository();
@@ -122,7 +120,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             PlantRepository plantRepository, RetailerRepository retailerRepository,
             OrderRepository orderRepository, TransactionRepository transactionRepository, PlanRepository planRepository,
             DeviceRepository deviceRepository, FarmerPermissionRepository farmerPermissionRepository,
-            CaringTaskRepository caringTaskRepository, DataEnvironmentRepository dataEnvironmentRepository,
+            CaringTaskRepository caringTaskRepository,
             HarvestingTaskRepository harvestingTaskRepository, FarmerCaringTaskRepository farmerCaringTaskRepository,
             InspectingFormRepository inspectingFormRepository, CaringImageRepository caringImageRepository,
             HarvestingImageRepository harvestingImageRepository, InspectingImageRepository inspectingImageRepository,
@@ -169,7 +167,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             _inspectorRepository = inspectorRepository;
             _problemImageRepository = problemImageRepository;
             _problemRepository = problemRepository;
-            _dataEnvironmentRepository = dataEnvironmentRepository;
             _farmerCaringTaskRepository = farmerCaringTaskRepository;
             _farmerHarvestingTaskRepository = farmerHarvestingTaskRepository;
             _farmerPackagingTaskRepository = farmerPackagingTaskRepository;
@@ -222,7 +219,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public PackagingTaskRepository PackagingTaskRepository { get { return _packagingTaskRepository; } }
         public PackagingItemRepository PackagingItemRepository { get { return _packagingItemRepository; } }
         public PackagingImageRepository PackagingImageRepository { get { return _packagingImageRepository; } }
-        public DataEnvironmentRepository DataEnvironmentRepository { get { return _dataEnvironmentRepository; } }
         public FarmerCaringTaskRepository FarmerCaringTaskRepository { get { return _farmerCaringTaskRepository; } }
         public FarmerHarvestingTaskRepository FarmerHarvestingTaskRepository { get { return _farmerHarvestingTaskRepository; } }
         public FarmerPackagingTaskRepository FarmerPackagingTaskRepository { get { return _farmerPackagingTaskRepository; } }

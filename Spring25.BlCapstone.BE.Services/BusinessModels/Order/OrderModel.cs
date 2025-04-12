@@ -19,10 +19,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public int PlantId { get; set; }
         [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
-        [JsonPropertyName("plan_id")]
-        public int? PlanId { get; set; }
-        [JsonPropertyName("plan_name")]
-        public string PlanName { get; set; }
+        [JsonPropertyName("plan_information")]
+        public List<PlanInfor>? PlanInfors { get; set; }
         [JsonPropertyName("packaging_type_id")]
         public int PackagingTypeId { get; set; }
         [JsonPropertyName("packaging_type_name")]
@@ -47,6 +45,14 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public List<TransactionOrder>? transactionOrders { get; set; }
         [JsonPropertyName("products")]
         public List<ProOr> OrderProducts { get; set; }
+    }
+
+    public class PlanInfor
+    {
+        [JsonPropertyName("plan_id")]
+        public int? PlanId { get; set; }
+        [JsonPropertyName("plan_name")]
+        public string PlanName { get; set; }
     }
 
     public class TransactionOrder

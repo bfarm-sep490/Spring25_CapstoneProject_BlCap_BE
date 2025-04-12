@@ -116,7 +116,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("{id}/farmers/{farmer_id}")]
-        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, string? reason)
+        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] string? reason)
         {
             try
             {
