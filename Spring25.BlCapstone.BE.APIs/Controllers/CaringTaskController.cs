@@ -170,11 +170,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("caring-tasks/{id}/farmers/{farmer_id}")]
-        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] string? reason)
+        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] TaskReasonReplace? model)
         {
             try
             {
-                var res = await _caringTaskService.ReplaceFarmer(id, farmer_id, reason);
+                var res = await _caringTaskService.ReplaceFarmer(id, farmer_id, model == null ? null : model.Reason);
                 return Ok(res);
             }
             catch (Exception ex)

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.Services;
 
@@ -160,11 +161,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("harvesting-tasks/{id}/farmers/{farmer_id}")]
-        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] string? reason)
+        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] TaskReasonReplace? model)
         {
             try
             {
-                var res = await _harvestingTaskService.ReplaceFarmer(id, farmer_id, reason);
+                var res = await _harvestingTaskService.ReplaceFarmer(id, farmer_id, model == null ? null : model.Reason);
                 return Ok(res);
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Services;
@@ -55,7 +56,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.InnerException.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -116,11 +117,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("{id}/farmers/{farmer_id}")]
-        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] string? reason)
+        public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] TaskReasonReplace? model)
         {
             try
             {
-                var res = await _service.ReplaceFarmer(id, farmer_id, reason);
+                var res = await _service.ReplaceFarmer(id, farmer_id, model == null ? null : model.Reason);
                 return Ok(res);
             }
             catch (Exception ex)
