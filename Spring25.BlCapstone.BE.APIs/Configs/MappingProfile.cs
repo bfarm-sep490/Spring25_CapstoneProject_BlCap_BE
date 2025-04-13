@@ -5,6 +5,7 @@ using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Config;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Device;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
@@ -56,6 +57,13 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             NotificationProfile();
             TransactionProfile();
             ProductionProfile();
+            ConfigSystemProfile();
+        }
+
+        private void ConfigSystemProfile()
+        {
+            CreateMap<ConfigurationSystem, ConfigSystemCreate>()
+                .ReverseMap();
         }
 
         private void OrderProfile()
