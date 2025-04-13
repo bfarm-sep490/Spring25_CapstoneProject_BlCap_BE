@@ -46,23 +46,32 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         .Where(fp => fp.PlanId == planId)
         .Where(fp => !_context.FarmerCaringTasks.Include(x => x.CaringTask)
             .Any(fct => fct.FarmerId == fp.FarmerId
-                        && fct.Status == "Active"
+                        && fct.Status == "Active" && fct.CaringTask.Status.ToLower().Trim().Equals("ongoing")
                         && fct.CaringTask.StartDate < end
                         && fct.CaringTask.EndDate > start)
         )
         .Where(fp => !_context.FarmerHarvestingTasks.Include(x => x.HarvestingTask)
             .Any(fht => fht.FarmerId == fp.FarmerId
-                        && fht.Status == "Active"
+                        && fht.Status == "Active" && fht.HarvestingTask.Status.ToLower().Trim().Equals("ongoing")
                         && fht.HarvestingTask.StartDate < end
                         && fht.HarvestingTask.EndDate > start)
         )
         .Where(fp => !_context.FarmerPackagingTasks.Include(x => x.PackagingTask)
             .Any(fpt => fpt.FarmerId == fp.FarmerId
-                        && fpt.Status == "Active"
+                        && fpt.Status == "Active" && fpt.PackagingTask.Status.ToLower().Trim().Equals("ongoing")
                         && fpt.PackagingTask.StartDate < end
                         && fpt.PackagingTask.EndDate > start)
         )
         .Include(fp => fp.Farmer).ThenInclude(x => x.Account)
+        .Include(fp => fp.Farmer)
+            .ThenInclude(fp => fp.FarmerCaringTasks)
+                .ThenInclude(fp => fp.CaringTask)
+        .Include(fp => fp.Farmer)
+            .ThenInclude(fp => fp.FarmerHarvestingTasks)
+                .ThenInclude(fp => fp.HarvestingTask)
+        .Include(fp => fp.Farmer)
+            .ThenInclude(fp => fp.FarmerPackagingTasks)
+                .ThenInclude(fp => fp.PackagingTask)
         .Select(fp => fp.Farmer)
         .ToListAsync();
 

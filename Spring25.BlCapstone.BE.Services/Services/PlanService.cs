@@ -24,7 +24,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
@@ -1052,16 +1051,47 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start, end);
-               
-                var rs = _mapper.Map<List<FarmerModel>>(farmers);
 
-                if (rs.Count <= 0)
+                var result = farmers.Select(farmer => new FarmerBusySchedule
+                {
+                    Id = farmer.Id,
+                    Name = farmer.Account.Name,
+                    FarmerSchedule = (
+                        farmer.FarmerCaringTasks
+                              .Where(t => t.CaringTask.StartDate < end && t.CaringTask.EndDate > start)
+                              .Select(t => new Schedule
+                              {
+                                  StartDate = t.CaringTask.StartDate,
+                                  EndDate = t.CaringTask.EndDate
+                              })
+                        .Concat(
+                        farmer.FarmerHarvestingTasks
+                            .Where(t => t.HarvestingTask.StartDate < end && t.HarvestingTask.EndDate > start)
+                            .Select(t => new Schedule
+                            {
+                                StartDate = t.HarvestingTask.StartDate,
+                                EndDate = t.HarvestingTask.EndDate
+                            })
+                        )
+                        .Concat(
+                            farmer.FarmerPackagingTasks
+                                .Where(t => t.PackagingTask.StartDate < end && t.PackagingTask.EndDate > start)
+                                .Select(t => new Schedule
+                                {
+                                    StartDate = t.PackagingTask.StartDate,
+                                    EndDate = t.PackagingTask.EndDate
+                                })
+                        )
+                        ).ToList()
+                }).ToList();
+
+                if (result.Count <= 0)
                 {
                     return new BusinessResult(404, "Not found any plans !");
                 }
                 else
                 {
-                    return new BusinessResult(200, "Plans that farmer assigned in : ", rs);
+                    return new BusinessResult(200, "Plans that farmer assigned in : ", result);
                 }
             }
             catch (Exception ex)
