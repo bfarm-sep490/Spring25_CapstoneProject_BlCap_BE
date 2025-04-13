@@ -34,5 +34,27 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
         public int PreservationDay { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("seasonal_plant")]
+        public List<SeaPlant> SeasonPlants { get; set; } = new List<SeaPlant>();
+    }
+
+    public class SeaPlant
+    {
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+        [JsonPropertyName("description")]
+        public string Description { get; set; }
+        [JsonPropertyName("season_type")]
+        public string SeasonType { get; set; }
+        [JsonPropertyName("start_date")]
+        public DateTime StartDate { get; set; }
+        [JsonPropertyName("end_date")]
+        public DateTime EndDate { get; set; }
+        [JsonPropertyName("estimated_per_one")]
+        public float EstimatedPerOne { get; set; }
+        [JsonPropertyName("duration_days")]
+        public int DurationDays { get; set; }
+        [JsonPropertyName("template_plan")]
+        public string TemplatePlan { get; set; }
     }
 }

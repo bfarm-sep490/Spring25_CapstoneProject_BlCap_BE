@@ -23,7 +23,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             _senderName = "bfarmx - Blockchain FarmXperience";
             _senderEmail = GetEnvironmentVariable("EMAIL_SENDER_EMAIL");
             _username = GetEnvironmentVariable("EMAIL_USERNAME");
-            _password = GetEnvironmentVariable("EMAIL_PASSWORD").Replace("-", " ");
+            _password = GetEnvironmentVariable("EMAIL_PASSWORD");
         }
 
         private static string GetEnvironmentVariable(string key)
@@ -53,7 +53,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             {
                 try
                 {
-                    await client.ConnectAsync(_smtpServer, _port, MailKit.Security.SecureSocketOptions.StartTls);
+                    await client.ConnectAsync(_smtpServer, _port, MailKit.Security.SecureSocketOptions.SslOnConnect);
                     await client.AuthenticateAsync(_username, _password);
                     await client.SendAsync(message);
                 }
