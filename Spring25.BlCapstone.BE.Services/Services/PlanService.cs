@@ -24,6 +24,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
@@ -57,6 +58,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> PublicPlan(int id);
         Task<IBusinessResult> GetSuggestTasksByPlanId(int planId, int suggestPlanId);
         Task<IBusinessResult> GetSuggestPlansByPlanId(int planId);
+        Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model);
     }
 
     public class PlanService : IPlanService
@@ -1406,6 +1408,120 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var list = await _unitOfWork.PlanRepository.GetSuggestPlansByPlanId(plan.PlantId, planId, plan.EstimatedProduct.Value);
             var result = _mapper.Map<List<PlanModel>>(list);
             return new BusinessResult(200, "Get list suggested plans by plan id",result);
+        }
+
+        public async Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+                var newPlan = _mapper.Map<Plan>(model);
+                newPlan.Status = "Draft";
+                newPlan.IsApproved = false;
+                newPlan.CreatedAt = DateTime.Now;
+
+                var plan = await _unitOfWork.PlanRepository.CreateAsync(newPlan);
+
+                foreach(var care in model.PlanCaringTasks)
+                {
+                    var careTask = _mapper.Map<CaringTask>(care);
+                    careTask.PlanId = plan.Id;
+                    careTask.Status = "Draft";
+                    careTask.CreatedAt = DateTime.Now;
+                    var caring = await _unitOfWork.CaringTaskRepository.CreateAsync(careTask);
+
+                    foreach(var fer in care.Fertilizers)
+                    {
+                        await _unitOfWork.CaringFertilizerRepository.CreateAsync(new CaringFertilizer
+                        {
+                            FertilizerId = fer.FertilizerId,
+                            TaskId = caring.Id,
+                            Quantity = fer.Quantity,
+                            Unit = fer.Unit
+                        });
+                    }
+                    
+                    foreach(var pes in care.Pesticides)
+                    {
+                        await _unitOfWork.CaringPesticideRepository.CreateAsync(new CaringPesticide
+                        {
+                            PesticideId = pes.PesticideId,
+                            TaskId = caring.Id,
+                            Quantity = pes.Quantity,
+                            Unit = pes.Unit
+                        });
+                    }
+                    
+                    foreach(var item in care.Items)
+                    {
+                        await _unitOfWork.CaringItemRepository.CreateAsync(new CaringItem
+                        {
+                            ItemId = item.ItemId,
+                            TaskId = caring.Id,
+                            Quantity = item.Quantity,
+                            Unit = item.Unit
+                        });
+                    }
+                }
+
+                foreach (var har in model.PlanHarvestingTasks)
+                {
+                    var harTask = _mapper.Map<HarvestingTask>(har);
+                    harTask.PlanId = plan.Id;
+                    harTask.Status = "Draft";
+                    harTask.CreatedAt = DateTime.Now;
+                    var harvesting = await _unitOfWork.HarvestingTaskRepository.CreateAsync(harTask);
+
+                    foreach (var item in har.Items)
+                    {
+                        await _unitOfWork.HarvestingItemRepository.CreateAsync(new HarvestingItem
+                        {
+                            ItemId = item.ItemId,
+                            TaskId = harvesting.Id,
+                            Quantity = item.Quantity,
+                            Unit = item.Unit
+                        });
+                    }
+                }
+
+                foreach (var form in model.PlanInspectingForms)
+                {
+                    var insForm = _mapper.Map<InspectingForm>(form);
+                    insForm.PlanId = plan.Id;
+                    insForm.Status = "Draft";
+                    insForm.CreatedAt = DateTime.Now;
+                    var ff = await _unitOfWork.InspectingFormRepository.CreateAsync(insForm);
+                }
+
+                foreach (var pack in model.PlanPackagingTasks)
+                {
+                    var paTask = _mapper.Map<PackagingTask>(pack);
+                    paTask.PlanId = plan.Id;
+                    paTask.Status = "Draft";
+                    paTask.CreatedAt = DateTime.Now;
+                    var packaging = await _unitOfWork.PackagingTaskRepository.CreateAsync(paTask);
+
+                    foreach (var item in pack.Items)
+                    {
+                        await _unitOfWork.PackagingItemRepository.CreateAsync(new PackagingItem
+                        {
+                            ItemId = item.ItemId,
+                            TaskId = packaging.Id,
+                            Quantity = item.Quantity,
+                            Unit = item.Unit
+                        });
+                    }
+                }
+
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitAsync();
+                return new BusinessResult(200, "Create plan success !", model);
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackAsync();
+                return new BusinessResult(500, ex.Message);
+            }
         }
     }
 }

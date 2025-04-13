@@ -10,6 +10,8 @@ namespace Spring25.BlCapstone.BE.Repositories
 {
     public class UnitOfWork
     {
+        private readonly Context _context;
+
         private AccountRepository _accountRepository;
         private CaringFertilizerRepository _caringFertilizerRepository;
         private CaringImageRepository _caringImageRepository;
@@ -63,56 +65,57 @@ namespace Spring25.BlCapstone.BE.Repositories
 
         public UnitOfWork()
         {
-            _accountRepository ??= new AccountRepository();
-            _farmerRepository ??= new FarmerRepository();
-            _expertRepository ??= new ExpertRepository();
-            _itemRepository ??= new ItemRepository();
-            _yieldRepository ??= new YieldRepository();
-            _plantRepository ??= new PlantRepository();
-            _retailerRepository ??= new RetailerRepository();
-            _orderRepository ??= new OrderRepository();
-            _transactionRepository ??= new TransactionRepository();
-            _planRepository ??= new PlanRepository();
-            _deviceRepository ??= new DeviceRepository();
-            _farmerPermissionRepository ??= new FarmerPermissionRepository();
-            _caringTaskRepository ??= new CaringTaskRepository();
-            _harvestingTaskRepository ??= new HarvestingTaskRepository();
-            _inspectingFormRepository ??= new InspectingFormRepository();
-            _caringImageRepository ??= new CaringImageRepository();
-            _harvestingImageRepository ??= new HarvestingImageRepository();
-            _inspectingImageRepository ??= new InspectingImageRepository();
-            _pesticideRepository ??= new PesticideRepository();
-            _caringPesticideRepository ??= new CaringPesticideRepository();
-            _fertilizerRepository ??= new FertilizerRepository();
-            _caringFertilizerRepository ??= new CaringFertilizerRepository();
-            _caringItemRepository ??= new CaringItemRepository();
-            _harvestingItemRepository ??= new HarvestingItemRepository();
-            _packagingTaskRepository ??= new PackagingTaskRepository();
-            _packagingItemRepository ??= new PackagingItemRepository();
-            _packagingImageRepository ??= new PackagingImageRepository();
-            _inspectorRepository ??= new InspectorRepository();
-            _problemImageRepository ??= new ProblemImageRepository();
-            _problemRepository ??= new ProblemRepository();
-            _farmerCaringTaskRepository ??= new FarmerCaringTaskRepository();
-            _farmerHarvestingTaskRepository ??= new FarmerHarvestingTaskRepository();
-            _farmerPackagingTaskRepository ??= new FarmerPackagingTaskRepository();
-            _inspectingResultRepository ??= new InspectingResultRepository();
-            _notificationExpertRepository ??= new NotificationExpertRepository();
-            _notificationFarmerRepository ??= new NotificationFarmerRepository();
-            _notificationOwnerRepository ??= new NotificationOwnerRepository();
-            _notificationRetailerRepository ??= new NotificationRetailerRepository();
-            _packagingProductRepository ??= new PackagingProductRepository();
-            _packagingTypeRepository ??= new PackagingTypeRepository();
-            _plantYieldRepository ??= new PlantYieldRepository();
-            _planTransactionRepository ??= new PlanTransactionRepository();
-            _orderProductRepository ??= new OrderProductRepository();
-            _specializationRepository ??= new SpecializationRepository();
-            _farmerSpecializationRepository ??= new FarmerSpecializationRepository();
-            _farmerPerformanceRepository ??= new FarmerPerformanceRepository();
-            _seasonalPlantRepository ??= new SeasonalPlantRepository();
-            _orderPlanRepository ??= new OrderPlanRepository();
-            _productPickupBatchRepository ??= new ProductPickupBatchRepository();
-            _configurationSystemRepository ??= new ConfigurationSystemRepository();
+            _context = new Context();
+            _accountRepository ??= new AccountRepository(_context);
+            _farmerRepository ??= new FarmerRepository(_context);
+            _expertRepository ??= new ExpertRepository(_context);
+            _itemRepository ??= new ItemRepository(_context);
+            _yieldRepository ??= new YieldRepository(_context);
+            _plantRepository ??= new PlantRepository(_context);
+            _retailerRepository ??= new RetailerRepository(_context);
+            _orderRepository ??= new OrderRepository(_context);
+            _transactionRepository ??= new TransactionRepository(_context);
+            _planRepository ??= new PlanRepository(_context);
+            _deviceRepository ??= new DeviceRepository(_context);
+            _farmerPermissionRepository ??= new FarmerPermissionRepository(_context);
+            _caringTaskRepository ??= new CaringTaskRepository(_context);
+            _harvestingTaskRepository ??= new HarvestingTaskRepository(_context);
+            _inspectingFormRepository ??= new InspectingFormRepository(_context);
+            _caringImageRepository ??= new CaringImageRepository(_context);
+            _harvestingImageRepository ??= new HarvestingImageRepository(_context);
+            _inspectingImageRepository ??= new InspectingImageRepository(_context);
+            _pesticideRepository ??= new PesticideRepository(_context);
+            _caringPesticideRepository ??= new CaringPesticideRepository(_context);
+            _fertilizerRepository ??= new FertilizerRepository(_context);
+            _caringFertilizerRepository ??= new CaringFertilizerRepository(_context);
+            _caringItemRepository ??= new CaringItemRepository(_context);
+            _harvestingItemRepository ??= new HarvestingItemRepository(_context);
+            _packagingTaskRepository ??= new PackagingTaskRepository(_context);
+            _packagingItemRepository ??= new PackagingItemRepository(_context);
+            _packagingImageRepository ??= new PackagingImageRepository(_context);
+            _inspectorRepository ??= new InspectorRepository(_context);
+            _problemImageRepository ??= new ProblemImageRepository(_context);
+            _problemRepository ??= new ProblemRepository(_context);
+            _farmerCaringTaskRepository ??= new FarmerCaringTaskRepository(_context);
+            _farmerHarvestingTaskRepository ??= new FarmerHarvestingTaskRepository(_context);
+            _farmerPackagingTaskRepository ??= new FarmerPackagingTaskRepository(_context);
+            _inspectingResultRepository ??= new InspectingResultRepository(_context);
+            _notificationExpertRepository ??= new NotificationExpertRepository(_context);
+            _notificationFarmerRepository ??= new NotificationFarmerRepository(_context);
+            _notificationOwnerRepository ??= new NotificationOwnerRepository(_context);
+            _notificationRetailerRepository ??= new NotificationRetailerRepository(_context);
+            _packagingProductRepository ??= new PackagingProductRepository(_context);
+            _packagingTypeRepository ??= new PackagingTypeRepository(_context);
+            _plantYieldRepository ??= new PlantYieldRepository(_context);
+            _planTransactionRepository ??= new PlanTransactionRepository(_context);
+            _orderProductRepository ??= new OrderProductRepository(_context);
+            _specializationRepository ??= new SpecializationRepository(_context);
+            _farmerSpecializationRepository ??= new FarmerSpecializationRepository(_context);
+            _farmerPerformanceRepository ??= new FarmerPerformanceRepository(_context);
+            _seasonalPlantRepository ??= new SeasonalPlantRepository(_context);
+            _orderPlanRepository ??= new OrderPlanRepository(_context);
+            _productPickupBatchRepository ??= new ProductPickupBatchRepository(_context);
+            _configurationSystemRepository ??= new ConfigurationSystemRepository(_context);
         }
 
         public UnitOfWork(AccountRepository accountRepository, FarmerRepository farmerRepository,
@@ -239,5 +242,10 @@ namespace Spring25.BlCapstone.BE.Repositories
         public OrderPlanRepository OrderPlanRepository { get { return _orderPlanRepository; } }
         public ProductPickupBatchRepository ProductPickupBatchRepository { get { return _productPickupBatchRepository; } }
         public ConfigurationSystemRepository ConfigurationSystemRepository { get { return _configurationSystemRepository; } }
+
+        public async Task BeginTransactionAsync() => await _context.Database.BeginTransactionAsync();
+        public async Task CommitAsync() => await _context.Database.CommitTransactionAsync();
+        public async Task RollbackAsync() => await _context.Database.RollbackTransactionAsync();
+        public async Task<int> SaveChangesAsync() => await _context.SaveChangesAsync();
     }
 }
