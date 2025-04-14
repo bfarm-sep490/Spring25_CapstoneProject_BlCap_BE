@@ -56,8 +56,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _unitOfWork = new UnitOfWork();
             _payOS = new PayOS(clientId, apiKey, checkSum);
             _mapper = mapper;
-            _cancelURL = "https://bfarmxretailer.netlify.app/payment-cancelled";
-            _returnURL = "https://bfarmxretailer.netlify.app/payment-success";
+            _cancelURL = "https://bfarmx.space/payment-cancelled";
+            _returnURL = "https://bfarmx.space/payment-success";
         }
 
         public async Task<IBusinessResult> CreatePaymentDeposit(CreatePaymentDepositRequest model)
