@@ -356,6 +356,15 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingTask, PlanPack>()
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.PackagingItems))
                 .ReverseMap();
+            CreateMap<Plan, PlanOrderModel>()
+                .ForMember(dest => dest.OrderPlas, opt => opt.MapFrom(src => src.OrderPlans))
+                .ReverseMap();
+            CreateMap<OrderPlan, OrPl>()
+                .ForMember(dest => dest.RetailerId, opt => opt.MapFrom(src => src.Order.RetailerId))
+                .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Order.Retailer.Account.Name))
+                .ForMember(dest => dest.PreOrderQuantity, opt => opt.MapFrom(src => src.Order.PreOrderQuantity))
+                .ForMember(dest => dest.EstimatedPickupDate, opt => opt.MapFrom(src => src.Order.EstimatedPickupDate))
+                .ReverseMap();
         }
 
         private void CaringProfile()

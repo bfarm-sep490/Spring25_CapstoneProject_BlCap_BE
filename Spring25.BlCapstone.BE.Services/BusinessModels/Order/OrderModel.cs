@@ -53,6 +53,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public int? PlanId { get; set; }
         [JsonPropertyName("plan_name")]
         public string PlanName { get; set; }
+        [JsonPropertyName("order_plan_quantity")]
+        public float Quantity { get; set; }
     }
 
     public class TransactionOrder

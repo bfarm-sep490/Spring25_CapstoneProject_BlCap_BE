@@ -58,6 +58,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetSuggestTasksByPlanId(int planId, int suggestPlanId);
         Task<IBusinessResult> GetSuggestPlansByPlanId(int planId);
         Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model);
+        Task<IBusinessResult> GetPlanOrderById(int id);
     }
 
     public class PlanService : IPlanService
@@ -1550,6 +1551,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackAsync();
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetPlanOrderById(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                var res = await _unitOfWork.PlanRepository.GetPlan(id);
+                var rs = _mapper.Map<PlanOrderModel>(res);
+
+                return new BusinessResult(200, "Plan Order: ", rs);
+            }
+            catch (Exception ex)
+            {
                 return new BusinessResult(500, ex.Message);
             }
         }
