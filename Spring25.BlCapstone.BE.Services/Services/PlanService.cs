@@ -1634,7 +1634,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     packagingTask.CreatedBy = model.CreatedBy;
                     packagingTask.StartDate = orderTask.EstimatedPickupDate.AddDays(-1.5).Date;
                     plan.PlanPackagingTasks.Add(packagingTask);
-                    plan.Orders.Add(new OrdPlan { OrderId = order.Id,Quantity = order.Quantity});
+                    plan.Orders.Add(new PO { OrderId = order.Id,Quantity = order.Quantity});
                 }
                 foreach (var caring in template.CaringTasks)
                 {

@@ -36,8 +36,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? SeedQuantity { get; set; }
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
-        [JsonPropertyName("order")]
-        public List<OrdPlan> Orders { get; set; } = new List<OrdPlan>(); 
         [JsonPropertyName("caring_tasks")]
         public List<PlanCare>? PlanCaringTasks { get; set; } = new List<PlanCare>();
         [JsonPropertyName("harvesting_tasks")]
