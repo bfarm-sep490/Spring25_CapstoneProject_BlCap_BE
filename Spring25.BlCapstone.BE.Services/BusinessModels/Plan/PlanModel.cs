@@ -15,6 +15,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int ExpertId { get; set; }
         [JsonPropertyName("plan_name")]
         public string? PlanName { get; set; }
+        [JsonPropertyName("season_name")]
+        public string? SeasonName { get; set; }
         [JsonPropertyName("description")]
         public string? Description { get; set; }
         [JsonPropertyName("start_date")]
