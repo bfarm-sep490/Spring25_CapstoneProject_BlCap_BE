@@ -364,6 +364,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Order.Retailer.Account.Name))
                 .ForMember(dest => dest.PreOrderQuantity, opt => opt.MapFrom(src => src.Order.PreOrderQuantity))
                 .ForMember(dest => dest.EstimatedPickupDate, opt => opt.MapFrom(src => src.Order.EstimatedPickupDate))
+                .ForMember(dest => dest.PackagingTypeId, opt => opt.MapFrom(src => src.Order.PackagingTypeId))
+                .ForMember(dest => dest.PackagingTypeName, opt => opt.MapFrom(src => src.Order.PackagingType.Name))
                 .ReverseMap();
         }
 

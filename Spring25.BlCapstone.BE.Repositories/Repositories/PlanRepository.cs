@@ -32,6 +32,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                     .ThenInclude(p => p.Order)
                         .ThenInclude(p => p.Retailer)
                             .ThenInclude(p => p.Account)
+                .Include(p => p.OrderPlans)
+                    .ThenInclude(p => p.Order)
+                        .ThenInclude(p => p.PackagingType)
                 .Include(p => p.PlanTransaction)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
