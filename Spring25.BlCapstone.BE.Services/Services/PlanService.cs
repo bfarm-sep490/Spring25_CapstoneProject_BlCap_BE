@@ -584,14 +584,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
-                if (model.OrderIds != null)
+                if (model.Orders != null)
                 {
-                    foreach (var id in model.OrderIds)
+                    foreach (var order in model.Orders)
                     {
-                        var order = await _unitOfWork.OrderRepository.GetOrderByOrderId(id);
+                        var existed = await _unitOfWork.OrderRepository.GetOrderByOrderId(order.OrderId);
                         if (order == null)
                         {
-                            return new BusinessResult(404, $"Not found order {id} !");
+                            return new BusinessResult(404, $"Not found order {order.OrderId} !");
                         }
                     }
                 }
@@ -609,24 +609,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.IsApproved = false;
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
 
-                //if (model.OrderIds != null)
-                //{
-                //    foreach (var id in model.OrderIds)
-                //    {
-                //        await _unitOfWork.OrderPlanRepository.CreateAsync(new OrderPlan
-                //        {
-                //            OrderId = id,
-                //            PlanId = plan.Id,
-                //            Quantity = 
-                //        })
-                //        var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
-
-                //        order.PlanId = plan.Id;
-                //        _unitOfWork.OrderRepository.PrepareUpdate(order);
-                //    }
-
-                //    await _unitOfWork.OrderRepository.SaveAsync();
-                //}
+                if (model.Orders != null)
+                {
+                    foreach (var o in model.Orders)
+                    {
+                        await _unitOfWork.OrderPlanRepository.CreateAsync(new OrderPlan
+                        {
+                            OrderId = o.OrderId,
+                            PlanId = plan.Id,
+                            Quantity = o.Quantity
+                        });
+                    }
+                }
 
                 if (rs != null)
                 {
@@ -1453,7 +1447,32 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var plan = await _unitOfWork.PlanRepository.CreateAsync(newPlan);
 
-                foreach(var care in model.PlanCaringTasks)
+                if (model.Orders != null)
+                {
+                    foreach (var order in model.Orders)
+                    {
+                        var existed = await _unitOfWork.OrderRepository.GetOrderByOrderId(order.OrderId);
+                        if (order == null)
+                        {
+                            return new BusinessResult(404, $"Not found order {order.OrderId} !");
+                        }
+                    }
+                }
+
+                if (model.Orders != null)
+                {
+                    foreach (var o in model.Orders)
+                    {
+                        await _unitOfWork.OrderPlanRepository.CreateAsync(new OrderPlan
+                        {
+                            OrderId = o.OrderId,
+                            PlanId = plan.Id,
+                            Quantity = o.Quantity
+                        });
+                    }
+                }
+
+                foreach (var care in model.PlanCaringTasks)
                 {
                     var careTask = _mapper.Map<CaringTask>(care);
                     careTask.PlanId = plan.Id;

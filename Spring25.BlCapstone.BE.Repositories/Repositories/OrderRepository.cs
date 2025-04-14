@@ -81,7 +81,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
         public async Task<List<Order>> GetOrderWithNoPlan()
         {
-            return await _context.Orders
+            var query = _context.Orders
                                 .Include(o => o.Transactions)
                                 .Include(o => o.Retailer)
                                     .ThenInclude(o => o.Account)
@@ -89,13 +89,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(o => o.OrderPlans)
                                     .ThenInclude(o => o.Plan)
                                 .Include(o => o.PackagingType)
-                                //.Include(o => o.OrderProducts)
+                                .Include(o => o.PackagingTasks)
+                                    .ThenInclude(o => o.PackagingProducts)
                                 .Include(o => o.OrderPlans)
                                     .ThenInclude(o => o.Plan)
                                         .ThenInclude(o => o.InspectingForms)
                                             .ThenInclude(o => o.InspectingResult)
-                                .Where(o => !o.OrderPlans.Any())
-                                .ToListAsync();
+                                .Where(o => o.OrderPlans.Sum(op => op.Quantity) < o.PreOrderQuantity);
+
+            return await query.ToListAsync();
         }
 
         public async Task<Order> GetOrderByOrderId(int id)

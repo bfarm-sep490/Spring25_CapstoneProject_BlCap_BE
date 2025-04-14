@@ -12,6 +12,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
 {
     public class CreatePlanTemplate
     {
+        [JsonPropertyName("orders")]
+        public List<PO>? Orders { get; set; }
         [JsonPropertyName("plant_id")]
         public int PlantId { get; set; }
         [JsonPropertyName("yield_id")]

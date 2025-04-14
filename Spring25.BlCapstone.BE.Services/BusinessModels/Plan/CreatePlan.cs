@@ -9,8 +9,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
 {
     public class CreatePlan
     {
-        [JsonPropertyName("order_ids")]
-        public List<int>? OrderIds { get; set; }
+        [JsonPropertyName("orders")]
+        public List<PO>? Orders { get; set; }
         [JsonPropertyName("plant_id")]
         public int PlantId { get; set; }
         [JsonPropertyName("yield_id")]
@@ -29,5 +29,13 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public float? EstimatedProduct { get; set; }
         [JsonPropertyName("seed_quantity")]
         public int? SeedQuantity { get; set; }
+    }
+
+    public class PO
+    {
+        [JsonPropertyName("order_id")]
+        public int OrderId { get; set; }
+        [JsonPropertyName("order_id")]
+        public float Quantity { get; set; }
     }
 }
