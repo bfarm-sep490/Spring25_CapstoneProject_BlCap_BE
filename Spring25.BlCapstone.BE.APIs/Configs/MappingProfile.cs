@@ -253,11 +253,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 
         private void YieldProfile()
         {
-            CreateMap<YieldModel, Yield>()
+            CreateMap<Yield, YieldModel>()
                 .ReverseMap();
             CreateMap<YieldModel, CreatedYield>()
                 .ReverseMap();
             CreateMap<YieldModel, UpdatedYield>()
+                .ReverseMap();
+            CreateMap<PlantYield, YieldModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Yield.Id))
+                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
+                .ForMember(dest => dest.AreaUnit, opt => opt.MapFrom(src => src.Yield.AreaUnit))
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Yield.Area))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Yield.Description))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Yield.Type))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Yield.Status))
                 .ReverseMap();
         }
 

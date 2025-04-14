@@ -29,6 +29,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Yield
         public string Type { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
+        [JsonPropertyName("maximum_quantity")]
+        public float MaximumQuantity { get; set; }
     }
 
 }
