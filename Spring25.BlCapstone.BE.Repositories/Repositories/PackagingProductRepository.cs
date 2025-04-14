@@ -16,7 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<PackagingProduct>> GetPackagingProducts(int? planId = null, string? status = null, int? harvestingTaskId = null)
+        public async Task<List<PackagingProduct>> GetPackagingProducts(int? planId = null, string? status = null, int? harvestingTaskId = null, int? orderId = null)
         {
             var query = _context.PackagingProducts
                                 .Include(pp => pp.PackagingTask)
@@ -48,6 +48,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (harvestingTaskId.HasValue)
             {
                 query = query.Where(x => x.HarvestingTaskId == harvestingTaskId);
+            }
+
+            if (orderId.HasValue)
+            {
+                query = query.Where(x => x.PackagingTask.OrderId == orderId);
             }
 
             return await query.ToListAsync();

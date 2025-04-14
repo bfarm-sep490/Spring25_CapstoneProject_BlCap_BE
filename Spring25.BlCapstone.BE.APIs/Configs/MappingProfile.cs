@@ -338,6 +338,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Expert.Account.Name))
                 .ForMember(dest => dest.UrlAddress, opt => opt.MapFrom(src => src.PlanTransaction.UrlAddress))
+                .ForMember(dest => dest.OrderIds, opt => opt.MapFrom(src => src.OrderPlans.Select(po => po.OrderId).ToList()))
                 .ReverseMap();
             CreateMap<Plan, PlanGeneral>()
                 .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
