@@ -3,6 +3,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var newOrder = _mapper.Map<Order>(order);
+                var newOrder = _mapper.Map<Repositories.Models.Order>(order);
                 newOrder.Status = "PendingConfirmation";
                 newOrder.CreatedAt = DateTime.Now;
 
@@ -52,6 +53,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             var list = await _unitOfWork.OrderRepository.GetAllOrder(status, retailer, planId);
             var result = _mapper.Map<List<OrderModel>>(list);
+            list.ForEach(r =>
+            {
+                var model = result.FirstOrDefault(m => m.Id == r.Id);
+                if (model != null)
+                {
+                    model.OrderProducts = r.PackagingTasks
+                        .SelectMany(task => task.PackagingProducts.Select(ptp => new ProOr
+                        {
+                            ProductId = ptp.Id,
+                            QuantityOfPacks = ptp.PackQuantity,
+                            Status = ptp.Status,
+                            EvaluatedResult = task.Plan?.InspectingForms
+                                .OrderByDescending(f => f.CompleteDate)
+                                .FirstOrDefault()?.InspectingResult?.EvaluatedResult ?? ""
+                        }))
+                        .ToList();
+                }
+            });
             return new BusinessResult(200, "List Order", result);
         }
 

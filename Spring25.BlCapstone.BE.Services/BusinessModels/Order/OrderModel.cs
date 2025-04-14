@@ -19,6 +19,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public int PlantId { get; set; }
         [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
+        [JsonPropertyName("unplan_quantity")]
+        public float UnPlanQuantity { get; set; }
         [JsonPropertyName("plan_information")]
         public List<PlanInfor>? PlanInfors { get; set; }
         [JsonPropertyName("packaging_type_id")]
@@ -42,9 +44,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("transactions")]
-        public List<TransactionOrder>? transactionOrders { get; set; }
+        public List<TransactionOrder>? TransactionOrders { get; set; }
         [JsonPropertyName("products")]
-        public List<ProOr> OrderProducts { get; set; }
+        public List<ProOr>? OrderProducts { get; set; }
     }
 
     public class PlanInfor

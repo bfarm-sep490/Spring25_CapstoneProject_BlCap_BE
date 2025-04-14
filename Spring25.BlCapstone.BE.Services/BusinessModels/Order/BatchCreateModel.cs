@@ -13,7 +13,5 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public int ProductId { get; set; }
         [JsonPropertyName("quantity")]
         public float Quantity { get; set; }
-        [JsonPropertyName("created_date")]
-        public DateTime CreatedDate { get; set; }
     }
 }

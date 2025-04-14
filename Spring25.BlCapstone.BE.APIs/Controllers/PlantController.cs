@@ -95,6 +95,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             var rs = await _seedService.UploadImage(image);
             return Ok(rs);
         }
+
         [HttpGet("{id}/suggest-yields")]
         public async Task<IActionResult> GetSuggestYieldsbyPlantId([FromRoute] int id)
         {
@@ -108,6 +109,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpDelete("suggest-yields")]
         public async Task<IActionResult> DeleteSuggestYields([FromBody] PlantYieldModel model)
         {

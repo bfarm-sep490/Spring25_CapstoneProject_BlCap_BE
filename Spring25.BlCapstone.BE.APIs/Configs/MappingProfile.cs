@@ -79,26 +79,14 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         private void OrderProfile()
         {
             CreateMap<Order, OrderModel>()
-                .ForMember(dest => dest.transactionOrders, opt => opt.MapFrom(src => src.Transactions))
+                .ForMember(dest => dest.TransactionOrders, opt => opt.MapFrom(src => src.Transactions))
                 .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Retailer.Account.Name))
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
                 .ForMember(dest => dest.PlanInfors, opt => opt.MapFrom(src => src.OrderPlans))
                 .ForMember(dest => dest.PackagingTypeName, opt => opt.MapFrom(src => src.PackagingType.Name))
-                .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.PackagingTasks
-                                                                                    .SelectMany(task => task.PackagingProducts
-                                                                                                            .Select(ptp => new ProOr
-                                                                                                                {
-                                                                                                                    ProductId = ptp.Id,
-                                                                                                                    QuantityOfPacks = ptp.PackQuantity,
-                                                                                                                    Status = ptp.Status,
-                                                                                                                    EvaluatedResult = task.Plan.InspectingForms
-                                                                                                                    .OrderByDescending(f => f.CompleteDate)
-                                                                                                                    .FirstOrDefault().InspectingResult.EvaluatedResult
-                                                                                                                })).ToList()
-                                                                                                                ))
+                .ForMember(dest => dest.UnPlanQuantity, opt => opt.MapFrom(src => src.PreOrderQuantity - src.OrderPlans.Sum(c => c.Quantity)))                                                                                        
                 .ReverseMap();
             CreateMap<OrderPlan, PlanInfor>()
-                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId))
                 .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ReverseMap();
             CreateMap<Transaction, TransactionOrder>()
@@ -266,11 +254,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
 
         private void YieldProfile()
         {
-            CreateMap<YieldModel, Yield>()
+            CreateMap<Yield, YieldModel>()
                 .ReverseMap();
             CreateMap<YieldModel, CreatedYield>()
                 .ReverseMap();
             CreateMap<YieldModel, UpdatedYield>()
+                .ReverseMap();
+            CreateMap<PlantYield, YieldModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Yield.Id))
+                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
+                .ForMember(dest => dest.AreaUnit, opt => opt.MapFrom(src => src.Yield.AreaUnit))
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Yield.Area))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Yield.Description))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Yield.Type))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Yield.Status))
                 .ReverseMap();
         }
 
@@ -342,6 +339,7 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Expert.Account.Name))
                 .ForMember(dest => dest.UrlAddress, opt => opt.MapFrom(src => src.PlanTransaction.UrlAddress))
+                .ForMember(dest => dest.OrderIds, opt => opt.MapFrom(src => src.OrderPlans.Select(po => po.OrderId).ToList()))
                 .ReverseMap();
             CreateMap<Plan, PlanGeneral>()
                 .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))

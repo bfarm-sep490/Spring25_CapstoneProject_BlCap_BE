@@ -39,7 +39,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<List<Plan>> GetAllPlans(int? expertId = null, string? status = null)
+        public async Task<List<Plan>> GetAllPlans(int? expertId = null, string? status = null, int? orderId = null)
         {
             var query = _context.Plans
                                 .Include(p => p.Expert)
@@ -47,6 +47,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(p => p.Plant)
                                 .Include(p => p.Yield)
                                 .Include(p => p.PlanTransaction)
+                                .Include(p => p.OrderPlans)
+                                    .ThenInclude(p => p.Order)
                                 .AsQueryable();
 
             if (expertId != null)
@@ -57,6 +59,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (status != null)
             {
                 query = query.Where(p => p.Status.ToLower() == status.ToLower());
+            }
+
+            if (orderId.HasValue)
+            {
+                query = query.Where(p => p.OrderPlans.Any(p => p.OrderId == orderId));
             }
 
             return await query.ToListAsync();

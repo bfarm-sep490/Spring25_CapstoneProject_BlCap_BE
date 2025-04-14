@@ -74,7 +74,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var list = await _unitOfWork.YieldRepository.GetSuggestPlantsbyYieldId(id);
             var result = _mapper.Map<List<PlantModel>>(list);
             return new BusinessResult(200, "List suggest plant by yieldid", result);
-
         }
 
         public async Task<IBusinessResult> Update(int id, YieldModel model)

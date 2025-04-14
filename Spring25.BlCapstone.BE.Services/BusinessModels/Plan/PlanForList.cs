@@ -15,6 +15,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int PlantId { get; set; }
         [JsonPropertyName("plant_name")]
         public string PlantName { get; set; }
+        [JsonPropertyName("order_ids")]
+        public List<int>? OrderIds { get; set; }
         [JsonPropertyName("yield_id")]
         public int? YieldId { get; set; }
         [JsonPropertyName("yield_name")]
