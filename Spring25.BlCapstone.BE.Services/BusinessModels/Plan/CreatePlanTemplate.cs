@@ -34,6 +34,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public int? SeedQuantity { get; set; }
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
+        [JsonPropertyName("order")]
+        public List<OrdPlan> Orders { get; set; } = new List<OrdPlan>(); 
         [JsonPropertyName("caring_tasks")]
         public List<PlanCare>? PlanCaringTasks { get; set; } = new List<PlanCare>();
         [JsonPropertyName("harvesting_tasks")]
@@ -110,7 +112,17 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public DateTime EndDate { get; set; }
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
+        [JsonPropertyName("total_package_weight")]
+        public float TotalPackagedWeight { get; set; }
+
         [JsonPropertyName("items")]
         public List<PackageItem>? Items { get; set; } = new List<PackageItem>();
+    }
+    public class OrdPlan
+    {
+        [JsonPropertyName("order_id")]
+        public int OrderId { get; set; }
+        [JsonPropertyName("quantity")]
+        public float Quantity { get; set; }
     }
 }

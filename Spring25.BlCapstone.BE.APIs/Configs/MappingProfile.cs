@@ -4,6 +4,7 @@ using Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Template;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Config;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Device;
@@ -384,6 +385,16 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PackagingTypeId, opt => opt.MapFrom(src => src.Order.PackagingTypeId))
                 .ForMember(dest => dest.PackagingTypeName, opt => opt.MapFrom(src => src.Order.PackagingType.Name))
                 .ReverseMap();
+            CreateMap<FerCare, FertilizerTemplate>()
+                .ReverseMap();
+            CreateMap<ItemCare, ItemTemplate>()
+                .ReverseMap();
+            CreateMap<PesCare, PesticideTemplate>()
+                .ReverseMap();
+            CreateMap<OrdPlan, OrderPlanRequest>()
+                .ReverseMap();
+            CreateMap<HarvestItem, ItemTemplate>()
+            .ReverseMap();
         }
 
         private void CaringProfile()

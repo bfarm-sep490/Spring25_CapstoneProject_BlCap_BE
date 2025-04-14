@@ -5,6 +5,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Template;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
@@ -23,7 +24,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
@@ -59,6 +62,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetSuggestPlansByPlanId(int planId);
         Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model);
         Task<IBusinessResult> GetPlanOrderById(int id);
+        Task<IBusinessResult> GetTemplatePlan(RequestTemplatePlan model);
     }
 
     public class PlanService : IPlanService
@@ -1574,6 +1578,97 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
+        }
+
+        public async Task<IBusinessResult> GetTemplatePlan(RequestTemplatePlan model)
+        {
+            var result = new List<CreatePlanTemplate>();
+            var templates = new List<PlanTemplate>();
+            var list = await _unitOfWork.SeasonalPlantRepository.GetSeasonalPlantByPlantIdAndDay(model.PlantId, model.StartDate);
+            foreach(var obj in list)
+            {
+                var plan = new CreatePlanTemplate();
+                plan.PlantId = model.PlantId;
+                plan.StartDate = model.StartDate;
+                plan.EndDate = model.StartDate.AddDays(obj.DurationDays);
+                plan.PlantId = model.PlantId;
+                plan.EstimatedProduct = model.EstimatedProduct;
+                plan.SeasonName = obj.SeasonType;
+                plan.SeedQuantity = model.SeedQuantity;
+                plan.YieldId = model.YieldId;
+                plan.ExpertId = model.ExpertId;
+                plan.CreatedBy = model.CreatedBy;
+                var rate = model.SeedQuantity / 100;
+                string json = obj.TemplatePlan;
+                PlanTemplate template = JsonSerializer.Deserialize<PlanTemplate>(json);
+                foreach(var order in model.Orders)
+                {
+                    var orderTask = await _unitOfWork.OrderRepository.GetOrderByIdAsync(order.Id);
+                    var packagingTask = new PlanPack();
+                    if (orderTask == null) { return new BusinessResult(400, "Not found this Order");}
+                    if(orderTask.PlantId != model.PlantId) { throw new Exception("Order do not order that plant"); }
+                    packagingTask.PackagingTypeId = orderTask.PackagingTypeId;
+                    packagingTask.TotalPackagedWeight = order.Quantity;
+                    packagingTask.TaskName = "Đóng gói cho Order " + orderTask.Id;
+                    packagingTask.Description = "Đóng gói theo loại " + orderTask.PackagingType.Name; 
+                    packagingTask.EndDate = orderTask.EstimatedPickupDate.AddDays(-0.5).Date;
+                    packagingTask.CreatedBy = model.CreatedBy;
+                    packagingTask.StartDate = orderTask.EstimatedPickupDate.AddDays(-1.5).Date;
+                    plan.PlanPackagingTasks.Add(packagingTask);
+                    plan.Orders.Add(new OrdPlan { OrderId = order.Id,Quantity = order.Quantity});
+                }
+                foreach (var caring in template.CaringTasks)
+                {
+                    var caringTask = new PlanCare();
+                    caringTask.StartDate = model.StartDate.AddHours(caring.StartIn);
+                    caringTask.EndDate = model.StartDate.AddHours(caring.EndIn);
+                    caringTask.Description= caring.Description;
+                    caringTask.TaskName = caring.TaskName;
+                    caringTask.TaskType = caring.TaskType;
+                    caringTask.CreatedBy = model.CreatedBy;
+                    caring.Items.ForEach(r =>
+                    {
+                        var ItemCare = new ItemCare { ItemId = r.ItemId, Quantity = r.Quantity * rate, Unit = r.Unit };
+                        caringTask.Items.Add(ItemCare);
+                    });
+                    caring.Fertilizers.ForEach(r =>
+                    {
+                        var fertilizerCare = new FerCare { FertilizerId = r.FertilizerId, Quantity = r.Quantity * rate, Unit = r.Unit };
+                        caringTask.Fertilizers.Add(fertilizerCare);
+                    });
+                    caring.Pesticides.ForEach(r =>
+                    {
+                        var pesticideCare = new PesCare { PesticideId = r.PesticideId, Quantity = r.Quantity * rate, Unit = r.Unit };
+                        caringTask.Pesticides.Add(pesticideCare);
+                    });
+                    plan.PlanCaringTasks.Add(caringTask);
+                }            
+                foreach(var harvesting in template.HarvestingTaskTempates)
+                {
+                    var harvestTask = new PlanHar();
+                    harvesting.Items.ForEach(r =>
+                    {
+                        var ItemCare = new HarvestItem { ItemId = r.ItemId, Quantity = r.Quantity * rate, Unit = r.Unit };
+                        harvestTask.Items.Add(ItemCare);
+                    });
+                    harvestTask.StartDate = model.StartDate.AddHours(harvesting.StartIn);
+                    harvestTask.EndDate = model.StartDate.AddHours(harvesting.EndIn);
+                    harvestTask.Description = harvesting.Description;
+                    harvestTask.CreatedBy = model.CreatedBy;
+                    harvestTask.TaskName = "Thu hoạch";
+                    plan.PlanHarvestingTasks.Add(harvestTask);
+                }
+                foreach(var inspecting in template.InspectingTasks)
+                {
+                    var inspectingTask = new PlanForm();
+                    inspectingTask.FormName = inspecting.FormName;
+                    inspectingTask.StartDate = model.StartDate.AddHours(inspecting.StartIn);
+                    inspectingTask.EndDate = model.StartDate.AddHours(inspecting.EndIn);
+                    inspectingTask.CreatedBy = model.CreatedBy;
+                }
+                result.Add(plan);
+            }
+            return new BusinessResult(200, "Get Template", result);
         }
     }
 }

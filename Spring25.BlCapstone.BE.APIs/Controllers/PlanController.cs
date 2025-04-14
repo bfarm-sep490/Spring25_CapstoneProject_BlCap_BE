@@ -408,7 +408,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("template-plan")]
+        [HttpPost("with-details")]
         public async Task<IActionResult> CreateTemplatePlan(CreatePlanTemplate model)
         {
             try
@@ -428,6 +428,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             try
             {
                 var res = await _planService.GetPlanOrderById(id);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("template-plan")]
+        public async Task<IActionResult> GetTemplatesPlan([FromBody]RequestTemplatePlan model)
+        {
+            try
+            {
+                var res = await _planService.GetTemplatePlan(model);
                 return Ok(res);
             }
             catch (Exception ex)
