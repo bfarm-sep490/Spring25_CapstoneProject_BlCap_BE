@@ -84,6 +84,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var rs = _mapper.Map<ProductPickupBatch>(model);
+                rs.CreatedDate = DateTime.Now;
                 await _unitOfWork.ProductPickupBatchRepository.CreateAsync(rs);
                 return new BusinessResult(200, "Create success!", model);
             }
