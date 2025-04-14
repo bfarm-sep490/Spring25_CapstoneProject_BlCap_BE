@@ -105,5 +105,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .ThenInclude(o => o.Plan)
                                  .FirstOrDefaultAsync(o => o.Id == id);
         }
+
+        public async Task<bool> ProductHasOrderOrNo(int productId)
+        {
+            return await _context.PackagingProducts
+                                 .Include(p => p.PackagingTask)
+                                 .AnyAsync(p => p.Id == productId && p.PackagingTask.OrderId != null);
+        }
     }
 }

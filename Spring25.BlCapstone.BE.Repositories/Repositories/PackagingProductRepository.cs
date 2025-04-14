@@ -88,5 +88,27 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Where(pp => pp.PackQuantity == 0)
                                  .ToListAsync();
         }
+
+        public async Task<bool> CanCreateNewPickupBatch(int packagingProductId, float newQuantity)
+        {
+            var packagingProduct = await _context.PackagingProducts
+                .Include(pp => pp.PackagingTask)
+                    .ThenInclude(pt => pt.Order)
+                .Include(pp => pp.ProductPickupBatches)
+                .FirstOrDefaultAsync(pp => pp.Id == packagingProductId);
+
+            int orderId = packagingProduct.PackagingTask.OrderId.Value;
+            float preorderQuantity = packagingProduct.PackagingTask.Order.PreOrderQuantity;
+
+            var totalPicked = await _context.ProductPickupBatchs
+                                            .Include(p => p.PackagingProduct)
+                                                .ThenInclude(p => p.PackagingTask)
+                                            .Where(pickup =>
+                                                pickup.PackagingProduct.PackagingTask.OrderId == orderId
+                                            )
+                                            .SumAsync(p => p.Quantity);
+
+            return totalPicked + newQuantity <= preorderQuantity;
+        }
     }
 }

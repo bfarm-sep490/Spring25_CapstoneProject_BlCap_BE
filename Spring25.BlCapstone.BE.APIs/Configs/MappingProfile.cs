@@ -58,11 +58,20 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             TransactionProfile();
             ProductionProfile();
             ConfigSystemProfile();
+            BatchProfile();
         }
 
         private void ConfigSystemProfile()
         {
             CreateMap<ConfigurationSystem, ConfigSystemCreate>()
+                .ReverseMap();
+        }
+
+        private void BatchProfile()
+        {
+            CreateMap<ProductPickupBatch, BatchModel>()
+                .ReverseMap();
+            CreateMap<ProductPickupBatch, BatchCreateModel>()
                 .ReverseMap();
         }
 
