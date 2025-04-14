@@ -16,6 +16,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public float Price { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public OrderProduct OrderProduct { get; set; }
+        public PackagingProduct PackagingProduct { get; set; }
     }
 }

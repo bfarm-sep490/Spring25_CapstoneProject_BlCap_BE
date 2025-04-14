@@ -54,7 +54,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         private PackagingTypeRepository _packagingTypeRepository;
         private PlantYieldRepository _plantYieldRepository;
         private PlanTransactionRepository _planTransactionRepository;
-        private OrderProductRepository _orderProductRepository;
         private SpecializationRepository _specializationRepository;
         private FarmerSpecializationRepository _farmerSpecializationRepository;
         private FarmerPerformanceRepository _farmerPerformanceRepository;
@@ -108,7 +107,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             _packagingTypeRepository ??= new PackagingTypeRepository(_context);
             _plantYieldRepository ??= new PlantYieldRepository(_context);
             _planTransactionRepository ??= new PlanTransactionRepository(_context);
-            _orderProductRepository ??= new OrderProductRepository(_context);
             _specializationRepository ??= new SpecializationRepository(_context);
             _farmerSpecializationRepository ??= new FarmerSpecializationRepository(_context);
             _farmerPerformanceRepository ??= new FarmerPerformanceRepository(_context);
@@ -135,7 +133,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             InspectorRepository inspectorRepository, InspectingResultRepository inspectingResultRepository, NotificationExpertRepository notificationExpertRepository,
             ProblemImageRepository problemImageRepository, NotificationFarmerRepository notificationFarmerRepository, NotificationOwnerRepository notificationOwnerRepository, NotificationRetailerRepository notificationRetailerRepository,
             ProblemRepository problemRepository, PackagingProductRepository packagingProductRepository, PackagingTypeRepository packagingTypeRepository,
-            PlantYieldRepository plantYieldRepository, PlanTransactionRepository planTransactionRepository, OrderProductRepository orderProductRepository,
+            PlantYieldRepository plantYieldRepository, PlanTransactionRepository planTransactionRepository,
             SpecializationRepository specializationRepository, FarmerSpecializationRepository farmerSpecializationRepository, FarmerPerformanceRepository farmerPerformanceRepository,
             SeasonalPlantRepository seasonalPlantRepository, OrderPlanRepository orderPlanRepository, 
             ProductPickupBatchRepository productPickupBatchRepository, ConfigurationSystemRepository configurationSystemRepository)
@@ -182,7 +180,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             _packagingTypeRepository = packagingTypeRepository;
             _plantYieldRepository = plantYieldRepository;
             _planTransactionRepository = planTransactionRepository;
-            _orderProductRepository = orderProductRepository;
             _specializationRepository = specializationRepository;
             _farmerSpecializationRepository = farmerSpecializationRepository;
             _farmerPerformanceRepository = farmerPerformanceRepository;
@@ -234,7 +231,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public PackagingTypeRepository PackagingTypeRepository { get { return _packagingTypeRepository; } }
         public PlantYieldRepository PlantYieldRepository { get { return _plantYieldRepository; } }
         public PlanTransactionRepository PlanTransactionRepository { get { return _planTransactionRepository; } }
-        public OrderProductRepository OrderProductRepository { get { return _orderProductRepository; } }
         public SpecializationRepository SpecializationRepository { get { return _specializationRepository; } }
         public FarmerSpecializationRepository FarmerSpecializationRepository { get { return _farmerSpecializationRepository; } }
         public FarmerPerformanceRepository FarmerPerformanceRepository { get { return _farmerPerformanceRepository; } }

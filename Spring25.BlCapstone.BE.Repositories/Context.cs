@@ -56,7 +56,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<Yield> Yields { get; set; }
         public virtual DbSet<PlanTransaction> PlanTransactions { get; set; }
-        public virtual DbSet<OrderProduct> OrderProducts { get; set; }
         public virtual DbSet<FarmerSpecialization> FarmerSpecializations { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
         public virtual DbSet<FarmerPerformance> FarmerPerformances { get; set; }
@@ -389,6 +388,10 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .WithMany(pt => pt.PackagingTasks)
                       .HasForeignKey(pt => pt.PackagingTypeId)
                       .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(pt => pt.Order)
+                      .WithMany(pt => pt.PackagingTasks)
+                      .HasForeignKey(pt => pt.OrderId)
+                      .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<PackagingItem>(entity =>
@@ -464,19 +467,6 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<PlanTransaction>()
                 .ToTable("PlanTransaction");
 
-            modelBuilder.Entity<OrderProduct>(entity =>
-            {
-                entity.ToTable("OrderProduct");
-                entity.HasOne(fpt => fpt.Order)
-                      .WithMany(fpt => fpt.OrderProducts)
-                      .HasForeignKey(fpt => fpt.OrderId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-                entity.HasOne(fpt => fpt.PackagingProduct)
-                      .WithMany(fpt => fpt.OrderProducts)
-                      .HasForeignKey(fpt => fpt.ProductId)
-                      .OnDelete(DeleteBehavior.ClientSetNull);
-            });
-
             modelBuilder.Entity<Specialization>()
                 .ToTable("Specialization");
 
@@ -523,7 +513,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             modelBuilder.Entity<ProductPickupBatch>(entity =>
             {
                 entity.ToTable("ProductPickupBatch");
-                entity.HasOne(ppb => ppb.OrderProduct)
+                entity.HasOne(ppb => ppb.PackagingProduct)
                       .WithMany(ppb => ppb.ProductPickupBatches)
                       .HasForeignKey(ppb => ppb.ProductId)
                       .OnDelete(DeleteBehavior.ClientSetNull);

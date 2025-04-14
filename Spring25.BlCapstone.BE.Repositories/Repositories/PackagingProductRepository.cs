@@ -27,10 +27,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .ThenInclude(pp => pp.Plan)
                                         .ThenInclude(pp =>  pp.Plant)
                                 .Include(pp => pp.HarvestingTask)
-                                .Include(pp => pp.OrderProducts)
+                                .Include(pp => pp.PackagingTask)
                                     .ThenInclude(pp => pp.Order)
                                         .ThenInclude(pp => pp.Retailer)
                                             .ThenInclude(pp => pp.Account)
+                                .Include(pp => pp.PackagingTask)
+                                    .ThenInclude(pp => pp.PackagingProducts)
+                                        .ThenInclude(pp => pp.ProductPickupBatches)
                                 .AsQueryable();
             if (planId.HasValue)
             {
@@ -61,7 +64,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     .ThenInclude(pp => pp.Plan)
                                         .ThenInclude(pp => pp.Plant)
                                 .Include(pp => pp.HarvestingTask)
-                                .Include(pp => pp.OrderProducts)
+                                .Include(pp => pp.PackagingTask)
+                                    .ThenInclude(pp => pp.Order)
+                                        .ThenInclude(pp => pp.Retailer)
+                                            .ThenInclude(pp => pp.Account)
+                                .Include(pp => pp.PackagingTask)
+                                    .ThenInclude(pp => pp.PackagingProducts)
+                                        .ThenInclude(pp => pp.ProductPickupBatches)
                                 .FirstOrDefaultAsync(pp => pp.Id == id);
         }
 

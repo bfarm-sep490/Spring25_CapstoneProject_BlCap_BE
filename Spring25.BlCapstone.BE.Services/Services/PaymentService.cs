@@ -145,30 +145,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any order !");
                 }
 
-                foreach (var item in model.Product)
-                {
-                    var product = await _unitOfWork.PackagingProductRepository.GetByIdAsync(item.ProductId);
-                    if (product == null)
-                    {
-                        return new BusinessResult(400, "Invalid product not found !");
-                    }
-
-                    if (product.PackQuantity < item.QuantityOfPacks)
-                    {
-                        return new BusinessResult(400, "Number of available packs is not enough for this order");
-                    }
-
-                    var pro = new OrderProduct
-                    {
-                        ProductId = item.ProductId,
-                        OrderId = model.OrderId,
-                        QuantityOfPacks = item.QuantityOfPacks,
-                        Status = "WaitingForPayment"
-                    };
-
-                    _unitOfWork.OrderProductRepository.PrepareCreate(pro);
-                }
-
                 if (!order.Status.ToLower().Trim().Equals("deposit"))
                 {
                     return new BusinessResult(400, $"Can not pay the remaining order with {order.Status} status");
@@ -206,7 +182,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 };
 
                 await _unitOfWork.TransactionRepository.CreateAsync(trans);
-                await _unitOfWork.OrderProductRepository.SaveAsync();
                 return new BusinessResult(200, "Create Remaining Payment Link successfully: ", createPayment);
             }
             catch (Exception ex)
@@ -223,30 +198,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 if (order == null)
                 {
                     return new BusinessResult(404, "Not found any order !");
-                }
-
-                foreach (var item in model.Product)
-                {
-                    var product = await _unitOfWork.PackagingProductRepository.GetByIdAsync(item.ProductId);
-                    if (product == null)
-                    {
-                        return new BusinessResult(400, "Invalid product not found !");
-                    }
-
-                    if (product.PackQuantity < item.QuantityOfPacks)
-                    {
-                        return new BusinessResult(400, "Number of available packs is not enough for this order");
-                    }
-
-                    var pro = new OrderProduct
-                    {
-                        ProductId = item.ProductId,
-                        OrderId = model.OrderId,
-                        QuantityOfPacks = item.QuantityOfPacks,
-                        Status = "Received"
-                    };
-
-                    _unitOfWork.OrderProductRepository.PrepareCreate(pro);
                 }
 
                 if (!order.Status.ToLower().Trim().Equals("deposit"))
@@ -274,7 +225,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await _unitOfWork.TransactionRepository.CreateAsync(trans);
                 await _unitOfWork.OrderRepository.SaveAsync();
-                await _unitOfWork.OrderProductRepository.SaveAsync();
 
                 var rs = _mapper.Map<OrderModel>(order);
                 return new BusinessResult(200, "Pay Remaining by cash successfully: ", rs);
@@ -337,14 +287,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (transaction.Type == "PayRemaining")
                 {
-                    var products = await _unitOfWork.OrderProductRepository.GetAllOrderProductsByOrderId(order.Id);
-                    foreach (var product in products)
-                    {
-                        product.Status = "Cancel";
-                        _unitOfWork.OrderProductRepository.PrepareUpdate(product);
-                    }
-
-                    await _unitOfWork.OrderProductRepository.SaveAsync();
                     order.Status = "Deposit";
                     await _unitOfWork.OrderRepository.UpdateAsync(order);
                 }
@@ -389,21 +331,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     else
                     {
                         order.Status = "Paid";
-                        var products = await _unitOfWork.OrderProductRepository.GetAllOrderProductsByOrderId(trans.OrderId);
-                        foreach (var product in products)
-                        {
-                            product.Status = "Received";
-                            _unitOfWork.OrderProductRepository.PrepareUpdate(product);
-
-                            var availablePro = await _unitOfWork.PackagingProductRepository.GetByIdAsync(product.ProductId);
-                            availablePro.PackQuantity -= product.QuantityOfPacks;
-                            _unitOfWork.PackagingProductRepository.PrepareUpdate(availablePro);
-                        }
                     }
 
                     await _unitOfWork.TransactionRepository.UpdateAsync(trans);
                     await _unitOfWork.OrderRepository.UpdateAsync(order);
-                    await _unitOfWork.OrderProductRepository.SaveAsync();
                     await _unitOfWork.PackagingProductRepository.SaveAsync();
                 }
                 else

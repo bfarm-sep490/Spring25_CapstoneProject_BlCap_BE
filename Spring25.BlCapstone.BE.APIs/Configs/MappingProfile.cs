@@ -74,7 +74,18 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
                 .ForMember(dest => dest.PlanInfors, opt => opt.MapFrom(src => src.OrderPlans))
                 .ForMember(dest => dest.PackagingTypeName, opt => opt.MapFrom(src => src.PackagingType.Name))
-                .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts))
+                .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.PackagingTasks
+                                                                                    .SelectMany(task => task.PackagingProducts
+                                                                                                            .Select(ptp => new ProOr
+                                                                                                                {
+                                                                                                                    ProductId = ptp.Id,
+                                                                                                                    QuantityOfPacks = ptp.PackQuantity,
+                                                                                                                    Status = ptp.Status,
+                                                                                                                    EvaluatedResult = task.Plan.InspectingForms
+                                                                                                                    .OrderByDescending(f => f.CompleteDate)
+                                                                                                                    .FirstOrDefault().InspectingResult.EvaluatedResult
+                                                                                                                })).ToList()
+                                                                                                                ))
                 .ReverseMap();
             CreateMap<OrderPlan, PlanInfor>()
                 .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.PlanId))
@@ -83,9 +94,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<Transaction, TransactionOrder>()
                 .ReverseMap();
             CreateMap<Order, CreateOrderModel>()
-                .ReverseMap();
-            CreateMap<OrderProduct, ProOr>()
-                //.ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.Order.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
                 .ReverseMap();
         }
 
@@ -454,6 +462,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.FarmerInfor, opt => opt.MapFrom(src => src.FarmerPackagingTasks))
                 .ForMember(dest => dest.PlanName, opt => opt.MapFrom(src => src.Plan.PlanName))
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerPackagingTasks.FirstOrDefault(x => x.Status.Trim().ToLower().Equals("active")).FarmerId))
+                .ForMember(dest => dest.RetailerId, opt => opt.MapFrom(src => src.Order.RetailerId))
+                .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Order.Retailer.Account.Name))
+                .ForMember(dest => dest.PreOrderQuantity, opt => opt.MapFrom(src => src.Order.PreOrderQuantity))
                 .ReverseMap();
             CreateMap<FarmerPackagingTask, FarmerInfor>()
                 .ForMember(dest => dest.FarmerId, opt => opt.MapFrom(src => src.FarmerId))
@@ -527,14 +538,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.CompleteDate, opt => opt.MapFrom(src => src.PackagingTask.CompleteDate))
                 .ForMember(dest => dest.ProductExpiredDate, opt => opt.MapFrom(src => src.HarvestingTask.ProductExpiredDate))
                 .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src => src.PackagingTask.Plan.InspectingForms.OrderByDescending(f => f.CompleteDate).FirstOrDefault().InspectingResult.EvaluatedResult))
-                .ForMember(dest => dest.TotalPacks, opt => opt.MapFrom(src => src.PackQuantity + src.OrderProducts.Sum(op => op.QuantityOfPacks)))
-                .ForMember(dest => dest.OrderProducts, opt => opt.MapFrom(src => src.OrderProducts))
+                .ForMember(dest => dest.AvailablePacks, opt => opt.MapFrom(src => src.PackQuantity - src.ProductPickupBatches.Sum(c => c.Quantity)))
                 .ForMember(dest => dest.PackagingTypeId, opt => opt.MapFrom(src => src.PackagingTask.PackagingTypeId))
-                .ReverseMap();
-            CreateMap<OrderProduct, OrPro>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Order.Id))
-                .ForMember(dest => dest.RetailerId, opt => opt.MapFrom(src => src.Order.RetailerId))
-                .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.Order.Retailer.Account.Name))
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.PackagingTask.OrderId))
+                .ForMember(dest => dest.RetailerId, opt => opt.MapFrom(src => src.PackagingTask.Order.RetailerId))
+                .ForMember(dest => dest.RetailerName, opt => opt.MapFrom(src => src.PackagingTask.Order.Retailer.Account.Name))
+                .ForMember(dest => dest.QuantityOfPacks, opt => opt.MapFrom(src => src.ProductPickupBatches.Sum(c => c.Quantity)))
                 .ReverseMap();
         }
     }

@@ -13,7 +13,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         public int PackagingTaskId { get; set; }
         public int HarvestingTaskId { get; set; }
-        public int? OrderId { get; set; }
         public float QuantityPerPack { get; set; }
         public int PackQuantity { get; set; }
         public string QRCode { get; set; }
@@ -21,6 +20,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public PackagingTask PackagingTask { get; set; }
         public HarvestingTask HarvestingTask { get; set; }
-        public ICollection<OrderProduct> OrderProducts { get; set; }
+        public ICollection<ProductPickupBatch> ProductPickupBatches { get; set; }
     }
 }

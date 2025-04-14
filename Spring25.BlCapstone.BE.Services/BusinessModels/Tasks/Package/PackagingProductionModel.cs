@@ -27,27 +27,21 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package
         public DateTime? ProductExpiredDate { get; set; }
         [JsonPropertyName("quantity_per_pack")]
         public float QuantityPerPack { get; set; }
-        [JsonPropertyName("pack_quantity")]
-        public int PackQuantity { get; set; }
         [JsonPropertyName("total_packs")]
-        public int TotalPacks { get; set; }
+        public int PackQuantity { get; set; }
+        [JsonPropertyName("available_packs")]
+        public int AvailablePacks { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("evaluated_result")]
         public string EvaluatedResult { get; set; }
-        [JsonPropertyName("orders")]
-        public List<OrPro> OrderProducts { get; set; }
-    }
-
-    public class OrPro
-    {
         [JsonPropertyName("order_id")]
-        public int Id { get; set; }
+        public int OrderId { get; set; }
         [JsonPropertyName("retailer_id")]
         public int RetailerId { get; set; }
         [JsonPropertyName("retailer_name")]
         public string RetailerName { get; set; }
-        [JsonPropertyName("quantity_of_packs")]
+        [JsonPropertyName("received_pack_quantity")]
         public int QuantityOfPacks { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         [Key]
         public int Id { get; set; }
         public int PlanId { get; set; }
+        public int? OrderId { get; set; }
         public int? PackagingTypeId { get; set; }
         public string TaskName { get; set; }
         public string? Description { get; set; }
@@ -29,6 +30,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public Plan Plan { get; set; }
         public PackagingType PackagingType { get; set; }
+        public Order Order { get; set; }
         public ICollection<PackagingImage> PackagingImages { get; set; }
         public ICollection<PackagingItem> PackagingItems { get; set; }
         public ICollection<PackagingProduct> PackagingProducts { get; set; }
