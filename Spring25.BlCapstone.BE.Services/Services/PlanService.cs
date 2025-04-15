@@ -1681,9 +1681,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     var inspectingTask = new PlanForm();
                     inspectingTask.FormName = inspecting.FormName;
+                    inspectingTask.Description = inspecting.Description;
                     inspectingTask.StartDate = model.StartDate.AddHours(inspecting.StartIn);
                     inspectingTask.EndDate = model.StartDate.AddHours(inspecting.EndIn);
                     inspectingTask.CreatedBy = model.CreatedBy;
+                    plan.PlanInspectingForms.Add(inspectingTask);
                 }
                 result.Add(plan);
             }
