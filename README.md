@@ -42,5 +42,6 @@ We welcome contributions from the community. Please create a pull request or ope
 No license information is provided for this project.
 
 ## Contact
-If you have any questions, please contact the development team via email: [service@bfarmx.space]
+If you have any questions, please contact the development team via email: [service@bfarmx.space] 
+
 <img src="https://res.cloudinary.com/dwkgc6ibi/image/upload/v1744691563/LOGO_gkyptf.png" alt="Logo" width="100" />
