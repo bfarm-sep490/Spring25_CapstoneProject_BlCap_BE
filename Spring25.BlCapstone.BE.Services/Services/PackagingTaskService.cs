@@ -401,19 +401,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmer !");
+                    return new BusinessResult(404, null, "Not found any farmer !");
                 }
 
                 var packTask = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
                 if (packTask == null)
                 {
-                    return new BusinessResult(404, "Packaging Task not found !");
+                    return new BusinessResult(404, null, "Packaging Task not found !");
                 }
 
                 var farmerPa = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasks(id);
                 if (farmerPa.Any(fc => fc.FarmerId == farmerId))
                 {
-                    return new BusinessResult(400, "This farmer is already assigned to the packaging task.");
+                    return new BusinessResult(400, null, "This farmer is already assigned to the packaging task.");
                 }
 
                 farmerPa.ForEach(fc =>
@@ -435,7 +435,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Status = "Active"
                 });
 
-                return new BusinessResult(200, "Add Farmer to Packaging Task successfully !", farmerPa);
+                return new BusinessResult(200, "Add Farmer to Packaging Task successfully !");
             }
             catch (Exception ex)
             {

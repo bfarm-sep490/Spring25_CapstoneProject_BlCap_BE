@@ -473,19 +473,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmer !");
+                    return new BusinessResult(404, null, "Not found any farmer !");
                 }
 
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
                 if (harvestingTask == null)
                 {
-                    return new BusinessResult(404, "Harvesting Task not found !");
+                    return new BusinessResult(404, null, "Harvesting Task not found !");
                 }
 
                 var farmerHar = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasks(id);
                 if (farmerHar.Any(fc => fc.FarmerId == farmerId))
                 {
-                    return new BusinessResult(400, "This farmer is already assigned to the harvesting task.");
+                    return new BusinessResult(400, null, "This farmer is already assigned to the harvesting task.");
                 }
 
                 farmerHar.ForEach(fc =>
@@ -507,7 +507,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Status = "Active"
                 });
 
-                return new BusinessResult(200, "Add Farmer to Harvesting Task successfully !", farmerHar);
+                return new BusinessResult(200, "Add Farmer to Harvesting Task successfully !");
             }
             catch (Exception ex)
             {

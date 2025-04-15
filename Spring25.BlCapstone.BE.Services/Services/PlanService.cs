@@ -53,7 +53,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetCountTasksByPlanId(int id);
         Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId);
         Task<IBusinessResult> AddOrderToPlan(int id, int orderId);
-        Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime start, DateTime end);
+        Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime? start, DateTime? end);
         Task<IBusinessResult> GenarateTasksForFarmer(int id, List<int> farmerid);
         Task<IBusinessResult> ChangeCompleteStatus(int id);
         Task<IBusinessResult> ChangeCancelStatus(int id);
@@ -1045,11 +1045,17 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async  Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime start, DateTime end)
+        public async  Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime? start, DateTime? end)
         {
             try
             {
-                var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start, end);
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(404, "Not found any plan !");
+                }
+
+                var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start.HasValue ? start : null, end.HasValue ? end : null);
 
                 var result = farmers.Select(farmer => new FarmerBusySchedule
                 {
@@ -1086,7 +1092,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (result.Count <= 0)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(404, "Not found any free farmers !");
                 }
                 else
                 {
