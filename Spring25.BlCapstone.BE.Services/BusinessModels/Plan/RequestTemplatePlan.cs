@@ -10,7 +10,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
     public class RequestTemplatePlan
     {
         [JsonPropertyName("orders")]
-        public List<OrderPlanRequest> Orders { get; set; }
+        public List<OrderPlanRequest>? Orders { get; set; } = null;
         [JsonPropertyName("plant_id")]
         public int PlantId { get; set; }
         [JsonPropertyName("yield_id")]
