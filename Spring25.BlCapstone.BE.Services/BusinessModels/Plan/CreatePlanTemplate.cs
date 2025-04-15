@@ -13,7 +13,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
     public class CreatePlanTemplate
     {
         [JsonPropertyName("orders")]
-        public List<PO>? Orders { get; set; }
+        public List<PO>? Orders { get; set; } = new List<PO>();
         [JsonPropertyName("plant_id")]
         public int PlantId { get; set; }
         [JsonPropertyName("yield_id")]

@@ -37,7 +37,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
     {
         [JsonPropertyName("order_id")]
         public int OrderId { get; set; }
-        [JsonPropertyName("order_id")]
+        [JsonPropertyName("quantity")]
         public float Quantity { get; set; }
     }
 }
