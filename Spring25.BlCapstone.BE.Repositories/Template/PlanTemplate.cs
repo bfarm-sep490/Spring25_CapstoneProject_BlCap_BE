@@ -24,11 +24,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         [JsonPropertyName("inspecting_tasks")]
         public List<InspectingTaskTemplate> InspectingTasks { get; set; }
 
-        [JsonPropertyName("harvesting_task_tempates")]
-        public List<HarvestingTaskTempate> HarvestingTaskTempates { get; set; }
+        [JsonPropertyName("harvesting_task_templates")]
+        public List<HarvestingTaskTemplate> HarvestingTaskTemplates { get; set; }
     }
 
-    public class HarvestingTaskTempate
+    public class HarvestingTaskTemplate
     {
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }

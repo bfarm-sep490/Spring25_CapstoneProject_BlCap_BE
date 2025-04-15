@@ -1671,7 +1671,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     });
                     plan.PlanCaringTasks.Add(caringTask);
                 }            
-                foreach(var harvesting in template.HarvestingTaskTempates)
+                foreach(var harvesting in template.HarvestingTaskTemplates)
                 {
                     var harvestTask = new PlanHar();
                     harvesting.Items.ForEach(r =>
