@@ -507,7 +507,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Status = "Active"
                 });
 
-                return new BusinessResult(200, "Add Farmer to Harvesting Task successfully !", farmerHar);
+                return new BusinessResult(200, "Add Farmer to Harvesting Task successfully !");
             }
             catch (Exception ex)
             {

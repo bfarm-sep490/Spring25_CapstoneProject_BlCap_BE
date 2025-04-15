@@ -435,7 +435,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Status = "Active"
                 });
 
-                return new BusinessResult(200, "Add Farmer to Packaging Task successfully !", farmerPa);
+                return new BusinessResult(200, "Add Farmer to Packaging Task successfully !");
             }
             catch (Exception ex)
             {
