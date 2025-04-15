@@ -105,6 +105,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var problem = _mapper.Map<Problem>(model);
                 problem.Status = "Pending";
+                problem.CreatedDate = DateTime.Now;
                 var rs = await _unitOfWork.ProblemRepository.CreateAsync(problem);
 
                 if (model.ImageUrl != null)
@@ -119,8 +120,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         await _unitOfWork.ProblemImageRepository.CreateAsync(img);
                     }
                 }
+                var result = _mapper.Map<ProblemModel>(rs);
 
-                return new BusinessResult(200, "Create successfully!", rs);
+                return new BusinessResult(200, "Create successfully!", result);
             }
             catch (Exception ex)
             {
