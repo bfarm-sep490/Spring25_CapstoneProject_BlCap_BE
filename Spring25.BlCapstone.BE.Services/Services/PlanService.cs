@@ -1620,21 +1620,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var rate = model.SeedQuantity / 100;
                 string json = obj.TemplatePlan;
                 PlanTemplate template = JsonSerializer.Deserialize<PlanTemplate>(json);
-                foreach(var order in model.Orders)
-                {
-                    var orderTask = await _unitOfWork.OrderRepository.GetOrderByIdAsync(order.Id);
-                    var packagingTask = new PlanPack();
-                    if (orderTask == null) { return new BusinessResult(400, "Not found this Order");}
-                    if(orderTask.PlantId != model.PlantId) { return new BusinessResult(400,"Order do not order that plant"); }
-                    packagingTask.PackagingTypeId = orderTask.PackagingTypeId;
-                    packagingTask.TotalPackagedWeight = order.Quantity;
-                    packagingTask.TaskName = "Đóng gói cho Order " + orderTask.Id;
-                    packagingTask.Description = "Đóng gói theo loại " + orderTask.PackagingType.Name; 
-                    packagingTask.EndDate = orderTask.EstimatedPickupDate.AddDays(-0.5).Date;
-                    packagingTask.CreatedBy = model.CreatedBy;
-                    packagingTask.StartDate = orderTask.EstimatedPickupDate.AddDays(-1.5).Date;
-                    plan.PlanPackagingTasks.Add(packagingTask);
-                    plan.Orders.Add(new PO { OrderId = order.Id, Quantity = order.Quantity});
+                if (model.Orders != null) {
+                    foreach (var order in model.Orders)
+                    {
+                        var orderTask = await _unitOfWork.OrderRepository.GetOrderByIdAsync(order.Id);
+                        var packagingTask = new PlanPack();
+                        if (orderTask == null) { return new BusinessResult(400, "Not found this Order"); }
+                        if (orderTask.PlantId != model.PlantId) { return new BusinessResult(400, "Order do not order that plant"); }
+                        packagingTask.PackagingTypeId = orderTask.PackagingTypeId;
+                        packagingTask.TotalPackagedWeight = order.Quantity;
+                        packagingTask.TaskName = "Đóng gói cho Order " + orderTask.Id;
+                        packagingTask.Description = "Đóng gói theo loại " + orderTask.PackagingType.Name;
+                        packagingTask.EndDate = orderTask.EstimatedPickupDate.AddDays(-0.5).Date;
+                        packagingTask.CreatedBy = model.CreatedBy;
+                        packagingTask.StartDate = orderTask.EstimatedPickupDate.AddDays(-1.5).Date;
+                        plan.PlanPackagingTasks.Add(packagingTask);
+                        plan.Orders.Add(new PO { OrderId = order.Id, Quantity = order.Quantity });
+                    }
+
                 }
                 foreach (var caring in template.CaringTasks)
                 {
