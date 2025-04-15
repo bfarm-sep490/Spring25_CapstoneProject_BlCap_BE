@@ -110,6 +110,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any Packaging tasks");
                 }
 
+                if (!packTask.PackagingTypeId.HasValue)
+                {
+                    return new BusinessResult(400, "This task do not have type of packaging !");
+                }
+
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(model.HarvestingTaskId);
                 if (harvestingTask == null)
                 {
