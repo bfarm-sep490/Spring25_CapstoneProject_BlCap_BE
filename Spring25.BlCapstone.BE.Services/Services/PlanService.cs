@@ -1625,7 +1625,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var orderTask = await _unitOfWork.OrderRepository.GetOrderByIdAsync(order.Id);
                     var packagingTask = new PlanPack();
                     if (orderTask == null) { return new BusinessResult(400, "Not found this Order");}
-                    if(orderTask.PlantId != model.PlantId) { throw new Exception("Order do not order that plant"); }
+                    if(orderTask.PlantId != model.PlantId) { return new BusinessResult(400,"Order do not order that plant"); }
                     packagingTask.PackagingTypeId = orderTask.PackagingTypeId;
                     packagingTask.TotalPackagedWeight = order.Quantity;
                     packagingTask.TaskName = "Đóng gói cho Order " + orderTask.Id;
