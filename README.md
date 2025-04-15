@@ -33,7 +33,7 @@ This project is the backend for the Spring25 Capstone Project BlCap, developed b
    ```
 
 ## Usage
-Once the application is running, you can access the API at `https://localhost:7086/swagger/index.html` and the user interface at [https://bfarmx.space](https://bfarmx.space).
+Once the application is running, you can access the API at `https://localhost:7086/swagger/index.html` and the user interface at <a href="https://bfarmx.space" target="_blank"><strong>BFarmX</strong></a>
 
 ## Contribution
 We welcome contributions from the community. Please create a pull request or open an issue if you have any questions or suggestions.
@@ -43,5 +43,4 @@ No license information is provided for this project.
 
 ## Contact
 If you have any questions, please contact the development team via email: [service@bfarmx.space]
-
-<img src="https://res.cloudinary.com/dwkgc6ibi/image/upload/v1744691563/LOGO_gkyptf.png" alt="Logo" width="100"/>
+<img src="https://res.cloudinary.com/dwkgc6ibi/image/upload/v1744691563/LOGO_gkyptf.png" alt="Logo" width="100" />
