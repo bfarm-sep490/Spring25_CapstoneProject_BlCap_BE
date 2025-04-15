@@ -26,6 +26,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Template;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Transaction;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
 
@@ -403,7 +404,11 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<OrdPlan, OrderPlanRequest>()
                 .ReverseMap();
             CreateMap<HarvestItem, ItemTemplate>()
-            .ReverseMap();
+                .ReverseMap();
+            CreateMap<TemplateModel,SeasonalPlant>()
+                .ReverseMap();
+            CreateMap<RequestTemplate, SeasonalPlant>()
+                .ReverseMap();
         }
 
         private void CaringProfile()
