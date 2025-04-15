@@ -1107,9 +1107,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             if (plan == null) return new BusinessResult(400, "Không thể tìm thấy kế hoạch này");
             if (listFarmer == null) return new BusinessResult(400, "Không có nông dân nào có quyền trong plan này");
             result.PlanId = id;
-            var caringTasks = plan.CaringTasks.ToList();
-            var harvestingTasks = plan.HarvestingTasks.ToList();
-            var packagingTasks = plan.PackagingTasks.ToList();
+            var caringTasks = plan.CaringTasks.Where(x=>x.Status.ToLower()=="pending"||x.Status.ToLower() == "draft").ToList();
+            var harvestingTasks = plan.HarvestingTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft").ToList();
+            var packagingTasks = plan.PackagingTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft").ToList();
             int farmerIndex = 0;
             foreach (var task in harvestingTasks)
             {

@@ -19,7 +19,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public float SampleQuantity { get; set; }
 
         [JsonPropertyName("caring_tasks")]
-        public List<CaringTaskTemplate> CaringTasks { get; set; }
+        public List<CaringTaskTemplate>? CaringTasks { get; set; }
 
         [JsonPropertyName("inspecting_tasks")]
         public List<InspectingTaskTemplate> InspectingTasks { get; set; }
@@ -34,7 +34,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public string TaskName { get; set; }
 
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [JsonPropertyName("start_in")]
         public float StartIn { get; set; }
@@ -43,7 +43,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public float EndIn { get; set; }
 
         [JsonPropertyName("items")]
-        public List<ItemTemplate>? Items { get; set; } = new List<ItemTemplate>();
+        public List<ItemTemplate> Items { get; set; } = new List<ItemTemplate>();
     }
 
     public class PesticideTemplate
@@ -67,7 +67,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public float Quantity { get; set; }
 
         [JsonPropertyName("unit")]
-        public string Unit { get; set; }
+        public string? Unit { get; set; }
     }
 
     public class ItemTemplate
@@ -88,7 +88,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public string FormName { get; set; }
 
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [JsonPropertyName("start_in")]
         public float StartIn { get; set; }
@@ -103,7 +103,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public string TaskName { get; set; }
 
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         [JsonPropertyName("task_type")]
         public string TaskType { get; set; }
@@ -115,13 +115,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Template
         public float EndIn { get; set; }
 
         [JsonPropertyName("fertilizers")]
-        public List<FertilizerTemplate>? Fertilizers { get; set; } = new List<FertilizerTemplate>();
+        public List<FertilizerTemplate> Fertilizers { get; set; } = new List<FertilizerTemplate>();
 
         [JsonPropertyName("pesticides")]
-        public List<PesticideTemplate>? Pesticides { get; set; } = new List<PesticideTemplate>();
+        public List<PesticideTemplate> Pesticides { get; set; } = new List<PesticideTemplate>();
 
         [JsonPropertyName("items")]
-        public List<ItemTemplate>? Items { get; set; } = new List<ItemTemplate>();
+        public List<ItemTemplate> Items { get; set; } = new List<ItemTemplate>();
     }
 
 

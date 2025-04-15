@@ -44,5 +44,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToListAsync();
             return result;
         }
+        public async Task<List<SeasonalPlant>> GetSeasonalPlantsByPlantId(int id)
+        {
+            return await _context.SeasonalPlants.Where(x=>x.PlantId == id).ToListAsync();
+        }
     }
 }

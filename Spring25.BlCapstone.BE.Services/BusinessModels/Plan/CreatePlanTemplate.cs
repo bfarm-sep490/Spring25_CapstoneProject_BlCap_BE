@@ -17,23 +17,23 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("plant_id")]
         public int PlantId { get; set; }
         [JsonPropertyName("yield_id")]
-        public int? YieldId { get; set; }
+        public int YieldId { get; set; }
         [JsonPropertyName("expert_id")]
         public int ExpertId { get; set; }
         [JsonPropertyName("plan_name")]
-        public string? PlanName { get; set; }
+        public string PlanName { get; set; }
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [JsonPropertyName("season_name")]
-        public string? SeasonName { get; set; }
+        public string SeasonName { get; set; }
         [JsonPropertyName("start_date")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
         [JsonPropertyName("estimated_product")]
-        public float? EstimatedProduct { get; set; }
+        public float EstimatedProduct { get; set; }
         [JsonPropertyName("seed_quantity")]
-        public int? SeedQuantity { get; set; }
+        public int SeedQuantity { get; set; }
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("caring_tasks")]
@@ -61,11 +61,11 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("fertilizers")]
-        public List<FerCare>? Fertilizers { get; set; } = new List<FerCare>();
+        public List<FerCare> Fertilizers { get; set; } = new List<FerCare>();
         [JsonPropertyName("pesticides")]
-        public List<PesCare>? Pesticides { get; set; } = new List<PesCare>();
+        public List<PesCare> Pesticides { get; set; } = new List<PesCare>();
         [JsonPropertyName("items")]
-        public List<ItemCare>? Items { get; set; } = new List<ItemCare>();
+        public List<ItemCare> Items { get; set; } = new List<ItemCare>();
     }
     
     public class PlanHar
@@ -73,7 +73,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
@@ -81,7 +81,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("items")]
-        public List<HarvestItem>? Items { get; set; } = new List<HarvestItem>();
+        public List<HarvestItem> Items { get; set; } = new List<HarvestItem>();
     }
     
     public class PlanForm
@@ -89,7 +89,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_name")]
         public string FormName { get; set; }
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
@@ -103,9 +103,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
         [JsonPropertyName("packaging_type_id")]
-        public int? PackagingTypeId { get; set; }
+        public int PackagingTypeId { get; set; }
         [JsonPropertyName("description")]
-        public string? Description { get; set; }
+        public string Description { get; set; }
         [JsonPropertyName("start_date")]
         public DateTime StartDate { get; set; }
         [JsonPropertyName("end_date")]
