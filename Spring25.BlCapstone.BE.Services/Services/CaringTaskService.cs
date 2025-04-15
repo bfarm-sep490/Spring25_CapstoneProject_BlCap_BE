@@ -516,19 +516,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmer !");
+                    return new BusinessResult(404, null, "Not found any farmer !");
                 }
 
                 var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
                 if (caringTask == null)
                 {
-                    return new BusinessResult(404, "Caring Task not found !");
+                    return new BusinessResult(404, null, "Caring Task not found !");
                 }
 
                 var farmerCare = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasks(id);
                 if (farmerCare.Any(fc => fc.FarmerId == farmerId))
                 {
-                    return new BusinessResult(400, "This farmer is already assigned to the caring task.");
+                    return new BusinessResult(400, null, "This farmer is already assigned to the caring task.");
                 }
 
                 farmerCare.ForEach(fc =>
