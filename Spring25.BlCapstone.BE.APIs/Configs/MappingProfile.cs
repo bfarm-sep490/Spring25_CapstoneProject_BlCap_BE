@@ -270,6 +270,17 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Yield.Type))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Yield.Status))
                 .ReverseMap();
+            CreateMap<PlantYield, YieldSuggestionModel>()
+                .ForMember(dest => dest.EstimatedEndDate, opt => opt.MapFrom(src => src.Yield.Plans.FirstOrDefault(c => c.Status.ToLower().Trim().Equals("ongoing")).EndDate))
+                .ForMember(dest => dest.PlanId, opt => opt.MapFrom(src => src.Yield.Plans.FirstOrDefault(c => c.Status.ToLower().Trim().Equals("ongoing")).Id))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.YieldId))
+                .ForMember(dest => dest.YieldName, opt => opt.MapFrom(src => src.Yield.YieldName))
+                .ForMember(dest => dest.AreaUnit, opt => opt.MapFrom(src => src.Yield.AreaUnit))
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Yield.Area))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Yield.Description))
+                .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Yield.Type))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Yield.Status))
+                .ReverseMap();
         }
 
         private void InspectorProfile()
@@ -508,6 +519,8 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<PackagingType, PackagingTypeModel>()
                 .ReverseMap();
             CreateMap<PackageItem, PackagingItem>()
+                .ReverseMap();
+            CreateMap<PackagingType, CreateTypeModel>()
                 .ReverseMap();
         }
 

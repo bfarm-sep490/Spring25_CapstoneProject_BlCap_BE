@@ -28,8 +28,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<List<PlantYield>> GetSuggestPlantById(int id)
         {
             return await _context.PlantYields
-                                 .Where(p => p.PlantId == id)
                                  .Include(x => x.Yield)
+                                    .ThenInclude(x => x.Plans)
+                                 .Where(p => p.PlantId == id)
                                  .ToListAsync();          
         }
 

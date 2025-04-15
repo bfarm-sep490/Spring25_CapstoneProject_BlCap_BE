@@ -1,5 +1,4 @@
-﻿using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.BusinessModels.Yield
 {
-    public class YieldModel
+    public class YieldSuggestionModel
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
@@ -31,5 +30,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Yield
         public string Status { get; set; }
         [JsonPropertyName("maximum_quantity")]
         public float MaximumQuantity { get; set; }
+        [JsonPropertyName("plan_id_in_use")]
+        public int? PlanId { get; set; }
+        [JsonPropertyName("estimated_end_date")]
+        public DateTime? EstimatedEndDate { get; set; }
     }
 }

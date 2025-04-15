@@ -29,7 +29,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Delete(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id);
-        Task<IBusinessResult> GetSuggestYieldsbyId(int id);
         Task<IBusinessResult> DeleteSuggestYields(PlantYieldModel model);
         Task<IBusinessResult> CreateSuggestYields(PlantYieldModel model);
     }
@@ -143,17 +142,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Get Plant by Id", obj);
         }
 
-        public Task<IBusinessResult> GetSuggestYieldsbyId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id)
         {
             var obj = await _unitOfWork.PlantRepository.GetByIdAsync(id);
-            if (obj == null) return new BusinessResult(400, "Not Found this Plant");
+            if (obj == null)
+            {
+                return new BusinessResult(400, "Not Found this Plant");
+            }
+
             var list = await _unitOfWork.PlantRepository.GetSuggestPlantById(id);
-            var result = _mapper.Map<List<YieldModel>>(list);
+            var result = _mapper.Map<List<YieldSuggestionModel>>(list);
             return new BusinessResult(200, "Get suggest yields by plantid", result);
         }
 
