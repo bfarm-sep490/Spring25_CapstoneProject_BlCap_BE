@@ -15,7 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IProblemService
     {
-        Task<IBusinessResult> GetAll(int? planId, int? farmerId, string? name, string? status);
+        Task<IBusinessResult> GetAll(int? planId, int? farmerId, string? name, string? status, int? pageNumber, int? pageSize);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(CreateProblem model);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
@@ -32,24 +32,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAll(int? planId, int? farmerId, string? name, string? status)
+        public async Task<IBusinessResult> GetAll(int? planId, int? farmerId, string? name, string? status, int? pageNumber, int? pageSize)
         {
             try
             {
-                var problems = await _unitOfWork.ProblemRepository.GetProblems(planId, farmerId, name, status);
-
-                var res = _mapper.Map<List<ProblemModel>>(problems);
-                if (res.Any())
+                var problems = await _unitOfWork.ProblemRepository.GetProblems(planId, farmerId, name, status, pageNumber, pageSize);
+                if (!problems.Any())
                 {
-                    return new BusinessResult
-                    {
-                        Status = 200,
-                        Message = "List of Problems",
-                        Data = res
-                    };
+                    return new BusinessResult(404, "Not found any Problems", null);
                 }
 
-                return new BusinessResult(404, "Not found any Problems", null);
+                var res = _mapper.Map<List<ProblemModel>>(problems);
+                return new BusinessResult(200, "List of problems: ", res);
             }
             catch (Exception ex)
             {

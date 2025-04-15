@@ -16,13 +16,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<Problem>> GetProblems(int? planId = null, int? farmerId = null, string? name = null, string? status = null)
+        public async Task<List<Problem>> GetProblems(int? planId = null, int? farmerId = null, string? name = null, string? status = null, int? pageNumber = null, int? pageSize = null)
         {
             var query = _context.Problems
                                 .Include(p => p.Plan)
                                 .Include(p => p.Farmer)
                                     .ThenInclude(f => f.Account)
                                 .Include(p => p.ProblemImages)
+                                .OrderBy(p => p.Id)
                                 .AsQueryable();
 
             if (planId.HasValue)
@@ -44,7 +45,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             {
                 query = query.Where(p => p.Status.ToLower().Trim().Equals(status));
             }
-            
+
+            if (pageNumber.HasValue && pageSize.HasValue && pageNumber > 0 && pageSize > 0)
+            {
+                int skip = (pageNumber.Value - 1) * pageSize.Value;
+                query = query.Skip(skip).Take(pageSize.Value);
+            }
+
             return await query.ToListAsync();
         }
         
