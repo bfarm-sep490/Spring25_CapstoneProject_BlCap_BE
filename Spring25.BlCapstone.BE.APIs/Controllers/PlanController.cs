@@ -310,8 +310,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("{id}/free-farmers")]
-        public async Task<IActionResult> GetAllFarmers(int id, DateTime start, DateTime end)
+        [HttpGet("{id}/busy-farmers")]
+        public async Task<IActionResult> GetAllFarmers(int id, DateTime? start, DateTime? end)
         {
             try
             {
