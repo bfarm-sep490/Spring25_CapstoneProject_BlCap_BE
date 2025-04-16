@@ -44,9 +44,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 form.CreatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.InspectingFormRepository.CreateAsync(form);
+                var result = _mapper.Map<InspectingFormModel>(rs);
                 if (rs != null)
                 {
-                    return new BusinessResult(200, "Create form successfull", rs);
+                    return new BusinessResult(200, "Create form successfull", result);
                 }
                 else
                 {
@@ -89,8 +90,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 form.UpdatedAt = DateTime.Now;
 
                 var rs = await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
+                
                 if (rs > 0)
                 {
+                    var result = _mapper.Map<InspectingFormModel>(form);
                     return new BusinessResult(200, "Update successfully!", form);
                 }
                 else

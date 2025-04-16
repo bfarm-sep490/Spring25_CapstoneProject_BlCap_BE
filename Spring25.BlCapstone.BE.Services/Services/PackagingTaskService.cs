@@ -288,10 +288,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         });
                     }
                 }
+                var result = _mapper.Map<PackagingTaskModel>(task);
 
                 if (rs > 0)
                 {
-                    return new BusinessResult(200, "Update successfully!", task);
+                    return new BusinessResult(200, "Update successfully!", result);
                 }
                 else
                 {
@@ -326,10 +327,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         });
                     }
                 }
+                var result = _mapper.Map<PackagingTaskModel>(rs);
 
                 if (rs != null)
                 {
-                    return new BusinessResult(200, "Create task successfull", rs);
+                    return new BusinessResult(200, "Create task successfull", result);
                 }
                 else
                 {

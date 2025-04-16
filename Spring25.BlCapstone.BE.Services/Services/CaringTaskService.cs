@@ -136,9 +136,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 task.UpdatedAt = DateTime.Now;
                 var rs = await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
 
+                var result = _mapper.Map<CaringTaskModel>(task);
                 if (rs > 0)
                 {
-                    return new BusinessResult(200, "Update successfull", task);
+                    return new BusinessResult(200, "Update successfull", result);
                 }
                 else
                 {

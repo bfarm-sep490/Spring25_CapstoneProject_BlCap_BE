@@ -28,7 +28,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateHarvestingTask(CreateHarvestingPlan model);
         Task<IBusinessResult> ReportHarvestingTask(int id, HarvestingTaskReport model);
         Task<IBusinessResult> UpdateTask(int id, UpdateHarvestingTask model);
-        Task<IBusinessResult> DeleteHarvestingTask(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> DashboardHarvest();
         Task<IBusinessResult> DeleteTask(int id);
@@ -74,10 +73,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         });
                     }
                 }
+                var result = _mapper.Map<HarvestingTaskModel>(rs);
 
                 if (rs != null)
                 {
-                    return new BusinessResult(200, "Create task successfull", rs);
+                    return new BusinessResult(200, "Create task successfull", result);
                 }
                 else
                 {
@@ -111,10 +111,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             }
             return new BusinessResult(200, "Dashboard Harvesting Tasks", data);
-        }
-        public Task<IBusinessResult> DeleteHarvestingTask(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<IBusinessResult> GetHarvestingTaskById(int id)
@@ -286,10 +282,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                var result = _mapper.Map<HarvestingTaskModel>(task);
+
                 if (rs > 0)
                 {
-                    return new BusinessResult(200, "Update successfull", task);
-                } else
+                    return new BusinessResult(200, "Update successfull", result);
+                } 
+                else
                 {
                     return new BusinessResult(500, "Update failed !");
                 }
