@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
@@ -19,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IPackagingTaskService
     {
         Task<IBusinessResult> CreatePackagingTask(CreatePackagingPlan model);
-        Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId);
+        Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId, List<string>? status);
         Task<IBusinessResult> GetPackagingTaskById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
@@ -41,11 +42,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _vechainInteraction = vechainInteraction;
         }
 
-        public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId)
+        public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId, List<string>? status)
         {
             try
             { 
-                var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId, farmerId);
+                var packs = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId, farmerId, status: status);
                 var rs = _mapper.Map<List<PackagingTaskModel>>(packs);
 
                 return new BusinessResult { Status = 200, Message = "List of packaging tasks:", Data = rs };

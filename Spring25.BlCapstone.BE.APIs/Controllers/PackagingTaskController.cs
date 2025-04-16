@@ -19,11 +19,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(int? plan_id, int? farmer_id)
+        public async Task<IActionResult> GetAll([FromQuery] List<string>? status, int? plan_id, int? farmer_id)
         {
             try
             {
-                var rs = await _service.GetPackagingTasks(plan_id, farmer_id);
+                var rs = await _service.GetPackagingTasks(plan_id, farmer_id, status: status);
                 return Ok(rs);
             }
             catch (Exception ex)

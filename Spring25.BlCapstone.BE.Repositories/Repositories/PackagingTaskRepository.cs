@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId = null, int? farmerId = null, int? taskId = null)
+        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId = null, int? farmerId = null, int? taskId = null, List<string>? status = null)
         {
             var query = _context.PackagingTasks
                                 .Include(x => x.PackagingImages)
@@ -45,6 +45,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             if (taskId.HasValue)
             {
                 query = query.Where(ct => ct.Id == taskId);
+            }
+
+            if (status?.Any() == true)
+            {
+                var normalizedStatus = status.Select(s => s.ToLower().Trim()).ToList();
+                query = query.Where(ct => normalizedStatus.Contains(ct.Status.ToLower().Trim()));
             }
 
             return await query.ToListAsync();

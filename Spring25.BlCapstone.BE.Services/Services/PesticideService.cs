@@ -31,7 +31,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly RedisManagement _redisManagement;
-        private readonly string key = "ListFertilizers";
+        private readonly string key = "ListPesticides";
         public PesticideService(IMapper mapper,RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
