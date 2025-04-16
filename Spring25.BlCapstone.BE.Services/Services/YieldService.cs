@@ -20,6 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Update(int id, YieldModel model);
         Task<IBusinessResult> Delete(int id);
         Task<IBusinessResult> GetSuggestPlantsbyYieldId(int id);
+        Task<IBusinessResult> GetHistoryPlan(int id);
     }
     public class YieldService : IYieldService
     {
@@ -91,6 +92,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = await _unitOfWork.YieldRepository.UpdateAsync(yield);
                 return new BusinessResult(200, "Update successfully!", model);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetHistoryPlan(int id)
+        {
+            try
+            {
+                var plan = await _unitOfWork.YieldRepository.GetHistoryPlan(id);
+                if (!plan.Any())
+                {
+                    return new BusinessResult(404, "Not found any plans ! This yield is new !!!!");
+                }
+
+                var res = _mapper.Map<List<HistoryPlans>>(plan);
+                return new BusinessResult(200, "List history in yield: ", res);
             }
             catch (Exception ex)
             {

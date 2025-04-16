@@ -409,6 +409,9 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ReverseMap();
             CreateMap<RequestTemplate, SeasonalPlant>()
                 .ReverseMap();
+            CreateMap<Plan, HistoryPlans>()
+                .ForMember(dest => dest.PlantName, opt => opt.MapFrom(src => src.Plant.PlantName))
+                .ReverseMap();
         }
 
         private void CaringProfile()

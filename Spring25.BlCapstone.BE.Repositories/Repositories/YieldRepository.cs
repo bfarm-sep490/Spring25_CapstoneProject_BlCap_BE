@@ -38,5 +38,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Select(x => x.Plant)
                 .ToListAsync();
         }
+
+        public async Task<List<Plan>> GetHistoryPlan(int yieldId)
+        {
+            return await _context.Plans
+                                 .Include(y => y.Yield)
+                                 .Include(y => y.Plant)
+                                 .Where(y => y.YieldId == yieldId && !y.Status.ToLower().Trim().Equals("draft") && !y.Status.ToLower().Trim().Equals("pending"))
+                                 .OrderBy(y => y.EndDate)
+                                 .ToListAsync();
+        }
     }
 }
