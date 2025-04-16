@@ -536,6 +536,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                if (plan.YieldId.HasValue)
+                {
+                    var yield = await _unitOfWork.YieldRepository.GetByIdAsync(plan.YieldId.Value);
+                    yield.Status = "In-Use";
+                    _unitOfWork.YieldRepository.PrepareUpdate(yield);
+                }
+
                 var result = await _vechainInteraction.CreateNewVechainPlan(new CreatedVeChainPlan
                 {
                     PlanId = id,
@@ -560,6 +567,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.YieldRepository.SaveAsync();
 
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
             }
@@ -585,6 +593,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (yield == null)
                     {
                         return new BusinessResult(404, "Not found any yield!");
+                    }
+                    else
+                    {
+                        if (!yield.Status.ToLower().Trim().Equals("available"))
+                        {
+                            return new BusinessResult(400, $"Can not use yield with status {yield.Status}");
+                        }
                     }
                 }
 
@@ -1228,11 +1243,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                if (plan.YieldId.HasValue)
+                {
+                    var yield = await _unitOfWork.YieldRepository.GetByIdAsync(plan.YieldId.Value);
+                    yield.Status = "Available";
+
+                    _unitOfWork.YieldRepository.PrepareUpdate(yield);
+                }
+                
+
                 await _unitOfWork.PlanRepository.SaveAsync();
                 await _unitOfWork.CaringTaskRepository.SaveAsync();
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
+                await _unitOfWork.YieldRepository.SaveAsync();
 
                 return new BusinessResult(200, "Complete plan successfull !");
             }
@@ -1288,11 +1313,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     _unitOfWork.InspectingFormRepository.PrepareUpdate(inspectingForm);
                 }
 
+                if (plan.YieldId.HasValue)
+                {
+                    var yield = await _unitOfWork.YieldRepository.GetByIdAsync(plan.YieldId.Value);
+                    yield.Status = "Available";
+
+                    _unitOfWork.YieldRepository.PrepareUpdate(yield);
+                }
+
                 await _unitOfWork.PlanRepository.SaveAsync();
                 await _unitOfWork.CaringTaskRepository.SaveAsync();
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
+                await _unitOfWork.YieldRepository.SaveAsync();
 
                 return new BusinessResult(200, "Cancel plan successfull !");
             }
