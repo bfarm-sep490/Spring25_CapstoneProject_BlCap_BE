@@ -227,9 +227,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
 
+                var result = _mapper.Map<CaringTaskModel>(rs);
+
                 if (rs != null)
                 {
-                    return new BusinessResult(200, "Create task successfull", rs);
+                    return new BusinessResult(200, "Create task successfull", result);
                 }
                 else
                 {
