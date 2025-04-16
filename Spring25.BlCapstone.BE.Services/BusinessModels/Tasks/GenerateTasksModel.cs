@@ -9,9 +9,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks
    public class GenerateTasksModel
    {
         public int PlanId {  get; set; }
-        public List<HarvestingTaskGenerate> HavestingTasks { get; set; } = new List<HarvestingTaskGenerate>();
+        public List<HarvestingTaskGenerate> HarvestingTasks { get; set; } = new List<HarvestingTaskGenerate>();
         public List<CaringTaskGenerate> CaringTasks { get; set; } = new List<CaringTaskGenerate>();
-        public List<PackagingTaskGenerate> PackingTasks { get; set; } = new List<PackagingTaskGenerate>();
+        public List<PackagingTaskGenerate> PackagingTasks { get; set; } = new List<PackagingTaskGenerate>();
    }
     public class HarvestingTaskGenerate
     {

@@ -8,7 +8,6 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Template;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
@@ -1137,7 +1136,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
                 if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(400,$"Không có Nông Dân nào thực hiện được Việc Thu Hoạch:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch:{task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
-                    result.HavestingTasks.Add(new HarvestingTaskGenerate
+                    result.HarvestingTasks.Add(new HarvestingTaskGenerate
                     {
                         HarvestingTaskId = task.Id,
                         FarmerId = farmer.Id,
@@ -1171,7 +1170,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
                 if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400, $"Không có Nông Dân nào thực hiện được Việc Đóng Gói:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Đóng Gói:{task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
-                    result.PackingTasks.Add(new PackagingTaskGenerate
+                    result.PackagingTasks.Add(new PackagingTaskGenerate
                     {
                         PackagingTaskId = task.Id,
                         FarmerId = farmer.Id,
