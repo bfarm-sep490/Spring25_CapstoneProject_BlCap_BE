@@ -1656,7 +1656,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.YieldId = model.YieldId;
                 plan.ExpertId = model.ExpertId;
                 plan.CreatedBy = model.CreatedBy;
-                var rate = model.SeedQuantity / 100;
+                float rate = model.SeedQuantity / 100;
                 string json = obj.TemplatePlan;
                 PlanTemplate template = JsonSerializer.Deserialize<PlanTemplate>(json);
                 if (model.Orders != null) {
@@ -1689,7 +1689,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     caringTask.CreatedBy = model.CreatedBy;
                     caring.Items.ForEach(r =>
                     {
-                        var ItemCare = new ItemCare { ItemId = r.ItemId, Quantity = r.Quantity * rate, Unit = r.Unit };
+                        var ItemCare = new ItemCare { ItemId = r.ItemId, Quantity = 1, Unit = r.Unit };
                         caringTask.Items.Add(ItemCare);
                     });
                     caring.Fertilizers.ForEach(r =>
@@ -1709,7 +1709,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var harvestTask = new PlanHar();
                     harvesting.Items.ForEach(r =>
                     {
-                        var ItemCare = new HarvestItem { ItemId = r.ItemId, Quantity = r.Quantity * rate, Unit = r.Unit };
+                        var ItemCare = new HarvestItem { ItemId = r.ItemId, Quantity = 1, Unit = r.Unit };
                         harvestTask.Items.Add(ItemCare);
                     });
                     harvestTask.StartDate = model.StartDate.AddHours(harvesting.StartIn);

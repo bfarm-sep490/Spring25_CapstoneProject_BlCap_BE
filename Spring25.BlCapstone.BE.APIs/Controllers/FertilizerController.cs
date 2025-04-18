@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _fertilizerService = fertilizerService;
             _mapper = mapper;
         }
+
         [HttpGet("fertilizers")]
         public async Task<IActionResult> GetAll(string? status)
         {
@@ -31,7 +32,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             {
                 return BadRequest(ex.Message);
             }
-       }
+        }
+
         [HttpDelete("fertilizers/{id}")]
         public async Task<IActionResult> Remove([FromRoute] int id)
         {
@@ -45,6 +47,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPost("fertilizers")]
         public async Task<IActionResult> Create([FromBody] CreatedFertilizer model)
         {
@@ -59,6 +62,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut("fertilizers/{id}")]
         public async Task<IActionResult> Update([FromBody] UpdatedFertilizer model, [FromRoute] int id)
         {
@@ -73,6 +77,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpGet("fertilizers/{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
