@@ -41,7 +41,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.FarmerPermissions.Include(x => x.Farmer).ThenInclude(x => x.Account).Where(x => x.PlanId == planId).ToListAsync();
         }
 
-        public async Task<List<Farmer>> GetFreeFarmersByPlanId(int planId, DateTime? start, DateTime? end)
+        public async Task<List<Farmer>> GetBusyFarmersByPlanId(int planId, DateTime? start = null, DateTime? end = null)
         {
             var plan = await _context.Plans.FindAsync(planId);
 
@@ -68,18 +68,24 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                     farmer.FarmerCaringTasks.Any(fct =>
                                         fct.Status == "Active" &&
                                         fct.CaringTask.Status.ToLower().Trim() == "ongoing" &&
+                                        fct.CaringTask.Status.ToLower().Trim() == "pending" &&
+                                        fct.CaringTask.Status.ToLower().Trim() == "draft" &&
                                         IsDateOverlap(fct.CaringTask.StartDate, fct.CaringTask.EndDate, effectiveStart, effectiveEnd)
                                     )
                                     ||
                                     farmer.FarmerHarvestingTasks.Any(fht =>
                                         fht.Status == "Active" &&
                                         fht.HarvestingTask.Status.ToLower().Trim() == "ongoing" &&
+                                        fht.HarvestingTask.Status.ToLower().Trim() == "pending" &&
+                                        fht.HarvestingTask.Status.ToLower().Trim() == "draft" &&
                                         IsDateOverlap(fht.HarvestingTask.StartDate, fht.HarvestingTask.EndDate, effectiveStart, effectiveEnd)
                                     )
                                     ||
                                     farmer.FarmerPackagingTasks.Any(fpt =>
                                         fpt.Status == "Active" &&
                                         fpt.PackagingTask.Status.ToLower().Trim() == "ongoing" &&
+                                        fpt.PackagingTask.Status.ToLower().Trim() == "pending" &&
+                                        fpt.PackagingTask.Status.ToLower().Trim() == "draft" &&
                                         IsDateOverlap(fpt.PackagingTask.StartDate, fpt.PackagingTask.EndDate, effectiveStart, effectiveEnd)
                                     )
                                 ).ToList();
@@ -92,13 +98,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return taskStart <= rangeEnd && taskEnd >= rangeStart;
         }
 
-        public async Task<List<Farmer>> GetFarmersByListId(List<int> ids)
+        public async Task<List<FarmerPermission>> GetFarmersByListId(List<int> ids)
         {
-            if (ids == null) return new List<Farmer>(); 
-            return await _context.Farmers
-                .Where(f => ids.Contains(f.Id))
+            if (ids == null) return new List<FarmerPermission>(); 
+            return await _context.FarmerPermissions
+                .Where(f => ids.Contains(f.FarmerId))
                 .ToListAsync();
         }
+
         public async Task<List<Farmer>> GetFreeFarmerByListId(List<int> ids, DateTime start, DateTime end)
         {
             var freeFarmers = await _context.Farmers

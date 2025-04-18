@@ -315,7 +315,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var res = await _planService.GetFreeFarmerInPlanAssigned(id, start, end);
+                var res = await _planService.GetBusyFarmerInPlanAssigned(id, start, end);
                 return Ok(res);
             }
             catch (Exception ex)
@@ -325,11 +325,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}/genarated-tasks")]
-        public async Task<IActionResult> GenarateTasks([FromRoute]int id,[FromQuery] List<int> farmer_ids)
+        public async Task<IActionResult> GenarateTasks([FromRoute]int id, [FromQuery] List<int> farmer_ids)
         {
             try
             {
-                var res = await _planService.GenarateTasksForFarmer(id,farmer_ids);
+                var res = await _planService.GenarateTasksForFarmer(id, farmer_ids);
                 return Ok(res);
             }
             catch (Exception ex)

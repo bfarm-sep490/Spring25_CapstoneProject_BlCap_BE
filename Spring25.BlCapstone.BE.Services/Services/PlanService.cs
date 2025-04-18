@@ -52,7 +52,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetCountTasksByPlanId(int id);
         Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId);
         Task<IBusinessResult> AddOrderToPlan(int id, int orderId);
-        Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime? start, DateTime? end);
+        Task<IBusinessResult> GetBusyFarmerInPlanAssigned(int id, DateTime? start, DateTime? end);
         Task<IBusinessResult> GenarateTasksForFarmer(int id, List<int> farmerid);
         Task<IBusinessResult> ChangeCompleteStatus(int id);
         Task<IBusinessResult> ChangeCancelStatus(int id);
@@ -1059,7 +1059,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async  Task<IBusinessResult> GetFreeFarmerInPlanAssigned(int id, DateTime? start, DateTime? end)
+        public async  Task<IBusinessResult> GetBusyFarmerInPlanAssigned(int id, DateTime? start, DateTime? end)
         {
             try
             {
@@ -1069,7 +1069,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(404, "Not found any plan !");
                 }
 
-                var farmers = await _unitOfWork.FarmerRepository.GetFreeFarmersByPlanId(id, start.HasValue ? start : null, end.HasValue ? end : null);
+                var farmers = await _unitOfWork.FarmerRepository.GetBusyFarmersByPlanId(id, start, end);
 
                 var result = farmers.Select(farmer => new FarmerBusySchedule
                 {
@@ -1124,17 +1124,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var result = new GenerateTasksModel();
             var plan = await _unitOfWork.PlanRepository.GetPlan(id);
             var listFarmer = await _unitOfWork.FarmerRepository.GetFarmersByListId(farmerIds);
+
             if (plan == null) return new BusinessResult(400, "Không thể tìm thấy kế hoạch này");
+
             if (listFarmer == null) return new BusinessResult(400, "Không có nông dân nào có quyền trong plan này");
+
             result.PlanId = id;
-            var caringTasks = plan.CaringTasks.Where(x=>x.Status.ToLower()=="pending"||x.Status.ToLower() == "draft").ToList();
-            var harvestingTasks = plan.HarvestingTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft").ToList();
-            var packagingTasks = plan.PackagingTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft").ToList();
+            var caringTasks = plan.CaringTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft" || x.Status.ToLower().Trim().Equals("ongoing")).ToList();
+            var harvestingTasks = plan.HarvestingTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft" || x.Status.ToLower().Trim().Equals("ongoing")).ToList();
+            var packagingTasks = plan.PackagingTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft" || x.Status.ToLower().Trim().Equals("ongoing")).ToList();
+
             int farmerIndex = 0;
             foreach (var task in harvestingTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers==null || !freeFarmers.Any()) return new BusinessResult(400,$"Không có Nông Dân nào thực hiện được Việc Thu Hoạch:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch:{task.Id}");
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400,$"Không có Nông Dân nào thực hiện được Việc Thu Hoạch: {task.Id}", $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch: {task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
                     result.HarvestingTasks.Add(new HarvestingTaskGenerate
                     {
@@ -1202,6 +1206,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.Status = "Complete";
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
 
+                var farmer = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
+                farmer.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    _unitOfWork.FarmerPermissionRepository.PrepareUpdate(f);
+                });
+
                 var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId: id);
                 foreach (var caringTask in caringTasks)
                 {
@@ -1249,7 +1260,30 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                     _unitOfWork.YieldRepository.PrepareUpdate(yield);
                 }
-                
+
+                var farmerCaring = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasksByPlanId(id);
+                farmerCaring.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    f.ExpiredDate = DateTime.Now;
+                    _unitOfWork.FarmerCaringTaskRepository.PrepareUpdate(f);
+                });
+
+                var farmerHarvesting = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasksByPlanId(id);
+                farmerHarvesting.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    f.ExpiredDate = DateTime.Now;
+                    _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(f);
+                });
+
+                var farmerPackaging = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasksByPlanId(id);
+                farmerPackaging.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    f.ExpiredDate = DateTime.Now;
+                    _unitOfWork.FarmerPackagingTaskRepository.PrepareUpdate(f);
+                });
 
                 await _unitOfWork.PlanRepository.SaveAsync();
                 await _unitOfWork.CaringTaskRepository.SaveAsync();
@@ -1257,6 +1291,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
                 await _unitOfWork.YieldRepository.SaveAsync();
+                await _unitOfWork.FarmerPermissionRepository.SaveAsync();
+                await _unitOfWork.FarmerCaringTaskRepository.SaveAsync();
+                await _unitOfWork.FarmerHarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.FarmerPackagingTaskRepository.SaveAsync();
 
                 return new BusinessResult(200, "Complete plan successfull !");
             }
@@ -1280,6 +1318,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(400, $"Can not cancel plan with {plan.Status} status");
                 }
+
+                var farmer = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
+                farmer.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    _unitOfWork.FarmerPermissionRepository.PrepareUpdate(f);
+                });
 
                 plan.Status = "Cancel";
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
@@ -1312,6 +1357,30 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     _unitOfWork.InspectingFormRepository.PrepareUpdate(inspectingForm);
                 }
 
+                var farmerCaring = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasksByPlanId(id);
+                farmerCaring.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    f.ExpiredDate = DateTime.Now;
+                    _unitOfWork.FarmerCaringTaskRepository.PrepareUpdate(f);
+                });
+
+                var farmerHarvesting = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasksByPlanId(id);
+                farmerHarvesting.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    f.ExpiredDate = DateTime.Now;
+                    _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(f);
+                });
+                
+                var farmerPackaging = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasksByPlanId(id);
+                farmerPackaging.ForEach(f =>
+                {
+                    f.Status = "Inactive";
+                    f.ExpiredDate = DateTime.Now;
+                    _unitOfWork.FarmerPackagingTaskRepository.PrepareUpdate(f);
+                });
+
                 if (plan.YieldId.HasValue)
                 {
                     var yield = await _unitOfWork.YieldRepository.GetByIdAsync(plan.YieldId.Value);
@@ -1326,6 +1395,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
                 await _unitOfWork.YieldRepository.SaveAsync();
+                await _unitOfWork.FarmerPermissionRepository.SaveAsync();
+                await _unitOfWork.FarmerCaringTaskRepository.SaveAsync();
+                await _unitOfWork.FarmerHarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.FarmerPackagingTaskRepository.SaveAsync();
 
                 return new BusinessResult(200, "Cancel plan successfull !");
             }
