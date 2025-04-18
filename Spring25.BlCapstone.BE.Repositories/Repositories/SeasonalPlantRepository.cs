@@ -48,5 +48,39 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         {
             return await _context.SeasonalPlants.Where(x=>x.PlantId == id).ToListAsync();
         }
+
+        public async Task<List<SeasonalPlant>> GetAllSeasonalPlants(int? plantId = null, string? seasonName = null, DateTime? start = null, DateTime? end = null)
+        {
+            var query = _context.SeasonalPlants.AsQueryable();
+
+            if (plantId.HasValue)
+            {
+                query = query.Where(p => p.PlantId == plantId);
+            }
+
+            if (!string.IsNullOrEmpty(seasonName))
+            {
+                query = query.Where(p => p.SeasonType.ToLower().Trim().Equals(seasonName.Trim().ToLower()));
+            }
+
+            if (start.HasValue && end.HasValue)
+            {
+                var seasonalPlants = await query.ToListAsync();
+
+                var maxOverlap = seasonalPlants
+                    .Select(p => new
+                    {
+                        Plant = p,
+                        OverlapDays = (Math.Min(p.EndDate.Ticks, end.Value.Ticks) - Math.Max(p.StartDate.Ticks, start.Value.Ticks)) / TimeSpan.TicksPerDay
+                    })
+                    .Where(x => x.OverlapDays > 0)
+                    .OrderByDescending(x => x.OverlapDays)
+                    .FirstOrDefault();
+
+                return maxOverlap != null ? new List<SeasonalPlant> { maxOverlap.Plant } : new List<SeasonalPlant>();
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

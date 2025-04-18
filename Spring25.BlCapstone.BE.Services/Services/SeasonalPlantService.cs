@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> CreateTemplate(RequestTemplate model);
         Task<IBusinessResult> DeleteById(int id);
-        Task<IBusinessResult> GetAllTemplate();
+        Task<IBusinessResult> GetAllTemplate(int? plantId, string? seasonType, DateTime? start, DateTime? end);
         Task<IBusinessResult> GetTemplateById(int id);
         Task<IBusinessResult> GetTemplatesByPlantsId(int plant_id);
         Task<IBusinessResult> UpdateTemplate(int id, RequestTemplate model);
@@ -58,9 +58,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Remove successfully");
         }
 
-        public async Task<IBusinessResult> GetAllTemplate()
+        public async Task<IBusinessResult> GetAllTemplate(int? plantId, string? seasonType, DateTime? start, DateTime? end)
         {
-            var list = await _unitOfWork.SeasonalPlantRepository.GetAllAsync();
+            var list = await _unitOfWork.SeasonalPlantRepository.GetAllSeasonalPlants(plantId, seasonType, start, end);
             var result = _mapper.Map<List<TemplateModel>>(list);
             return new BusinessResult(200,"List Seasonal Plants", result);
         }

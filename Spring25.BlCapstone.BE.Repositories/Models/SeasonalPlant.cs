@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public float EstimatedPerOne { get; set; }
         public int DurationDays { get; set; }
         public string TemplatePlan { get; set; }
+
         public Plant Plant { get; set; }
     }
 }
