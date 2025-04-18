@@ -42,5 +42,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> DashboardTransaction(DateTime? start, DateTime? end)
+        {
+            try
+            {
+                var res = await _transactionService.GetDashBoard(start, end);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

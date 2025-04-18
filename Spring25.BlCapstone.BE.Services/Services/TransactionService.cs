@@ -15,6 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> GetAll(int? orderId, string? status);
         Task<IBusinessResult> GetById(int id);
+        Task<IBusinessResult> GetDashBoard(DateTime? start, DateTime? end);
     }
 
     public class TransactionService : ITransactionService
@@ -59,6 +60,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var res = _mapper.Map<TransactionModel>(trans);
 
                 return new BusinessResult(200, "Transaction ne: ", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> GetDashBoard(DateTime? start, DateTime? end)
+        {
+            try
+            {
+                var dash = await _unitOfWork.TransactionRepository.GetDashboardTransactionsAsync(start, end);
+
+                return new BusinessResult(200, "Dashboard Transactions: ", dash);
             }
             catch (Exception ex)
             {

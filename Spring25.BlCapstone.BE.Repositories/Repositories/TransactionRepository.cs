@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Transaction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,31 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await _context.Transactions
                                  .Where(t => t.OrderId == orderId && t.Status.ToLower().Trim().Equals("pending"))
                                  .ToListAsync();
+        }
+
+        public async Task<List<DashboardTransactions>> GetDashboardTransactionsAsync(DateTime? start = null, DateTime? end = null)
+        {
+            var query = _context.Transactions
+                                .Where(t => t.Status.ToLower() == "paid" && t.PaymentDate.HasValue);
+
+            var effectiveEndDate = end?.Date ?? DateTime.UtcNow.Date;
+
+            if (start.HasValue)
+            {
+                query = query.Where(t => t.PaymentDate.Value.Date >= start.Value.Date);
+            }
+
+            query = query.Where(t => t.PaymentDate.Value.Date <= effectiveEndDate);
+
+            return await query
+                     .GroupBy(t => t.PaymentDate.Value.Date)
+                     .Select(g => new DashboardTransactions
+                     {
+                         Date = g.Key,
+                         PricePerDay = g.Sum(t => t.Price)
+                     })
+                     .OrderBy(d => d.Date)
+                     .ToListAsync();
         }
     }
 }
