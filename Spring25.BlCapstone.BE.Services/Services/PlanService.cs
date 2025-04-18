@@ -1656,7 +1656,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.YieldId = model.YieldId;
                 plan.ExpertId = model.ExpertId;
                 plan.CreatedBy = model.CreatedBy;
-                float rate = model.SeedQuantity / 100;
+                float rate = (model.SeedQuantity * 1.0f) / 100;
                 string json = obj.TemplatePlan;
                 PlanTemplate template = JsonSerializer.Deserialize<PlanTemplate>(json);
                 if (model.Orders != null) {
