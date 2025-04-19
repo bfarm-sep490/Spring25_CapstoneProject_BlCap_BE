@@ -214,6 +214,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newExpert.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.ExpertRepository.CreateAsync(newExpert);
 
+                var body = EmailHelper.GetEmailBody("RegisterAccount.html", new Dictionary<string, string>
+                {
+                    { "{{UserName}}", model.Name },
+                    { "{{Email}}", model.Email },
+                    { "{{ResetPasswordLink}}", "https://bfarmx.space/reset-password" }
+                });
+
+                await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
+
                 if (rsf == null)
                 {
                     return new BusinessResult

@@ -233,7 +233,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     { "{{UserName}}", model.Name },
                     { "{{Email}}", model.Email },
-                    { "{{ResetPasswordLink}}", "yourdomain.com/reset-password" }
+                    { "{{ResetPasswordLink}}", "https://bfarmx.space/reset-password" }
                 });
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
