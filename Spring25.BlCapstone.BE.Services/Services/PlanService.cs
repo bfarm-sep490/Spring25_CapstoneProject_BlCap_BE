@@ -1106,7 +1106,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (result.Count <= 0)
                 {
-                    return new BusinessResult(404, "Not found any free farmers !");
+                    return new BusinessResult(404, "Not found any busy farmers !");
                 }
                 else
                 {
@@ -1119,15 +1119,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> GenarateTasksForFarmer(int id,List<int> farmerIds)
+        public async Task<IBusinessResult> GenarateTasksForFarmer(int id, List<int> farmerIds)
         {
             var result = new GenerateTasksModel();
             var plan = await _unitOfWork.PlanRepository.GetPlan(id);
-            var listFarmer = await _unitOfWork.FarmerRepository.GetFarmersByListId(farmerIds);
+            var listFarmer = await _unitOfWork.FarmerRepository.GetFarmersByListId(farmerIds, id);
 
-            if (plan == null) return new BusinessResult(400, "Không thể tìm thấy kế hoạch này");
+            if (plan == null) return new BusinessResult(400, "Không thể tìm thấy kế hoạch này !");
 
-            if (listFarmer == null) return new BusinessResult(400, "Không có nông dân nào có quyền trong plan này");
+            if (listFarmer == null) return new BusinessResult(400, "Số nông dân truyền vào không khớp với số nông dân có trong kế hoạch !");
 
             result.PlanId = id;
             var caringTasks = plan.CaringTasks.Where(x => x.Status.ToLower() == "pending" || x.Status.ToLower() == "draft" || x.Status.ToLower().Trim().Equals("ongoing")).ToList();

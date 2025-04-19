@@ -98,35 +98,57 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return taskStart <= rangeEnd && taskEnd >= rangeStart;
         }
 
-        public async Task<List<FarmerPermission>> GetFarmersByListId(List<int> ids)
+        public async Task<bool> GetFarmersByListId(List<int> ids, int planId)
         {
-            if (ids == null) return new List<FarmerPermission>(); 
-            return await _context.FarmerPermissions
-                .Where(f => ids.Contains(f.FarmerId))
+            var farmers = await _context.FarmerPermissions
+                .Where(fp => fp.PlanId == planId
+                     && ids.Contains(fp.FarmerId)
+                     && fp.Status == "Active")
+                .Select(fp => fp.FarmerId)
                 .ToListAsync();
+
+            return farmers.Count == ids.Count;
         }
 
         public async Task<List<Farmer>> GetFreeFarmerByListId(List<int> ids, DateTime start, DateTime end)
         {
-            var freeFarmers = await _context.Farmers
+            var farmerPermissions = await _context.Farmers
+                                                      .Include(f => f.Account)
+                                                      .Include(f => f.FarmerCaringTasks)
+                                                          .ThenInclude(fct => fct.CaringTask)
+                                                      .Include(f => f.FarmerHarvestingTasks)
+                                                          .ThenInclude(fht => fht.HarvestingTask)
+                                                      .Include(f => f.FarmerPackagingTasks)
+                                                          .ThenInclude(fpt => fpt.PackagingTask)
+                                                  .ToListAsync();
+
+            var freeFarmers = farmerPermissions
                 .Where(fp => ids.Contains(fp.Id)) 
-                .Where(fp => !_context.FarmerCaringTasks
-                    .Any(fct => fct.FarmerId == fp.Id
-                                && fct.Status == "Active"
-                                && fct.CaringTask.StartDate < end
-                                && fct.CaringTask.EndDate > start))
-                .Where(fp => !_context.FarmerHarvestingTasks
-                    .Any(fht => fht.FarmerId == fp.Id
-                                && fht.Status == "Active"
-                                && fht.HarvestingTask.StartDate < end
-                                && fht.HarvestingTask.EndDate > start)) 
-                .Where(fp => !_context.FarmerPackagingTasks
-                    .Any(fpt => fpt.FarmerId == fp.Id
-                                && fpt.Status == "Active"
-                                && fpt.PackagingTask.StartDate < end
-                                && fpt.PackagingTask.EndDate > start)) 
-                .Include(f => f.Account) 
-                .ToListAsync();
+                .Where(farmer =>
+                                    !farmer.FarmerCaringTasks.Any(fct =>
+                                        fct.Status == "Active" &&
+                                        fct.CaringTask.Status.ToLower().Trim() == "ongoing" &&
+                                        fct.CaringTask.Status.ToLower().Trim() == "pending" &&
+                                        fct.CaringTask.Status.ToLower().Trim() == "draft" &&
+                                        IsDateOverlap(fct.CaringTask.StartDate, fct.CaringTask.EndDate, start, end)
+                                    )
+                                    &&
+                                    !farmer.FarmerHarvestingTasks.Any(fht =>
+                                        fht.Status == "Active" &&
+                                        fht.HarvestingTask.Status.ToLower().Trim() == "ongoing" &&
+                                        fht.HarvestingTask.Status.ToLower().Trim() == "pending" &&
+                                        fht.HarvestingTask.Status.ToLower().Trim() == "draft" &&
+                                        IsDateOverlap(fht.HarvestingTask.StartDate, fht.HarvestingTask.EndDate, start, end)
+                                    )
+                                    &&
+                                    !farmer.FarmerPackagingTasks.Any(fpt =>
+                                        fpt.Status == "Active" &&
+                                        fpt.PackagingTask.Status.ToLower().Trim() == "ongoing" &&
+                                        fpt.PackagingTask.Status.ToLower().Trim() == "pending" &&
+                                        fpt.PackagingTask.Status.ToLower().Trim() == "draft" &&
+                                        IsDateOverlap(fpt.PackagingTask.StartDate, fpt.PackagingTask.EndDate, start, end)
+                                    ))
+                .ToList();
             return freeFarmers;
         }
     }
