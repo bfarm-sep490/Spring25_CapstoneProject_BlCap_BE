@@ -140,6 +140,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 order.Status = status;
+                var retailer = await _unitOfWork.AccountRepository.GetAccountByUserId(retailerId: order.RetailerId);
+
+                if (status.ToLower().Trim().Equals("pending"))
+                {
+                    DateTime date = DateTime.Now.AddDays(3);
+                    int day = date.Day;
+                    string suffix = GetDaySuffix(day);
+                    string formatted = $"{day}{suffix} {date:MMMM yyyy, HH:mm}";
+
+                    var body = EmailHelper.GetEmailBody("AcceptOrder.html", new Dictionary<string, string>
+                    {
+                        { "{{customerName}}", retailer.Name },
+                        { "{{DeadlineDate}}", formatted },
+                        { "{{planLink}}", $"https://bfarmx.space/orders/{id}" },
+                        { "{{paynowLink}}", $"https://bfarmx.space/orders/{id}" }
+                    });
+
+                    await EmailHelper.SendMail(retailer.Email, "BFARMX - Blockchain FarmXperience xin trân trọng gửi tới bạn!", retailer.Name, body);
+                }
+                else if (status.ToLower().Trim().Equals("cancel"))
+                {
+                    var body = EmailHelper.GetEmailBody("CancelOrder.html", new Dictionary<string, string>
+                    {
+                        { "{{customerName}}", retailer.Name }
+                    });
+
+                    await EmailHelper.SendMail(retailer.Email, "BFARMX - Blockchain FarmXperience chân thành xin lỗi bạn!", retailer.Name, body);
+                }
+
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
                 var rs = _mapper.Map<OrderModel>(order);
                 return new BusinessResult(200, "Change status order success !", rs);
@@ -149,5 +178,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult(500, ex.Message);
             }
         }
+
+        private string GetDaySuffix(int day)
+        {
+            if (day >= 11 && day <= 13) return "th"; 
+            switch (day % 10)
+            {
+                case 1: return "st";
+                case 2: return "nd";
+                case 3: return "rd";
+                default: return "th";
+            }
+        }
+
     }
 }
