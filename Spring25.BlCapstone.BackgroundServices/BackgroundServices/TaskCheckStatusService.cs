@@ -47,6 +47,7 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                     var expiredCaringTasks = await unitOfWork.CaringTaskRepository.GetExpiredCaringTasks();
                     var expiredHarvestingTasks = await unitOfWork.HarvestingTaskRepository.GetExpiredHarvestingTasks();
                     var expiredPackagingTasks = await unitOfWork.PackagingTaskRepository.GetExpiredPackagingTasks();
+                    var expiredInspectingForms = await unitOfWork.InspectingFormRepository.GetExpiredInspectingForms();
 
                     try
                     {
@@ -124,6 +125,25 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                     catch (Exception ex)
                     {
                         _logger.LogInformation($"Packaging Task update error: {ex.Message}");
+                    }
+                    
+                    try
+                    {
+                        if (expiredInspectingForms.Any())
+                        {
+                            foreach (var task in expiredInspectingForms)
+                            {
+                                task.Status = "Incomplete";
+                                unitOfWork.InspectingFormRepository.PrepareUpdate(task);
+                            }
+
+                            await unitOfWork.InspectingFormRepository.SaveAsync();
+                            _logger.LogInformation("complete !");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogInformation($"Inspecting Form update error: {ex.Message}");
                     }
                 }
                 catch (Exception ex)

@@ -56,5 +56,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                             .ThenInclude(ir => ir.Account)
                                  .FirstOrDefaultAsync(ir => ir.Id == id);
         }
+
+        public async Task<List<InspectingForm>> GetExpiredInspectingForms()
+        {
+            return await _context.InspectingForms
+                                 .Include(ct => ct.Plan)
+                                 .Where(ct => ct.Plan.Status.ToLower() == "ongoing" && ct.EndDate < DateTime.Now
+                                        && ct.Status.ToLower() == "ongoing")
+                                 .ToListAsync();
+        }
     }
 }
