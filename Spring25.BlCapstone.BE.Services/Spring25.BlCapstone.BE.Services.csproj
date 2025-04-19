@@ -7,10 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="BusinessModels\EmailSender\ConfirmOrder.html" />
     <None Remove="BusinessModels\EmailSender\RegisterAccount.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="BusinessModels\EmailSender\ConfirmOrder.html" />
     <EmbeddedResource Include="BusinessModels\EmailSender\RegisterAccount.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

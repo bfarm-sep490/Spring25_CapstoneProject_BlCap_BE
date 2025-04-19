@@ -3,6 +3,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
+using Spring25.BlCapstone.BE.Services.Untils;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newOrder.Status = "PendingConfirmation";
                 newOrder.CreatedAt = DateTime.Now;
 
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(order.PlantId);
+                var account = await _unitOfWork.AccountRepository.GetAccountByUserId(retailerId: order.RetailerId);
+
                 var rs = await _unitOfWork.OrderRepository.CreateAsync(newOrder);
+                var estimatedPrice = plant.BasePrice * order.PreOrderQuantity;
+
+                var body = EmailHelper.GetEmailBody("ConfirmOrder.html", new Dictionary<string, string>
+                {
+                    { "{{orderDate}}", DateTime.Now.ToString("MMM dd, yy") },
+                    { "{{orderConfirmDate}}", DateTime.Now.AddDays(2).ToString("MMM dd, yy") },
+                    { "{{orderTrackingLink}}", "https://bfarmx.space" },
+                    { "{{orderCode}}", $"{plant.PlantName}" },
+                    { "{{imageOrder}}", $"{plant.ImageUrl}" },
+                    { "{{productName}}", $"{plant.PlantName}" },
+                    { "{{preOrderQuantity}}", $"{order.PreOrderQuantity.ToString("N0")}" },
+                    { "{{pricePerOne}}", $"{plant.BasePrice.ToString("N0")}" },
+                    { "{{subtotal}}", $"{estimatedPrice.ToString("N0")}" },
+                    { "{{estimatedTotal}}", $"{estimatedPrice.ToString("N0")}" },
+                    { "{{deposit}}", $"{order.DepositPrice.ToString("N0")}" }
+                });
+
+                await EmailHelper.SendMail(account.Email, "Cảm ơn bạn đã sử dụng dịch vụ của BFARMX - Blockchain FarmXperience!", account.Name, body);
+
                 var response = new OrderModel();
                 _mapper.Map(rs, response);
                 return new BusinessResult(200, "Create order successfull", response);

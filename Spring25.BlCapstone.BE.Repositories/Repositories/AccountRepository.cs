@@ -32,5 +32,37 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var user = (await this.FindByConditionAsync(x => x.Email == email && x.Password == password)).FirstOrDefault();
             return user;
         }
+
+        public async Task<Account> GetAccountByUserId(int? farmerId = null, int? expertId = null, int? inspectorId = null, int? retailerId = null)
+        {
+            var query = _context.Accounts
+                                .Include(a => a.Farmers)
+                                .Include(a => a.Experts)
+                                .Include(a => a.Inspectors)
+                                .Include(a => a.Retailers)
+                                .AsQueryable();
+
+            if (farmerId.HasValue)
+            {
+                return await query.FirstOrDefaultAsync(a => a.Farmers.Any(f => f.Id == farmerId));
+            }
+
+            if (expertId.HasValue)
+            {
+                return await query.FirstOrDefaultAsync(a => a.Experts.Any(f => f.Id == expertId));
+            }
+
+            if (inspectorId.HasValue)
+            {
+                return await query.FirstOrDefaultAsync(a => a.Inspectors.Any(f => f.Id == inspectorId));
+            }
+
+            if (retailerId.HasValue)
+            {
+                return await query.FirstOrDefaultAsync(a => a.Retailers.Any(f => f.Id == retailerId));
+            }
+
+            return null;
+        }
     }
 }
