@@ -27,7 +27,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync();
         }
 
-        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId = null, int? farmerId = null, int? taskId = null, int? problemId = null, List<string>? status = null)
+        public async Task<List<CaringTask>> GetAllCaringTasks(int? planId = null, int? farmerId = null, int? taskId = null, int? problemId = null, List<string>? status = null, int? pageNumber = null, int? pageSize = null)
         {
             var query = _context.CaringTasks
                                       .Include(x => x.CaringItems)
@@ -68,6 +68,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             {
                 var normalizedStatus = status.Select(s => s.ToLower().Trim()).ToList();
                 query = query.Where(ct => normalizedStatus.Contains(ct.Status.ToLower().Trim()));
+            }
+
+            if (pageNumber.HasValue && pageSize.HasValue && pageNumber > 0 && pageSize > 0)
+            {
+                int skip = (pageNumber.Value - 1) * pageSize.Value;
+                query = query.Skip(skip).Take(pageSize.Value);
             }
 
             return await query.ToListAsync();

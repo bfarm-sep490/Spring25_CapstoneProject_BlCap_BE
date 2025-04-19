@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.Services;
 
@@ -21,11 +22,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("harvesting-tasks")]
-        public async Task<IActionResult> GetAllHarvestingTasks([FromQuery] List<string>? status, int? plan_id, int? farmer_id)
+        public async Task<IActionResult> GetAllHarvestingTasks([FromQuery] FilterRequestNotCaring model)
         {
             try
             {
-                var result = await _harvestingTaskService.GetHarvestingTasks(plan_id, farmer_id, status);
+                var result = await _harvestingTaskService.GetHarvestingTasks(model.plan_id, model.farmer_id, model.status, model.page_number, model.page_size);
                 return Ok(result);
             }
             catch (Exception ex)
