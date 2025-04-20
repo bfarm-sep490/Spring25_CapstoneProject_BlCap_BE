@@ -29,6 +29,17 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(f => f.FarmerPerformance)
                 .ToListAsync();
         }
+
+        public async Task<Farmer> GetFarmerById(int id)
+        {
+            return await _context.Farmers
+                .Include(f => f.Account)
+                .Include(f => f.FarmerSpecializations)
+                    .ThenInclude(f => f.Specialization)
+                .Include(f => f.FarmerPerformance)
+                .FirstOrDefaultAsync(f => f.Id == id);
+        }
+
         public async Task<Farmer> GetFarmerbyAccountId(int id)
         {
             return await _context.Farmers

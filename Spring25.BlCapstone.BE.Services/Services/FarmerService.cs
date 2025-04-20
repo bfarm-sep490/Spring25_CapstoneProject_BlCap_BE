@@ -72,10 +72,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var users = await _unitOfWork.FarmerRepository.GetFarmers();
-                var result = _mapper.Map<List<FarmerModel>>(users);
-
-                if (users.Count <= 0)
+                var users = await _unitOfWork.FarmerRepository.GetFarmerById(id);
+                if (users == null)
                 {
                     return new BusinessResult
                     {
@@ -85,10 +83,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
+                var result = _mapper.Map<List<FarmerModel>>(users);
+
                 return new BusinessResult
                 {
                     Status = 200,
-                    Message = "Read successfull !",
+                    Message = "Farmer ne ma !",
                     Data = result
                 };
             }
