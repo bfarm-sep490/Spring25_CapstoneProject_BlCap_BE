@@ -83,7 +83,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     };
                 }
 
-                var result = _mapper.Map<List<FarmerModel>>(users);
+                var result = _mapper.Map<FarmerModel>(users);
 
                 return new BusinessResult
                 {
