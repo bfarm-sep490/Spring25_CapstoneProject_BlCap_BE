@@ -97,7 +97,6 @@ builder.Services.AddScoped<IExpertService, ExpertService>();
 builder.Services.AddScoped<IPlantService, PlantService>();
 builder.Services.AddScoped<IYieldService, YieldService>();
 builder.Services.AddScoped<IRetailerService, RetailerService>();
-builder.Services.AddScoped<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IPesticideService, PesticideService>();
 builder.Services.AddScoped<IFertilizerService, FertilizerService>();
 builder.Services.AddScoped<IProblemService, ProblemService>();

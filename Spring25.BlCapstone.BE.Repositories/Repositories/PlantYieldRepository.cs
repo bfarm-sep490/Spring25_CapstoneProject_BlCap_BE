@@ -35,7 +35,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<PlantYield> GetPlantYield(int yieldId, int plantId)
         {
           return await _context.PlantYields
-                .Where(x=>x.YieldId==yieldId && x.PlantId==plantId)
+                .Where(x => x.YieldId == yieldId && x.PlantId == plantId)
                 .FirstOrDefaultAsync();
         }
     }

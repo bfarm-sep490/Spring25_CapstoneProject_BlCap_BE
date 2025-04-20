@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Services;
+using System.ComponentModel.DataAnnotations;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
@@ -110,12 +111,12 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpDelete("suggest-yields")]
-        public async Task<IActionResult> DeleteSuggestYields([FromBody] PlantYieldModel model)
+        [HttpDelete("{id}/suggest-yields")]
+        public async Task<IActionResult> DeleteSuggestYields(int id, [Required] int yield_id)
         {
             try
             {
-                var result = await _seedService.DeleteSuggestYields(model);
+                var result = await _seedService.DeleteSuggestYields(id, yield_id);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -124,12 +125,12 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
        
-        [HttpPost("suggest-yields")]
-        public async Task<IActionResult> CreateSuggestYields([FromBody]PlantYieldModel model)
+        [HttpPost("{id}/suggest-yields")]
+        public async Task<IActionResult> CreateSuggestYields(int id, [FromBody] List<PlantYieldModel> model)
         {
             try
             {
-                var result = await _seedService.CreateSuggestYields(model);
+                var result = await _seedService.CreateSuggestYields(id, model);
                 return Ok(result);
             }
             catch (Exception ex)

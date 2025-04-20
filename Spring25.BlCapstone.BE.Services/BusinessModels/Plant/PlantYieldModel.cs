@@ -11,7 +11,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
     {
         [JsonPropertyName("yield_id")]
         public int YieldId { get; set; }
-        [JsonPropertyName("plant_id")]
-        public int PlantId { get; set; }
+        [JsonPropertyName("maximum_quantity")]
+        public float MaximumQuantity { get; set; }
     }
 }

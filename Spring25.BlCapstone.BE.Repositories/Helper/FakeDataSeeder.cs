@@ -589,19 +589,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new InspectingResult { Id = 6, Arsen = 0.011f, Plumbum = 0.021f, Cadmi = 0.006f, Hydrargyrum = 0.0011f, Salmonella = 0, Coliforms = 9, Ecoli = 1, Glyphosate_Glufosinate = 0.022f, SulfurDioxide = 6, MethylBromide = 0.12f, HydrogenPhosphide = 0.055f, Dithiocarbamate = 0.025f, Nitrat = 55, NaNO3_KNO3 = 12, Chlorate = 0.11f, Perchlorate = 0.022f, EvaluatedResult = "Grade 1", ResultContent = "Vỏ bí đỏ chưa đủ cứng" }
             );
 
-            modelBuilder.Entity<Device>().HasData(
-                new Device { Id = 1, YieldId = 1, Name = "Cảm biến nhiệt độ", Status = "Active", DeviceCode = "TEMP-001", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 2, YieldId = 1, Name = "Cảm biến độ ẩm đất", Status = "Active", DeviceCode = "MOIST-002", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 3, YieldId = 2, Name = "Cảm biến ánh sáng", Status = "Active", DeviceCode = "LIGHT-003", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 4, YieldId = 2, Name = "Cảm biến pH đất", Status = "Inactive", DeviceCode = "PH-004", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 5, YieldId = 3, Name = "Cảm biến độ ẩm không khí", Status = "Active", DeviceCode = "HUM-005", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 6, YieldId = 3, Name = "Cảm biến CO2", Status = "Active", DeviceCode = "CO2-006", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 7, YieldId = 4, Name = "Cảm biến độ mặn", Status = "Inactive", DeviceCode = "SALIN-007", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },    
-                new Device { Id = 8, YieldId = 5, Name = "Cảm biến gió", Status = "Active", DeviceCode = "WIND-008", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 9, YieldId = 6, Name = "Cảm biến lượng mưa", Status = "Active", DeviceCode = "RAIN-009", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" },
-                new Device { Id = 10, YieldId = 7, Name = "Cảm biến Nitrogen", Status = "Error", DeviceCode = "NITRO-010", CreatedAt = DateTime.Now, CreatedBy = "Farm Owner" }
-            );
-
             modelBuilder.Entity<Item>().HasData(
                 // (Caring Task)
                 new Item { Id = 1, Name = "Bình tưới cây", Description = "Bình tưới nước dung tích 5L", Quantity = 100, Unit = "Cái", Image = "https://product.hstatic.net/200000199113/product/7220965_7709e84c2e3f40cf8111c44225c96646_large.jpg", Status = "Active", Type = "Caring" },

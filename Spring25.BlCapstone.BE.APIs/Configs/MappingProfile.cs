@@ -7,7 +7,6 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Template;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Config;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Device;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
@@ -49,7 +48,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             HarvestingProfile();
             InspectingProfile();
             PackagingProfile();
-            DeviceProfile();
             ExpertProfile();
             RetailerProfile();
             InspectingResultProfile();
@@ -144,16 +142,6 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
             CreateMap<InspectingImage, InspectingImageModel>()
                 .ReverseMap();
             CreateMap<InspectingResult, CreateInspectingResult>()
-                .ReverseMap();
-        }
-
-        private void DeviceProfile()
-        {
-            CreateMap<Device, DeviceModels>()
-                .ReverseMap();
-            CreateMap<Device, CreateDevice>()
-                .ReverseMap();
-            CreateMap<Device, UpdateDevice>()
                 .ReverseMap();
         }
 

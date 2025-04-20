@@ -20,7 +20,6 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<CaringItem> CaringItems { get; set; }
         public virtual DbSet<CaringPesticide> CaringPesticides { get; set; }
         public virtual DbSet<CaringTask> CaringTasks { get; set; }
-        public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<Expert> Experts { get; set; }
         public virtual DbSet<Farmer> Farmers { get; set; }
         public virtual DbSet<FarmerCaringTask> FarmerCaringTasks { get; set; }
@@ -192,13 +191,6 @@ namespace Spring25.BlCapstone.BE.Repositories
                       .HasForeignKey<PlanTransaction>(p => p.Id)
                       .OnDelete(DeleteBehavior.Cascade);
             });
-
-            modelBuilder.Entity<Device>()
-                .ToTable("Device")
-                .HasOne(d => d.Yield)
-                    .WithMany(d => d.Devices)
-                    .HasForeignKey(d => d.YieldId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<FarmerPermission>(entity =>
             {

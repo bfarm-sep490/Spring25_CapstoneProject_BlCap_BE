@@ -29,8 +29,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> Delete(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> GetSuggestYieldsbyPlantId(int id);
-        Task<IBusinessResult> DeleteSuggestYields(PlantYieldModel model);
-        Task<IBusinessResult> CreateSuggestYields(PlantYieldModel model);
+        Task<IBusinessResult> DeleteSuggestYields(int id, int yieldId);
+        Task<IBusinessResult> CreateSuggestYields(int id, List<PlantYieldModel> model);
     }
 
     public class PlantService : IPlantService
@@ -56,12 +56,29 @@ namespace Spring25.BlCapstone.BE.Services.Services
            return new BusinessResult(200,"Create successfully",result);
         }
 
-        public async Task<IBusinessResult> CreateSuggestYields(PlantYieldModel model)
+        public async Task<IBusinessResult> CreateSuggestYields(int id, List<PlantYieldModel> model)
         {
-            var obj = await _unitOfWork.PlantYieldRepository.GetPlantYield(model.YieldId,model.PlantId);
-            if (obj != null) { return new BusinessResult(400, "This Yield has already been suggested!!!"); }
-            var result = await _unitOfWork.PlantYieldRepository.CreatePlantYield(model.YieldId,model.PlantId);
-            return new BusinessResult(200, "Added successfully.",model);
+            foreach (var plantYield in model)
+            {
+                var suggest = await _unitOfWork.PlantYieldRepository.GetPlantYield(plantYield.YieldId, id);
+                if (suggest != null)
+                {
+                    return new BusinessResult(400, $"This Yield has already been suggested in this plant, yield id: {plantYield.YieldId}");
+                }
+            }
+            
+            foreach (var plantYield in model)
+            {
+                _unitOfWork.PlantYieldRepository.PrepareCreate(new PlantYield
+                {
+                    PlantId = id,
+                    YieldId = plantYield.YieldId,
+                    MaximumQuantity = plantYield.MaximumQuantity
+                });
+            }
+            await _unitOfWork.PlantYieldRepository.SaveAsync();
+
+            return new BusinessResult(200, "Add successfully.");
         }
 
         public async Task<IBusinessResult> Delete(int id)
@@ -73,12 +90,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Remove successfully", result);
         }
 
-        public async Task<IBusinessResult> DeleteSuggestYields(PlantYieldModel model)
+        public async Task<IBusinessResult> DeleteSuggestYields(int id, int yieldId)
         {
-            var obj = await _unitOfWork.PlantYieldRepository.GetPlantYield(model.YieldId, model.PlantId);
+            var obj = await _unitOfWork.PlantYieldRepository.GetPlantYield(yieldId, id);
             if (obj == null) { return new BusinessResult(404, "Not Found"); }
             await _unitOfWork.PlantYieldRepository.DeletePlantYield(obj);
-            return new BusinessResult(200, "Removed successfully.", model);
+            return new BusinessResult(200, "Removed successfully.");
         }
 
         public async Task<IBusinessResult> GetAll(string? status, string? name)
