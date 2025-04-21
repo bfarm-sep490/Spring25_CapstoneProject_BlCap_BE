@@ -60,7 +60,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                         Body = body
                     }
                 };
-                await channel.PublishAsync(message);
+                await channel.PublishAsync("Notification", message);
 
                 return "Push notifications successfully!";
             }

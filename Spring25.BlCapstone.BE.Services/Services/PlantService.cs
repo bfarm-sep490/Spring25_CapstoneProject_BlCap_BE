@@ -17,12 +17,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IPlantService
     {
-        Task<IBusinessResult> GetAll(string? status, string? name);
+        Task<IBusinessResult> GetAll(string? status, string? name, int? pageSize, int? current);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> Create(PlantModel model);
         Task<IBusinessResult> Update(int id,PlantModel model);
@@ -98,7 +99,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             return new BusinessResult(200, "Removed successfully.");
         }
 
-        public async Task<IBusinessResult> GetAll(string? status, string? name)
+        public async Task<IBusinessResult> GetAll(string? status, string? name, int? pageSize, int? current)
         {
             var result = new List<PlantModel>();
             try 
@@ -130,6 +131,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
             if (name != null)
             {
                 result = result.Where(x => x.PlantName.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
+            }
+
+            if (current.HasValue && pageSize.HasValue && current > 0 && pageSize > 0)
+            {
+                int skip = (current.Value - 1) * pageSize.Value;
+                result = result.Skip(skip).Take(pageSize.Value).ToList();
             }
 
             return new BusinessResult(200, "Get all plants", result);
