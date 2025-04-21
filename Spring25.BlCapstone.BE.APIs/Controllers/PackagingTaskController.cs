@@ -24,7 +24,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var rs = await _service.GetPackagingTasks(model.plan_id, model.farmer_id, model.status, model.page_number, model.page_size);
+                var rs = await _service.GetPackagingTasks(model.plan_id, model.farmer_id, model.status, model.page_number, model.page_size, model.start_date, model.end_date);
                 return Ok(rs);
             }
             catch (Exception ex)

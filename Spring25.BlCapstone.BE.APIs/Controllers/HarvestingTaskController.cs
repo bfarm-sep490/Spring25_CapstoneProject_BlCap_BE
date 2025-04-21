@@ -26,7 +26,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var result = await _harvestingTaskService.GetHarvestingTasks(model.plan_id, model.farmer_id, model.status, model.page_number, model.page_size);
+                var result = await _harvestingTaskService.GetHarvestingTasks(model.plan_id, model.farmer_id, model.status, model.page_number, model.page_size, model.start_date, model.end_date);
                 return Ok(result);
             }
             catch (Exception ex)

@@ -15,5 +15,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Tasks
         public List<string>? status { get; set; }
         public int? page_number { get; set; }
         public int? page_size { get; set; }
+        public DateTime? start_date { get; set; }
+        public DateTime? end_date { get; set; }
     }
 }

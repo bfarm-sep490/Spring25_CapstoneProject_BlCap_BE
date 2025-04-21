@@ -17,7 +17,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId = null, int? farmerId = null, int? taskId = null, List<string>? status = null, int? pageNumber = null, int? pageSize = null)
+        public async Task<List<PackagingTask>> GetPackagingTasks(int? planId = null, int? farmerId = null, int? taskId = null, List<string>? status = null, int? pageNumber = null, int? pageSize = null, DateTime? startDate = null, DateTime? endDate = null)
         {
             var query = _context.PackagingTasks
                                 .Include(x => x.PackagingImages)
@@ -51,6 +51,16 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             {
                 var normalizedStatus = status.Select(s => s.ToLower().Trim()).ToList();
                 query = query.Where(ct => normalizedStatus.Contains(ct.Status.ToLower().Trim()));
+            }
+
+            if (startDate.HasValue)
+            {
+                query = query.Where(pt => pt.StartDate >= startDate);
+            }
+            
+            if (endDate.HasValue)
+            {
+                query = query.Where(pt => pt.EndDate <= endDate);
             }
 
             if (pageNumber.HasValue && pageSize.HasValue && pageNumber > 0 && pageSize > 0)

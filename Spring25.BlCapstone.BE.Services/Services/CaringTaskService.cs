@@ -21,7 +21,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface ICaringTaskService
     {
-        Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status, int? pageNumber, int? pageSize);
+        Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status, int? pageNumber, int? pageSize, DateTime? startDate, DateTime? endDate);
         Task<IBusinessResult> GetCaringTaskById(int id);
         Task<IBusinessResult> CreateCaringTask(CreateCaringPlan model);
         Task<IBusinessResult> UpdateDetailCaringTask(int id, UpdateCaringTask model);
@@ -46,9 +46,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _vechainInteraction = vechainInteraction;
         }
 
-        public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status, int? pageNumber, int? pageSize)
+        public async Task<IBusinessResult> GetAllCaringTask(int? planId, int? farmerId, int? problemId, List<string>? status, int? pageNumber, int? pageSize, DateTime? startDate, DateTime? endDate)
         {
-            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId, problemId: problemId, status: status, pageNumber: pageNumber, pageSize: pageSize);
+            var list = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId, farmerId, problemId: problemId, status: status, pageNumber: pageNumber, pageSize: pageSize, startDate: startDate, endDate: endDate);
             var result = _mapper.Map<List<CaringTaskModel>>(list);
             return new BusinessResult(200, "List caring task", result);
         }

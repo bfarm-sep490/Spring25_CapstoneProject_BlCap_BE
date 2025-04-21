@@ -26,7 +26,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var result = await _caringTaskService.GetAllCaringTask(request.plan_id, request.farmer_id, request.problem_id, request.status, request.page_number, request.page_size);
+                var result = await _caringTaskService.GetAllCaringTask(request.plan_id, request.farmer_id, request.problem_id, request.status, request.page_number, request.page_size, request.start_date, request.end_date);
                 return Ok(result);
             }
             catch (Exception ex)
