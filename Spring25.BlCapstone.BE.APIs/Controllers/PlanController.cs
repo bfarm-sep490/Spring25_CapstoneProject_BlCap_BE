@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Plan;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.Services;
 using System.ComponentModel.DataAnnotations;
@@ -441,6 +442,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             try
             {
                 var res = await _planService.GetTemplatePlan(model);
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("notificate-plan")]
+        public async Task<IActionResult>NotificationforExperts([FromBody] NotificationExpertsRequest model)
+        {
+            try
+            {
+                var res = await _planService.NotificationforExperts(model);
                 return Ok(res);
             }
             catch (Exception ex)

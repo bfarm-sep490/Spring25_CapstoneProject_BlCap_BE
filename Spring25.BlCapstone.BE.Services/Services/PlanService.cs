@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using IO.Ably;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using QRCoder;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
@@ -10,6 +13,7 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Dashboard;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
@@ -62,6 +66,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model);
         Task<IBusinessResult> GetPlanOrderById(int id);
         Task<IBusinessResult> GetTemplatePlan(RequestTemplatePlan model);
+        Task<IBusinessResult> NotificationforExperts(NotificationExpertsRequest model);
     }
 
     public class PlanService : IPlanService
@@ -373,7 +378,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         }
                     }
                 }
-                
+
                 if (model.AssignInspectingTasks != null)
                 {
                     foreach (var task in model.AssignInspectingTasks)
@@ -518,7 +523,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(id);
                 if (packagingTasks.Count > 0)
                 {
-                    foreach(var task in packagingTasks)
+                    foreach (var task in packagingTasks)
                     {
                         task.Status = "Ongoing";
                         _unitOfWork.PackagingTaskRepository.PrepareUpdate(task);
@@ -528,7 +533,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var harvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(id);
                 if (harvestingTasks.Count > 0)
                 {
-                    foreach(var task in harvestingTasks)
+                    foreach (var task in harvestingTasks)
                     {
                         task.Status = "Ongoing";
                         _unitOfWork.HarvestingTaskRepository.PrepareUpdate(task);
@@ -671,7 +676,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.UpdatedBy = reportBy;
                 var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
 
-                if(rs != null)
+                if (rs != null)
                 {
                     return new BusinessResult(200, "Update status successfully");
                 }
@@ -941,7 +946,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 return new BusinessResult(500, "Remove failed !");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new BusinessResult(500, ex.Message);
             }
@@ -1015,7 +1020,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult(500, ex.Message);
             }
         }
-        
+
         public async Task<IBusinessResult> RemoveOrderFromPlan(int id, int orderId)
         {
             try
@@ -1059,7 +1064,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async  Task<IBusinessResult> GetBusyFarmerInPlanAssigned(int id, DateTime? start, DateTime? end)
+        public async Task<IBusinessResult> GetBusyFarmerInPlanAssigned(int id, DateTime? start, DateTime? end)
         {
             try
             {
@@ -1138,17 +1143,17 @@ namespace Spring25.BlCapstone.BE.Services.Services
             foreach (var task in harvestingTasks)
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
-                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400,$"Không có Nông Dân nào thực hiện được Việc Thu Hoạch: {task.Id}", $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch: {task.Id}");
+                if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400, $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch: {task.Id}", $"Không có Nông Dân nào thực hiện được Việc Thu Hoạch: {task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
-                    result.HarvestingTasks.Add(new HarvestingTaskGenerate
-                    {
-                        HarvestingTaskId = task.Id,
-                        FarmerId = farmer.Id,
-                        Avatar = farmer.Avatar,
-                        StartDate = task.StartDate,
-                        EndDate = task.EndDate,
-                        ExpiredDate = task.EndDate.AddDays(1)
-                    });
+                result.HarvestingTasks.Add(new HarvestingTaskGenerate
+                {
+                    HarvestingTaskId = task.Id,
+                    FarmerId = farmer.Id,
+                    Avatar = farmer.Avatar,
+                    StartDate = task.StartDate,
+                    EndDate = task.EndDate,
+                    ExpiredDate = task.EndDate.AddDays(1)
+                });
                 farmerIndex++;
             }
 
@@ -1156,16 +1161,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
                 if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400, $"Không có Nông Dân nào thực hiện được Việc Chăm Sóc:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Chăm Sóc:{task.Id}");
-                var farmer = freeFarmers[farmerIndex % freeFarmers.Count];         
-                    result.CaringTasks.Add(new CaringTaskGenerate
-                    {
-                        CaringTaskId = task.Id,
-                        FarmerId = farmer.Id,
-                        Avatar = farmer.Avatar,
-                        StartDate = task.StartDate,
-                        EndDate = task.EndDate,
-                        ExpiredDate = task.EndDate.AddDays(1)
-                    });
+                var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
+                result.CaringTasks.Add(new CaringTaskGenerate
+                {
+                    CaringTaskId = task.Id,
+                    FarmerId = farmer.Id,
+                    Avatar = farmer.Avatar,
+                    StartDate = task.StartDate,
+                    EndDate = task.EndDate,
+                    ExpiredDate = task.EndDate.AddDays(1)
+                });
                 farmerIndex++;
             }
 
@@ -1174,15 +1179,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var freeFarmers = await _unitOfWork.FarmerRepository.GetFreeFarmerByListId(farmerIds, task.StartDate, task.EndDate);
                 if (freeFarmers == null || !freeFarmers.Any()) return new BusinessResult(400, $"Không có Nông Dân nào thực hiện được Việc Đóng Gói:{task.Id}", $"Không có Nông Dân nào thực hiện được Việc Đóng Gói:{task.Id}");
                 var farmer = freeFarmers[farmerIndex % freeFarmers.Count];
-                    result.PackagingTasks.Add(new PackagingTaskGenerate
-                    {
-                        PackagingTaskId = task.Id,
-                        FarmerId = farmer.Id,
-                        Avatar = farmer.Avatar,
-                        StartDate = task.StartDate,
-                        EndDate = task.EndDate,
-                        ExpiredDate = task.EndDate.AddDays(1)
-                    });
+                result.PackagingTasks.Add(new PackagingTaskGenerate
+                {
+                    PackagingTaskId = task.Id,
+                    FarmerId = farmer.Id,
+                    Avatar = farmer.Avatar,
+                    StartDate = task.StartDate,
+                    EndDate = task.EndDate,
+                    ExpiredDate = task.EndDate.AddDays(1)
+                });
                 farmerIndex++;
             }
             return new BusinessResult(200, "Get Generate Tasks", result);
@@ -1372,7 +1377,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     f.ExpiredDate = DateTime.Now;
                     _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(f);
                 });
-                
+
                 var farmerPackaging = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasksByPlanId(id);
                 farmerPackaging.ForEach(f =>
                 {
@@ -1476,15 +1481,17 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var suggestPlan = await _unitOfWork.PlanRepository.GetTasksByPlanId(suggestPlanId);
             if (suggestPlan == null) { return new BusinessResult(400, "Not Found this Suggest Plan"); }
             if (suggestPlan.EstimatedProduct == null) { return new BusinessResult(400, "This Plan do not have EstimatedProduct"); }
-            var ratioEstimate = MathF.Round(plan.EstimatedProduct.Value/suggestPlan.EstimatedProduct.Value, 2);
+            var ratioEstimate = MathF.Round(plan.EstimatedProduct.Value / suggestPlan.EstimatedProduct.Value, 2);
             if (suggestPlan.StartDate == null) { return new BusinessResult(400, "This Plan do not have StartDate"); }
             var ratioDate = (suggestPlan.StartDate - plan.StartDate).Value.Days;
-            foreach (var care in suggestPlan.CaringTasks) {
+            foreach (var care in suggestPlan.CaringTasks)
+            {
                 var caringtask = _mapper.Map<CreateCaringPlan>(care);
                 caringtask.PlanId = planId;
                 caringtask.StartDate = caringtask.StartDate.AddDays(ratioDate);
                 caringtask.EndDate = caringtask.EndDate.AddDays(ratioDate);
-                foreach (var pesticide in care.CaringPesticides) {
+                foreach (var pesticide in care.CaringPesticides)
+                {
                     var pesticideTask = _mapper.Map<PesCare>(pesticide);
                     pesticideTask.Quantity = pesticideTask.Quantity * ratioEstimate;
                     caringtask.Pesticides.Add(pesticideTask);
@@ -1539,16 +1546,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
                 result.CreatePackagingPlans.Add(packagingTasks);
             }
-            return new BusinessResult(200,"Suggest Tasks by PlanId",result);
+            return new BusinessResult(200, "Suggest Tasks by PlanId", result);
         }
 
         public async Task<IBusinessResult> GetSuggestPlansByPlanId(int planId)
         {
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
-            if (plan == null) { return new BusinessResult(400,"Not found this plan"); }
+            if (plan == null) { return new BusinessResult(400, "Not found this plan"); }
             var list = await _unitOfWork.PlanRepository.GetSuggestPlansByPlanId(plan.PlantId, planId, plan.EstimatedProduct.Value);
             var result = _mapper.Map<List<PlanModel>>(list);
-            return new BusinessResult(200, "Get list suggested plans by plan id",result);
+            return new BusinessResult(200, "Get list suggested plans by plan id", result);
         }
 
         public async Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model)
@@ -1596,7 +1603,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     careTask.CreatedAt = DateTime.Now;
                     var caring = await _unitOfWork.CaringTaskRepository.CreateAsync(careTask);
 
-                    foreach(var fer in care.Fertilizers)
+                    foreach (var fer in care.Fertilizers)
                     {
                         await _unitOfWork.CaringFertilizerRepository.CreateAsync(new CaringFertilizer
                         {
@@ -1606,8 +1613,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Unit = fer.Unit
                         });
                     }
-                    
-                    foreach(var pes in care.Pesticides)
+
+                    foreach (var pes in care.Pesticides)
                     {
                         await _unitOfWork.CaringPesticideRepository.CreateAsync(new CaringPesticide
                         {
@@ -1617,8 +1624,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Unit = pes.Unit
                         });
                     }
-                    
-                    foreach(var item in care.Items)
+
+                    foreach (var item in care.Items)
                     {
                         await _unitOfWork.CaringItemRepository.CreateAsync(new CaringItem
                         {
@@ -1716,7 +1723,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var result = new List<CreatePlanTemplate>();
             var templates = new List<PlanTemplate>();
             var list = await _unitOfWork.SeasonalPlantRepository.GetSeasonalPlantByPlantIdAndDay(model.PlantId, model.StartDate);
-            foreach(var obj in list)
+            foreach (var obj in list)
             {
                 var plan = new CreatePlanTemplate();
                 plan.PlantId = model.PlantId;
@@ -1732,7 +1739,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 float rate = (model.SeedQuantity * 1.0f) / 100;
                 string json = obj.TemplatePlan;
                 PlanTemplate template = JsonSerializer.Deserialize<PlanTemplate>(json);
-                if (model.Orders != null) {
+                if (model.Orders != null)
+                {
                     foreach (var order in model.Orders)
                     {
                         var orderTask = await _unitOfWork.OrderRepository.GetOrderByIdAsync(order.Id);
@@ -1756,7 +1764,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var caringTask = new PlanCare();
                     caringTask.StartDate = model.StartDate.AddHours(caring.StartIn);
                     caringTask.EndDate = model.StartDate.AddHours(caring.EndIn);
-                    caringTask.Description= caring.Description;
+                    caringTask.Description = caring.Description;
                     caringTask.TaskName = caring.TaskName;
                     caringTask.TaskType = caring.TaskType;
                     caringTask.CreatedBy = model.CreatedBy;
@@ -1776,8 +1784,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         caringTask.Pesticides.Add(pesticideCare);
                     });
                     plan.PlanCaringTasks.Add(caringTask);
-                }            
-                foreach(var harvesting in template.HarvestingTaskTemplates)
+                }
+                foreach (var harvesting in template.HarvestingTaskTemplates)
                 {
                     var harvestTask = new PlanHar();
                     harvesting.Items.ForEach(r =>
@@ -1792,7 +1800,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     harvestTask.TaskName = "Thu hoạch";
                     plan.PlanHarvestingTasks.Add(harvestTask);
                 }
-                foreach(var inspecting in template.InspectingTasks)
+                foreach (var inspecting in template.InspectingTasks)
                 {
                     var inspectingTask = new PlanForm();
                     inspectingTask.FormName = inspecting.FormName;
@@ -1805,6 +1813,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 result.Add(plan);
             }
             return new BusinessResult(200, "Get Template", result);
+        }
+
+        public async Task<IBusinessResult> NotificationforExperts(NotificationExpertsRequest model)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            var qrString = model.Url;
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
+            PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+            byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(5);
+            string base64String = Convert.ToBase64String(qrCodeAsPngByteArr, 0, qrCodeAsPngByteArr.Length);
+            var base64Png = $"<img src='data:image/png;base64,{base64String}' />";
+            var html = $@"<html><body><h2>QR Code for: {qrString}</h2>{base64Png}</body></html>";
+            return new BusinessResult(200,"QR",html);
         }
     }
 }
