@@ -11,6 +11,7 @@
     <None Remove="BusinessModels\EmailSender\CancelOrder.html" />
     <None Remove="BusinessModels\EmailSender\ConfirmOrder.html" />
     <None Remove="BusinessModels\EmailSender\ForgotPassword.html" />
+    <None Remove="BusinessModels\EmailSender\QRCodeSend.html" />
     <None Remove="BusinessModels\EmailSender\RegisterAccount.html" />
   </ItemGroup>
 
@@ -19,6 +20,7 @@
     <EmbeddedResource Include="BusinessModels\EmailSender\CancelOrder.html" />
     <EmbeddedResource Include="BusinessModels\EmailSender\ConfirmOrder.html" />
     <EmbeddedResource Include="BusinessModels\EmailSender\ForgotPassword.html" />
+    <EmbeddedResource Include="BusinessModels\EmailSender\QRCodeSend.html" />
     <EmbeddedResource Include="BusinessModels\EmailSender\RegisterAccount.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

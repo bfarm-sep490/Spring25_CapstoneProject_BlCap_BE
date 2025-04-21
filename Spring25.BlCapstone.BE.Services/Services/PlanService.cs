@@ -22,6 +22,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
+using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -1822,10 +1823,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
             PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
             byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(5);
+            
             string base64String = Convert.ToBase64String(qrCodeAsPngByteArr, 0, qrCodeAsPngByteArr.Length);
-            var base64Png = $"<img src='data:image/png;base64,{base64String}' />";
-            var html = $@"<html><body><h2>QR Code for: {qrString}</h2>{base64Png}</body></html>";
-            return new BusinessResult(200,"QR",html);
+            string imgSrc = $"data:image/png;base64,{base64String}";
+
+            foreach(var customer in model.Infors)
+            {
+                var body = EmailHelper.GetEmailBody("QRCodeSend.html", new Dictionary<string, string>
+                {
+                    { "{{userName}}", customer.Name },
+                    { "{{srcQRCode}}", imgSrc }
+                });
+
+                await EmailHelper.SendMail(customer.Email, "BFARMX - Blockchain FarmXperience xin gửi bạn QR Code!", customer.Name, body);
+            }
+            
+            return new BusinessResult(200,"Send QR code successfull !");
         }
     }
 }
