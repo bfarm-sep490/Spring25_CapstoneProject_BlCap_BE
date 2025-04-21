@@ -64,14 +64,18 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(ct => normalizedStatus.Contains(ct.Status.ToLower().Trim()));
             }
 
-            if (startDate.HasValue)
+            if (startDate.HasValue && endDate.HasValue)
             {
-                query = query.Where(ht => ht.StartDate >= startDate);
+                query = query.Where(ht =>
+                    ht.StartDate <= endDate && ht.EndDate >= startDate);
             }
-            
-            if (endDate.HasValue)
+            else if (startDate.HasValue)
             {
-                query = query.Where(ht => ht.EndDate <= endDate);
+                query = query.Where(ht => ht.EndDate >= startDate);
+            }
+            else if (endDate.HasValue)
+            {
+                query = query.Where(ht => ht.StartDate <= endDate);
             }
 
             if (pageNumber.HasValue && pageSize.HasValue && pageNumber > 0 && pageSize > 0)
