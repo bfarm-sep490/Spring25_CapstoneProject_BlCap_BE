@@ -20,7 +20,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IPackagingTaskService
     {
         Task<IBusinessResult> CreatePackagingTask(CreatePackagingPlan model);
-        Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId, List<string>? status, int? pageNumber, int? pageSize);
+        Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId, List<string>? status, int? pageNumber, int? pageSize, DateTime? startDate, DateTime? endDate);
         Task<IBusinessResult> GetPackagingTaskById(int id);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> ReportPackagingTask(int id, PackagingReport model);
@@ -42,7 +42,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _vechainInteraction = vechainInteraction;
         }
 
-        public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId, List<string>? status, int? pageNumber, int? pageSize)
+        public async Task<IBusinessResult> GetPackagingTasks(int? planId, int? farmerId, List<string>? status, int? pageNumber, int? pageSize, DateTime? startDate, DateTime? endDate)
         {
             try
             { 
