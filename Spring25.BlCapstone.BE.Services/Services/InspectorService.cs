@@ -202,6 +202,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                var account = await _unitOfWork.AccountRepository.GetByEmail(model.Email);
+                if (account != null)
+                {
+                    return new BusinessResult(400, "This email have been used !");
+                }
+
                 string password = PasswordHelper.GeneratePassword(model.Name, null);
                 var newAccount = _mapper.Map<Account>(CreateInspector);
                 newAccount.Role = "Expert";
