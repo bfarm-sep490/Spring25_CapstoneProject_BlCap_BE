@@ -72,5 +72,19 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost("password-forgotten")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            try
+            {
+                var result = await _authencationService.ForgotPassword(email);
+                return StatusCode(200, result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

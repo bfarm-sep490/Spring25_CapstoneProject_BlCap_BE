@@ -64,5 +64,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return null;
         }
+
+        public async Task<Account> GetByEmail(string email)
+        {
+            return await _context.Accounts.FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

@@ -47,6 +47,34 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             return token;
         }
 
+        public static string GenerateResetPasswordToken(string email, string jwtKey, string audience, string issuer, string oldPass)
+        {
+            if (string.IsNullOrEmpty(jwtKey)) throw new ArgumentNullException("not found jwt key");
+            if (string.IsNullOrEmpty(audience)) throw new ArgumentNullException("not found audience");
+            if (string.IsNullOrEmpty(issuer)) throw new ArgumentNullException("not found issuer");
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim("Purpose", "ResetPassword"),
+                new Claim(JwtRegisteredClaimNames.Jti, oldPass)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMinutes(int.Parse("15"));
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
         public static ClaimsPrincipal DecodeToken(string jwtKey, string audience, string issuer, string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

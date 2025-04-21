@@ -24,6 +24,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAccountInfoById(int id);
         Task<IBusinessResult> ChangePassword(int id, AccountChangePassword model);
         Task<IBusinessResult> GetAllAccount();
+        Task<IBusinessResult> ForgotPassword(string email);
     }
     public class AuthencationService : IAuthencationService
     {
@@ -201,6 +202,35 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult { Status = 500, Message = "Change password failed!", Data = null };
                 }
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> ForgotPassword(string email)
+        {
+            try
+            {
+                var user = await _unitOfWork.AccountRepository.GetByEmail(email);
+                if (user == null)
+                {
+                    return new BusinessResult(400, "Invalid email !");
+                }
+
+                var token = JWTHelper.GenerateResetPasswordToken(email, _configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], user.Password);
+                string resetLink = $"https://bfarmx.space/reset-password?token={token}";
+
+                var body = EmailHelper.GetEmailBody("ForgotPassword.html", new Dictionary<string, string>
+                {
+                    { "{{userName}}", user.Name },
+                    { "{{resetLink}}", resetLink }
+                });
+
+                EmailHelper.SendMail(email, "HÃY CẬP NHẬT PASSWORD CỦA BẠN TRÊN BFARMX - Blockchain FarmXperience !", user.Name, body);
+
+                return new BusinessResult(200, "Send mail reset password successfull");
             }
             catch (Exception ex)
             {
