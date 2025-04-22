@@ -13,6 +13,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public string? Message { get; set; }
         public string? Title { get; set; }
         public string? Image { get; set; }
+        public bool IsRead { get; set; }
         public DateTime CreatedDate { get; set; }
     }
 }

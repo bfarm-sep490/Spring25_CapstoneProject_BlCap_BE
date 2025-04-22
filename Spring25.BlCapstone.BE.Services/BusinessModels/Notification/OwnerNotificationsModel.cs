@@ -17,6 +17,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Notification
         public string? Title { get; set; }
         [JsonPropertyName("image")]
         public string? Image { get; set; }
+        [JsonPropertyName("is_read")]
+        public bool IsRead { get; set; }
         [JsonPropertyName("created_date")]
         public DateTime CreatedDate { get; set; }
     }

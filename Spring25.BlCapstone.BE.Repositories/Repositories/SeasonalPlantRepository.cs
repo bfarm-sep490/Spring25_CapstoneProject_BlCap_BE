@@ -63,7 +63,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(p => p.SeasonType.ToLower().Trim().Equals(seasonName.Trim().ToLower()));
             }
 
-            if (start.HasValue && end.HasValue)
+            if (start.HasValue)
+            {
+                query = query.Where(p => p.StartDate >= start);
+            }
+            else if (end.HasValue)
+            {
+                query = query.Where(p => p.EndDate <= end);
+            }
+            else if (start.HasValue && end.HasValue)
             {
                 var seasonalPlants = await query.ToListAsync();
 
