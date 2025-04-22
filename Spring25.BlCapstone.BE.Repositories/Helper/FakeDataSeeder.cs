@@ -709,6 +709,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ExpertId = 1,
                     Title = "Cập nhật về dịch bệnh cây trồng",
                     Message = "Xuất hiện sâu keo mùa thu tại một số khu vực miền Tây, chuyên gia cần lưu ý.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationExpert
@@ -717,6 +718,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ExpertId = 2,
                     Title = "Thông tin thị trường nông sản",
                     Message = "Giá lúa gạo tăng mạnh do nhu cầu xuất khẩu tăng cao trong tháng này.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationExpert
@@ -725,6 +727,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ExpertId = 3,
                     Title = "Ứng dụng công nghệ mới trong nông nghiệp",
                     Message = "Hệ thống tưới nhỏ giọt giúp tiết kiệm 30% lượng nước và tăng năng suất 20%.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationExpert
@@ -733,6 +736,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     ExpertId = 1,
                     Title = "Hội thảo trực tuyến về canh tác hữu cơ",
                     Message = "Mời chuyên gia tham gia hội thảo về nông nghiệp hữu cơ vào ngày 25/07/2024.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 }
             );
@@ -744,6 +748,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     OwnerId = 201,
                     Title = "Cảnh báo thời tiết cho trang trại",
                     Message = "Dự báo có mưa lớn trong tuần này, chủ trang trại cần có biện pháp bảo vệ cây trồng.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationOwner
@@ -752,6 +757,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     OwnerId = 202,
                     Title = "Giá cả phân bón cập nhật",
                     Message = "Giá phân bón hữu cơ đang giảm, đây là thời điểm tốt để mua dự trữ.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationOwner
@@ -760,6 +766,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     OwnerId = 203,
                     Title = "Chương trình hỗ trợ vay vốn",
                     Message = "Ngân hàng vừa triển khai gói hỗ trợ vay vốn dành cho chủ trang trại với lãi suất ưu đãi.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationOwner
@@ -768,6 +775,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     OwnerId = 204,
                     Title = "Hội nghị nông nghiệp bền vững",
                     Message = "Mời chủ trang trại tham gia hội nghị về mô hình canh tác bền vững vào ngày 10/08/2024.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 }
             );
@@ -779,6 +787,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     FarmerId = 1,
                     Title = "Cảnh báo sâu bệnh hại lúa",
                     Message = "Phát hiện sâu cuốn lá tại một số khu vực, nông dân cần kiểm tra ruộng lúa.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationFarmer
@@ -787,6 +796,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     FarmerId = 1,
                     Title = "Hỗ trợ giống cây trồng",
                     Message = "Chương trình hỗ trợ giống lúa năng suất cao đang mở đăng ký.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationFarmer
@@ -795,6 +805,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     FarmerId = 1,
                     Title = "Kỹ thuật bón phân hiệu quả",
                     Message = "Áp dụng đúng kỹ thuật bón phân giúp tăng năng suất và giảm chi phí.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationFarmer
@@ -803,6 +814,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     FarmerId = 2,
                     Title = "Hội thảo trồng trọt hữu cơ",
                     Message = "Mời nông dân tham gia hội thảo về phương pháp canh tác hữu cơ vào ngày 15/08/2024.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 }
             );
@@ -814,6 +826,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     RetailerId = 1,
                     Title = "Cập nhật giá nông sản hôm nay",
                     Message = "Giá rau xanh đang tăng nhẹ do ảnh hưởng của thời tiết. Xem chi tiết tại bảng giá.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationRetailer
@@ -822,6 +835,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     RetailerId = 2,
                     Title = "Chương trình khuyến mãi dành cho nhà bán lẻ",
                     Message = "Nhận chiết khấu 10% khi đặt hàng số lượng lớn trong tháng này.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationRetailer
@@ -830,6 +844,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     RetailerId = 3,
                     Title = "Nguồn hàng mới từ các trang trại sạch",
                     Message = "Chúng tôi vừa nhập thêm lô hàng rau củ hữu cơ từ các trang trại đạt chuẩn VietGAP.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 },
                 new NotificationRetailer
@@ -838,6 +853,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     RetailerId = 1,
                     Title = "Cảnh báo vận chuyển do thời tiết",
                     Message = "Một số tuyến đường giao hàng có thể bị chậm do ảnh hưởng của mưa bão.",
+                    IsRead = false,
                     CreatedDate = DateTime.UtcNow
                 }
             );
@@ -849,6 +865,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     InspectorId = 1,
                     Title = "Yêu cầu kiểm định mới",
                     Message = "Bạn có một yêu cầu kiểm định mới cho mẫu nông sản: Xoài Cát Chu - Long An.",
+                    IsRead = false,
                     CreatedDate = DateTime.Now.AddDays(-2)
                 },
                 new NotificationInspector
@@ -857,6 +874,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     InspectorId = 2,
                     Title = "Cập nhật hệ thống",
                     Message = "Hệ thống kiểm định đã được cập nhật phiên bản mới với nhiều tính năng hỗ trợ phân tích mẫu.",
+                    IsRead = false,
                     CreatedDate = DateTime.Now.AddDays(-5)
                 },
                 new NotificationInspector
@@ -865,6 +883,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     InspectorId = 1,
                     Title = "Mẫu kiểm định cần bổ sung thông tin",
                     Message = "Mẫu kiểm định Lúa ST25 cần bạn bổ sung ghi chú về độ ẩm.",
+                    IsRead = false,
                     CreatedDate = DateTime.Now.AddDays(-1)
                 },
                 new NotificationInspector
@@ -873,6 +892,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     InspectorId = 2,
                     Title = "Gửi kết quả kiểm định thành công",
                     Message = "Bạn đã gửi kết quả kiểm định cho mẫu Cà phê Arabica - Lâm Đồng thành công.",
+                    IsRead = false,
                     CreatedDate = DateTime.Now
                 }
             );
