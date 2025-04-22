@@ -1939,7 +1939,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var body = EmailHelper.GetEmailBody("QRCodeSend.html", new Dictionary<string, string>
                 {
                     { "{{userName}}", customer.Name },
-                    { "{{srcQRCode}}", qrImageUrl }
+                    { "{{srcQRCode}}", qrImageUrl },
+                    { "{{link}}", model.Url }
                 });
 
                 await EmailHelper.SendMail(customer.Email, "BFARMX - Blockchain FarmXperience xin gửi bạn QR Code!", customer.Name, body);
