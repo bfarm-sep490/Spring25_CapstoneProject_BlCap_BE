@@ -63,13 +63,23 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 query = query.Where(p => p.SeasonType.ToLower().Trim().Equals(seasonName.Trim().ToLower()));
             }
 
-            if (start.HasValue)
+            if (start.HasValue && !end.HasValue)
             {
-                query = query.Where(p => p.StartDate >= start);
+                var firstMatch = await query
+                                        .Where(p => p.StartDate >= start.Value)
+                                        .OrderBy(p => p.StartDate)
+                                        .FirstOrDefaultAsync();
+
+                return firstMatch != null ? new List<SeasonalPlant> { firstMatch } : new List<SeasonalPlant>();
             }
-            else if (end.HasValue)
+            else if (end.HasValue && !start.HasValue)
             {
-                query = query.Where(p => p.EndDate <= end);
+                var firstMatch = await query
+                                        .Where(p => p.EndDate <= end.Value)
+                                        .OrderByDescending(p => p.EndDate) 
+                                        .FirstOrDefaultAsync();
+
+                return firstMatch != null ? new List<SeasonalPlant> { firstMatch } : new List<SeasonalPlant>();
             }
             else if (start.HasValue && end.HasValue)
             {
