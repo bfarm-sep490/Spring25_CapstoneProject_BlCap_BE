@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Retailer;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
@@ -30,6 +31,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AddRetailerTokenDevice(int id, string tokenDevice);
         Task<IBusinessResult> GetAllDeviceTokensByRetailerId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByRetailerId(int id);
+        Task<IBusinessResult> GetListNotifications(int id);
     }
 
     public class RetailerService : IRetailerService
@@ -226,6 +228,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
 
+                var retailerChanel = $"retailer-{rsf.Id}";
+                var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
+                var title = $"Xin chào, {newAccount.Name}";
+                await AblyHelper.SendMessageWithChanel(title, title, retailerChanel);
+                await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                {
+                    RetailerId = rsf.Id,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
+
                 if (rsf == null)
                 {
                     return new BusinessResult
@@ -233,7 +247,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Status = 500,
                         Message = "Create failed !",
                         Data = null
-
                     };
                 };
 
@@ -427,6 +440,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
+            }
+        }
+
+        public async Task<IBusinessResult> GetListNotifications(int id)
+        {
+            try
+            {
+                var notis = await _unitOfWork.NotificationRetailerRepository.GetNotificationsByRetailerId(id);
+                if (!notis.Any())
+                {
+                    return new BusinessResult(404, "There aren't any notifications !");
+                }
+
+                var res = _mapper.Map<List<RetailerNotificationsModel>>(notis);
+                return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

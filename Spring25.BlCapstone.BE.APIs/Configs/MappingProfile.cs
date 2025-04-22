@@ -547,6 +547,12 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
         {
             CreateMap<NotificationFarmer, FarmerNotificationsModel>()
                 .ReverseMap();
+            CreateMap<NotificationInspector, InspectorNotificationsModel>()
+                .ReverseMap();
+            CreateMap<NotificationExpert, ExpertNotificationsModel>()
+                .ReverseMap();
+            CreateMap<NotificationRetailer, RetailerNotificationsModel>()
+                .ReverseMap();
         }
 
         private void TransactionProfile()

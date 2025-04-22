@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AddExpertTokenDevice(int id, string tokenDevice);
         Task<IBusinessResult> GetAllDeviceTokensByExpertId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByExpertId(int id);
+        Task<IBusinessResult> GetListNotifications(int id);
     }
 
     public class ExpertService : IExpertService
@@ -221,6 +223,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
 
+                var expertChanel = $"expert-{rsf.Id}";
+                var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
+                var title = $"Xin chào, {newAccount.Name}";
+                await AblyHelper.SendMessageWithChanel(title, title, expertChanel);
+                await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
+                {
+                    ExpertId = rsf.Id,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
+
                 if (rsf == null)
                 {
                     return new BusinessResult
@@ -228,7 +242,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Status = 500,
                         Message = "Create failed !",
                         Data = null
-
                     };
                 };
 
@@ -236,7 +249,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     Status = 200,
                     Message = "Create 3xpert success !",
-                    Data = rsf
+                    Data = model
                 };
 
             }
@@ -425,6 +438,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
+            }
+        }
+
+        public async Task<IBusinessResult> GetListNotifications(int id)
+        {
+            try
+            {
+                var notis = await _unitOfWork.NotificationExpertRepository.GetNotificationsByExpertId(id);
+                if (!notis.Any())
+                {
+                    return new BusinessResult(404, "There aren't any notifications !");
+                }
+
+                var res = _mapper.Map<List<ExpertNotificationsModel>>(notis);
+                return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

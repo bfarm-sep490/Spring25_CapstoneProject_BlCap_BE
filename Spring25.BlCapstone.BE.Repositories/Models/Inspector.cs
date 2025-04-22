@@ -19,5 +19,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
 
         public Account Account { get; set; }
         public ICollection<InspectingForm> InspectingForms { get; set; }
+        public ICollection<NotificationInspector> NotificationInspectors { get; set; }
     }
 }

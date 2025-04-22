@@ -842,6 +842,41 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 }
             );
 
+            modelBuilder.Entity<NotificationInspector>().HasData(
+                new NotificationInspector
+                {
+                    Id = 1,
+                    InspectorId = 1,
+                    Title = "Yêu cầu kiểm định mới",
+                    Message = "Bạn có một yêu cầu kiểm định mới cho mẫu nông sản: Xoài Cát Chu - Long An.",
+                    CreatedDate = DateTime.Now.AddDays(-2)
+                },
+                new NotificationInspector
+                {
+                    Id = 2,
+                    InspectorId = 2,
+                    Title = "Cập nhật hệ thống",
+                    Message = "Hệ thống kiểm định đã được cập nhật phiên bản mới với nhiều tính năng hỗ trợ phân tích mẫu.",
+                    CreatedDate = DateTime.Now.AddDays(-5)
+                },
+                new NotificationInspector
+                {
+                    Id = 3,
+                    InspectorId = 1,
+                    Title = "Mẫu kiểm định cần bổ sung thông tin",
+                    Message = "Mẫu kiểm định Lúa ST25 cần bạn bổ sung ghi chú về độ ẩm.",
+                    CreatedDate = DateTime.Now.AddDays(-1)
+                },
+                new NotificationInspector
+                {
+                    Id = 4,
+                    InspectorId = 2,
+                    Title = "Gửi kết quả kiểm định thành công",
+                    Message = "Bạn đã gửi kết quả kiểm định cho mẫu Cà phê Arabica - Lâm Đồng thành công.",
+                    CreatedDate = DateTime.Now
+                }
+            );
+
             modelBuilder.Entity<Specialization>().HasData(
                 // Caring Tasks
                 new Specialization { Id = 1, Name = "Trồng rau sạch" },

@@ -49,6 +49,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         private NotificationFarmerRepository _notificationFarmerRepository;
         private NotificationOwnerRepository _notificationOwnerRepository;
         private NotificationRetailerRepository _notificationRetailerRepository;
+        private NotificationInspectorRepository _notificationInspectorRepository;
         private PackagingProductRepository _packagingProductRepository;
         private PackagingTypeRepository _packagingTypeRepository;
         private PlantYieldRepository _plantYieldRepository;
@@ -100,6 +101,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             _notificationExpertRepository ??= new NotificationExpertRepository(_context);
             _notificationFarmerRepository ??= new NotificationFarmerRepository(_context);
             _notificationOwnerRepository ??= new NotificationOwnerRepository(_context);
+            _notificationInspectorRepository ??= new NotificationInspectorRepository(_context);
             _notificationRetailerRepository ??= new NotificationRetailerRepository(_context);
             _packagingProductRepository ??= new PackagingProductRepository(_context);
             _packagingTypeRepository ??= new PackagingTypeRepository(_context);
@@ -119,7 +121,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             PlantRepository plantRepository, RetailerRepository retailerRepository,
             OrderRepository orderRepository, TransactionRepository transactionRepository, PlanRepository planRepository,
             FarmerPermissionRepository farmerPermissionRepository,
-            CaringTaskRepository caringTaskRepository,
+            CaringTaskRepository caringTaskRepository, NotificationInspectorRepository notificationInspectorRepository,
             HarvestingTaskRepository harvestingTaskRepository, FarmerCaringTaskRepository farmerCaringTaskRepository,
             InspectingFormRepository inspectingFormRepository, CaringImageRepository caringImageRepository,
             HarvestingImageRepository harvestingImageRepository, InspectingImageRepository inspectingImageRepository,
@@ -184,6 +186,7 @@ namespace Spring25.BlCapstone.BE.Repositories
             _orderPlanRepository = orderPlanRepository;
             _productPickupBatchRepository = productPickupBatchRepository;
             _configurationSystemRepository = configurationSystemRepository;
+            _notificationInspectorRepository = notificationInspectorRepository;
         }
 
         public AccountRepository AccountRepository { get { return _accountRepository; } }
@@ -234,6 +237,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public OrderPlanRepository OrderPlanRepository { get { return _orderPlanRepository; } }
         public ProductPickupBatchRepository ProductPickupBatchRepository { get { return _productPickupBatchRepository; } }
         public ConfigurationSystemRepository ConfigurationSystemRepository { get { return _configurationSystemRepository; } }
+        public NotificationInspectorRepository NotificationInspectorRepository {  get { return _notificationInspectorRepository; } }
 
         public async Task BeginTransactionAsync() => await _context.Database.BeginTransactionAsync();
         public async Task CommitAsync() => await _context.Database.CommitTransactionAsync();

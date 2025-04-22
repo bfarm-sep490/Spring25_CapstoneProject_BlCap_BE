@@ -11,6 +11,7 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> AddInspectorTokenDevice(int id, string tokenDevice);
         Task<IBusinessResult> GetAllDeviceTokensByInspectorId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByInspectorId(int id);
+        Task<IBusinessResult> GetListNotifications(int id);
     }
 
     public class InspectorService : IInspectorService
@@ -218,6 +220,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var newIns = _mapper.Map<Inspector>(model);
                 newIns.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.InspectorRepository.CreateAsync(newIns);
+
+                var inspectorChanel = $"inspector-{rsf.Id}";
+                var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
+                var title = $"Xin chào, {newAccount.Name}";
+                await AblyHelper.SendMessageWithChanel(title, title, inspectorChanel);
+                await _unitOfWork.NotificationInspectorRepository.CreateAsync(new NotificationInspector
+                {
+                    InspectorId = rsf.Id,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
 
                 if (rsf == null)
                 {
@@ -424,6 +438,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
             catch (Exception ex)
             {
                 return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
+            }
+        }
+
+        public async Task<IBusinessResult> GetListNotifications(int id)
+        {
+            try
+            {
+                var notis = await _unitOfWork.NotificationInspectorRepository.GetNotificationsByInspectorId(id);
+                if (!notis.Any())
+                {
+                    return new BusinessResult(404, "There aren't any notifications !");
+                }
+
+                var res = _mapper.Map<List<InspectorNotificationsModel>>(notis);
+                return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
             }
         }
     }

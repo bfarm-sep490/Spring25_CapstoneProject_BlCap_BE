@@ -39,6 +39,7 @@ namespace Spring25.BlCapstone.BE.Repositories
         public virtual DbSet<NotificationFarmer> NotificationFarmers { get; set; }
         public virtual DbSet<NotificationOwner> NotificationOwners { get; set; }
         public virtual DbSet<NotificationRetailer> NotificationRetailers { get; set; }
+        public virtual DbSet<NotificationInspector> NotificationInspectors { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<PackagingImage> PackagingImages { get; set; }
         public virtual DbSet<PackagingItem> PackagingItems { get; set; }
@@ -101,6 +102,13 @@ namespace Spring25.BlCapstone.BE.Repositories
                 .HasOne(ne => ne.Expert)
                     .WithMany(ne => ne.NotificationExperts)
                     .HasForeignKey(ne => ne.ExpertId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+            
+            modelBuilder.Entity<NotificationInspector>()
+                .ToTable("NotificationInspector")
+                .HasOne(ne => ne.Inspector)
+                    .WithMany(ne => ne.NotificationInspectors)
+                    .HasForeignKey(ne => ne.InspectorId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
             modelBuilder.Entity<Retailer>()

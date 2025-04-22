@@ -223,7 +223,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var newFarmer = _mapper.Map<Farmer>(model);
                 newFarmer.AccountId = newAccount.Id;
 
-                await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
+                var farmer = await _unitOfWork.FarmerRepository.CreateAsync(newFarmer);
 
                 await _unitOfWork.FarmerPerformanceRepository.CreateAsync(new FarmerPerformance
                 {
@@ -241,6 +241,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 });
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
+
+                var farmerChanel = $"farmer-{farmer.Id}";
+                var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
+                var title = $"Xin chào, {newAccount.Name}";
+                await AblyHelper.SendMessageWithChanel(title, title, farmerChanel);
+                await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
+                {
+                    FarmerId = farmer.Id,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
 
                 var rs = _mapper.Map<FarmerModel>(newFarmer);
 

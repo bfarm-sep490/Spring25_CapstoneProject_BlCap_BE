@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.Untils;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -158,6 +160,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.InspectingResultRepository.SaveAsync();
                 await _unitOfWork.InspectingImageRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
+
+                var inspectorChanel = $"inspector-{insForm.InspectorId}";
+                var message = "Chúng tôi đã nhận được kết quả kiểm định từ quý đơn vị. Xin chân thành cảm ơn sự phối hợp và hỗ trợ trong quá trình kiểm định. Rất mong sẽ tiếp tục đồng hành cùng quý đơn vị trong các kế hoạch tiếp theo.";
+                var title = $"Đã nhận kết quả kiểm định – Cảm ơn sự hợp tác của quý đơn vị - {plant.PlantName}";
+                await AblyHelper.SendMessageWithChanel(title, title, inspectorChanel);
+                await _unitOfWork.NotificationInspectorRepository.CreateAsync(new NotificationInspector
+                {
+                    InspectorId = insForm.InspectorId.Value,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
 
                 return new BusinessResult(200, "Create inspecting result success !", re);
             }

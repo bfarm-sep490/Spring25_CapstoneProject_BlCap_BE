@@ -49,7 +49,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
         public async Task<List<FarmerPermission>> GetFarmersByPlanId(int planId)
         {
-            return await _context.FarmerPermissions.Include(x => x.Farmer).ThenInclude(x => x.Account).Where(x => x.PlanId == planId).ToListAsync();
+            return await _context.FarmerPermissions
+                                 .Include(x => x.Farmer)
+                                    .ThenInclude(x => x.Account)
+                                 .Where(x => x.PlanId == planId)
+                                 .ToListAsync();
         }
 
         public async Task<List<Farmer>> GetBusyFarmersByPlanId(int planId, DateTime? start = null, DateTime? end = null)

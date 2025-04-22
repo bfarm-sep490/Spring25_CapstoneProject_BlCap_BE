@@ -50,7 +50,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var res = await AblyHelper.SendMessageWithTopic(title, body, topic);
+                var res = await AblyHelper.SendMessageWithChanel(title, body, topic);
                 return new BusinessResult
                 {
                     Status = 200,
