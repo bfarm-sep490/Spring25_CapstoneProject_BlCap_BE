@@ -28,6 +28,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
 
         public const string IMAGE_FOLDER = "IMAGES";
         public const string DOCUMENT_FOLDER = "DOCUMENTS";
+        public const string QRCODE_FOLDER = "QRCODES";
 
         public static async Task<(string PublicId, string Url)> UploadImage(IFormFile file)
         {
@@ -41,6 +42,30 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             {
                 File = new FileDescription(fileName, stream),
                 Folder = IMAGE_FOLDER,
+                Overwrite = true,
+                UseFilename = false
+            };
+
+            var uploadResult = await _cloud.UploadAsync(uploadParams);
+
+            if (uploadResult.Error != null)
+                throw new Exception($"Upload error: {uploadResult.Error.Message}");
+
+            return (uploadResult.PublicId, uploadResult.SecureUrl.ToString());
+        }
+
+        public static async Task<(string PublicId, string Url)> UploadImageQRCode(byte[] imageData, string fileName = null)
+        {
+            if (imageData == null || imageData.Length == 0)
+                throw new ArgumentException("Image data is empty or null...");
+
+            fileName ??= DateTime.Now.ToString("yyyyMMddHHmmss") + "_qr.png";
+            using var stream = new MemoryStream(imageData);
+
+            var uploadParams = new ImageUploadParams
+            {
+                File = new FileDescription(fileName, stream),
+                Folder = QRCODE_FOLDER,
                 Overwrite = true,
                 UseFilename = false
             };

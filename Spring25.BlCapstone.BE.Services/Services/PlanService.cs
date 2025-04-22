@@ -1928,20 +1928,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> NotificationforExperts(NotificationExpertsRequest model)
         {
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            var qrString = model.Url;
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(qrString, QRCodeGenerator.ECCLevel.Q);
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(model.Url, QRCodeGenerator.ECCLevel.Q);
             PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
             byte[] qrCodeAsPngByteArr = qrCode.GetGraphic(5);
-            
-            string base64String = Convert.ToBase64String(qrCodeAsPngByteArr, 0, qrCodeAsPngByteArr.Length);
-            string imgSrc = $"data:image/png;base64,{base64String}";
+
+            var (publicId, qrImageUrl) = await CloudinaryHelper.UploadImageQRCode(qrCodeAsPngByteArr);
 
             foreach(var customer in model.Infors)
             {
                 var body = EmailHelper.GetEmailBody("QRCodeSend.html", new Dictionary<string, string>
                 {
                     { "{{userName}}", customer.Name },
-                    { "{{srcQRCode}}", imgSrc }
+                    { "{{srcQRCode}}", qrImageUrl }
                 });
 
                 await EmailHelper.SendMail(customer.Email, "BFARMX - Blockchain FarmXperience xin gửi bạn QR Code!", customer.Name, body);

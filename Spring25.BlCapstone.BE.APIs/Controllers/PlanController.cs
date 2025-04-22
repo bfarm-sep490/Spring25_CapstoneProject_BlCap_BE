@@ -449,7 +449,8 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("notificate-plan")]
+
+        [HttpPost("qrcode-to-retailer")]
         public async Task<IActionResult>NotificationforExperts([FromBody] NotificationExpertsRequest model)
         {
             try
