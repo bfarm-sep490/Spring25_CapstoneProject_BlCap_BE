@@ -251,6 +251,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     FarmerId = farmer.Id,
                     Message = message,
                     Title = title,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 

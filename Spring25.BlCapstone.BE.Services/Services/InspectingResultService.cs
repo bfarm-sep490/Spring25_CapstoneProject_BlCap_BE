@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using IO.Ably;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
@@ -170,6 +169,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     InspectorId = insForm.InspectorId.Value,
                     Message = message,
                     Title = title,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 

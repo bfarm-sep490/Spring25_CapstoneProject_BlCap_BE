@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using IO.Ably;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;

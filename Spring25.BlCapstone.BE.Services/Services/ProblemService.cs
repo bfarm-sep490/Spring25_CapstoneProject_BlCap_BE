@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
@@ -8,6 +9,8 @@ using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -115,6 +118,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     }
                 }
                 var result = _mapper.Map<ProblemModel>(rs);
+
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(plan.ExpertId);
+                var expertChanel = $"expert-{expert.Id}";
+                var ownerChanel = "owner";
+                var message = "Kế hoạch được báo cáo lỗi";
+                var title = $"Có một report lỗi ở kế hoạch #{plan.Id}: {plan.PlanName}";
+                await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
+                await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                {
+                    RetailerId = expert.Id,
+                    Message = message,
+                    Title = title,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                });
+
+                await AblyHelper.SendMessageWithChanel(title, message, ownerChanel);
+                await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
+                {
+                    OwnerId = 1,
+                    Message = message,
+                    Title = title,
+                    IsRead = false,
+                    CreatedDate = DateTime.Now,
+                });
 
                 return new BusinessResult(200, "Create successfully!", result);
             }

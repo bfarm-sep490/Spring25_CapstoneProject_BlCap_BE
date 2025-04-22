@@ -1,9 +1,4 @@
 ﻿using AutoMapper;
-using CloudinaryDotNet.Actions;
-using IO.Ably;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.EntityFrameworkCore;
 using QRCoder;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
@@ -25,10 +20,8 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -589,6 +582,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         RetailerId = order.RetailerId,
                         Message = message,
                         Title = title,
+                        IsRead = false,
                         Image = plant.ImageUrl,
                         CreatedDate = DateTime.Now,
                     });
@@ -606,6 +600,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         FarmerId = farmer.FarmerId,
                         Message = message,
                         Title = title,
+                        IsRead = false,
                         CreatedDate = DateTime.Now,
                     });
                 }
@@ -622,11 +617,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         InspectorId = inspector.Id,
                         Message = message,
                         Title = title,
+                        IsRead = false,
                         CreatedDate = DateTime.Now,
                     });
                 }
 
-                var expert = await _unitOfWork.ExpertRepository.GetExpertByPlanId(id);
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(plan.ExpertId);
                 var expertChanel = $"expert-{expert.Id}";
                 var m = "Kế hoạch của bạn đã được phê duyệt và chính thức đi vào hoạt động. Vui lòng xem lại nội dung kế hoạch và bắt đầu theo dõi quá trình thực hiện để đảm bảo chất lượng nông sản đạt mức tối ưu. Cảm ơn bạn đã đồng hành cùng chúng tôi trong hành trình nâng cao hiệu quả sản xuất nông nghiệp!";
                 var t = $"Kế hoạch {plan.PlanName} đã được phê duyệt – Bắt đầu theo dõi và đồng hành cùng nông dân!";
@@ -636,6 +632,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     ExpertId = expert.Id,
                     Message = m,
                     Title = t,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 
@@ -648,6 +645,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     OwnerId = 1,
                     Message = mo,
                     Title = to,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 
@@ -1394,6 +1392,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = message,
                         Title = title,
                         Image = plant.ImageUrl,
+                        IsRead = false,
                         CreatedDate = DateTime.Now,
                     });
                 }
@@ -1562,7 +1561,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
 
-                var expert = await _unitOfWork.ExpertRepository.GetExpertByPlanId(id);
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(plan.ExpertId);
                 var expertChanel = $"expert-{expert.Id}";
                 var message = "Kế hoạch bạn vừa tạo đã được gửi lên chủ trang trại để xem xét. Vui lòng đợi trong thời gian ngắn để chủ trang trại xem qua kế hoạch và phản hồi. Chúng tôi sẽ thông báo ngay khi có cập nhật mới.!";
                 var title = $"Kế hoạch {plan.PlanName} của bạn đã được gửi lên chủ trang trại – Vui lòng đợi phản hồi!";
@@ -1571,7 +1570,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     ExpertId = expert.Id,
                     Message = message,
-                    Title = title,
+                    Title = title, 
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 

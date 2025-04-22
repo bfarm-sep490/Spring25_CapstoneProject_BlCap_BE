@@ -232,6 +232,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     ExpertId = rsf.Id,
                     Message = message,
                     Title = title,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 

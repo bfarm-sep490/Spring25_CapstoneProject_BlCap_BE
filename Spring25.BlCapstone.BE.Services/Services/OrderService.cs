@@ -5,7 +5,6 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.Untils;
-using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,6 +71,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     RetailerId = order.RetailerId,
                     Message = message,
                     Title = title,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 
@@ -182,6 +182,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         RetailerId = order.RetailerId,
                         Message = message,
                         Title = title,
+                        IsRead = false,
                         CreatedDate = DateTime.Now,
                     });
                 }
@@ -203,6 +204,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         RetailerId = order.RetailerId,
                         Message = message,
                         Title = title,
+                        IsRead = false,
                         CreatedDate = DateTime.Now,
                     });
                 }

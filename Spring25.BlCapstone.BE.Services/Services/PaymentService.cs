@@ -238,6 +238,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     RetailerId = order.RetailerId,
                     Message = message,
                     Title = title,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 
@@ -351,6 +352,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             RetailerId = order.RetailerId,
                             Message = message,
                             Title = title,
+                            IsRead = false,
                             CreatedDate = DateTime.Now,
                         });
 
@@ -363,6 +365,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             OwnerId = 1,
                             Message = m,
                             Title = t,
+                            IsRead = false,
                             CreatedDate = DateTime.Now,
                         });
                     }
@@ -378,6 +381,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             RetailerId = order.RetailerId,
                             Message = message,
                             Title = title,
+                            IsRead = false,
                             CreatedDate = DateTime.Now,
                         });
                     }

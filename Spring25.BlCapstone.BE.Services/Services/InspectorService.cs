@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using CloudinaryDotNet.Core;
-using IO.Ably;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
@@ -9,7 +7,6 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -230,6 +227,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     InspectorId = rsf.Id,
                     Message = message,
                     Title = title,
+                    IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
 

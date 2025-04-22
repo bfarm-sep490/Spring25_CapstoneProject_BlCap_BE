@@ -3,7 +3,6 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Template;
 using Spring25.BlCapstone.BE.Services.Base;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Template;
 using System;
 using System.Collections.Generic;
@@ -11,8 +10,6 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
