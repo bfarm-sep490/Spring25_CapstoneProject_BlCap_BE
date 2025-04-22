@@ -114,6 +114,7 @@ builder.Services.AddScoped<IPackagingProductService, PackagingProductService>();
 builder.Services.AddScoped<IConfigurationSystemService, ConfigurationSystemService>();
 builder.Services.AddScoped<IProductPickupBatchService, ProductPickupBatchService>();
 builder.Services.AddScoped<ISeasonalPlantService, SeasonalPlantService>();
+builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddSingleton<RedisManagement>();
 

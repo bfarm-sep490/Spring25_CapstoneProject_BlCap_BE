@@ -42,5 +42,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(e => e.Account)
                 .FirstOrDefaultAsync(e => e.Id == id);
         }
+
+        public async Task<Expert> GetExpertByPlanId(int planId)
+        {
+            return await _context.Experts
+                                 .Include(e => e.Plans)
+                                 .FirstOrDefaultAsync(e => e.Plans.Any(p => p.Id == planId));
+        }
     }
 }

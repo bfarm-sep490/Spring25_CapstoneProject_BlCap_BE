@@ -29,6 +29,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(f => f.Account)
                 .FirstOrDefaultAsync(i => i.Id == id);
         }
+
         public async Task<Inspector> GetInspectorbyAccountId(int id)
         {
             return await _context.Inspectors
@@ -36,5 +37,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<Inspector>> GetInspectorsByPlanId(int planId)
+        {
+            return await _context.Inspectors
+                                 .Include(i => i.InspectingForms)
+                                    .ThenInclude(i => i.Plan)
+                                 .Where(i => i.InspectingForms.Any(f => f.PlanId == planId))
+                                 .ToListAsync();
+        }
     }
 }

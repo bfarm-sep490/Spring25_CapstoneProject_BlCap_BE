@@ -583,7 +583,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var retaileraChanel = $"retailer-{order.RetailerId}";
                     var message = "Kế hoạch trồng cây cho đơn hàng của bạn đã chính thức đi vào hoạt động. Vui lòng kiểm tra email thường xuyên để cập nhật những thông tin mới nhất về đơn hàng.";
                     var title = $"Kế hoạch trồng cây đã bắt đầu - {plant.PlantName}";
-                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
                     await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
                     {
                         RetailerId = order.RetailerId,
@@ -600,7 +600,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var farmerChanel = $"farmer-{farmer.FarmerId}";
                     var message = "Kế hoạch đã được duyệt và chính thức đi vào hoạt động. Vui lòng kiểm tra lại lịch làm việc và kế hoạch để chuẩn bị thực hiện các công việc theo kế hoạch. Chúc bạn làm việc hiệu quả và đạt được kết quả tốt trong quá trình thực hiện!";
                     var title = $"Kế hoạch {plan.PlanName} đã chính thức triển khai – Kiểm tra lịch làm việc và bắt đầu!";
-                    await AblyHelper.SendMessageWithChanel(title, title, farmerChanel);
+                    await AblyHelper.SendMessageWithChanel(title, message, farmerChanel);
                     await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
                     {
                         FarmerId = farmer.FarmerId,
@@ -609,6 +609,47 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         CreatedDate = DateTime.Now,
                     });
                 }
+
+                var inspectors = await _unitOfWork.InspectorRepository.GetInspectorsByPlanId(id);
+                foreach(var inspector in inspectors)
+                {
+                    var inspectorChanel = $"inspector-{inspector.Id}";
+                    var message = $"Kế hoạch đã chính thức đi vào hoạt động. Quý đơn vị có một đợt kiểm định dự kiến vào ngày {plan.InspectingForms.FirstOrDefault(c => c.InspectorId == inspector.Id).StartDate.ToString("dd MMMM, yyyy")}, trước thời điểm thu hoạch.Vui lòng ghi nhớ hoặc đặt lời nhắc cho thời điểm này để tiến hành lấy mẫu và thực hiện kiểm định đúng hạn, đảm bảo tiến độ và chất lượng của kế hoạch. Xin cảm ơn sự phối hợp của quý đơn vị!";
+                    var title = $"Kế hoạch trồng {plan.PlanName} đã bắt đầu – Chuẩn bị cho kiểm định trước thu hoạch!";
+                    await AblyHelper.SendMessageWithChanel(title, message, inspectorChanel);
+                    await _unitOfWork.NotificationInspectorRepository.CreateAsync(new NotificationInspector
+                    {
+                        InspectorId = inspector.Id,
+                        Message = message,
+                        Title = title,
+                        CreatedDate = DateTime.Now,
+                    });
+                }
+
+                var expert = await _unitOfWork.ExpertRepository.GetExpertByPlanId(id);
+                var expertChanel = $"expert-{expert.Id}";
+                var m = "Kế hoạch của bạn đã được phê duyệt và chính thức đi vào hoạt động. Vui lòng xem lại nội dung kế hoạch và bắt đầu theo dõi quá trình thực hiện để đảm bảo chất lượng nông sản đạt mức tối ưu. Cảm ơn bạn đã đồng hành cùng chúng tôi trong hành trình nâng cao hiệu quả sản xuất nông nghiệp!";
+                var t = $"Kế hoạch {plan.PlanName} đã được phê duyệt – Bắt đầu theo dõi và đồng hành cùng nông dân!";
+                await AblyHelper.SendMessageWithChanel(t, m, expertChanel);
+                await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
+                {
+                    ExpertId = expert.Id,
+                    Message = m,
+                    Title = t,
+                    CreatedDate = DateTime.Now,
+                });
+
+                var ownerChanel = "owner";
+                var to = "Kế hoạch đã được duyệt thành công";
+                var mo = "Bạn đã duyệt kế hoạch thành công. Kế hoạch hiện đã chính thức đi vào hoạt động và các bên liên quan đã được thông báo để bắt đầu thực hiện. Cảm ơn bạn đã hoàn tất bước quan trọng trong quy trình quản lý kế hoạch!";
+                await AblyHelper.SendMessageWithChanel(to, mo, ownerChanel);
+                await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
+                {
+                    OwnerId = 1,
+                    Message = mo,
+                    Title = to,
+                    CreatedDate = DateTime.Now,
+                });
 
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
             }
