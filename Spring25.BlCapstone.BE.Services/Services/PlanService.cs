@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet.Actions;
 using IO.Ably;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -7,6 +8,7 @@ using QRCoder;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Dashboards;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Template;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -23,6 +25,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -573,6 +576,23 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.YieldRepository.SaveAsync();
+
+                var orders = await _unitOfWork.OrderRepository.GetAllOrdersByPlanId(id);
+                foreach(var order in orders)
+                {
+                    var retaileraChanel = $"retailer-{order.RetailerId}";
+                    var message = "Kế hoạch trồng cây cho đơn hàng của bạn đã chính thức đi vào hoạt động. Vui lòng kiểm tra email thường xuyên để cập nhật những thông tin mới nhất về đơn hàng.";
+                    var title = $"Kế hoạch trồng cây đã bắt đầu - {plant.PlantName}";
+                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                    {
+                        RetailerId = order.RetailerId,
+                        Message = message,
+                        Title = title,
+                        Image = plant.ImageUrl,
+                        CreatedDate = DateTime.Now,
+                    });
+                }
 
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
             }
@@ -1301,6 +1321,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.FarmerCaringTaskRepository.SaveAsync();
                 await _unitOfWork.FarmerHarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.FarmerPackagingTaskRepository.SaveAsync();
+
+                var orders = await _unitOfWork.OrderRepository.GetAllOrdersByPlanId(id);
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(plan.PlantId);
+                foreach (var order in orders)
+                {
+                    var retaileraChanel = $"retailer-{order.RetailerId}";
+                    var message = "Kế hoạch trồng cây trong đơn hàng của bạn đã hoàn tất. Vui lòng đến nhận cây đúng với ngày dự kiến mà bạn đã cập nhật trong đơn hàng để đảm bảo chất lượng sản phẩm tốt nhất." +
+                        $"\n Ngày dự kiến đến lấy: {order.EstimatedPickupDate.ToString("MMM-dd, yyyy HH:mm")}";
+                    var title = $"Kế hoạch trồng cây đã hoàn tất – Sẵn sàng giao cây - {plant.PlantName}";
+                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                    {
+                        RetailerId = order.RetailerId,
+                        Message = message,
+                        Title = title,
+                        Image = plant.ImageUrl,
+                        CreatedDate = DateTime.Now,
+                    });
+                }
 
                 return new BusinessResult(200, "Complete plan successfull !");
             }

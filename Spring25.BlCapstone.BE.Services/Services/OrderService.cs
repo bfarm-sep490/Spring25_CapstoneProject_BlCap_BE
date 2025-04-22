@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
@@ -61,6 +62,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 });
 
                 await EmailHelper.SendMail(account.Email, "Cảm ơn bạn đã sử dụng dịch vụ của BFARMX - Blockchain FarmXperience!", account.Name, body);
+
+                var retaileraChanel = $"retailer-{order.RetailerId}";
+                var message = "Đơn hàng của bạn đã được đưa vào hàng đợi xử lý. Vui lòng kiểm tra email để cập nhật thông tin mới nhất!";
+                var title = $"Đơn hàng đã vào hàng đợi - {plant.PlantName}";
+                await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                {
+                    RetailerId = order.RetailerId,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
 
                 var response = new OrderModel();
                 _mapper.Map(rs, response);
@@ -141,6 +154,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 order.Status = status;
                 var retailer = await _unitOfWork.AccountRepository.GetAccountByUserId(retailerId: order.RetailerId);
+                var plant = await _unitOfWork.PlantRepository.GetByIdAsync(order.PlantId);
 
                 if (status.ToLower().Trim().Equals("pending"))
                 {
@@ -158,6 +172,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     });
 
                     await EmailHelper.SendMail(retailer.Email, "BFARMX - Blockchain FarmXperience xin trân trọng gửi tới bạn!", retailer.Name, body);
+                    
+                    var retaileraChanel = $"retailer-{order.RetailerId}";
+                    var message = "Đơn hàng của bạn đã được duyệt. Vui lòng hoàn tất đặt cọc trong vòng 3 ngày để tiếp tục xử lý đơn hàng. Nếu quá thời hạn, đơn hàng sẽ bị hủy tự động.";
+                    var title = $"Đơn hàng đã được cập nhật - {plant.PlantName}";
+                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                    {
+                        RetailerId = order.RetailerId,
+                        Message = message,
+                        Title = title,
+                        CreatedDate = DateTime.Now,
+                    });
                 }
                 else if (status.ToLower().Trim().Equals("cancel"))
                 {
@@ -167,6 +193,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     });
 
                     await EmailHelper.SendMail(retailer.Email, "BFARMX - Blockchain FarmXperience chân thành xin lỗi bạn!", retailer.Name, body);
+
+                    var retaileraChanel = $"retailer-{order.RetailerId}";
+                    var message = "Đơn hàng của bạn đã bị hủy do một số lý do ngoài ý muốn. Chúng tôi thành thật xin lỗi vì sự bất tiện này và rất mong tiếp tục nhận được sự ủng hộ của bạn ở những đơn hàng tiếp theo.";
+                    var title = $"Đơn hàng đã bị từ chối - {plant.PlantName}";
+                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                    {
+                        RetailerId = order.RetailerId,
+                        Message = message,
+                        Title = title,
+                        CreatedDate = DateTime.Now,
+                    });
                 }
 
                 await _unitOfWork.OrderRepository.UpdateAsync(order);
@@ -190,6 +228,5 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 default: return "th";
             }
         }
-
     }
 }

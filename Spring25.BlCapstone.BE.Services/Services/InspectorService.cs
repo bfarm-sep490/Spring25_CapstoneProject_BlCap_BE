@@ -39,14 +39,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly RedisManagement _redisManagement;
-        private readonly AblyHelper _ablyHelper;
 
         public InspectorService(IMapper mapper, RedisManagement redisManagement)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
             _redisManagement = redisManagement;
-            _ablyHelper = new AblyHelper();
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -344,7 +342,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var key = $"Inspector-{id}";
             try
             {
-                var token = await _ablyHelper.RegisterTokenDevice(tokenDevice, "inspector");
+                var token = await AblyHelper.RegisterTokenDevice(tokenDevice, "inspector");
 
                 if (_redisManagement.IsConnected == false) throw new Exception();
                 string productListJson = _redisManagement.GetData(key);
@@ -417,7 +415,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 foreach (var item in result.Tokens)
                 {
-                    await _ablyHelper.RemoveTokenDevice(item);
+                    await AblyHelper.RemoveTokenDevice(item);
                 }
 
                 _redisManagement.DeleteData(key);

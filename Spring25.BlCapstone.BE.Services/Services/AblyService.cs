@@ -19,17 +19,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
     public class AblyService : IAblyService
     {
-        private readonly AblyHelper _ably;
         public AblyService()
         {
-            _ably ??= new AblyHelper();
         }
 
         public async Task<IBusinessResult> SendNotification(string title, string body)
         {
             try
             {
-                var res = await _ably.SendNotificationAsync(title, body);
+                var res = await AblyHelper.SendNotificationAsync(title, body);
                 return new BusinessResult
                 {
                     Status = 200,
@@ -52,7 +50,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var res = await _ably.SendMessageWithTopic(title, body, topic);
+                var res = await AblyHelper.SendMessageWithTopic(title, body, topic);
                 return new BusinessResult
                 {
                     Status = 200,
@@ -78,11 +76,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 string res;
                 if (model.Data == null)
                 {
-                    res = await _ably.SendMessageToDevice(model.Title, model.Body, deviceId);
+                    res = await AblyHelper.SendMessageToDevice(model.Title, model.Body, deviceId);
                 }
                 else
                 {
-                    res = await _ably.SendMessageToDevice(model.Title, model.Body, deviceId, model.Data);
+                    res = await AblyHelper.SendMessageToDevice(model.Title, model.Body, deviceId, model.Data);
                 }
 
                 return new BusinessResult(200, res, null);

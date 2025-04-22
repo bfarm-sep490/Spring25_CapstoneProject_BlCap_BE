@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Spring25.BlCapstone.BE.Repositories.Helper
 {
-    public class AblyHelper
+    public static class AblyHelper
     {
-        private readonly AblyRealtime _ablyClient;
-        private readonly string _channelNotification = "notifications";
+        private static readonly AblyRealtime _ablyClient;
+        private static readonly string _channelNotification = "notifications";
 
-        public AblyHelper()
+        static AblyHelper()
         {
             var ablyConfig = Environment.GetEnvironmentVariable("ABLY_API_KEY");
             if (string.IsNullOrEmpty(ablyConfig))
@@ -27,7 +27,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             _ablyClient = new AblyRealtime(ablyConfig);
         }
 
-        public async Task<string> SendNotificationAsync(string title, string body)
+        public static async Task<string> SendNotificationAsync(string title, string body)
         {
             try
             {
@@ -46,14 +46,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             }
         }
 
-        public async Task<string> SendMessageWithTopic(string title, string body, string topic)
+        public static async Task<string> SendMessageWithChanel(string title, string body, string chanel)
         {
             try
             {
-                var channel = _ablyClient.Channels.Get(topic);
+                var channel = _ablyClient.Channels.Get(chanel);
                 var message = new Message
                 {
-                    Name = topic,
+                    Name = chanel,
                     Data = new
                     {
                         Title = title,
@@ -70,7 +70,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             }
         }
 
-        public async Task<string> RegisterTokenDevice(string deviceToken, string role)
+        public static async Task<string> RegisterTokenDevice(string deviceToken, string role)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             return $"{role.ToUpper()}-{timestamp}-{randomPart}";
         }
 
-        public async Task<string> SendMessageToDevice(string title, string body, string deviceId, object? data = null)
+        public static async Task<string> SendMessageToDevice(string title, string body, string deviceId, object? data = null)
         {
             try
             {
@@ -142,7 +142,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             }
         }
 
-        public async Task<string> RemoveTokenDevice(string deviceId)
+        public static async Task<string> RemoveTokenDevice(string deviceId)
         {
             try
             {
