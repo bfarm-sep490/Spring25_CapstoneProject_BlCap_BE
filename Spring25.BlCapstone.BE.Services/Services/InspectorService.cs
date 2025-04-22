@@ -31,6 +31,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllDeviceTokensByInspectorId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByInspectorId(int id);
         Task<IBusinessResult> GetListNotifications(int id);
+        Task<IBusinessResult> MarkAsRead(int id);
+        Task<IBusinessResult> MarkAllAsRead(int inspectorId);
     }
 
     public class InspectorService : IInspectorService
@@ -451,6 +453,53 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var res = _mapper.Map<List<InspectorNotificationsModel>>(notis);
                 return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAsRead(int id)
+        {
+            try
+            {
+                var noti = await _unitOfWork.NotificationInspectorRepository.GetByIdAsync(id);
+                if (noti == null)
+                {
+                    return new BusinessResult(404, "Not found this notifications");
+                }
+
+                noti.IsRead = true;
+                await _unitOfWork.NotificationInspectorRepository.UpdateAsync(noti);
+                return new BusinessResult(200, "Mark as read successfully!");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAllAsRead(int inspectorId)
+        {
+            try
+            {
+                var expert = await _unitOfWork.InspectorRepository.GetByIdAsync(inspectorId);
+                if (expert == null)
+                {
+                    return new BusinessResult(404, "Not found this inspector");
+                }
+
+                var notis = await _unitOfWork.NotificationInspectorRepository.GetNotificationsByInspectorId(inspectorId);
+                notis.ForEach(n =>
+                {
+                    n.IsRead = true;
+                    _unitOfWork.NotificationInspectorRepository.PrepareUpdate(n);
+                });
+
+                await _unitOfWork.NotificationInspectorRepository.SaveAsync();
+
+                return new BusinessResult(200, "Mark all as read successfully !");
             }
             catch (Exception ex)
             {

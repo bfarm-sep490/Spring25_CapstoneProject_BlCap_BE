@@ -134,5 +134,33 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("notification-read/{notification_id}")]
+        public async Task<IActionResult> MarkAsRead(int notification_id)
+        {
+            try
+            {
+                var rs = await _inspectorService.MarkAsRead(notification_id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/notifications-read")]
+        public async Task<IActionResult> MarkAllAsRead(int id)
+        {
+            try
+            {
+                var rs = await _inspectorService.MarkAllAsRead(id);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

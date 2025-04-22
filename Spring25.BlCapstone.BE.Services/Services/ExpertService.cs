@@ -9,7 +9,6 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Item;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
@@ -33,6 +32,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllDeviceTokensByExpertId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByExpertId(int id);
         Task<IBusinessResult> GetListNotifications(int id);
+        Task<IBusinessResult> MarkAsRead(int id);
+        Task<IBusinessResult> MarkAllAsRead(int expertId);
     }
 
     public class ExpertService : IExpertService
@@ -454,6 +455,53 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var res = _mapper.Map<List<ExpertNotificationsModel>>(notis);
                 return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAsRead(int id)
+        {
+            try
+            {
+                var noti = await _unitOfWork.NotificationExpertRepository.GetByIdAsync(id);
+                if (noti == null)
+                {
+                    return new BusinessResult(404, "Not found this notifications");
+                }
+
+                noti.IsRead = true;
+                await _unitOfWork.NotificationExpertRepository.UpdateAsync(noti);
+                return new BusinessResult(200, "Mark as read successfully!");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAllAsRead(int expertId)
+        {
+            try
+            {
+                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(expertId);
+                if (expert == null)
+                {
+                    return new BusinessResult(404, "Not found this expert");
+                }
+
+                var notis = await _unitOfWork.NotificationExpertRepository.GetNotificationsByExpertId(expertId);
+                notis.ForEach(n =>
+                {
+                    n.IsRead = true;
+                    _unitOfWork.NotificationExpertRepository.PrepareUpdate(n);
+                });
+
+                await _unitOfWork.NotificationExpertRepository.SaveAsync();
+
+                return new BusinessResult(200, "Mark all as read successfully !");
             }
             catch (Exception ex)
             {

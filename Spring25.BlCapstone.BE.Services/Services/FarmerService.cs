@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Helper;
@@ -10,7 +7,6 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Expert;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Farmer;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -36,6 +32,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> RemoveDeviceTokenByFarmerId(int id);
         Task<IBusinessResult> GetFarmerCalendar(int id, DateTime? startDate, DateTime? endDate);
         Task<IBusinessResult> GetListNotifications(int id);
+        Task<IBusinessResult> MarkAsRead(int id);
+        Task<IBusinessResult> MarkAllAsRead(int farmerId);
     }
 
     public class FarmerService : IFarmerService
@@ -514,6 +512,53 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var res = _mapper.Map<List<FarmerNotificationsModel>>(notis);
                 return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAsRead(int id)
+        {
+            try
+            {
+                var noti = await _unitOfWork.NotificationFarmerRepository.GetByIdAsync(id);
+                if (noti == null)
+                {
+                    return new BusinessResult(404, "Not found this notifications");
+                }
+
+                noti.IsRead = true;
+                await _unitOfWork.NotificationFarmerRepository.UpdateAsync(noti);
+                return new BusinessResult(200, "Mark as read successfully!");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAllAsRead(int farmerId)
+        {
+            try
+            {
+                var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
+                if (farmer == null)
+                {
+                    return new BusinessResult(404, "Not found this farmer");
+                }
+
+                var notis = await _unitOfWork.NotificationFarmerRepository.GetNotificationsByFarmerId(farmerId);
+                notis.ForEach(n =>
+                {
+                    n.IsRead = true;
+                    _unitOfWork.NotificationFarmerRepository.PrepareUpdate(n);
+                });
+
+                await _unitOfWork.NotificationFarmerRepository.SaveAsync();
+
+                return new BusinessResult(200, "Mark all as read successfully !");
             }
             catch (Exception ex)
             {

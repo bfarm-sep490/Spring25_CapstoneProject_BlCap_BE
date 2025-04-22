@@ -13,6 +13,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
     public interface IOwnerService
     {
         Task<IBusinessResult> GetListNotifications();
+        Task<IBusinessResult> MarkAsRead(int id);
+        Task<IBusinessResult> MarkAllAsRead();
     }
 
     public class OwnerService : IOwnerService
@@ -38,6 +40,47 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var res = _mapper.Map<List<OwnerNotificationsModel>>(notis);
                 return new BusinessResult(200, "List notifications :", res);
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAsRead(int id)
+        {
+            try
+            {
+                var noti = await _unitOfWork.NotificationOwnerRepository.GetByIdAsync(id);
+                if (noti == null)
+                {
+                    return new BusinessResult(404, "Not found this notifications");
+                }
+
+                noti.IsRead = true;
+                await _unitOfWork.NotificationOwnerRepository.UpdateAsync(noti);
+                return new BusinessResult(200, "Mark as read successfully!");
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult(500, ex.Message);
+            }
+        }
+
+        public async Task<IBusinessResult> MarkAllAsRead()
+        {
+            try
+            {
+                var notis = await _unitOfWork.NotificationOwnerRepository.GetAllAsync();
+                notis.ForEach(n =>
+                {
+                    n.IsRead = true;
+                    _unitOfWork.NotificationOwnerRepository.PrepareUpdate(n);
+                });
+
+                await _unitOfWork.NotificationOwnerRepository.SaveAsync();
+
+                return new BusinessResult(200, "Mark all as read successfully !");
             }
             catch (Exception ex)
             {
