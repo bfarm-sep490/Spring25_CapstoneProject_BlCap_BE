@@ -245,7 +245,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmerChanel = $"farmer-{farmer.Id}";
                 var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
                 var title = $"Xin chào, {newAccount.Name}";
-                await AblyHelper.SendMessageWithChanel(title, title, farmerChanel);
+                await AblyHelper.SendMessageWithChanel(title, message, farmerChanel);
                 await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
                 {
                     FarmerId = farmer.Id,

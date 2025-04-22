@@ -66,7 +66,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var retaileraChanel = $"retailer-{order.RetailerId}";
                 var message = "Đơn hàng của bạn đã được đưa vào hàng đợi xử lý. Vui lòng kiểm tra email để cập nhật thông tin mới nhất!";
                 var title = $"Đơn hàng đã vào hàng đợi - {plant.PlantName}";
-                await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
                 await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
                 {
                     RetailerId = order.RetailerId,
@@ -176,7 +176,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var retaileraChanel = $"retailer-{order.RetailerId}";
                     var message = "Đơn hàng của bạn đã được duyệt. Vui lòng hoàn tất đặt cọc trong vòng 3 ngày để tiếp tục xử lý đơn hàng. Nếu quá thời hạn, đơn hàng sẽ bị hủy tự động.";
                     var title = $"Đơn hàng đã được cập nhật - {plant.PlantName}";
-                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
                     await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
                     {
                         RetailerId = order.RetailerId,
@@ -197,7 +197,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var retaileraChanel = $"retailer-{order.RetailerId}";
                     var message = "Đơn hàng của bạn đã bị hủy do một số lý do ngoài ý muốn. Chúng tôi thành thật xin lỗi vì sự bất tiện này và rất mong tiếp tục nhận được sự ủng hộ của bạn ở những đơn hàng tiếp theo.";
                     var title = $"Đơn hàng đã bị từ chối - {plant.PlantName}";
-                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
                     await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
                     {
                         RetailerId = order.RetailerId,

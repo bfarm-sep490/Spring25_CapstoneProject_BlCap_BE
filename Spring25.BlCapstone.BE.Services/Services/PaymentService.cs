@@ -2,6 +2,7 @@
 using Net.payOS;
 using Net.payOS.Types;
 using Spring25.BlCapstone.BE.Repositories;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
@@ -10,6 +11,8 @@ using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -226,6 +229,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.TransactionRepository.CreateAsync(trans);
                 await _unitOfWork.OrderRepository.SaveAsync();
 
+                var retailerChanel = $"retailer-{order.RetailerId}";
+                var message = "Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi. Bạn đã thanh toán khoản còn lại thành công của đơn hàng. Rất mong được đồng hành cùng bạn trong lần sử dụng dịch vụ tiếp theo! Cảm ơn quý khách.";
+                var title = $"Thanh toán thành công – Cảm ơn bạn đã sử dụng dịch vụ!";
+                await AblyHelper.SendMessageWithChanel(title, message, retailerChanel);
+                await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                {
+                    RetailerId = order.RetailerId,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
+
                 var rs = _mapper.Map<OrderModel>(order);
                 return new BusinessResult(200, "Pay Remaining by cash successfully: ", rs);
             }
@@ -327,10 +342,44 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (trans.Type.ToLower().Trim().Equals("deposit"))
                     {
                         order.Status = "Deposit";
+                        var retailerChanel = $"retailer-{order.RetailerId}";
+                        var message = "Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi. Bạn đã đặt cọc thành công cho kế hoạch. Hãy đợi chủ trang trại chuẩn bị kế hoạch phù hợp cho bạn trong thời gian sớm nhất.\r\nChúng tôi sẽ thông báo khi kế hoạch được phê duyệt và đi vào hoạt động.";
+                        var title = $"Đặt cọc thành công – Cảm ơn bạn đã sử dụng dịch vụ!";
+                        await AblyHelper.SendMessageWithChanel(title, message, retailerChanel);
+                        await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                        {
+                            RetailerId = order.RetailerId,
+                            Message = message,
+                            Title = title,
+                            CreatedDate = DateTime.Now,
+                        });
+
+                        var ownerChanel = "owner";
+                        var m = "Bạn vừa nhận được một đơn hàng mới đã hoàn tất đặt cọc. Vui lòng truy cập hệ thống và tiến hành thiết lập kế hoạch phù hợp để bắt đầu quy trình canh tác.";
+                        var t = "Có đơn hàng mới đã đặt cọc – Hãy thiết lập kế hoạch ngay!";
+                        await AblyHelper.SendMessageWithChanel(t, m, ownerChanel);
+                        await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
+                        {
+                            OwnerId = 1,
+                            Message = m,
+                            Title = t,
+                            CreatedDate = DateTime.Now,
+                        });
                     }
                     else
                     {
                         order.Status = "Paid";
+                        var retailerChanel = $"retailer-{order.RetailerId}";
+                        var message = "Cảm ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng tôi. Bạn đã thanh toán khoản còn lại thành công của đơn hàng. Rất mong được đồng hành cùng bạn trong lần sử dụng dịch vụ tiếp theo! Cảm ơn quý khách.";
+                        var title = $"Thanh toán thành công – Cảm ơn bạn đã sử dụng dịch vụ!";
+                        await AblyHelper.SendMessageWithChanel(title, message, retailerChanel);
+                        await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                        {
+                            RetailerId = order.RetailerId,
+                            Message = message,
+                            Title = title,
+                            CreatedDate = DateTime.Now,
+                        });
                     }
 
                     await _unitOfWork.TransactionRepository.UpdateAsync(trans);

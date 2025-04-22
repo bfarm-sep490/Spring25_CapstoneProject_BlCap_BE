@@ -1387,7 +1387,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var message = "Kế hoạch trồng cây trong đơn hàng của bạn đã hoàn tất. Vui lòng đến nhận cây đúng với ngày dự kiến mà bạn đã cập nhật trong đơn hàng để đảm bảo chất lượng sản phẩm tốt nhất." +
                         $"\n Ngày dự kiến đến lấy: {order.EstimatedPickupDate.ToString("MMM-dd, yyyy HH:mm")}";
                     var title = $"Kế hoạch trồng cây đã hoàn tất – Sẵn sàng giao cây - {plant.PlantName}";
-                    await AblyHelper.SendMessageWithChanel(title, title, retaileraChanel);
+                    await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
                     await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
                     {
                         RetailerId = order.RetailerId,
@@ -1561,6 +1561,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
+
+                var expert = await _unitOfWork.ExpertRepository.GetExpertByPlanId(id);
+                var expertChanel = $"expert-{expert.Id}";
+                var message = "Kế hoạch bạn vừa tạo đã được gửi lên chủ trang trại để xem xét. Vui lòng đợi trong thời gian ngắn để chủ trang trại xem qua kế hoạch và phản hồi. Chúng tôi sẽ thông báo ngay khi có cập nhật mới.!";
+                var title = $"Kế hoạch {plan.PlanName} của bạn đã được gửi lên chủ trang trại – Vui lòng đợi phản hồi!";
+                await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
+                await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
+                {
+                    ExpertId = expert.Id,
+                    Message = message,
+                    Title = title,
+                    CreatedDate = DateTime.Now,
+                });
 
                 return new BusinessResult(200, "Public plan successfull !");
             }

@@ -164,7 +164,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var inspectorChanel = $"inspector-{insForm.InspectorId}";
                 var message = "Chúng tôi đã nhận được kết quả kiểm định từ quý đơn vị. Xin chân thành cảm ơn sự phối hợp và hỗ trợ trong quá trình kiểm định. Rất mong sẽ tiếp tục đồng hành cùng quý đơn vị trong các kế hoạch tiếp theo.";
                 var title = $"Đã nhận kết quả kiểm định – Cảm ơn sự hợp tác của quý đơn vị - {plant.PlantName}";
-                await AblyHelper.SendMessageWithChanel(title, title, inspectorChanel);
+                await AblyHelper.SendMessageWithChanel(title, message, inspectorChanel);
                 await _unitOfWork.NotificationInspectorRepository.CreateAsync(new NotificationInspector
                 {
                     InspectorId = insForm.InspectorId.Value,
