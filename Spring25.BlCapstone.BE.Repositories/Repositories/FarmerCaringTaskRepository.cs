@@ -39,14 +39,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<bool> CheckFarmerAssignInPlan(int planId, int farmerId)
+        public async Task<List<FarmerCaringTask>> CheckFarmersAssignInPlan(int planId, int farmerId)
         {
             return await _context.FarmerCaringTasks
-                                 .AnyAsync(fct => fct.Status.ToLower() == "active"
+                                 .Where(fct => fct.Status.ToLower() == "active"
                                              && _context.CaringTasks
                                                         .Where(ct => ct.PlanId == planId)
                                                         .Any(ct => ct.Id == fct.TaskId) 
-                                             && fct.FarmerId == farmerId);
+                                             && fct.FarmerId == farmerId)
+                                 .ToListAsync();
         }
     }
 }
