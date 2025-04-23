@@ -94,5 +94,22 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("excel")]
+        public async Task<IActionResult> ImportByExcel(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Vui lòng chọn một file.");
+
+            try
+            {
+                var result = await _seasonalPlantService.ImportByExcel(file);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+
+            }
+        }
     }
 }
