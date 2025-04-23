@@ -34,11 +34,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var batches = await _unitOfWork.ProductPickupBatchRepository.GetAllBatches(orderId);
-                if (!batches.Any())
-                {
-                    return new BusinessResult(404, "Not found any batches !");
-                }
-
                 var rs = _mapper.Map<List<BatchModel>>(batches);
                 return new BusinessResult(200, "List batches: ", rs);
             }
@@ -55,7 +50,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var batch = await _unitOfWork.ProductPickupBatchRepository.GetByIdAsync(id);
                 if (batch == null)
                 {
-                    return new BusinessResult(404, "Not found any batches !");
+                    return new BusinessResult(400, "Not found any batches !");
                 }
 
                 var rs = _mapper.Map<BatchModel>(batch);

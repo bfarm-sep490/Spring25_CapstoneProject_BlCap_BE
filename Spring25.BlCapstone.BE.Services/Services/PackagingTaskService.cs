@@ -63,7 +63,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(taskId: id);
                 if (task.Count <= 0)
                 {
-                    return new BusinessResult(404, "Not found any Packaging Task");
+                    return new BusinessResult(400, "Not found any Packaging Task");
                 }
                 var rs = _mapper.Map<List<PackagingTaskModel>>(task);
 
@@ -107,7 +107,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var packTask = await _unitOfWork.PackagingTaskRepository.GetPackagingTaskById(id);
                 if (packTask == null)
                 {
-                    return new BusinessResult(404, "Not found any Packaging tasks");
+                    return new BusinessResult(400, "Not found any Packaging tasks");
                 }
 
                 if (!packTask.PackagingTypeId.HasValue)
@@ -118,7 +118,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(model.HarvestingTaskId);
                 if (harvestingTask == null)
                 {
-                    return new BusinessResult(404, "Not found any Harvesting Task !");
+                    return new BusinessResult(400, "Not found any Harvesting Task !");
                 }
 
                 if (model.Status.ToLower().Trim().Equals("complete"))
@@ -260,7 +260,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
                 if (task == null)
                 {
-                    return new BusinessResult(404, "Not found any Packaging tasks");
+                    return new BusinessResult(400, "Not found any Packaging tasks");
                 }
 
                 model.Status = model.Status != null ? model.Status : task.Status;
@@ -351,7 +351,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var packagingTask = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
                 if (packagingTask == null)
                 {
-                    return new BusinessResult(404, "Not found any packaging task");
+                    return new BusinessResult(400, "Not found any packaging task");
                 }
 
                 var packagingItems = await _unitOfWork.PackagingItemRepository.GetPackagingItemsByTaskId(id);
@@ -383,13 +383,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
                 if (task == null)
                 {
-                    return new BusinessResult(404, "Not found any Packaging Task");
+                    return new BusinessResult(400, "Not found any Packaging Task");
                 }
 
                 var history = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasks(id);
                 if (history.Count <= 0)
                 {
-                    return new BusinessResult(404, "There are not any farmers in task !");
+                    return new BusinessResult(400, "There are not any farmers in task !");
                 }
 
                 var res = _mapper.Map<List<HistoryFarmersTask>>(history);
@@ -408,13 +408,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, null, "Not found any farmer !");
+                    return new BusinessResult(400, null, "Not found any farmer !");
                 }
 
                 var packTask = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(id);
                 if (packTask == null)
                 {
-                    return new BusinessResult(404, null, "Packaging Task not found !");
+                    return new BusinessResult(400, null, "Packaging Task not found !");
                 }
 
                 var farmerPa = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasks(id);

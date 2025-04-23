@@ -34,10 +34,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var trans = await _unitOfWork.TransactionRepository.GetTransactions(orderId, status);
-                if (trans == null)
-                {
-                    return new BusinessResult(404, "Not found any transactions");
-                }
                 var res = _mapper.Map<List<TransactionModel>>(trans);
 
                 return new BusinessResult(200, "List transactions: ", res);
@@ -55,7 +51,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var trans = await _unitOfWork.TransactionRepository.GetByIdAsync(id);
                 if (trans == null)
                 {
-                    return new BusinessResult(404, "Not found any transactions");
+                    return new BusinessResult(400, "Not found any transactions");
                 }
                 var res = _mapper.Map<TransactionModel>(trans);
 

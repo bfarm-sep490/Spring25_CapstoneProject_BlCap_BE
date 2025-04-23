@@ -50,7 +50,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> Delete(int id)
         {
             var obj = await _unitOfWork.PesticideRepository.GetByIdAsync(id);
-            if (obj == null) { return new BusinessResult(404, "Do not have this Pesticide"); }
+            if (obj == null) { return new BusinessResult(400, "Do not have this Pesticide"); }
             var result = await _unitOfWork.PesticideRepository.RemoveAsync(obj);
             if (result) 
             {
@@ -118,7 +118,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> Update(int id, PesticideModel model)
         {
             var obj = await _unitOfWork.PesticideRepository.GetByIdAsync(id);
-            if (obj == null) { return new BusinessResult(404, "Not found this Pesticide"); }
+            if (obj == null) { return new BusinessResult(400, "Not found this Pesticide"); }
             _mapper.Map(model, obj);
             obj.Id = id;
             var result = await _unitOfWork.PesticideRepository.UpdateAsync(obj);

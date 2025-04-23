@@ -123,10 +123,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var orders = await _unitOfWork.OrderRepository.GetOrderWithNoPlan();
-                if (!orders.Any())
-                {
-                    return new BusinessResult(404, "Theren't any order with no plan");
-                }
 
                 var rs = _mapper.Map<List<OrderModel>>(orders);
                 return new BusinessResult(200, "List order with no plan: ", rs);
@@ -144,7 +140,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var order = await _unitOfWork.OrderRepository.GetOrderByOrderId(id);
                 if (order == null)
                 {
-                    return new BusinessResult(404, "Not found any orders !");
+                    return new BusinessResult(400, "Not found any orders !");
                 }
 
                 if (order.OrderPlans.Any())

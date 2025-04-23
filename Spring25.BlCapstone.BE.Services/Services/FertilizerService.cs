@@ -1,21 +1,17 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Redis;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Fertilizer;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
 using Spring25.BlCapstone.BE.Services.Untils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
@@ -52,7 +48,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> DeleteById(int id)
         {
             var obj = await _unitOfWork.FertilizerRepository.GetByIdAsync(id);
-            if (obj == null) { return new BusinessResult(404, "Do not have this Fertilizer"); }
+            if (obj == null) { return new BusinessResult(400, "Do not have this Fertilizer"); }
             var result = await _unitOfWork.FertilizerRepository.RemoveAsync(obj);
             if (result)
             {
@@ -117,7 +113,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> Update(int id, FertilizerModel model)
         {
             var obj = await _unitOfWork.FertilizerRepository.GetByIdAsync(id);
-            if (obj == null) { return new BusinessResult(404, "Not found this Fertilizer"); }
+            if (obj == null) { return new BusinessResult(400, "Not found this Fertilizer"); }
             _mapper.Map(model, obj);
             obj.Id = id;
             var result = await _unitOfWork.FertilizerRepository.UpdateAsync(obj);

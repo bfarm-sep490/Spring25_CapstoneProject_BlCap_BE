@@ -45,14 +45,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var results = await _unitOfWork.InspectingResultRepository.GetInspectingResults(evaluatedResult);
                 var rs = _mapper.Map<List<InspectingResultModel>>(results);
 
-                if (results.Count > 0)
-                {
-                    return new BusinessResult(200, "List of inspecting results: ", rs);
-                }
-                else
-                {
-                    return new BusinessResult(404, "Not found any inspecting results");
-                }
+                return new BusinessResult(200, "List of inspecting results: ", rs);
             }
             catch (Exception ex)
             {
@@ -69,11 +62,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (results.Count > 0)
                 {
-                    return new BusinessResult(200, "List of inspecting results: ", rs);
+                    return new BusinessResult(200, "Inspecting result: ", rs);
                 }
                 else
                 {
-                    return new BusinessResult(404, "Not found any inspecting results");
+                    return new BusinessResult(400, "Not found any inspecting results");
                 }
             }
             catch (Exception ex)
@@ -97,7 +90,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plant = await _unitOfWork.InspectingResultRepository.GetPlantByInspectingForm(id);
                 if (plant == null)
                 {
-                    return new BusinessResult(404, "Not found any plant");
+                    return new BusinessResult(400, "Not found any plant");
                 }
 
                 string res = await ClassifyResult(model, plant.Id);
@@ -224,7 +217,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var limits = _contaminantLimits.ContainsKey(plant.Type) ? _contaminantLimits[plant.Type] : new Dictionary<string, float>();
-                int minorViolations = 0; 
+                int minorViolations = 0;
                 int majorViolations = 0;
 
                 if (_globalLimits.ContainsKey("Salmonella") && model.Salmonella > _globalLimits["Salmonella"])
@@ -238,7 +231,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     float limit = limits[contaminant];
 
                     if (value >= 1.3 * limit)
-                        majorViolations++;  
+                        majorViolations++;
                     else if (value > limit && value < (1.3 * limit))
                         minorViolations++;
                 }
@@ -291,7 +284,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return "Grade 3";
 
                 if (minorViolations > 0 && minorViolations <= 3)
-                    return "Grade 2"; 
+                    return "Grade 2";
 
                 return "Grade 1";
             }

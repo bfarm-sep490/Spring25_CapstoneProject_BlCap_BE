@@ -80,7 +80,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
                 if (order == null)
                 {
-                    return new BusinessResult(404, "Not found any order !");
+                    return new BusinessResult(400, "Not found any order !");
                 }
 
                 if (!order.Status.ToLower().Trim().Equals("pending"))
@@ -145,7 +145,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
                 if (order == null)
                 {
-                    return new BusinessResult(404, "Not found any order !");
+                    return new BusinessResult(400, "Not found any order !");
                 }
 
                 if (!order.Status.ToLower().Trim().Equals("deposit"))
@@ -200,7 +200,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var order = await _unitOfWork.OrderRepository.GetOrderById(model.OrderId);
                 if (order == null)
                 {
-                    return new BusinessResult(404, "Not found any order !");
+                    return new BusinessResult(400, "Not found any order !");
                 }
 
                 if (!order.Status.ToLower().Trim().Equals("deposit"))
@@ -258,7 +258,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var trans = await _unitOfWork.TransactionRepository.GetByIdAsync(transactionID);
                 if (trans == null)
                 {
-                    return new BusinessResult(404, "Not found any transactions !");
+                    return new BusinessResult(400, "Not found any transactions !");
                 }
 
                 PaymentLinkInformation paymentLinkInformation = await _payOS.getPaymentLinkInformation(trans.OrderCode);
@@ -284,7 +284,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(transactionID);
                 if (transaction == null)
                 {
-                    return new BusinessResult(404, "Transaction does not existed !");
+                    return new BusinessResult(400, "Transaction does not existed !");
                 }
 
                 PaymentLinkInformation cancelledPaymentLinkInfo = await _payOS.getPaymentLinkInformation(transaction.OrderCode);

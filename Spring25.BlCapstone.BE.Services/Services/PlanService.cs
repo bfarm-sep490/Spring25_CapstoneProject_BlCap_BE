@@ -87,11 +87,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetPlan(id);
                 var res = _mapper.Map<PlanModel>(plan);
 
-                if (res != null)
-                {
-                    return new BusinessResult(200, "Plan ne", res);
-                }
-                return new BusinessResult(404, "Not found any Plans", null);
+                return new BusinessResult(200, "Plan ne", res);
             }
             catch (Exception ex)
             {
@@ -112,12 +108,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = _mapper.Map<List<PlanForList>>(plan);
 
-                if (rs != null)
-                {
-                    return new BusinessResult(200, "List of Plans", rs);
-                }
+                return new BusinessResult(200, "List of Plans", rs);
 
-                return new BusinessResult(404, "Not found any Plans", null);
             }
             catch (Exception ex)
             {
@@ -137,12 +129,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetPlan(id);
 
                 var res = _mapper.Map<PlanGeneral>(plan);
-                if (res != null)
-                {
-                    return new BusinessResult(200, "Plan ne", res);
-                }
 
-                return new BusinessResult(404, "Not found any Plans", null);
+                return new BusinessResult(200, "Plan ne", res);
             }
             catch (Exception ex)
             {
@@ -157,18 +145,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Plan not existed !", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Plan not existed !", Data = null };
                 }
 
                 var probs = await _unitOfWork.ProblemRepository.GetProblemByPlanId(planId);
 
                 var res = _mapper.Map<List<ProblemPlan>>(probs);
-                if (probs.Count > 0)
-                {
-                    return new BusinessResult { Status = 200, Message = "Problems ne!", Data = res };
-                }
 
-                return new BusinessResult { Status = 404, Message = "Not found any Problems in plan", Data = null };
+                return new BusinessResult { Status = 200, Message = "Problems ne!", Data = res };
             }
             catch (Exception ex)
             {
@@ -183,18 +167,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Plan not existed !", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Plan not existed !", Data = null };
                 }
 
                 var farmers = await _unitOfWork.FarmerRepository.GetFarmersByPlanId(planId);
 
                 var res = _mapper.Map<List<FarmerPlan>>(farmers);
-                if (farmers.Count > 0)
-                {
-                    return new BusinessResult { Status = 200, Message = "Farmers ne!", Data = res };
-                }
 
-                return new BusinessResult { Status = 404, Message = "Not found any Farmers in plan", Data = null };
+                return new BusinessResult { Status = 200, Message = "Farmers ne!", Data = res };
             }
             catch (Exception ex)
             {
@@ -209,7 +189,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Plan not existed !", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Plan not existed !", Data = null };
                 }
 
                 var ci = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(planId);
@@ -265,7 +245,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Not found any Plans", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Not found any Plans", Data = null };
                 }
 
                 _mapper.Map(model, plan);
@@ -438,42 +418,42 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (plan == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Not found any plan!", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Not found any plan!", Data = null };
                 }
 
                 if (!plan.YieldId.HasValue)
                 {
-                    return new BusinessResult(404, null, "Plan does not have any yield. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have any yield. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.PlanName))
                 {
-                    return new BusinessResult(404, null, "Plan does not have a name. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have a name. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.Description))
                 {
-                    return new BusinessResult(404, null, "Plan does not have a description. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have a description. Can not approve!");
                 }
 
                 if (!plan.StartDate.HasValue)
                 {
-                    return new BusinessResult(404, null, "Plan does not have a start date. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have a start date. Can not approve!");
                 }
 
                 if (!plan.EndDate.HasValue)
                 {
-                    return new BusinessResult(404, null, "Plan does not have an end date. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have an end date. Can not approve!");
                 }
 
                 if (!plan.EstimatedProduct.HasValue)
                 {
-                    return new BusinessResult(404, null, "Plan does not have an estimated product. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have an estimated product. Can not approve!");
                 }
 
                 if (!plan.SeedQuantity.HasValue)
                 {
-                    return new BusinessResult(404, null, "Plan does not have a seed quantity. Can not approve!");
+                    return new BusinessResult(400, null, "Plan does not have a seed quantity. Can not approve!");
                 }
 
                 if (!plan.Status.ToLower().Trim().Equals("pending"))
@@ -573,7 +553,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.YieldRepository.SaveAsync();
 
                 var orders = await _unitOfWork.OrderRepository.GetAllOrdersByPlanId(id);
-                foreach(var order in orders)
+                foreach (var order in orders)
                 {
                     var retaileraChanel = $"retailer-{order.RetailerId}";
                     var message = "Kế hoạch trồng cây cho đơn hàng của bạn đã chính thức đi vào hoạt động. Vui lòng kiểm tra email thường xuyên để cập nhật những thông tin mới nhất về đơn hàng.";
@@ -591,7 +571,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var farmers = await _unitOfWork.FarmerRepository.GetFarmersByPlanId(id);
-                foreach(var farmer in farmers)
+                foreach (var farmer in farmers)
                 {
                     var farmerChanel = $"farmer-{farmer.FarmerId}";
                     var message = "Kế hoạch đã được duyệt và chính thức đi vào hoạt động. Vui lòng kiểm tra lại lịch làm việc và kế hoạch để chuẩn bị thực hiện các công việc theo kế hoạch. Chúc bạn làm việc hiệu quả và đạt được kết quả tốt trong quá trình thực hiện!";
@@ -608,7 +588,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var inspectors = await _unitOfWork.InspectorRepository.GetInspectorsByPlanId(id);
-                foreach(var inspector in inspectors)
+                foreach (var inspector in inspectors)
                 {
                     var inspectorChanel = $"inspector-{inspector.Id}";
                     var message = $"Kế hoạch đã chính thức đi vào hoạt động. Quý đơn vị có một đợt kiểm định dự kiến vào ngày {plan.InspectingForms.FirstOrDefault(c => c.InspectorId == inspector.Id).StartDate.ToString("dd MMMM, yyyy")}, trước thời điểm thu hoạch.Vui lòng ghi nhớ hoặc đặt lời nhắc cho thời điểm này để tiến hành lấy mẫu và thực hiện kiểm định đúng hạn, đảm bảo tiến độ và chất lượng của kế hoạch. Xin cảm ơn sự phối hợp của quý đơn vị!";
@@ -666,7 +646,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(model.PlantId);
                 if (plant == null)
                 {
-                    return new BusinessResult(404, "Not found any plant!");
+                    return new BusinessResult(400, "Not found any plant!");
                 }
 
                 if (model.YieldId != null)
@@ -674,7 +654,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var yield = await _unitOfWork.YieldRepository.GetByIdAsync(model.YieldId.Value);
                     if (yield == null)
                     {
-                        return new BusinessResult(404, "Not found any yield!");
+                        return new BusinessResult(400, "Not found any yield!");
                     }
                     else
                     {
@@ -692,7 +672,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         var existed = await _unitOfWork.OrderRepository.GetOrderByOrderId(order.OrderId);
                         if (order == null)
                         {
-                            return new BusinessResult(404, $"Not found order {order.OrderId} !");
+                            return new BusinessResult(400, $"Not found order {order.OrderId} !");
                         }
                     }
                 }
@@ -700,7 +680,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var expert = await _unitOfWork.ExpertRepository.GetExpert(model.ExpertId);
                 if (expert == null)
                 {
-                    return new BusinessResult(404, "Not found any expert!");
+                    return new BusinessResult(400, "Not found any expert!");
                 }
 
                 var plan = _mapper.Map<Plan>(model);
@@ -746,7 +726,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(400, "Not found any plans !");
                 }
 
                 plan.Status = status;
@@ -776,7 +756,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 if (!string.Equals(plan.Status, "draft", StringComparison.OrdinalIgnoreCase))
@@ -869,7 +849,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(400, "Not found any plans !");
                 }
 
                 plan.YieldId = model.YieldId;
@@ -920,7 +900,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmers !");
+                    return new BusinessResult(400, "Not found any farmers !");
                 }
 
                 var plans = await _unitOfWork.FarmerPermissionRepository.GetPlanFarmerAssign(id, is_active_in_plan, status);
@@ -928,7 +908,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (rs.Count <= 0)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(400, "Not found any plans !");
                 }
                 else
                 {
@@ -944,7 +924,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> GetInfomationOfFertilizerTasksByPlanId(int id)
         {
             var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
-            if (plan == null) return new BusinessResult(404, "Plan not found !", null);
+            if (plan == null) return new BusinessResult(400, "Plan not found !", null);
 
             var result = new List<NurturingItem>();
             var list = await _unitOfWork.CaringFertilizerRepository.GetFertilizersByPlanId(id);
@@ -987,13 +967,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmer !");
+                    return new BusinessResult(400, "Not found any farmer !");
                 }
 
                 var isInCaringPlan = await _unitOfWork.FarmerCaringTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
@@ -1037,13 +1017,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmers");
+                    return new BusinessResult(400, "Not found any farmers");
                 }
 
                 await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
@@ -1079,13 +1059,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlantRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 var order = await _unitOfWork.OrderRepository.GetByIdAsync(orderId);
                 if (order == null)
                 {
-                    return new BusinessResult(404, "Not found any order !");
+                    return new BusinessResult(400, "Not found any order !");
                 }
 
                 //add orderplan co quantity nho check
@@ -1106,13 +1086,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlantRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 var order = await _unitOfWork.OrderRepository.GetOrderByOrderId(orderId);
                 if (order == null)
                 {
-                    return new BusinessResult(404, "Not found any order !");
+                    return new BusinessResult(400, "Not found any order !");
                 }
 
                 if (!order.OrderPlans.Any())
@@ -1149,7 +1129,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 var farmers = await _unitOfWork.FarmerRepository.GetBusyFarmersByPlanId(id, start, end);
@@ -1187,14 +1167,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         ).ToList()
                 }).ToList();
 
-                if (result.Count <= 0)
-                {
-                    return new BusinessResult(404, "Not found any busy farmers !");
-                }
-                else
-                {
-                    return new BusinessResult(200, "Plans that farmer assigned in : ", result);
-                }
+                return new BusinessResult(200, "Plans that farmer assigned in : ", result);
             }
             catch (Exception ex)
             {
@@ -1278,7 +1251,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(400, "Not found any plans !");
                 }
 
                 if (!plan.Status.ToLower().Trim().Equals("ongoing"))
@@ -1414,7 +1387,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(400, "Not found any plans !");
                 }
 
                 if (plan.Status.ToLower().Trim().Equals("ongoing"))
@@ -1518,7 +1491,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plans !");
+                    return new BusinessResult(400, "Not found any plans !");
                 }
 
                 if (!plan.Status.ToLower().Trim().Equals("draft"))
@@ -1572,7 +1545,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     ExpertId = expert.Id,
                     Message = message,
-                    Title = title, 
+                    Title = title,
                     IsRead = false,
                     CreatedDate = DateTime.Now,
                 });
@@ -1689,7 +1662,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         var existed = await _unitOfWork.OrderRepository.GetOrderByOrderId(order.OrderId);
                         if (order == null)
                         {
-                            return new BusinessResult(404, $"Not found order {order.OrderId} !");
+                            return new BusinessResult(400, $"Not found order {order.OrderId} !");
                         }
                     }
                 }
@@ -1816,7 +1789,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan !");
+                    return new BusinessResult(400, "Not found any plan !");
                 }
 
                 var res = await _unitOfWork.PlanRepository.GetPlan(id);
@@ -1936,7 +1909,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
             var (publicId, qrImageUrl) = await CloudinaryHelper.UploadImageQRCode(qrCodeAsPngByteArr);
 
-            foreach(var customer in model.Infors)
+            foreach (var customer in model.Infors)
             {
                 var body = EmailHelper.GetEmailBody("QRCodeSend.html", new Dictionary<string, string>
                 {
@@ -1947,8 +1920,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await EmailHelper.SendMail(customer.Email, "BFARMX - Blockchain FarmXperience xin gửi bạn QR Code!", customer.Name, body);
             }
-            
-            return new BusinessResult(200,"Send QR code successfull !");
+
+            return new BusinessResult(200, "Send QR code successfull !");
         }
     }
 }

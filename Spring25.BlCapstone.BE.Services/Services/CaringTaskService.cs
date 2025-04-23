@@ -56,7 +56,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> GetCaringTaskById(int id)
         {
             var obj = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(taskId: id);
-            if (obj.Count <= 0) return new BusinessResult(404, "Not found caring tasks !", null);
+            if (obj.Count <= 0) return new BusinessResult(400, "Not found caring tasks !", null);
             var result = _mapper.Map<List<CaringTaskModel>>(obj);
             return new BusinessResult(200,"Get caring task by id", result);
         }
@@ -68,7 +68,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
                 if (task == null)
                 {
-                    return new BusinessResult(404, "Not found any caring task");
+                    return new BusinessResult(400, "Not found any caring task");
                 }
 
                 var items = await _unitOfWork.CaringItemRepository.GetCaringItemsByTaskId(id);
@@ -252,7 +252,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
                 if (caringTask == null)
                 {
-                    return new BusinessResult(404, "Not found any Caring Tasks");   
+                    return new BusinessResult(400, "Not found any Caring Tasks");   
                 }
 
                 var caringFers = await _unitOfWork.CaringFertilizerRepository.GetCaringFertilizersByTaskId(id);
@@ -297,7 +297,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var caringTask = await _unitOfWork.CaringTaskRepository.GetCaringTaskById(id);
                 if (caringTask == null)
                 {
-                    return new BusinessResult(404, "Not found any Caring Tasks");
+                    return new BusinessResult(400, "Not found any Caring Tasks");
                 }
 
                 if (model.Status.ToLower().Trim().Equals("complete"))
@@ -450,13 +450,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
                 if (task == null)
                 {
-                    return new BusinessResult(404, "Not found any Caring Task");
+                    return new BusinessResult(400, "Not found any Caring Task");
                 }
 
                 var history = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasks(id);
                 if (history.Count <= 0)
                 {
-                    return new BusinessResult(404, "There are not any farmers in task !");
+                    return new BusinessResult(400, "There are not any farmers in task !");
                 }
 
                 var res = _mapper.Map<List<HistoryFarmersTask>>(history);
@@ -519,13 +519,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, null, "Not found any farmer !");
+                    return new BusinessResult(400, null, "Not found any farmer !");
                 }
 
                 var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(id);
                 if (caringTask == null)
                 {
-                    return new BusinessResult(404, null, "Caring Task not found !");
+                    return new BusinessResult(400, null, "Caring Task not found !");
                 }
 
                 var farmerCare = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasks(id);

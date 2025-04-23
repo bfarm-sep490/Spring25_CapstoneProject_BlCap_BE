@@ -151,7 +151,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any Items!",
                         Data = null
                     };
@@ -207,7 +207,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any items!",
                         Data = null
                     };
@@ -279,7 +279,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (item == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Not found any Items !", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Not found any Items !", Data = null };
                 }
 
                 item.Status = item.Status == "Inactive" ? "Active" : "Inactive";

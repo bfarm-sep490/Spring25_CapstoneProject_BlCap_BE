@@ -84,7 +84,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var yield = await _unitOfWork.YieldRepository.GetByIdAsync(id);
                 if (yield == null)
                 {
-                    return new BusinessResult(404, "Not found any yields");
+                    return new BusinessResult(400, "Not found any yields");
                 }
 
                 _mapper.Map(model, yield);
@@ -106,7 +106,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.YieldRepository.GetHistoryPlan(id);
                 if (!plan.Any())
                 {
-                    return new BusinessResult(404, "Not found any plans ! This yield is new !!!!");
+                    return new BusinessResult(400, "Not found any plans ! This yield is new !!!!");
                 }
 
                 var res = _mapper.Map<List<HistoryPlans>>(plan);

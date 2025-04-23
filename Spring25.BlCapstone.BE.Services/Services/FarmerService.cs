@@ -51,16 +51,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetAll()
         {
-            var list = await _unitOfWork.FarmerRepository.GetFarmers();
-            var result = _mapper.Map<List<FarmerModel>>(list);
-
-            if (list.Count > 0)
+            try
             {
+                var list = await _unitOfWork.FarmerRepository.GetFarmers();
+                var result = _mapper.Map<List<FarmerModel>>(list);
+
                 return new BusinessResult(200, "List Farmers", result);
             }
-            else
+            catch (Exception ex)
             {
-                return new BusinessResult(404, "Not Found Any Farmers", null);
+                return new BusinessResult(500, ex.Message);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any Farmers",
                         Data = null
                     };
@@ -109,7 +109,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found!",
                         Data = null
                     };
@@ -160,7 +160,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any farmers!",
                         Data = null
                     };
@@ -230,7 +230,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     IncompleteTasks = 0,
                     PerformanceScore = null
                 });
-                
+
                 var body = EmailHelper.GetEmailBody("RegisterAccount.html", new Dictionary<string, string>
                 {
                     { "{{UserName}}", model.Name },
@@ -283,7 +283,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Farmer not found !",
                         Data = null
                     };
@@ -308,7 +308,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = "Update successfull",
                         Data = null
                     };
-                } else
+                }
+                else
                 {
                     return new BusinessResult
                     {
@@ -359,7 +360,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
             if (farmer == null)
             {
-                return new BusinessResult(404, "Not found any farmers !");
+                return new BusinessResult(400, "Not found any farmers !");
             }
 
             var key = $"Farmer-{id}";
@@ -395,7 +396,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
             if (farmer == null)
             {
-                return new BusinessResult(404, "Not found any farmers !");
+                return new BusinessResult(400, "Not found any farmers !");
             }
 
             var key = $"Farmer-{id}";
@@ -422,7 +423,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
             if (farmer == null)
             {
-                return new BusinessResult(404, "Not found any farmers !");
+                return new BusinessResult(400, "Not found any farmers !");
             }
 
             var key = $"Farmer-{id}";
@@ -457,7 +458,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any Farmer !");
+                    return new BusinessResult(400, "Not found any Farmer !");
                 }
 
                 var caringCalendar = await _unitOfWork.CaringTaskRepository.GetCaringCalander(id, startDate, endDate);
@@ -507,7 +508,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var notis = await _unitOfWork.NotificationFarmerRepository.GetNotificationsByFarmerId(id);
                 if (!notis.Any())
                 {
-                    return new BusinessResult(404, "There aren't any notifications !");
+                    return new BusinessResult(400, "There aren't any notifications !");
                 }
 
                 var res = _mapper.Map<List<FarmerNotificationsModel>>(notis);
@@ -526,7 +527,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var noti = await _unitOfWork.NotificationFarmerRepository.GetByIdAsync(id);
                 if (noti == null)
                 {
-                    return new BusinessResult(404, "Not found this notifications");
+                    return new BusinessResult(400, "Not found this notifications");
                 }
 
                 noti.IsRead = true;
@@ -546,7 +547,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found this farmer");
+                    return new BusinessResult(400, "Not found this farmer");
                 }
 
                 var notis = await _unitOfWork.NotificationFarmerRepository.GetNotificationsByFarmerId(farmerId);

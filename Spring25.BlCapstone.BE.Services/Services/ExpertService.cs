@@ -51,16 +51,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         public async Task<IBusinessResult> GetAll()
         {
-            var list = await _unitOfWork.ExpertRepository.GetExperts();
-            var result = _mapper.Map<List<ExpertModel>>(list);
-
-            if(list.Count > 0)
+            try
             {
+                var list = await _unitOfWork.ExpertRepository.GetExperts();
+                var result = _mapper.Map<List<ExpertModel>>(list);
+
                 return new BusinessResult(200, "List Experts", result);
             }
-            else
+            catch (Exception ex)
             {
-                return new BusinessResult(404, "Not Found Any Experts", null);
+                return new BusinessResult(500, ex.Message);
             }
         }
 
@@ -75,7 +75,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any Experts",
                         Data = null
                     };
@@ -108,7 +108,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found!",
                         Data = null
                     };
@@ -159,7 +159,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any experts!",
                         Data = null
                     };
@@ -275,7 +275,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "3xpert not found !",
                         Data = null
                     };
@@ -352,7 +352,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
             if (expert == null)
             {
-                return new BusinessResult(404, "Not found any experts !");
+                return new BusinessResult(400, "Not found any experts !");
             }
 
             var key = $"Expert-{id}";
@@ -388,7 +388,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
             if (expert == null)
             {
-                return new BusinessResult(404, "Not found any experts !");
+                return new BusinessResult(400, "Not found any experts !");
             }
 
             var key = $"Expert-{id}";
@@ -415,7 +415,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(id);
             if (expert == null)
             {
-                return new BusinessResult(404, "Not found any experts !");
+                return new BusinessResult(400, "Not found any experts !");
             }
 
             var key = $"Expert-{id}";
@@ -450,7 +450,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var notis = await _unitOfWork.NotificationExpertRepository.GetNotificationsByExpertId(id);
                 if (!notis.Any())
                 {
-                    return new BusinessResult(404, "There aren't any notifications !");
+                    return new BusinessResult(400, "There aren't any notifications !");
                 }
 
                 var res = _mapper.Map<List<ExpertNotificationsModel>>(notis);
@@ -469,7 +469,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var noti = await _unitOfWork.NotificationExpertRepository.GetByIdAsync(id);
                 if (noti == null)
                 {
-                    return new BusinessResult(404, "Not found this notifications");
+                    return new BusinessResult(400, "Not found this notifications");
                 }
 
                 noti.IsRead = true;
@@ -489,7 +489,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(expertId);
                 if (expert == null)
                 {
-                    return new BusinessResult(404, "Not found this expert");
+                    return new BusinessResult(400, "Not found this expert");
                 }
 
                 var notis = await _unitOfWork.NotificationExpertRepository.GetNotificationsByExpertId(expertId);

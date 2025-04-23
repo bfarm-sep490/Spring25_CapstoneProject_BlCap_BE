@@ -55,12 +55,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var list = await _unitOfWork.InspectorRepository.GetInspectors();
                 var result = _mapper.Map<List<InspectorModel>>(list);
 
-                if (result.Any())
-                {
                     return new BusinessResult(200, "List Inspectors", result);
-                }
-
-                return new BusinessResult(404, "Not found any Inspectors", null);
             }
             catch (Exception ex)
             {
@@ -84,7 +79,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(200, "Inspector ne", res);
                 }
 
-                return new BusinessResult(404, "Not found any Inspectors", null);
+                return new BusinessResult(400, "Not found any Inspectors", null);
             }
             catch (Exception ex)
             {
@@ -106,7 +101,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any inspectors!",
                         Data = null
                     };
@@ -158,7 +153,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any inspectors!",
                         Data = null
                     };
@@ -272,7 +267,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Inspector not found !",
                         Data = null
                     };
@@ -350,7 +345,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var inspector = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
             if (inspector == null)
             {
-                return new BusinessResult(404, "Not found any inspectors !");
+                return new BusinessResult(400, "Not found any inspectors !");
             }
 
             var key = $"Inspector-{id}";
@@ -386,7 +381,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var inspector = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
             if (inspector == null)
             {
-                return new BusinessResult(404, "Not found any inspectors !");
+                return new BusinessResult(400, "Not found any inspectors !");
             }
 
             var key = $"Inspector-{id}";
@@ -413,7 +408,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var inspector = await _unitOfWork.InspectorRepository.GetByIdAsync(id);
             if (inspector == null)
             {
-                return new BusinessResult(404, "Not found any inspectors !");
+                return new BusinessResult(400, "Not found any inspectors !");
             }
 
             var key = $"Inspector-{id}";
@@ -448,7 +443,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var notis = await _unitOfWork.NotificationInspectorRepository.GetNotificationsByInspectorId(id);
                 if (!notis.Any())
                 {
-                    return new BusinessResult(404, "There aren't any notifications !");
+                    return new BusinessResult(400, "There aren't any notifications !");
                 }
 
                 var res = _mapper.Map<List<InspectorNotificationsModel>>(notis);
@@ -467,7 +462,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var noti = await _unitOfWork.NotificationInspectorRepository.GetByIdAsync(id);
                 if (noti == null)
                 {
-                    return new BusinessResult(404, "Not found this notifications");
+                    return new BusinessResult(400, "Not found this notifications");
                 }
 
                 noti.IsRead = true;
@@ -487,7 +482,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var expert = await _unitOfWork.InspectorRepository.GetByIdAsync(inspectorId);
                 if (expert == null)
                 {
-                    return new BusinessResult(404, "Not found this inspector");
+                    return new BusinessResult(400, "Not found this inspector");
                 }
 
                 var notis = await _unitOfWork.NotificationInspectorRepository.GetNotificationsByInspectorId(inspectorId);

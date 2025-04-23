@@ -40,10 +40,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var problems = await _unitOfWork.ProblemRepository.GetProblems(planId, farmerId, name, status, pageNumber, pageSize);
-                if (!problems.Any())
-                {
-                    return new BusinessResult(404, "Not found any Problems", null);
-                }
 
                 var res = _mapper.Map<List<ProblemModel>>(problems);
                 return new BusinessResult(200, "List of problems: ", res);
@@ -71,7 +67,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(200, "Problem ne", res);
                 }
 
-                return new BusinessResult(404, "Not found any Problems", null);
+                return new BusinessResult(400, "Not found any Problems", null);
             }
             catch(Exception ex)
             {
@@ -91,13 +87,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetByIdAsync(model.PlanId);
                 if (plan == null)
                 {
-                    return new BusinessResult(404, "Not found any plan");
+                    return new BusinessResult(400, "Not found any plan");
                 }
 
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(model.FarmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, "Not found any farmer");
+                    return new BusinessResult(400, "Not found any farmer");
                 }
 
                 var problem = _mapper.Map<Problem>(model);
@@ -174,7 +170,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var problem = await _unitOfWork.ProblemRepository.GetByIdAsync(id);
                 if (problem == null)
                 {
-                    return new BusinessResult(404, "Not found any problems");
+                    return new BusinessResult(400, "Not found any problems");
                 }
 
                 if (!model.Status.ToLower().Trim().Equals("cancel") && !model.Status.ToLower().Trim().Equals("resolve"))

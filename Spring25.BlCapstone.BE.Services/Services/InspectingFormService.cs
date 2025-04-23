@@ -82,7 +82,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var form = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
                 if (form == null)
                 {
-                    return new BusinessResult(404, "Not found any Inspecting form");
+                    return new BusinessResult(400, "Not found any Inspecting form");
                 }
 
                 model.Status = model.Status != null ? model.Status : form.Status;
@@ -114,7 +114,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var inspectingForm = await _unitOfWork.InspectingFormRepository.GetByIdAsync(id);
                 if (inspectingForm == null)
                 {
-                    return new BusinessResult(404, "Not found any Inspecting Form");
+                    return new BusinessResult(400, "Not found any Inspecting Form");
                 }
 
                 var rs = await _unitOfWork.InspectingFormRepository.RemoveAsync(inspectingForm);

@@ -53,14 +53,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var list = await _unitOfWork.RetailerRepository.GetRetailers();
             var result = _mapper.Map<List<RetailerModels>>(list);
 
-            if (list.Count > 0)
-            {
-                return new BusinessResult(200, "List Retailers", result);
-            }
-            else
-            {
-                return new BusinessResult(404, "Not Found Any Retailers", null);
-            }
+            return new BusinessResult(200, "List Retailers", result);
         }
 
         public async Task<IBusinessResult> GetById(int id)
@@ -74,7 +67,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any Retailers",
                         Data = null
                     };
@@ -107,7 +100,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found!",
                         Data = null
                     };
@@ -158,7 +151,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Not found any retailers!",
                         Data = null
                     };
@@ -280,7 +273,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult
                     {
-                        Status = 404,
+                        Status = 400,
                         Message = "Retailer not found !",
                         Data = null
                     };
@@ -354,7 +347,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var retailer = await _unitOfWork.RetailerRepository.GetByIdAsync(id);
             if (retailer == null)
             {
-                return new BusinessResult(404, "Not found any retailers !");
+                return new BusinessResult(400, "Not found any retailers !");
             }
 
             var key = $"Retailer-{id}";
@@ -390,7 +383,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var retailer = await _unitOfWork.RetailerRepository.GetByIdAsync(id);
             if (retailer == null)
             {
-                return new BusinessResult(404, "Not found any retailers !");
+                return new BusinessResult(400, "Not found any retailers !");
             }
 
             var key = $"Retailer-{id}";
@@ -417,7 +410,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var retailer = await _unitOfWork.RetailerRepository.GetByIdAsync(id);
             if (retailer == null)
             {
-                return new BusinessResult(404, "Not found any retailers !");
+                return new BusinessResult(400, "Not found any retailers !");
             }
 
             var key = $"Retailer-{id}";
@@ -452,7 +445,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var notis = await _unitOfWork.NotificationRetailerRepository.GetNotificationsByRetailerId(id);
                 if (!notis.Any())
                 {
-                    return new BusinessResult(404, "There aren't any notifications !");
+                    return new BusinessResult(400, "There aren't any notifications !");
                 }
 
                 var res = _mapper.Map<List<RetailerNotificationsModel>>(notis);
@@ -471,7 +464,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var noti = await _unitOfWork.NotificationRetailerRepository.GetByIdAsync(id);
                 if (noti == null)
                 {
-                    return new BusinessResult(404, "Not found this notifications");
+                    return new BusinessResult(400, "Not found this notifications");
                 }
 
                 noti.IsRead = true;
@@ -491,7 +484,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var expert = await _unitOfWork.RetailerRepository.GetByIdAsync(retailerId);
                 if (expert == null)
                 {
-                    return new BusinessResult(404, "Not found this retailer");
+                    return new BusinessResult(400, "Not found this retailer");
                 }
 
                 var notis = await _unitOfWork.NotificationRetailerRepository.GetNotificationsByRetailerId(retailerId);

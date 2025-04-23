@@ -133,7 +133,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTaskById(id);
                 if (harvestingTask == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Not found any Harvesting Task", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Not found any Harvesting Task", Data = null };
                 }
 
                 if (model.Status.ToLower().Trim().Equals("complete"))
@@ -252,7 +252,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
                 if (task == null)
                 {
-                    return new BusinessResult(404, "Not found any harvesting tasks");
+                    return new BusinessResult(400, "Not found any harvesting tasks");
                 }
 
                 model.Status = model.Status != null ? model.Status : task.Status;
@@ -304,7 +304,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
                 if (harvestingTask == null)
                 {
-                    return new BusinessResult(404, "Not found any harvesting task!");
+                    return new BusinessResult(400, "Not found any harvesting task!");
                 }
 
                 var harvestingItems = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemsByTaskId(id);
@@ -369,13 +369,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var task = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
                 if (task == null)
                 {
-                    return new BusinessResult(404, "Not found any Harvesting Task");
+                    return new BusinessResult(400, "Not found any Harvesting Task");
                 }
 
                 var history = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasks(id);
                 if (history.Count <= 0)
                 {
-                    return new BusinessResult(404, "There are not any farmers in task !");
+                    return new BusinessResult(400, "There are not any farmers in task !");
                 }
 
                 var res = _mapper.Map<List<HistoryFarmersTask>>(history);
@@ -470,13 +470,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
                 if (farmer == null)
                 {
-                    return new BusinessResult(404, null, "Not found any farmer !");
+                    return new BusinessResult(400, null, "Not found any farmer !");
                 }
 
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(id);
                 if (harvestingTask == null)
                 {
-                    return new BusinessResult(404, null, "Harvesting Task not found !");
+                    return new BusinessResult(400, null, "Harvesting Task not found !");
                 }
 
                 var farmerHar = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasks(id);

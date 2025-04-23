@@ -35,7 +35,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var notis = await _unitOfWork.NotificationOwnerRepository.GetAllAsync();
                 if (!notis.Any())
                 {
-                    return new BusinessResult(404, "There aren't any notifications !");
+                    return new BusinessResult(400, "There aren't any notifications !");
                 }
 
                 var res = _mapper.Map<List<OwnerNotificationsModel>>(notis);
@@ -54,7 +54,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var noti = await _unitOfWork.NotificationOwnerRepository.GetByIdAsync(id);
                 if (noti == null)
                 {
-                    return new BusinessResult(404, "Not found this notifications");
+                    return new BusinessResult(400, "Not found this notifications");
                 }
 
                 noti.IsRead = true;

@@ -89,7 +89,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         public async Task<IBusinessResult> DeleteSuggestYields(int id, int yieldId)
         {
             var obj = await _unitOfWork.PlantYieldRepository.GetPlantYield(yieldId, id);
-            if (obj == null) { return new BusinessResult(404, "Not Found"); }
+            if (obj == null) { return new BusinessResult(400, "Not Found"); }
             await _unitOfWork.PlantYieldRepository.DeletePlantYield(obj);
             return new BusinessResult(200, "Removed successfully.");
         }

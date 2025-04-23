@@ -88,7 +88,6 @@ builder.Services.AddSwaggerGen(opt =>
 
 //Register Service
 builder.Services.AddScoped<IAuthencationService, AuthencationService>();
-builder.Services.AddScoped<IFCMService, FCMService>();
 builder.Services.AddScoped<IAblyService, AblyService>();
 builder.Services.AddScoped<IFarmerService, FarmerService>();
 builder.Services.AddScoped<IInspectorService, InspectorService>();

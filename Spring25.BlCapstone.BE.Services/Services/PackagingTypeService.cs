@@ -35,11 +35,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var types = await _unitOfWork.PackagingTypeRepository.GetAllAsync();
-                if (!types.Any())
-                {
-                    return new BusinessResult(404, "Not found any Types !");
-                }
-
                 var res = _mapper.Map<List<PackagingTypeModel>>(types);
                 return new BusinessResult(200, "List of packaging types :", res);
             }
@@ -56,7 +51,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(id);
                 if (type == null)
                 {
-                    return new BusinessResult(404, "Not found any Types !");
+                    return new BusinessResult(400, "Not found any Types !");
                 }
 
                 var res = _mapper.Map<PackagingTypeModel>(type);
@@ -93,7 +88,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(id);
                 if (type == null)
                 {
-                    return new BusinessResult(404, "Not found any Types !");
+                    return new BusinessResult(400, "Not found any Types !");
                 }
 
                 type.Status = type.Status.ToLower().Trim().Equals("active") ? "Inactive" : "Active";

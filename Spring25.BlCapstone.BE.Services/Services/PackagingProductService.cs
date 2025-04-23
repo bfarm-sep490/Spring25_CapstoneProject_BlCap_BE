@@ -31,11 +31,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var products = await _unitOfWork.PackagingProductRepository.GetPackagingProducts(planId, status, harvestingTaskId, orderId);
-                if (!products.Any())
-                {
-                    return new BusinessResult(404, "There are not any products !");
-                }
-
                 var rs = _mapper.Map<List<PackagingProductionModel>>(products);
                 return new BusinessResult(200, "List of productions:", rs);
             }
@@ -52,7 +47,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var product = await _unitOfWork.PackagingProductRepository.GetProductById(id);
                 if (product == null)
                 {
-                    return new BusinessResult(404, "There are not any products !");
+                    return new BusinessResult(400, "There are not any products !");
                 }
 
                 var rs = _mapper.Map<PackagingProductionModel>(product);

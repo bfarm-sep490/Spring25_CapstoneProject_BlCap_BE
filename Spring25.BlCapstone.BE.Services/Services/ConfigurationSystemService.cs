@@ -34,12 +34,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var configs = await _unitOfWork.ConfigurationSystemRepository.GetAllConfigs(status);
-
-                if (!configs.Any())
-                {
-                    return new BusinessResult(404, "Not found any config !");
-                }
-
                 return new BusinessResult(200, "List of configuration: ", configs);
             }
             catch (Exception ex)

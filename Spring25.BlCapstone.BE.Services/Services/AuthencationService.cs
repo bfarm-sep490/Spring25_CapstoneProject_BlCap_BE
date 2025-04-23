@@ -106,7 +106,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     Data = null,
                     Message = "email/password is incorrect.",
-                    Status = 404
+                    Status = 400
                 };
             else if( user.IsActive == false)
             {
@@ -183,7 +183,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var user = await _unitOfWork.AccountRepository.GetByIdAsync(id);
                 if (user == null)
                 {
-                    return new BusinessResult { Status = 404, Message = "Not found any user", Data = null };
+                    return new BusinessResult { Status = 400, Message = "Not found any user", Data = null };
                 }
 
                 if (model.OldPassword != user.Password)
