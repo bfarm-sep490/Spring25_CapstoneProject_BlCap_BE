@@ -87,7 +87,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetPlan(id);
                 var res = _mapper.Map<PlanModel>(plan);
 
-                return new BusinessResult(200, "Plan ne", res);
+                if (res != null)
+                {
+                    return new BusinessResult(200, "Plan ne", res);
+                }
+                return new BusinessResult(404, "Not found any Plans", null);
             }
             catch (Exception ex)
             {
@@ -108,7 +112,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = _mapper.Map<List<PlanForList>>(plan);
 
-                return new BusinessResult(200, "List of Plans", rs);
+                if (rs != null)
+                {
+                    return new BusinessResult(200, "List of Plans", rs);
+                }
+
+                return new BusinessResult(404, "Not found any Plans", null);
             }
             catch (Exception ex)
             {
@@ -128,7 +137,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var plan = await _unitOfWork.PlanRepository.GetPlan(id);
 
                 var res = _mapper.Map<PlanGeneral>(plan);
-                return new BusinessResult(200, "Plan ne", res);
+                if (res != null)
+                {
+                    return new BusinessResult(200, "Plan ne", res);
+                }
+
+                return new BusinessResult(404, "Not found any Plans", null);
             }
             catch (Exception ex)
             {
@@ -149,7 +163,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var probs = await _unitOfWork.ProblemRepository.GetProblemByPlanId(planId);
 
                 var res = _mapper.Map<List<ProblemPlan>>(probs);
-                return new BusinessResult { Status = 200, Message = "Problems ne!", Data = res };
+                if (probs.Count > 0)
+                {
+                    return new BusinessResult { Status = 200, Message = "Problems ne!", Data = res };
+                }
+
+                return new BusinessResult { Status = 404, Message = "Not found any Problems in plan", Data = null };
             }
             catch (Exception ex)
             {
@@ -1168,7 +1187,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         ).ToList()
                 }).ToList();
 
-                return new BusinessResult(200, "Plans that farmer assigned in : ", result);
+                if (result.Count <= 0)
+                {
+                    return new BusinessResult(404, "Not found any busy farmers !");
+                }
+                else
+                {
+                    return new BusinessResult(200, "Plans that farmer assigned in : ", result);
+                }
             }
             catch (Exception ex)
             {
