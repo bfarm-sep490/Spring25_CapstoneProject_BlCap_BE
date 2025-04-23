@@ -964,7 +964,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
                     return new BusinessResult(400, "Not found any plan !");
