@@ -68,10 +68,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var users = await _unitOfWork.ExpertRepository.GetExperts(id);
+                var users = await _unitOfWork.ExpertRepository.GetExpert(id);
                 var result = _mapper.Map<List<ExpertModel>>(users);
 
-                if (users.Count <= 0)
+                if (users == null)
                 {
                     return new BusinessResult
                     {

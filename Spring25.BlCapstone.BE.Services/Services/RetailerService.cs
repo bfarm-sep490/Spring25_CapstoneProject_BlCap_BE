@@ -60,10 +60,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var users = await _unitOfWork.RetailerRepository.GetRetailers();
-                var result = _mapper.Map<List<RetailerModels>>(users);
-
-                if (!(users.Count > 0))
+                var users = await _unitOfWork.RetailerRepository.GetRetailerById(id);
+                if (users == null)
                 {
                     return new BusinessResult
                     {
@@ -72,6 +70,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Data = null
                     };
                 }
+                var result = _mapper.Map<List<RetailerModels>>(users);
 
                 return new BusinessResult
                 {
