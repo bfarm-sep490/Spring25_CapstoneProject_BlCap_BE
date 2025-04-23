@@ -964,10 +964,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var plan = await _unitOfWork.PlantRepository.GetByIdAsync(planId);
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
                 if (plan == null)
                 {
                     return new BusinessResult(400, "Not found any plan !");
+                }
+
+                if (!plan.Status.ToLower().Trim().Equals("pending") && !plan.Status.ToLower().Trim().Equals("draft"))
+                {
+                    return new BusinessResult(400, "Can not remove farmer if plan is not pending or draft!");
                 }
 
                 var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(farmerId);
@@ -976,23 +981,27 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, "Not found any farmer !");
                 }
 
-                var isInCaringPlan = await _unitOfWork.FarmerCaringTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
-                if (isInCaringPlan)
+                var farmersInCaring = await _unitOfWork.FarmerCaringTaskRepository.CheckFarmersAssignInPlan(planId, farmerId);
+                foreach (var f in farmersInCaring)
                 {
-                    return new BusinessResult(400, null, "Can not remove farmer because he/she have been assign in a Caring Task !");
+                    _unitOfWork.FarmerCaringTaskRepository.PrepareRemove(f);
                 }
 
-                var isInHarvestingPlan = await _unitOfWork.FarmerHarvestingTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
-                if (isInHarvestingPlan)
+                var farmersInHarvesting = await _unitOfWork.FarmerHarvestingTaskRepository.CheckFarmersAssignInPlan(planId, farmerId);
+                foreach (var f in farmersInHarvesting)
                 {
-                    return new BusinessResult(400, null, "Can not remove farmer because he/she have been assign in a Harvesting Task !");
+                    _unitOfWork.FarmerHarvestingTaskRepository.PrepareRemove(f);
                 }
 
-                var isInPackagingPlan = await _unitOfWork.FarmerPackagingTaskRepository.CheckFarmerAssignInPlan(planId, farmerId);
-                if (isInPackagingPlan)
+                var farmerPackaging = await _unitOfWork.FarmerPackagingTaskRepository.CheckFarmersAssignInPlan(planId, farmerId);
+                foreach (var f in farmerPackaging)
                 {
-                    return new BusinessResult(400, null, "Can not remove farmer because he/she have been assign in a Packaging Task !");
+                    _unitOfWork.FarmerPackagingTaskRepository.PrepareRemove(f);
                 }
+
+                await _unitOfWork.FarmerCaringTaskRepository.SaveAsync();
+                await _unitOfWork.FarmerHarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.FarmerPackagingTaskRepository.SaveAsync();
 
                 var farmerPermission = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermission(planId, farmerId);
                 var rs = await _unitOfWork.FarmerPermissionRepository.RemoveAsync(farmerPermission);
