@@ -1545,6 +1545,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
 
+                var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
                 var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(plan.ExpertId);
                 var expertChanel = $"expert-{expert.Id}";
                 var message = "Kế hoạch bạn vừa tạo đã được gửi lên chủ trang trại để xem xét. Vui lòng đợi trong thời gian ngắn để chủ trang trại xem qua kế hoạch và phản hồi. Chúng tôi sẽ thông báo ngay khi có cập nhật mới.!";
@@ -1555,7 +1556,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.UtcNow,
+                    CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
                 });
                 await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
 
