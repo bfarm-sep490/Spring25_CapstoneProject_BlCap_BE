@@ -59,8 +59,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> ChangeCompleteStatus(int id);
         Task<IBusinessResult> ChangeCancelStatus(int id);
         Task<IBusinessResult> PublicPlan(int id);
-        Task<IBusinessResult> GetSuggestTasksByPlanId(int planId, int suggestPlanId);
-        Task<IBusinessResult> GetSuggestPlansByPlanId(int planId);
         Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model);
         Task<IBusinessResult> GetPlanOrderById(int id);
         Task<IBusinessResult> GetTemplatePlan(RequestTemplatePlan model);
@@ -1566,91 +1564,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, ex.Message);
             }
-        }
-
-        public async Task<IBusinessResult> GetSuggestTasksByPlanId(int planId, int suggestPlanId)
-        {
-            var result = new SuggestTasksModel();
-            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
-            if (plan == null) { return new BusinessResult(400, "Not Found this Plan"); }
-            var suggestPlan = await _unitOfWork.PlanRepository.GetTasksByPlanId(suggestPlanId);
-            if (suggestPlan == null) { return new BusinessResult(400, "Not Found this Suggest Plan"); }
-            if (suggestPlan.EstimatedProduct == null) { return new BusinessResult(400, "This Plan do not have EstimatedProduct"); }
-            var ratioEstimate = MathF.Round(plan.EstimatedProduct.Value / suggestPlan.EstimatedProduct.Value, 2);
-            if (suggestPlan.StartDate == null) { return new BusinessResult(400, "This Plan do not have StartDate"); }
-            var ratioDate = (suggestPlan.StartDate - plan.StartDate).Value.Days;
-            foreach (var care in suggestPlan.CaringTasks)
-            {
-                var caringtask = _mapper.Map<CreateCaringPlan>(care);
-                caringtask.PlanId = planId;
-                caringtask.StartDate = caringtask.StartDate.AddDays(ratioDate);
-                caringtask.EndDate = caringtask.EndDate.AddDays(ratioDate);
-                foreach (var pesticide in care.CaringPesticides)
-                {
-                    var pesticideTask = _mapper.Map<PesCare>(pesticide);
-                    pesticideTask.Quantity = pesticideTask.Quantity * ratioEstimate;
-                    caringtask.Pesticides.Add(pesticideTask);
-                }
-                foreach (var item in care.CaringItems)
-                {
-                    var ItemTask = _mapper.Map<ItemCare>(item);
-                    ItemTask.Quantity = (int)(ItemTask.Quantity * ratioEstimate);
-                    caringtask.Items.Add(ItemTask);
-                }
-                foreach (var fertilizer in care.CaringFertilizers)
-                {
-                    var fertilizerTask = _mapper.Map<FerCare>(fertilizer);
-                    fertilizerTask.Quantity = (int)fertilizerTask.Quantity * ratioEstimate;
-                    caringtask.Fertilizers.Add(fertilizerTask);
-                }
-                result.CreateCaringPlans.Add(caringtask);
-            }
-            foreach (var harvest in suggestPlan.HarvestingTasks)
-            {
-                var harvestingTask = _mapper.Map<CreateHarvestingPlan>(harvest);
-                harvest.PlanId = planId;
-                harvest.StartDate = harvest.StartDate.AddDays(ratioDate);
-                harvest.EndDate = harvest.EndDate.AddDays(ratioDate);
-                foreach (var item in harvest.HarvestingItems)
-                {
-                    var ItemTask = _mapper.Map<HarvestItem>(item);
-                    ItemTask.Quantity = (int)(ItemTask.Quantity * ratioEstimate);
-                    harvestingTask.Items.Add(ItemTask);
-                }
-                result.CreateHarvestingPlans.Add(harvestingTask);
-            }
-            foreach (var inspect in suggestPlan.InspectingForms)
-            {
-                var inspectingForm = _mapper.Map<CreateInspectingPlan>(inspect);
-                inspectingForm.PlanId = planId;
-                inspectingForm.StartDate = inspectingForm.StartDate.AddDays(ratioDate);
-                inspectingForm.EndDate = inspectingForm.EndDate.AddDays(ratioDate);
-                result.CreateInspectingPlans.Add(inspectingForm);
-            }
-            foreach (var packing in suggestPlan.PackagingTasks)
-            {
-                var packagingTasks = _mapper.Map<CreatePackagingPlan>(packing);
-                packagingTasks.PlanId = planId;
-                packagingTasks.StartDate = packagingTasks.StartDate.AddDays(ratioDate);
-                packagingTasks.EndDate = packagingTasks.EndDate.AddDays(ratioDate);
-                foreach (var item in packing.PackagingItems)
-                {
-                    var ItemTask = _mapper.Map<PackageItem>(item);
-                    ItemTask.Quantity = (int)(ItemTask.Quantity * ratioEstimate);
-                    packagingTasks.Items.Add(ItemTask);
-                }
-                result.CreatePackagingPlans.Add(packagingTasks);
-            }
-            return new BusinessResult(200, "Suggest Tasks by PlanId", result);
-        }
-
-        public async Task<IBusinessResult> GetSuggestPlansByPlanId(int planId)
-        {
-            var plan = await _unitOfWork.PlanRepository.GetByIdAsync(planId);
-            if (plan == null) { return new BusinessResult(400, "Not found this plan"); }
-            var list = await _unitOfWork.PlanRepository.GetSuggestPlansByPlanId(plan.PlantId, planId, plan.EstimatedProduct.Value);
-            var result = _mapper.Map<List<PlanModel>>(list);
-            return new BusinessResult(200, "Get list suggested plans by plan id", result);
         }
 
         public async Task<IBusinessResult> CreateBigPlan(CreatePlanTemplate model)

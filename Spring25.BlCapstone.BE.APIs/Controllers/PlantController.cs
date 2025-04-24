@@ -127,7 +127,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
        
         [HttpPost("{id}/suggest-yields")]
-        public async Task<IActionResult> CreateSuggestYields(int id, [FromBody] List<PlantYieldModel> model)
+        public async Task<IActionResult> CreateSuggestYields(int id, [FromBody] PlantYieldModel model)
         {
             try
             {
