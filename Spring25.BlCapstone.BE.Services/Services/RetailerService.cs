@@ -250,7 +250,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     Status = 200,
                     Message = "Create retailer success !",
-                    Data = rsf
+                    Data = model
                 };
 
             }
