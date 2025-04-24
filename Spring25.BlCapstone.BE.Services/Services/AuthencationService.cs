@@ -219,7 +219,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var token = JWTHelper.GenerateResetPasswordToken(email, _configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], user.Password, user.Id);
-                string resetLink = $"https://bfarmx.space/reset-password?token={token}";
+                string resetLink = $"https://bfarmx.space/auth/reset-password?token={token}";
 
                 var body = EmailHelper.GetEmailBody("ForgotPassword.html", new Dictionary<string, string>
                 {
