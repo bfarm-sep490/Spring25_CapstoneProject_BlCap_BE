@@ -448,7 +448,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var res = _mapper.Map<List<RetailerNotificationsModel>>(notis);
-                return new BusinessResult(200, "List notifications :", res.OrderByDescending(c => c.Id));
+                return new BusinessResult(200, "List notifications :", res.OrderByDescending(c => c.CreatedDate));
             }
             catch (Exception ex)
             {
