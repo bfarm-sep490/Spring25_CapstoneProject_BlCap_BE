@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -139,7 +140,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Quantity = ct.Quantity,
                             Unit = ct.Unit,
                         }).ToList(),
-                        Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString()
+                        Timestamp = (new DateTimeOffset(DateTimeHelper.NowVietnamTime()).ToUnixTimeSeconds()).ToString()
                     };
 
                     var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
@@ -166,8 +167,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 _mapper.Map(model, packTask);
-                packTask.CompleteDate = DateTime.Now;
-                packTask.UpdatedAt = DateTime.Now;
+                packTask.CompleteDate = DateTimeHelper.NowVietnamTime();
+                packTask.UpdatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(packTask);
 
@@ -265,7 +266,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 model.Status = model.Status != null ? model.Status : task.Status;
                 _mapper.Map(model, task);
-                task.UpdatedAt = DateTime.Now;
+                task.UpdatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.PackagingTaskRepository.UpdateAsync(task);
 
@@ -311,7 +312,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var task = _mapper.Map<PackagingTask>(model);
                 task.Status = model.Status != null ? model.Status : "Draft";
-                task.CreatedAt = DateTime.Now;
+                task.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.PackagingTaskRepository.CreateAsync(task);
                 if (model.Items != null)
@@ -428,7 +429,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (fc.Status.ToLower().Trim().Equals("active"))
                     {
                         fc.Status = "Inactive";
-                        fc.ExpiredDate = DateTime.Now;
+                        fc.ExpiredDate = DateTimeHelper.NowVietnamTime();
                         fc.Description = string.IsNullOrEmpty(reasons) ? null : reasons;
                     }
                     _unitOfWork.FarmerPackagingTaskRepository.PrepareUpdate(fc);

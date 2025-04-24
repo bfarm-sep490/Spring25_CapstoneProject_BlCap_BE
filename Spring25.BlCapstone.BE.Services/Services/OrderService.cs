@@ -5,6 +5,7 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,7 +38,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var newOrder = _mapper.Map<Repositories.Models.Order>(order);
                 newOrder.Status = "PendingConfirmation";
-                newOrder.CreatedAt = DateTime.Now;
+                newOrder.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(order.PlantId);
                 var account = await _unitOfWork.AccountRepository.GetAccountByUserId(retailerId: order.RetailerId);
@@ -47,8 +48,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var body = EmailHelper.GetEmailBody("ConfirmOrder.html", new Dictionary<string, string>
                 {
-                    { "{{orderDate}}", DateTime.Now.ToString("MMM dd, yy") },
-                    { "{{orderConfirmDate}}", DateTime.Now.AddDays(2).ToString("MMM dd, yy") },
+                    { "{{orderDate}}", DateTimeHelper.NowVietnamTime().ToString("MMM dd, yy") },
+                    { "{{orderConfirmDate}}", DateTimeHelper.NowVietnamTime().AddDays(2).ToString("MMM dd, yy") },
                     { "{{orderTrackingLink}}", "https://bfarmx.space" },
                     { "{{orderCode}}", $"{plant.PlantName}" },
                     { "{{imageOrder}}", $"{plant.ImageUrl}" },
@@ -72,7 +73,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 var response = new OrderModel();
@@ -154,7 +155,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (status.ToLower().Trim().Equals("pending"))
                 {
-                    DateTime date = DateTime.Now.AddDays(3);
+                    DateTime date = DateTimeHelper.NowVietnamTime().AddDays(3);
                     int day = date.Day;
                     string suffix = GetDaySuffix(day);
                     string formatted = $"{day}{suffix} {date:MMMM yyyy, HH:mm}";
@@ -179,7 +180,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = message,
                         Title = title,
                         IsRead = false,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTimeHelper.NowVietnamTime(),
                     });
                 }
                 else if (status.ToLower().Trim().Equals("cancel"))
@@ -201,7 +202,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = message,
                         Title = title,
                         IsRead = false,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTimeHelper.NowVietnamTime(),
                     });
                 }
 

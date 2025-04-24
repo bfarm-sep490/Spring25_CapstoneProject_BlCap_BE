@@ -6,6 +6,7 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,7 +99,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var problem = _mapper.Map<Problem>(model);
                 problem.Status = "Pending";
-                problem.CreatedDate = DateTime.Now;
+                problem.CreatedDate = DateTimeHelper.NowVietnamTime();
                 var rs = await _unitOfWork.ProblemRepository.CreateAsync(problem);
 
                 if (model.ImageUrl != null)
@@ -127,7 +128,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 await AblyHelper.SendMessageWithChanel(title, message, ownerChanel);
@@ -137,7 +138,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 return new BusinessResult(200, "Create successfully!", result);

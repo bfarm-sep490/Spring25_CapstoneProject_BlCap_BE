@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using CloudinaryDotNet.Actions;
 using System;
 using System.Threading.Tasks;
+using Spring25.BlCapstone.BE.Services.Utils;
 
 namespace Spring25.BlCapstone.BE.Services.Untils
 {
@@ -36,7 +37,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
                 throw new ArgumentException("File is empty or null...");
 
             using var stream = file.OpenReadStream();
-            var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+            var fileName = DateTimeHelper.NowVietnamTime().ToString("yyyyMMddHHmmss") + "_" + file.FileName;
 
             var uploadParams = new ImageUploadParams
             {
@@ -59,7 +60,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
             if (imageData == null || imageData.Length == 0)
                 throw new ArgumentException("Image data is empty or null...");
 
-            fileName ??= DateTime.Now.ToString("yyyyMMddHHmmss") + "_qr.png";
+            fileName ??= DateTimeHelper.NowVietnamTime().ToString("yyyyMMddHHmmss") + "_qr.png";
             using var stream = new MemoryStream(imageData);
 
             var uploadParams = new ImageUploadParams
@@ -84,7 +85,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
                 throw new ArgumentException("File is empty or null...");
 
             using var stream = file.OpenReadStream();
-            var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+            var fileName = DateTimeHelper.NowVietnamTime().ToString("yyyyMMddHHmmss") + "_" + file.FileName;
 
             var uploadParams = new RawUploadParams
             {
@@ -160,7 +161,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
                 throw new ArgumentException("File is empty or null...");
 
             using var stream = file.OpenReadStream();
-            var fileName = DateTime.Now.ToString("yyyyMMddHHmmss") + "_" + file.FileName;
+            var fileName = DateTimeHelper.NowVietnamTime().ToString("yyyyMMddHHmmss") + "_" + file.FileName;
 
             var uploadParams = new ImageUploadParams
             {

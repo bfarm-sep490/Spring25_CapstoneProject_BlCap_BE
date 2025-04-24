@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -134,7 +135,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Chlorate = model.Chlorate,
                     Perchlorate = model.Perchlorate,
                     ResultContent = model.ResultContent == null ? "" : model.ResultContent,
-                    Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString(),
+                    Timestamp = (new DateTimeOffset(DateTimeHelper.NowVietnamTime()).ToUnixTimeSeconds()).ToString(),
                     Inspector = new VeChainFarmer
                     {
                         Id = insForm.InspectorId == null ? 0 : insForm.InspectorId.Value,
@@ -163,7 +164,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 return new BusinessResult(200, "Create inspecting result success !", re);

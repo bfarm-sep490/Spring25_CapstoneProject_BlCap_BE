@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Inspector;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -207,7 +208,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newAccount.Role = "Expert";
                 newAccount.IsActive = true;
                 newAccount.Password = password;
-                newAccount.CreatedAt = DateTime.Now;
+                newAccount.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
 
@@ -225,7 +226,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 if (rsf == null)
@@ -276,7 +277,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var account = await _unitOfWork.AccountRepository.GetByIdAsync(ins.AccountId);
                 account.Name = model.Name;
                 account.Email = model.Email;
-                account.UpdatedAt = DateTime.Now;
+                account.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 await _unitOfWork.AccountRepository.UpdateAsync(account);
 
                 ins.Description = model.Description;

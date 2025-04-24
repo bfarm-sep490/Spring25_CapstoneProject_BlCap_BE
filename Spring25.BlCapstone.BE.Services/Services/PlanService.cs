@@ -20,6 +20,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -283,7 +284,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             {
                                 FarmerId = fid,
                                 PlanId = id,
-                                CreatedAt = DateTime.Now,
+                                CreatedAt = DateTimeHelper.NowVietnamTime(),
                                 Status = "Active"
                             };
 
@@ -319,7 +320,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             {
                                 FarmerId = task.FarmerId,
                                 PlanId = caring.PlanId,
-                                CreatedAt = DateTime.Now,
+                                CreatedAt = DateTimeHelper.NowVietnamTime(),
                                 Status = "Active"
                             });
                         }
@@ -351,7 +352,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             {
                                 FarmerId = task.FarmerId,
                                 PlanId = harvesting.PlanId,
-                                CreatedAt = DateTime.Now,
+                                CreatedAt = DateTimeHelper.NowVietnamTime(),
                                 Status = "Active"
                             });
                         }
@@ -395,7 +396,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             {
                                 FarmerId = task.FarmerId,
                                 PlanId = packaging.PlanId,
-                                CreatedAt = DateTime.Now,
+                                CreatedAt = DateTimeHelper.NowVietnamTime(),
                                 Status = "Active"
                             });
                         }
@@ -566,7 +567,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Title = title,
                         IsRead = false,
                         Image = plant.ImageUrl,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTimeHelper.NowVietnamTime()
                     });
                 }
 
@@ -583,7 +584,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = message,
                         Title = title,
                         IsRead = false,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTimeHelper.NowVietnamTime(),
                     });
                 }
 
@@ -600,7 +601,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Message = message,
                         Title = title,
                         IsRead = false,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTimeHelper.NowVietnamTime(),
                     });
                 }
 
@@ -615,7 +616,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = m,
                     Title = t,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 var ownerChanel = "owner";
@@ -628,7 +629,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = mo,
                     Title = to,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
@@ -685,7 +686,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var plan = _mapper.Map<Plan>(model);
                 plan.Status = "Draft";
-                plan.CreatedAt = DateTime.Now;
+                plan.CreatedAt = DateTimeHelper.NowVietnamTime();
                 plan.CreatedBy = expert.Account.Name;
                 plan.IsApproved = false;
                 var rs = await _unitOfWork.PlanRepository.CreateAsync(plan);
@@ -730,7 +731,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 plan.Status = status;
-                plan.UpdatedAt = DateTime.Now;
+                plan.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 plan.UpdatedBy = reportBy;
                 var rs = await _unitOfWork.PlanRepository.UpdateAsync(plan);
 
@@ -860,7 +861,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.ExpertId = model.ExpertId;
                 plan.StartDate = model.StartDate;
                 plan.EndDate = model.EndDate;
-                plan.UpdatedAt = DateTime.Now;
+                plan.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 plan.UpdatedBy = model.UpdatedBy;
                 plan.SeedQuantity = model.SeedQuantity;
 
@@ -1037,7 +1038,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await _unitOfWork.FarmerPermissionRepository.CreateAsync(new FarmerPermission
                 {
-                    CreatedAt = DateTime.Now,
+                    CreatedAt = DateTimeHelper.NowVietnamTime(),
                     FarmerId = farmerId,
                     PlanId = planId,
                     Status = "Active"
@@ -1330,7 +1331,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerCaring.ForEach(f =>
                 {
                     f.Status = "Inactive";
-                    f.ExpiredDate = DateTime.Now;
+                    f.ExpiredDate = DateTimeHelper.NowVietnamTime();
                     _unitOfWork.FarmerCaringTaskRepository.PrepareUpdate(f);
                 });
 
@@ -1338,7 +1339,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerHarvesting.ForEach(f =>
                 {
                     f.Status = "Inactive";
-                    f.ExpiredDate = DateTime.Now;
+                    f.ExpiredDate = DateTimeHelper.NowVietnamTime();
                     _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(f);
                 });
 
@@ -1346,7 +1347,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerPackaging.ForEach(f =>
                 {
                     f.Status = "Inactive";
-                    f.ExpiredDate = DateTime.Now;
+                    f.ExpiredDate = DateTimeHelper.NowVietnamTime();
                     _unitOfWork.FarmerPackagingTaskRepository.PrepareUpdate(f);
                 });
 
@@ -1377,7 +1378,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Title = title,
                         Image = plant.ImageUrl,
                         IsRead = false,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTimeHelper.NowVietnamTime(),
                     });
                 }
 
@@ -1446,7 +1447,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerCaring.ForEach(f =>
                 {
                     f.Status = "Inactive";
-                    f.ExpiredDate = DateTime.Now;
+                    f.ExpiredDate = DateTimeHelper.NowVietnamTime();
                     _unitOfWork.FarmerCaringTaskRepository.PrepareUpdate(f);
                 });
 
@@ -1454,7 +1455,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerHarvesting.ForEach(f =>
                 {
                     f.Status = "Inactive";
-                    f.ExpiredDate = DateTime.Now;
+                    f.ExpiredDate = DateTimeHelper.NowVietnamTime();
                     _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(f);
                 });
 
@@ -1462,7 +1463,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 farmerPackaging.ForEach(f =>
                 {
                     f.Status = "Inactive";
-                    f.ExpiredDate = DateTime.Now;
+                    f.ExpiredDate = DateTimeHelper.NowVietnamTime();
                     _unitOfWork.FarmerPackagingTaskRepository.PrepareUpdate(f);
                 });
 
@@ -1545,7 +1546,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
 
-                var vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
                 var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(plan.ExpertId);
                 var expertChanel = $"expert-{expert.Id}";
                 var message = "Kế hoạch bạn vừa tạo đã được gửi lên chủ trang trại để xem xét. Vui lòng đợi trong thời gian ngắn để chủ trang trại xem qua kế hoạch và phản hồi. Chúng tôi sẽ thông báo ngay khi có cập nhật mới.!";
@@ -1556,7 +1556,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamTimeZone)
+                    CreatedDate = DateTimeHelper.NowVietnamTime()
                 });
                 await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
 
@@ -1661,7 +1661,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var newPlan = _mapper.Map<Plan>(model);
                 newPlan.Status = "Draft";
                 newPlan.IsApproved = false;
-                newPlan.CreatedAt = DateTime.Now;
+                newPlan.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var plan = await _unitOfWork.PlanRepository.CreateAsync(newPlan);
 
@@ -1695,7 +1695,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var careTask = _mapper.Map<CaringTask>(care);
                     careTask.PlanId = plan.Id;
                     careTask.Status = "Draft";
-                    careTask.CreatedAt = DateTime.Now;
+                    careTask.CreatedAt = DateTimeHelper.NowVietnamTime();
                     var caring = await _unitOfWork.CaringTaskRepository.CreateAsync(careTask);
 
                     foreach (var fer in care.Fertilizers)
@@ -1737,7 +1737,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var harTask = _mapper.Map<HarvestingTask>(har);
                     harTask.PlanId = plan.Id;
                     harTask.Status = "Draft";
-                    harTask.CreatedAt = DateTime.Now;
+                    harTask.CreatedAt = DateTimeHelper.NowVietnamTime();
                     var harvesting = await _unitOfWork.HarvestingTaskRepository.CreateAsync(harTask);
 
                     foreach (var item in har.Items)
@@ -1757,7 +1757,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var insForm = _mapper.Map<InspectingForm>(form);
                     insForm.PlanId = plan.Id;
                     insForm.Status = "Draft";
-                    insForm.CreatedAt = DateTime.Now;
+                    insForm.CreatedAt = DateTimeHelper.NowVietnamTime();
                     var ff = await _unitOfWork.InspectingFormRepository.CreateAsync(insForm);
                 }
 
@@ -1766,7 +1766,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     var paTask = _mapper.Map<PackagingTask>(pack);
                     paTask.PlanId = plan.Id;
                     paTask.Status = "Draft";
-                    paTask.CreatedAt = DateTime.Now;
+                    paTask.CreatedAt = DateTimeHelper.NowVietnamTime();
                     var packaging = await _unitOfWork.PackagingTaskRepository.CreateAsync(paTask);
 
                     foreach (var item in pack.Items)

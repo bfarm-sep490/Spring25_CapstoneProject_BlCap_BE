@@ -6,6 +6,7 @@ using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var form = _mapper.Map<InspectingForm>(model);
 
                 form.Status = model.Status != null ? model.Status : "Draft";
-                form.CreatedAt = DateTime.Now;
+                form.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.InspectingFormRepository.CreateAsync(form);
                 var result = _mapper.Map<InspectingFormModel>(rs);
@@ -87,7 +88,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 model.Status = model.Status != null ? model.Status : form.Status;
                 _mapper.Map(model, form);
-                form.UpdatedAt = DateTime.Now;
+                form.UpdatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.InspectingFormRepository.UpdateAsync(form);
                 

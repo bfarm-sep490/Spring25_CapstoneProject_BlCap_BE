@@ -3,6 +3,7 @@ using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,7 +80,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 var rs = _mapper.Map<ProductPickupBatch>(model);
-                rs.CreatedDate = DateTime.Now;
+                rs.CreatedDate = DateTimeHelper.NowVietnamTime();
                 await _unitOfWork.ProductPickupBatchRepository.CreateAsync(rs);
                 return new BusinessResult(200, "Create success!", model);
             }

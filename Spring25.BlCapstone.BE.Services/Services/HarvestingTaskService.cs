@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Havest;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,7 +56,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var task = _mapper.Map<HarvestingTask>(model);
                 task.Status = model.Status != null ? model.Status : "Draft";
-                task.CreatedAt = DateTime.Now;
+                task.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.HarvestingTaskRepository.CreateAsync(task);
                 if (model.Items != null)
@@ -94,7 +95,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var data = new List<AdminData>();
             if (obj != null && obj.Count >= 1)
             {
-                for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
+                for (var i = DateTimeHelper.NowVietnamTime().Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
                 {
                     if (!obj.Any(x => x.Date == i.Date))
                     {
@@ -154,7 +155,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Quantity = ct.Quantity,
                             Unit = ct.Unit,
                         }).ToList(),
-                        Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString()
+                        Timestamp = (new DateTimeOffset(DateTimeHelper.NowVietnamTime()).ToUnixTimeSeconds()).ToString()
                     };
 
                     var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
@@ -181,11 +182,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 _mapper.Map(model, harvestingTask);
-                harvestingTask.UpdatedAt = DateTime.Now;
-                harvestingTask.CompleteDate = DateTime.Now;
+                harvestingTask.UpdatedAt = DateTimeHelper.NowVietnamTime();
+                harvestingTask.CompleteDate = DateTimeHelper.NowVietnamTime();
 
                 var plant = await _unitOfWork.PlantRepository.GetPlantByHarvestingTask(id);
-                harvestingTask.ProductExpiredDate = DateTime.Now.AddDays(plant.PreservationDay);
+                harvestingTask.ProductExpiredDate = DateTimeHelper.NowVietnamTime().AddDays(plant.PreservationDay);
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
                 await _unitOfWork.FarmerPerformanceRepository.SaveAsync();
 
@@ -257,7 +258,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 model.Status = model.Status != null ? model.Status : task.Status;
                 _mapper.Map(model, task);
-                task.UpdatedAt = DateTime.Now;
+                task.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 var rs = await _unitOfWork.HarvestingTaskRepository.UpdateAsync(task);
 
                 var items = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemsByTaskId(id);
@@ -337,7 +338,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var data = new List<AdminData>();
             if (obj != null && obj.Count >= 1)
             {
-                for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
+                for (var i = DateTimeHelper.NowVietnamTime().Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
                 {
                     if (!obj.Any(x => x.Date == i.Date))
                     {
@@ -406,7 +407,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         item.AvailableHarvestingQuantity = harvestedQuantity - totalPackagedWeight;
                         item.Status = "Active";
 
-                        if (item.ProductExpiredDate < DateTime.Now && item.Status == "Active")
+                        if (item.ProductExpiredDate < DateTimeHelper.NowVietnamTime() && item.Status == "Active")
                         {
                             item.Status = "Expired";
                         }
@@ -445,7 +446,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 res.AvailableHarvestingQuantity = harvestedQuantity - totalPackagedWeight;
                 res.Status = "Active";
 
-                if (res.ProductExpiredDate < DateTime.Now && res.Status == "Active")
+                if (res.ProductExpiredDate < DateTimeHelper.NowVietnamTime() && res.Status == "Active")
                 {
                     res.Status = "Expired";
                 }
@@ -490,7 +491,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (fc.Status.ToLower().Trim().Equals("active"))
                     {
                         fc.Status = "Inactive";
-                        fc.ExpiredDate = DateTime.Now;
+                        fc.ExpiredDate = DateTimeHelper.NowVietnamTime();
                         fc.Description = string.IsNullOrEmpty(reasons) ? null : reasons;
                     }
                     _unitOfWork.FarmerHarvestingTaskRepository.PrepareUpdate(fc);

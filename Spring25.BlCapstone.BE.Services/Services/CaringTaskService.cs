@@ -10,6 +10,7 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,7 +134,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 model.Status = model.Status != null ? model.Status : task.Status;
                 _mapper.Map(model, task);
-                task.UpdatedAt = DateTime.Now;
+                task.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 var rs = await _unitOfWork.CaringTaskRepository.UpdateAsync(task);
 
                 var result = _mapper.Map<CaringTaskModel>(task);
@@ -183,7 +184,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var task = _mapper.Map<CaringTask>(model);
                 task.Status = model.Status != null ? model.Status : "Draft";
-                task.CreatedAt = DateTime.Now;
+                task.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.CaringTaskRepository.CreateAsync(task);
                 if (model.Fertilizers != null)
@@ -338,7 +339,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Quantity = ct.Quantity,
                             Unit = ct.Unit,
                         }).ToList(),
-                        Timestamp = (new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()).ToString()
+                        Timestamp = (new DateTimeOffset(DateTimeHelper.NowVietnamTime()).ToUnixTimeSeconds()).ToString()
                     };
 
                     var result = await _vechainInteraction.CreateNewVechainTask(blTransaction.UrlAddress, new CreateVechainTask
@@ -359,8 +360,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 _mapper.Map(model, caringTask);
-                caringTask.UpdatedAt = DateTime.Now;
-                caringTask.CompleteDate = DateTime.Now;
+                caringTask.UpdatedAt = DateTimeHelper.NowVietnamTime();
+                caringTask.CompleteDate = DateTimeHelper.NowVietnamTime();
                 await _unitOfWork.CaringTaskRepository.UpdateAsync(caringTask);
                 await _unitOfWork.FarmerPerformanceRepository.SaveAsync();
 
@@ -401,7 +402,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var data = new List<AdminData>();
             if (obj != null && obj.Count >= 1)
             {
-                for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
+                for (var i = DateTimeHelper.NowVietnamTime().Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
                 {
                     if (!obj.Any(x => x.Date == i.Date))
                     {
@@ -426,7 +427,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             var data = new List<AdminData>();
             if (obj != null && obj.Count >= 1)
             {
-                for (var i = DateTime.Now.Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
+                for (var i = DateTimeHelper.NowVietnamTime().Date; i.Date >= obj.Min(x => x.Date); i = i.AddDays(-1))
                 {
                     if (!obj.Any(x => x.Date == i.Date))
                     {
@@ -539,7 +540,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (fc.Status.ToLower().Trim().Equals("active"))
                     {
                         fc.Status = "Inactive";
-                        fc.ExpiredDate = DateTime.Now;
+                        fc.ExpiredDate = DateTimeHelper.NowVietnamTime();
                         fc.Description = string.IsNullOrEmpty(reasons) ? null : reasons;
                     }
                     _unitOfWork.FarmerCaringTaskRepository.PrepareUpdate(fc);

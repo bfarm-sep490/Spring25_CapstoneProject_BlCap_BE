@@ -8,6 +8,7 @@ using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Payment;
 using Spring25.BlCapstone.BE.Services.Untils;
+using Spring25.BlCapstone.BE.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -91,13 +92,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
                 List<ItemData> items = new List<ItemData>
                     {
-                        new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.PreOrderQuantity, model.Amount)
+                        new ItemData(order.Plant.PlantName + $" {DateTimeHelper.NowVietnamTime()}", (int)order.PreOrderQuantity, model.Amount)
                     };
 
                 DateTime expirationDate = DateTime.UtcNow.AddHours(1);
                 int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
-                var description = $"#{orderCode} D@{DateTime.Now:yyMMdd}";
+                var description = $"#{orderCode} D@{DateTimeHelper.NowVietnamTime():yyMMdd}";
                 PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
@@ -115,7 +116,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Price = model.Amount,
                     Type = "Deposit",
                     Status = "Pending",
-                    PaymentDate = DateTime.Now,
+                    PaymentDate = DateTimeHelper.NowVietnamTime(),
                     OrderCode = orderCode
                 };
 
@@ -156,13 +157,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
                 List<ItemData> items = new List<ItemData>
                     {
-                        new ItemData(order.Plant.PlantName + $" {DateTime.Now}", (int)order.PreOrderQuantity, model.Amount)
+                        new ItemData(order.Plant.PlantName + $" {DateTimeHelper.NowVietnamTime()}", (int)order.PreOrderQuantity, model.Amount)
                     };
 
                 DateTime expirationDate = DateTime.UtcNow.AddHours(1);
                 int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
-                var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
+                var description = $"#{orderCode} P@{DateTimeHelper.NowVietnamTime():yyMMdd}";
                 PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, "http://localhost:5173/payment-success", "http://localhost:5173/payment-success", expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
@@ -180,7 +181,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Price = model.Amount,
                     Type = "PayRemaining",
                     Status = "Pending",
-                    PaymentDate = DateTime.Now,
+                    PaymentDate = DateTimeHelper.NowVietnamTime(),
                     OrderCode = orderCode
                 };
 
@@ -213,7 +214,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
 
-                var description = $"#{orderCode} P@{DateTime.Now:yyMMdd}";
+                var description = $"#{orderCode} P@{DateTimeHelper.NowVietnamTime():yyMMdd}";
 
                 var trans = new Repositories.Models.Transaction
                 {
@@ -222,7 +223,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Price = model.Amount,
                     Type = "PayRemaining",
                     Status = "Cashing",
-                    PaymentDate = DateTime.Now,
+                    PaymentDate = DateTimeHelper.NowVietnamTime(),
                     OrderCode = orderCode
                 };
 
@@ -239,7 +240,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
                 var rs = _mapper.Map<OrderModel>(order);
@@ -337,7 +338,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     var trans = await _unitOfWork.TransactionRepository.GetTransactionByOrderCode(orderCode);
                     trans.Status = "Paid";
-                    trans.PaymentDate = DateTime.Now;
+                    trans.PaymentDate = DateTimeHelper.NowVietnamTime();
 
                     var order = await _unitOfWork.OrderRepository.GetByIdAsync(trans.OrderId);
                     if (trans.Type.ToLower().Trim().Equals("deposit"))
@@ -353,7 +354,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Message = message,
                             Title = title,
                             IsRead = false,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTimeHelper.NowVietnamTime(),
                         });
 
                         var ownerChanel = "owner";
@@ -366,7 +367,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Message = m,
                             Title = t,
                             IsRead = false,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTimeHelper.NowVietnamTime(),
                         });
                     }
                     else
@@ -382,7 +383,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             Message = message,
                             Title = title,
                             IsRead = false,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTimeHelper.NowVietnamTime(),
                         });
                     }
 
