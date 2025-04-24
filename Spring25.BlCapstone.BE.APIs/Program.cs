@@ -24,7 +24,7 @@ builder.Services.AddControllers()
     {
     options.JsonSerializerOptions.WriteIndented = false;
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    options.JsonSerializerOptions.Converters.Add(new DateTimeConverterWithoutOffset());
+   // options.JsonSerializerOptions.Converters.Add(new DateTimeConverterWithoutOffset());
     }); ;
 builder.Services.AddCors(options =>
 {

@@ -1549,7 +1549,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var expertChanel = $"expert-{expert.Id}";
                 var message = "Kế hoạch bạn vừa tạo đã được gửi lên chủ trang trại để xem xét. Vui lòng đợi trong thời gian ngắn để chủ trang trại xem qua kế hoạch và phản hồi. Chúng tôi sẽ thông báo ngay khi có cập nhật mới.!";
                 var title = $"Kế hoạch {plan.PlanName} của bạn đã được gửi lên chủ trang trại – Vui lòng đợi phản hồi!";
-                await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
                 await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
                 {
                     ExpertId = expert.Id,
@@ -1558,6 +1557,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     IsRead = false,
                     CreatedDate = DateTime.UtcNow,
                 });
+                await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
 
                 return new BusinessResult(200, "Public plan successfull !");
             }
