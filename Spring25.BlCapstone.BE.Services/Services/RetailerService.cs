@@ -205,6 +205,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newAccount.Password = password;
                 newAccount.IsActive = true;
                 newAccount.Password = password;
+                newAccount.Role = "Retailer";
                 newAccount.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.AccountRepository.CreateAsync(newAccount);
