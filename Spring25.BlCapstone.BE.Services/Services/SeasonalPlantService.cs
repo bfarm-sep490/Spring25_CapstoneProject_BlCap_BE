@@ -153,7 +153,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 }
                 while (
-                ExcelHelper.CheckedCellIsNull(worksheet, x + 1, 1)
+                 !ExcelHelper.CheckedCellIsNull(worksheet, x, 1)
                 );
                 x = x + 3;
                 do
@@ -167,7 +167,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     x = x + 1;
                 }
                 while (
-                ExcelHelper.CheckedCellIsNull(worksheet, x + 1, 1)
+                 !ExcelHelper.CheckedCellIsNull(worksheet, x, 1)
                 );
               
                 x = x + 3;
@@ -179,6 +179,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     harvestingForm.TaskName = ExcelHelper.ReadCellValue(worksheet, x, 2);
                     harvestingForm.StartIn =int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 9));
                     harvestingForm.EndIn = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 13));
+                    harvestingForm.Description = ExcelHelper.ReadCellValue(worksheet,x, 14);
                     x = x + 3;
                     for (int i = 0; i < harvestCount.Rows - 3; i++)
                     {
@@ -196,10 +197,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     result.Template.HarvestingTaskTemplates.Add(harvestingForm);
                 }
                 while (
-                !ExcelHelper.CheckedCellIsNull(worksheet,x+1, 1)
-                );
-                  return new BusinessResult(200, "data", result);
+                !ExcelHelper.CheckedCellIsNull(worksheet, x, 1)
+                );           
             }
+            return new BusinessResult(200, "data", result);
         }
 
         public async Task<IBusinessResult> UpdateTemplate(int id, RequestTemplate model)
