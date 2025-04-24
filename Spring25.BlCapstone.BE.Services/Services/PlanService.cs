@@ -1556,7 +1556,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     Message = message,
                     Title = title,
                     IsRead = false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                 });
 
                 return new BusinessResult(200, "Public plan successfull !");

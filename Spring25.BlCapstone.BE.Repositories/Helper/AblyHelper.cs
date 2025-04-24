@@ -109,7 +109,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 throw new ArgumentException("Role cannot be null or empty", nameof(role));
             }
 
-            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
             string randomPart = new Random().Next(1000, 9999).ToString();
 
             return $"{role.ToUpper()}-{timestamp}-{randomPart}";
