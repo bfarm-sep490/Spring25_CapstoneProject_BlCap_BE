@@ -5,7 +5,7 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api/template")]
+    [Route("api/templates")]
     [ApiController]
     public class SeasonalPlantController : Controller
     {
