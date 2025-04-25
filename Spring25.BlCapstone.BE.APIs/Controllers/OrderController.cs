@@ -80,7 +80,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}/status")]
-        public async Task<IActionResult> CancelOrder(int id, string status)
+        public async Task<IActionResult> UpdateOrderStatus(int id, string status)
         {
             try
             {
