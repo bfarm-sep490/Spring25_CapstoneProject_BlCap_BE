@@ -95,7 +95,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var worksheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Template");
                 if (worksheet == null) { return new BusinessResult(400, "Template do not have Sheet Template"); }
-                result.Description = ExcelHelper.ReadCellValue(worksheet, 1, 1);
+                result.Description = ExcelHelper.ReadCellValue(worksheet, 8, 6);
                 result.PlantId = int.Parse(ExcelHelper.ReadCellValue(worksheet, 3, 1));
                 result.SeasonType = ExcelHelper.ReadCellValue(worksheet, 6, 6);
                 result.StartDate = DateTime.Parse(ExcelHelper.ReadCellValue(worksheet, 7, 8));
