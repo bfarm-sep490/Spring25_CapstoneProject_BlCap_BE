@@ -32,6 +32,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plant
         public float DeltaThree { get; set; }
         [JsonPropertyName("preservation_day")]
         public int PreservationDay { get; set; }
+        [JsonPropertyName("average_estimated_per_one")]
+        public float AverageEstimatedPerOne { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
         [JsonPropertyName("seasonal_plant")]

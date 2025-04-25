@@ -19,6 +19,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public float BasePrice { get; set; }
         public string Type { get; set; }
         public string ImageUrl { get; set; }
+        public float AverageEstimatedPerOne { get; set; }
         public float DeltaOne { get; set; }
         public float DeltaTwo { get; set; }
         public float DeltaThree { get; set; }

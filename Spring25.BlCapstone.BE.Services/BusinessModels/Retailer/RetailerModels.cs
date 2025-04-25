@@ -25,10 +25,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Retailer
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("updated_at")]
         public DateTime? UpdatedAt { get; set; }
-        [JsonPropertyName("longitude")]
-        public float? Longitude { get; set; }
-        [JsonPropertyName("latitude")]
-        public float? Latitude { get; set; }
         [JsonPropertyName("address")]
         public string? Address { get; set; }
         [JsonPropertyName("is_active")]

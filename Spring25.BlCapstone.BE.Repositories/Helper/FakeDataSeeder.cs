@@ -31,9 +31,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Retailer>().HasData(
-                new Retailer { Id = 1, AccountId = 12, Longitude = 10.7769f, Latitude = 106.7009f, Address = "123 Đường Lê Lợi, Quận 1, TP.HCM", Phone = "0901234567", DOB = new DateTime(1985, 5, 10), Avatar = "https://nationaltoday.com/wp-content/uploads/2022/05/91-Retailer.jpg" },
-                new Retailer { Id = 2, AccountId = 13, Longitude = 10.7627f, Latitude = 106.6822f, Address = "456 Đường Nguyễn Huệ, Quận 1, TP.HCM", Phone = "0912345678", DOB = new DateTime(1990, 8, 20), Avatar = "https://thumbs.dreamstime.com/b/hardware-store-worker-smiling-african-standing-fasteners-aisle-41251157.jpg" },
-                new Retailer { Id = 3, AccountId = 14, Longitude = 10.8231f, Latitude = 106.6297f, Address = "789 Đường Phạm Văn Đồng, Quận Thủ Đức, TP.HCM", Phone = "0923456789", DOB = new DateTime(1995, 12, 15), Avatar = "https://www.kofastudy.com/kike_content/uploads/2021/01/e-Commerce-Today.jpg" }
+                new Retailer { Id = 1, AccountId = 12, Address = "123 Đường Lê Lợi, Quận 1, TP.HCM", Phone = "0901234567", DOB = new DateTime(1985, 5, 10), Avatar = "https://nationaltoday.com/wp-content/uploads/2022/05/91-Retailer.jpg" },
+                new Retailer { Id = 2, AccountId = 13, Address = "456 Đường Nguyễn Huệ, Quận 1, TP.HCM", Phone = "0912345678", DOB = new DateTime(1990, 8, 20), Avatar = "https://thumbs.dreamstime.com/b/hardware-store-worker-smiling-african-standing-fasteners-aisle-41251157.jpg" },
+                new Retailer { Id = 3, AccountId = 14, Address = "789 Đường Phạm Văn Đồng, Quận Thủ Đức, TP.HCM", Phone = "0923456789", DOB = new DateTime(1995, 12, 15), Avatar = "https://www.kofastudy.com/kike_content/uploads/2021/01/e-Commerce-Today.jpg" }
             );
 
             modelBuilder.Entity<Expert>().HasData(
@@ -132,7 +132,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.2f,
                     DeltaTwo = 0.8f,
                     DeltaThree = 1.1f,
-                    PreservationDay = 5
+                    PreservationDay = 5,
+                    AverageEstimatedPerOne = 0.1f
                 },
                 new Plant
                 {
@@ -147,7 +148,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.3f,
                     DeltaTwo = 0.7f,
                     DeltaThree = 1.0f,
-                    PreservationDay = 7
+                    PreservationDay = 7,
+                    AverageEstimatedPerOne = 0.015f
                 },
                 new Plant
                 {
@@ -162,7 +164,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.5f,
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.2f,
-                    PreservationDay = 6
+                    PreservationDay = 6, 
+                    AverageEstimatedPerOne = 0.15f
                 },
                 new Plant
                 {
@@ -177,7 +180,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.4f,
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.3f,
-                    PreservationDay = 10
+                    PreservationDay = 10,
+                    AverageEstimatedPerOne = 0.1f
                 },
                 new Plant
                 {
@@ -192,7 +196,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.3f,
                     DeltaTwo = 0.8f,
                     DeltaThree = 1.1f,
-                    PreservationDay = 5
+                    PreservationDay = 5,
+                    AverageEstimatedPerOne = 0.1f
                 },
                 new Plant
                 {
@@ -207,7 +212,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.6f,
                     DeltaTwo = 1.0f,
                     DeltaThree = 1.2f,
-                    PreservationDay = 6
+                    PreservationDay = 6,
+                    AverageEstimatedPerOne = 0.25f
                 },
                 new Plant
                 {
@@ -222,7 +228,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.4f,
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.3f,
-                    PreservationDay = 12
+                    PreservationDay = 12,
+                    AverageEstimatedPerOne = 0.8f
                 },
                 new Plant
                 {
@@ -237,7 +244,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.2f,
                     DeltaTwo = 0.8f,
                     DeltaThree = 1.0f,
-                    PreservationDay = 8
+                    PreservationDay = 8,
+                    AverageEstimatedPerOne = 0.8f
                 },
                 new Plant
                 {
@@ -252,7 +260,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.5f,
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.2f,
-                    PreservationDay = 7
+                    PreservationDay = 7,
+                    AverageEstimatedPerOne = 0.8f
                 },
                 new Plant
                 {
@@ -267,7 +276,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaOne = 1.6f,
                     DeltaTwo = 1.0f,
                     DeltaThree = 1.3f,
-                    PreservationDay = 10
+                    PreservationDay = 10,
+                    AverageEstimatedPerOne = 0.8f
                 }
             );
 

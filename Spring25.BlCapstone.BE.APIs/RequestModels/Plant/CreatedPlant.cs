@@ -9,7 +9,6 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
         public string PlantName { get; set; }
         [JsonPropertyName("quantity")]
         public float Quantity { get; set; }
-
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("base_price")]
@@ -18,6 +17,8 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
         public string Type { get; set; }
         [JsonPropertyName("image_url")]
         public string ImageUrl { get; set; }
+        [JsonPropertyName("average_estimated_per_one")]
+        public float AverageEstimatedPerOne { get; set; }
         [JsonPropertyName("delta_one")]
         public float DeltaOne { get; set; }
         [JsonPropertyName("delta_two")]
@@ -26,7 +27,5 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
         public float DeltaThree { get; set; }
         [JsonPropertyName("preservation_day")]
         public int PreservationDay { get; set; }
-        [JsonPropertyName("estimated_per_one")]
-        public float EstimatedPerOne { get; set; }
     }
 }
