@@ -95,19 +95,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var worksheet = package.Workbook.Worksheets.FirstOrDefault(x => x.Name == "Template");
                 if (worksheet == null) { return new BusinessResult(400, "Template do not have Sheet Template"); }
-                result.Description = ExcelHelper.ReadCellValue(worksheet, 1, 1);
+                result.Description = ExcelHelper.ReadCellValue(worksheet, 8, 6);
                 result.PlantId = int.Parse(ExcelHelper.ReadCellValue(worksheet, 3, 1));
                 result.SeasonType = ExcelHelper.ReadCellValue(worksheet, 6, 6);
                 result.StartDate = DateTime.Parse(ExcelHelper.ReadCellValue(worksheet, 7, 8));
-                result.StartDate = DateTime.Parse(ExcelHelper.ReadCellValue(worksheet, 7, 13));
-                result.EstimatedPerOne = float.Parse(ExcelHelper.ReadCellValue(worksheet, 10, 6));
-                result.DurationDays = int.Parse(ExcelHelper.ReadCellValue(worksheet, 9, 6));
+                result.EndDate = DateTime.Parse(ExcelHelper.ReadCellValue(worksheet, 7, 13));
+                result.EstimatedPerOne = float.Parse(ExcelHelper.ReadCellValue(worksheet, 11, 6));
+                result.DurationDays = int.Parse(ExcelHelper.ReadCellValue(worksheet,10 , 6));
                 result.Template = new PlanTemplate();
+                result.Template.SampleQuantity = int.Parse(ExcelHelper.ReadCellValue(worksheet, 10, 6));
                 result.Template.CaringTasks = new List<CaringTaskTemplate>();
                 result.Template.HarvestingTaskTemplates = new List<HarvestingTaskTemplate>();
                 result.Template.InspectingTasks = new List<InspectingTaskTemplate>();
                 result.Template.SeasonType = result.SeasonType;
-                var x = 16;
+                var x = 17;
                 do
                 {
                     var count = ExcelHelper.GetMergedCellSize(worksheet, x, 1);
