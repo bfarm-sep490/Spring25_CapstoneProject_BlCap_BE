@@ -60,7 +60,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, CreateFarmer model)
+        public async Task<IActionResult> Update(int id, UpdateFarmer model)
         {
             var rs = await _service.UpdateFarmer(id, model);
             return Ok(rs);
@@ -92,7 +92,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         {
             try
             {
-                var rs = await _service.GetAllDeviceTokensByFarmerId(id);
+                var rs = await _service.GetDeviceTokensByFarmerId(id);
                 return Ok(rs);
             }
             catch (Exception ex)

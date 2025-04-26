@@ -11,7 +11,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Auth
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }
-        [JsonPropertyName("tokens")]
-        public List<string> Tokens { get; set; }
+        [JsonPropertyName("token")]
+        public string Token { get; set; }
     }
 }

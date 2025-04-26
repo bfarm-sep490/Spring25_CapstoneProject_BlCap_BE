@@ -40,7 +40,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Redis
                 _redis = null;
                 IsConnected = false;
             }
-          
+       
         }
 
         public RedisManagement(ConnectionMultiplexer redis)

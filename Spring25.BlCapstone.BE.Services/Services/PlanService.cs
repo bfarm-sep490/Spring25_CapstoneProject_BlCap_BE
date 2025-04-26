@@ -472,7 +472,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 plant.Quantity -= plan.SeedQuantity.Value;
-                await _unitOfWork.PlantRepository.UpdateAsync(plant);
+                _unitOfWork.PlantRepository.PrepareUpdate(plant);
 
                 plan.Status = "Ongoing";
                 plan.IsApproved = true;
@@ -550,6 +550,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.YieldRepository.SaveAsync();
+                await _unitOfWork.PlantRepository.SaveAsync();
 
                 var orders = await _unitOfWork.OrderRepository.GetAllOrdersByPlanId(id);
                 foreach (var order in orders)

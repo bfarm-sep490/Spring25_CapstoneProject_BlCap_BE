@@ -2,7 +2,9 @@
 using Google.Apis.Auth.OAuth2;
 using IO.Ably;
 using IO.Ably.Push;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Spring25.BlCapstone.BE.Repositories.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
     public static class AblyHelper
     {
         private static readonly AblyRealtime _ablyClient;
+        private static readonly RedisManagement _redisManagement;
         private static readonly string _channelNotification = "notifications";
 
         static AblyHelper()
@@ -24,6 +27,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 throw new Exception("Ably configuration is missing...");
             }
 
+            _redisManagement = new RedisManagement();
             _ablyClient = new AblyRealtime(ablyConfig);
         }
 

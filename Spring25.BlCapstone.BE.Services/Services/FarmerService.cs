@@ -26,10 +26,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> SwitchStatus(int id);
         Task<IBusinessResult> RemoveFarmer(int id);
         Task<IBusinessResult> CreateFarmer(CreateFarmer model);
-        Task<IBusinessResult> UpdateFarmer(int id, CreateFarmer model);
+        Task<IBusinessResult> UpdateFarmer(int id, UpdateFarmer model);
         Task<IBusinessResult> UploadImage(List<IFormFile> file);
         Task<IBusinessResult> AddFarmerTokenDevice(int id, string tokenDevice);
-        Task<IBusinessResult> GetAllDeviceTokensByFarmerId(int id);
+        Task<IBusinessResult> GetDeviceTokensByFarmerId(int id);
         Task<IBusinessResult> RemoveDeviceTokenByFarmerId(int id);
         Task<IBusinessResult> GetFarmerCalendar(int id, DateTime? startDate, DateTime? endDate);
         Task<IBusinessResult> GetListNotifications(int id);
@@ -275,7 +275,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> UpdateFarmer(int id, CreateFarmer model)
+        public async Task<IBusinessResult> UpdateFarmer(int id, UpdateFarmer model)
         {
             try
             {
@@ -292,14 +292,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var account = await _unitOfWork.AccountRepository.GetByIdAsync(farmer.AccountId);
                 account.Name = model.Name;
-                account.Email = model.Email;
                 account.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 await _unitOfWork.AccountRepository.UpdateAsync(account);
 
-                farmer.DOB = model.DOB;
                 farmer.Phone = model.Phone;
                 farmer.Avatar = model.Avatar;
-
                 var rs = await _unitOfWork.FarmerRepository.UpdateAsync(farmer);
                 if (rs > 0)
                 {
@@ -364,26 +361,32 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult(400, "Not found any farmers !");
             }
 
-            var key = $"Farmer-{id}";
+            var key = $"farmer-{id}";
             try
             {
                 var token = await AblyHelper.RegisterTokenDevice(tokenDevice, "farmer");
 
-                if (_redisManagement.IsConnected == false) throw new Exception();
-                string productListJson = _redisManagement.GetData(key);
-                var result = new DeviceTokenModel();
-                if (productListJson == null || productListJson == "[]")
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis not connected");
+                string productJson = _redisManagement.GetData(key);
+                var result = new DeviceTokenModel
                 {
-                    result.Id = id;
-                    result.Tokens = new List<string>();
-                }
-                else
+                    Id = id,
+                    Token = token
+                };
+
+                if (!string.IsNullOrEmpty(productJson) && productJson != "[]")
                 {
-                    result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                    var oldData = JsonConvert.DeserializeObject<DeviceTokenModel>(productJson);
+                    if (oldData != null)
+                    {
+                        result.Id = oldData.Id; 
+                        result.Token = token;  
+                    }
                 }
-                result.Tokens.Add(token);
-                productListJson = JsonConvert.SerializeObject(result);
-                _redisManagement.SetData(key, productListJson);
+
+                productJson = JsonConvert.SerializeObject(result);
+                _redisManagement.SetData(key, productJson);
+
                 return new BusinessResult(200, "Set Device Token successfully", result);
             }
             catch
@@ -392,7 +395,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> GetAllDeviceTokensByFarmerId(int id)
+        public async Task<IBusinessResult> GetDeviceTokensByFarmerId(int id)
         {
             var farmer = await _unitOfWork.FarmerRepository.GetByIdAsync(id);
             if (farmer == null)
@@ -400,15 +403,16 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult(400, "Not found any farmers !");
             }
 
-            var key = $"Farmer-{id}";
+            var key = $"farmer-{id}";
             try
             {
-                if (_redisManagement.IsConnected == false) throw new Exception();
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis not connected");
                 string productListJson = _redisManagement.GetData(key);
                 if (productListJson == null || productListJson == "[]")
                 {
-                    return new BusinessResult(400, "This Farmer do not have DeviceToken");
+                    return new BusinessResult(400, "This Farmer does not have DeviceToken");
                 }
+
                 var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
                 return new BusinessResult(200, "Farmer device token", result);
             }
@@ -416,7 +420,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 return new BusinessResult(500, $"Redis is Fail: {ex.Message}");
             }
-
         }
 
         public async Task<IBusinessResult> RemoveDeviceTokenByFarmerId(int id)
@@ -427,10 +430,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 return new BusinessResult(400, "Not found any farmers !");
             }
 
-            var key = $"Farmer-{id}";
+            var key = $"farmer-{id}";
             try
             {
-                if (_redisManagement.IsConnected == false) throw new Exception();
+                if (_redisManagement.IsConnected == false) throw new Exception("Redis not connected");
                 string productListJson = _redisManagement.GetData(key);
                 if (productListJson == null || productListJson == "[]")
                 {
@@ -438,11 +441,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
                 var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
 
-                foreach (var item in result.Tokens)
+                if (result != null)
                 {
-                    await AblyHelper.RemoveTokenDevice(item);
+                    await AblyHelper.RemoveTokenDevice(result.Token);
                 }
-
+                
                 _redisManagement.DeleteData(key);
                 return new BusinessResult(200, "Removed Farmer device token successfully !");
             }
