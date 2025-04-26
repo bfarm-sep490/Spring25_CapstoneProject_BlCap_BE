@@ -3,12 +3,14 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
+using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
 using Spring25.BlCapstone.BE.Services.Utils;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,6 +117,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(400, "This task do not have type of packaging !");
                 }
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(packTask.PlanId);
 
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(model.HarvestingTaskId);
                 if (harvestingTask == null)
@@ -122,13 +125,42 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, "Not found any Harvesting Task !");
                 }
 
-                if (model.TotalPackagedWeight > harvestingTask.HarvestedQuantity)
-                {
-                    return new BusinessResult(400, "Invalid weight to pack !");
-                }
-
                 if (model.Status.ToLower().Trim().Equals("complete"))
                 {
+                    var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(packTask.PackagingTypeId.Value);
+                    var maxPackageCount = (int)Math.Ceiling(harvestingTask.HarvestedQuantity.Value / type.QuantityPerPack);
+                    var minPackageCount = (int)Math.Round(harvestingTask.HarvestedQuantity.Value / type.QuantityPerPack);
+                    if (model.PackagedItemCount > maxPackageCount)
+                    {
+                        return new BusinessResult(400, "Invalid weight to pack !");
+                    }
+                    else if (model.PackagedItemCount < minPackageCount)
+                    {
+                        var ownerChanel = "owner";
+                        var expertChanel = $"expert-{plan.ExpertId}";
+                        var message = $"Hệ thống kiểm tra được công việc đóng gói #{packTask.Id} của kế hoạch #{plan.Id} trả về kết quả không như mong đợi. Hãy tới và kiểm tra kết quả nhận được ngay!";
+                        var title = $"Số lượng đóng gói không đảm bảo ở công việc {packTask.TaskName} - {plan.PlanName}";
+                        await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
+                        await AblyHelper.SendMessageWithChanel(title, message, ownerChanel);
+                        await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
+                        {
+                            ExpertId = plan.ExpertId,
+                            Message = message,
+                            Title = title,
+                            IsRead = false,
+                            CreatedDate = DateTimeHelper.NowVietnamTime()
+                        });
+
+                        await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
+                        {
+                            OwnerId = 1,
+                            Message = message,
+                            Title = title,
+                            IsRead = false,
+                            CreatedDate = DateTimeHelper.NowVietnamTime()
+                        });
+                    }
+
                     var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(packagingTaskId: id);
                     var task = new DataTask
                     {
@@ -162,7 +194,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
 
-                    var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(packTask.PackagingTypeId.Value);
                     float isSpare = model.TotalPackagedWeight - (model.PackagedItemCount * type.QuantityPerPack);
 
                     if (isSpare == 0)

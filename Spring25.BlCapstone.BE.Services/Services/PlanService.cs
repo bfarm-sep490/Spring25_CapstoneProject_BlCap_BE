@@ -17,8 +17,6 @@ using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Care;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Harvest;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
-using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Package;
 using Spring25.BlCapstone.BE.Services.Untils;
 using Spring25.BlCapstone.BE.Services.Utils;
 using System;
@@ -422,53 +420,153 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (!plan.YieldId.HasValue)
                 {
-                    return new BusinessResult(400, null, "Plan does not have any yield. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have any yield. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.PlanName))
                 {
-                    return new BusinessResult(400, null, "Plan does not have a name. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have a name. Can not approve!");
                 }
 
                 if (string.IsNullOrEmpty(plan.Description))
                 {
-                    return new BusinessResult(400, null, "Plan does not have a description. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have a description. Can not approve!");
                 }
 
                 if (!plan.StartDate.HasValue)
                 {
-                    return new BusinessResult(400, null, "Plan does not have a start date. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have a start date. Can not approve!");
                 }
 
                 if (!plan.EndDate.HasValue)
                 {
-                    return new BusinessResult(400, null, "Plan does not have an end date. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have an end date. Can not approve!");
                 }
 
                 if (!plan.EstimatedProduct.HasValue)
                 {
-                    return new BusinessResult(400, null, "Plan does not have an estimated product. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have an estimated product. Can not approve!");
                 }
 
                 if (!plan.SeedQuantity.HasValue)
                 {
-                    return new BusinessResult(400, null, "Plan does not have a seed quantity. Can not approve!");
+                    return new BusinessResult(400, "Plan does not have a seed quantity. Can not approve!");
                 }
 
                 if (!plan.Status.ToLower().Trim().Equals("pending"))
                 {
-                    return new BusinessResult(400, null, "Can not approve plan that not have status pending!");
+                    return new BusinessResult(400, "Can not approve plan that not have status pending!");
                 }
 
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(plan.PlantId);
                 if (plant == null)
                 {
-                    return new BusinessResult(400, null, "Can not approve plan that not have seed");
+                    return new BusinessResult(400, "Can not approve plan that not have seed");
                 }
 
                 if (plant.Quantity < plan.SeedQuantity)
                 {
-                    return new BusinessResult(400, null, "Seed quantity available in system is not enough for this plan. Please add more seed in system !");
+                    return new BusinessResult(400, "Seed quantity available in system is not enough for this plan. Please add more seed in system !");
+                }
+
+                var itemCs = await _unitOfWork.CaringItemRepository.GetCaringItemByPlanId(id);
+                var itemQuantityDict = itemCs
+                                    .GroupBy(x => x.ItemId)
+                                    .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+                foreach (var kvp in itemQuantityDict)
+                {
+                    var itemId = kvp.Key;
+                    var totalQuantityNeeded = kvp.Value;
+
+                    var item = await _unitOfWork.ItemRepository.GetByIdAsync(itemId);
+
+                    if (item.Quantity < totalQuantityNeeded)
+                    {
+                        return new BusinessResult(400, $"Not enough {item.Name} in system !");
+                    }
+
+                    item.Quantity -= totalQuantityNeeded;
+                    _unitOfWork.ItemRepository.PrepareUpdate(item);
+                }
+
+                var fers = await _unitOfWork.CaringFertilizerRepository.GetCareFertilizersByPlanId(id);
+                var ferQuantityDict = fers
+                                    .GroupBy(x => x.FertilizerId)
+                                    .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+                foreach (var kvp in ferQuantityDict)
+                {
+                    var ferId = kvp.Key;
+                    var totalQuantityNeeded = kvp.Value;
+
+                    var fer = await _unitOfWork.FertilizerRepository.GetByIdAsync(ferId);
+
+                    if (fer.Quantity < totalQuantityNeeded)
+                    {
+                        return new BusinessResult(400, $"Not enough {fer.Name} in system !");
+                    }
+
+                    fer.Quantity -= totalQuantityNeeded;
+                    _unitOfWork.FertilizerRepository.PrepareUpdate(fer);
+                }
+
+                var pests = await _unitOfWork.CaringPesticideRepository.GetCarePesticidesByPlanId(id);
+                var pesQuantityDict = pests
+                                    .GroupBy(x => x.PesticideId)
+                                    .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+                foreach (var kvp in pesQuantityDict)
+                {
+                    var pesId = kvp.Key;
+                    var totalQuantityNeeded = kvp.Value;
+
+                    var pes = await _unitOfWork.PesticideRepository.GetByIdAsync(pesId);
+
+                    if (pes.Quantity < totalQuantityNeeded)
+                    {
+                        return new BusinessResult(400, $"Not enough {pes.Name} in system !");
+                    }
+
+                    pes.Quantity -= totalQuantityNeeded;
+                    _unitOfWork.PesticideRepository.PrepareUpdate(pes);
+                }
+
+                var itemHs = await _unitOfWork.HarvestingItemRepository.GetHarvestingItemByPlanId(id);
+                var itemHQuantityDict = itemHs
+                                    .GroupBy(x => x.ItemId)
+                                    .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+                foreach (var kvp in itemHQuantityDict)
+                {
+                    var itemId = kvp.Key;
+                    var totalQuantityNeeded = kvp.Value;
+
+                    var item = await _unitOfWork.ItemRepository.GetByIdAsync(itemId);
+
+                    if (item.Quantity < totalQuantityNeeded)
+                    {
+                        return new BusinessResult(400, $"Not enough {item.Name} in system !");
+                    }
+
+                    item.Quantity -= totalQuantityNeeded;
+                    _unitOfWork.ItemRepository.PrepareUpdate(item);
+                }
+
+                var itemPs = await _unitOfWork.PackagingItemRepository.GetPackagingItemByPlanId(id);
+                var itemPQuantityDict = itemHs
+                                    .GroupBy(x => x.ItemId)
+                                    .ToDictionary(g => g.Key, g => g.Sum(x => x.Quantity));
+                foreach (var kvp in itemPQuantityDict)
+                {
+                    var itemId = kvp.Key;
+                    var totalQuantityNeeded = kvp.Value;
+
+                    var item = await _unitOfWork.ItemRepository.GetByIdAsync(itemId);
+
+                    if (item.Quantity < totalQuantityNeeded)
+                    {
+                        return new BusinessResult(400, $"Not enough {item.Name} in system !");
+                    }
+
+                    item.Quantity -= totalQuantityNeeded;
+                    _unitOfWork.ItemRepository.PrepareUpdate(item);
                 }
 
                 plant.Quantity -= plan.SeedQuantity.Value;
@@ -478,6 +576,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 plan.IsApproved = true;
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
 
+
                 var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(id);
                 if (caringTasks.Count > 0)
                 {
@@ -486,7 +585,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         task.Status = "Ongoing";
                         _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
                     }
-                }
+                } 
 
                 var inspectingForms = await _unitOfWork.InspectingFormRepository.GetInspectingForms(id);
                 if (inspectingForms.Count > 0)
@@ -496,6 +595,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         form.Status = "Ongoing";
                         _unitOfWork.InspectingFormRepository.PrepareUpdate(form);
                     }
+                } 
+                else
+                {
+                    return new BusinessResult(400, "Plan does not have any Inspecting Form");
                 }
 
                 var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(id);
@@ -551,6 +654,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.HarvestingTaskRepository.SaveAsync();
                 await _unitOfWork.YieldRepository.SaveAsync();
                 await _unitOfWork.PlantRepository.SaveAsync();
+                await _unitOfWork.ItemRepository.SaveAsync();
+                await _unitOfWork.FertilizerRepository.SaveAsync();
+                await _unitOfWork.PesticideRepository.SaveAsync();
 
                 var orders = await _unitOfWork.OrderRepository.GetAllOrdersByPlanId(id);
                 foreach (var order in orders)
@@ -1771,6 +1877,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             if (orderTask == null) { return new BusinessResult(400, "Not found this Order"); }
                             if (orderTask.PlantId != model.PlantId) { return new BusinessResult(400, "Order do not order that plant"); }
                             packagingTask.PackagingTypeId = orderTask.PackagingTypeId;
+                            packagingTask.OrderId = orderTask.Id;
                             packagingTask.TotalPackagedWeight = order.Quantity;
                             packagingTask.TaskName = "Đóng gói cho Order " + orderTask.Id;
                             packagingTask.Description = "Đóng gói theo loại " + orderTask.PackagingType.Name;

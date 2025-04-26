@@ -103,7 +103,9 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("task_name")]
         public string TaskName { get; set; }
         [JsonPropertyName("packaging_type_id")]
-        public int PackagingTypeId { get; set; }
+        public int? PackagingTypeId { get; set; }
+        [JsonPropertyName("order_id")]
+        public int? OrderId { get; set; }
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("start_date")]
