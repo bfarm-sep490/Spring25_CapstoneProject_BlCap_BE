@@ -17,11 +17,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _seasonalPlantService = seasonalPlantService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll(int? plant_id, string? season_type, DateTime? start, DateTime? end)
+        public async Task<IActionResult> GetAll(int? plant_id, string? season_type, DateTime? start)
         {
             try
             {
-                var result = await _seasonalPlantService.GetAllTemplate(plant_id, season_type, start, end);
+                var result = await _seasonalPlantService.GetAllTemplate(plant_id, season_type, start);
                 return Ok(result);
             }
             catch (Exception ex) { 
