@@ -29,5 +29,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<List<int>> GetListOrderIdsByPlanId(int planId)
+        {
+            return await _context.OrderPlans
+                                 .Where(c => c.PlanId == planId)
+                                 .Select(c => c.OrderId)
+                                 .ToListAsync();
+        }
     }
 }

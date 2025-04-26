@@ -458,6 +458,22 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, "Can not approve plan that not have status pending!");
                 }
 
+                var orderIds = await _unitOfWork.OrderPlanRepository.GetListOrderIdsByPlanId(id);
+                if (orderIds.Count > 0)
+                {
+                    var isEnoughPackTask = await _unitOfWork.PackagingTaskRepository.ArePackagingTasksEnoughForAllOrderIds(id, orderIds);
+                    if (!isEnoughPackTask)
+                    {
+                        return new BusinessResult(400, "Can not approve plan because you have not create packaging task for your order in plan yet !");
+                    }
+
+                    var isEnoughTotalPackaging = await _unitOfWork.PackagingTaskRepository.AreAllPreOrdersRequiredHasPackagedProduct(id);
+                    if (!isEnoughTotalPackaging)
+                    {
+                        return new BusinessResult(400, "There is an order you have not create task to pack it enough as their pre-order quantity!");
+                    }
+                }
+
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(plan.PlantId);
                 if (plant == null)
                 {

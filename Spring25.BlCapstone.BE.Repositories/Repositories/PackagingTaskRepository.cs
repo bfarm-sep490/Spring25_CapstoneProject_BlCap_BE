@@ -147,5 +147,51 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .FirstOrDefaultAsync(ct => ct.Id == id);
             return rs;
         }
+
+        public async Task<bool> ArePackagingTasksEnoughForAllOrderIds(int planId, List<int> orderIds)
+        {
+            var existingOrderIds = await _context.PackagingTasks
+                .Where(pt => pt.PlanId == planId && pt.OrderId.HasValue && orderIds.Contains(pt.OrderId.Value))
+                .Select(pt => pt.OrderId.Value)
+                .Distinct()
+                .ToListAsync();
+
+            return existingOrderIds.Count == orderIds.Count;
+        }
+
+        public async Task<bool> AreAllPreOrdersRequiredHasPackagedProduct(int planId)
+        {
+            var orderPlans = await _context.OrderPlans
+                .Where(op => op.PlanId == planId)
+                .ToListAsync();
+
+            if (!orderPlans.Any()) return true;
+
+            var orderPlanQuantities = orderPlans.ToDictionary(op => op.OrderId, op => op.Quantity);
+
+            var orderIds = orderPlanQuantities.Keys.ToList();
+
+            var packagingTasks = await _context.PackagingTasks
+                .Where(pt => pt.PlanId == planId && pt.OrderId.HasValue && orderIds.Contains(pt.OrderId.Value))
+                .ToListAsync();
+
+            var packagedQuantities = packagingTasks
+                .GroupBy(pt => pt.OrderId.Value)
+                .ToDictionary(g => g.Key, g => g.Sum(pt => pt.TotalPackagedWeight ?? 0));
+
+            foreach (var order in orderPlanQuantities)
+            {
+                var orderId = order.Key;
+                var requiredQuantity = order.Value;
+                var packagedQuantity = packagedQuantities.ContainsKey(orderId) ? packagedQuantities[orderId] : 0;
+
+                if (packagedQuantity < requiredQuantity)
+                {
+                    return false; 
+                }
+            }
+
+            return true;
+        }
     }
 }
