@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
+using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.Untils;
@@ -122,9 +123,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var message = "Kế hoạch được báo cáo lỗi";
                 var title = $"Có một report lỗi ở kế hoạch #{plan.Id}: {plan.PlanName}";
                 await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
-                await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
+                await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
                 {
-                    RetailerId = expert.Id,
+                    ExpertId = expert.Id,
                     Message = message,
                     Title = title,
                     IsRead = false,
