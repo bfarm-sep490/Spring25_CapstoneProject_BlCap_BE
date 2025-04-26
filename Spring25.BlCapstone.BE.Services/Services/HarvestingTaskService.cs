@@ -166,6 +166,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         Data = JsonConvert.SerializeObject(task)
                     });
 
+                    var plant = await _unitOfWork.PlantRepository.GetPlantByHarvestingTask(id);
+                    harvestingTask.ProductExpiredDate = DateTimeHelper.NowVietnamTime().AddDays(plant.PreservationDay);
+
                     var farmer = await _unitOfWork.FarmerPerformanceRepository.GetFarmerByTaskId(harvestingTaskId: id);
                     farmer.CompletedTasks += 1;
                     farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
@@ -185,8 +188,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 harvestingTask.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 harvestingTask.CompleteDate = DateTimeHelper.NowVietnamTime();
 
-                var plant = await _unitOfWork.PlantRepository.GetPlantByHarvestingTask(id);
-                harvestingTask.ProductExpiredDate = DateTimeHelper.NowVietnamTime().AddDays(plant.PreservationDay);
                 await _unitOfWork.HarvestingTaskRepository.UpdateAsync(harvestingTask);
                 await _unitOfWork.FarmerPerformanceRepository.SaveAsync();
 

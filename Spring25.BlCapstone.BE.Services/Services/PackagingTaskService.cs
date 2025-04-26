@@ -122,6 +122,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, "Not found any Harvesting Task !");
                 }
 
+                if (model.TotalPackagedWeight > harvestingTask.HarvestedQuantity)
+                {
+                    return new BusinessResult(400, "Invalid weight to pack !");
+                }
+
                 if (model.Status.ToLower().Trim().Equals("complete"))
                 {
                     var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(packagingTaskId: id);
@@ -156,6 +161,47 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     farmer.PerformanceScore = Math.Round((((farmer.CompletedTasks * 1.0) / ((farmer.CompletedTasks * 1.0) + (farmer.IncompleteTasks * 1.0))) * 100), 2);
 
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
+
+                    var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(packTask.PackagingTypeId.Value);
+                    float isSpare = model.TotalPackagedWeight - (model.PackagedItemCount * type.QuantityPerPack);
+
+                    if (isSpare == 0)
+                    {
+                        _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
+                        {
+                            PackagingTaskId = packTask.Id,
+                            HarvestingTaskId = model.HarvestingTaskId,
+                            QuantityPerPack = type.QuantityPerPack,
+                            PackQuantity = model.PackagedItemCount,
+                            //QR code blockchain ne
+                            QRCode = "?",
+                            Status = "Active"
+                        });
+                    }
+                    else if (isSpare < 0)
+                    {
+                        _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
+                        {
+                            PackagingTaskId = packTask.Id,
+                            HarvestingTaskId = model.HarvestingTaskId,
+                            QuantityPerPack = type.QuantityPerPack,
+                            PackQuantity = model.PackagedItemCount - 1,
+                            //QR code blockchain ne
+                            QRCode = "?",
+                            Status = "Active"
+                        });
+
+                        _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
+                        {
+                            PackagingTaskId = packTask.Id,
+                            HarvestingTaskId = model.HarvestingTaskId,
+                            QuantityPerPack = Math.Abs(isSpare),
+                            PackQuantity = 1,
+                            //QR code blockchain ne
+                            QRCode = "?",
+                            Status = "Active"
+                        });
+                    }
                 }
                 else if (model.Status.ToLower().Trim().Equals("incomplete"))
                 {
@@ -179,47 +225,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     {
                         await _unitOfWork.PackagingImageRepository.RemoveAsync(image);
                     }
-                }
-
-                var type = await _unitOfWork.PackagingTypeRepository.GetByIdAsync(packTask.PackagingTypeId.Value);
-                float isSpare = model.TotalPackagedWeight - (model.PackagedItemCount * type.QuantityPerPack);
-
-                if (isSpare == 0)
-                {
-                    _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
-                    {
-                        PackagingTaskId = packTask.Id,
-                        HarvestingTaskId = model.HarvestingTaskId,
-                        QuantityPerPack = type.QuantityPerPack,
-                        PackQuantity = model.PackagedItemCount,
-                        //QR code blockchain ne
-                        QRCode = "?",
-                        Status = "Active"
-                    });
-                }
-                else if (isSpare < 0)
-                {
-                    _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
-                    {
-                        PackagingTaskId = packTask.Id,
-                        HarvestingTaskId = model.HarvestingTaskId,
-                        QuantityPerPack = type.QuantityPerPack,
-                        PackQuantity = model.PackagedItemCount - 1,
-                        //QR code blockchain ne
-                        QRCode = "?",
-                        Status = "Active"
-                    });
-
-                    _unitOfWork.PackagingProductRepository.PrepareCreate(new PackagingProduct
-                    {
-                        PackagingTaskId = packTask.Id,
-                        HarvestingTaskId = model.HarvestingTaskId,
-                        QuantityPerPack = Math.Abs(isSpare),
-                        PackQuantity = 1,
-                        //QR code blockchain ne
-                        QRCode = "?",
-                        Status = "Active"
-                    });
                 }
 
                 await _unitOfWork.PackagingProductRepository.SaveAsync();
