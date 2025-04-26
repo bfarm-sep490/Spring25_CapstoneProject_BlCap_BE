@@ -1544,7 +1544,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 await _unitOfWork.PackagingTaskRepository.SaveAsync();
                 await _unitOfWork.InspectingFormRepository.SaveAsync();
 
-                var expert = await _unitOfWork.ExpertRepository.GetByIdAsync(plan.ExpertId);
+                var expert = await _unitOfWork.ExpertRepository.GetExpert(plan.ExpertId);
                 var expertChanel = $"expert-{expert.Id}";
                 var message = "Kế hoạch bạn vừa tạo đã được gửi lên chủ trang trại để xem xét. Vui lòng đợi trong thời gian ngắn để chủ trang trại xem qua kế hoạch và phản hồi. Chúng tôi sẽ thông báo ngay khi có cập nhật mới.!";
                 var title = $"Kế hoạch {plan.PlanName} của bạn đã được gửi lên chủ trang trại – Vui lòng đợi phản hồi!";
