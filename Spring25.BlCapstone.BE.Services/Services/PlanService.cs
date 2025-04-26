@@ -1558,6 +1558,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 });
                 await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
 
+                var ownerChanel = "owner";
+                var mo = "Bạn nhận được yêu cầu chờ duyệt kế hoạch mới, hãy check phần kế hoạch với trạng thái chờ duyệt để duyệt kế hoạch đi vào hoạt động!";
+                var to = $"Bạn nhận được yêu cầu duyệt kế hoạch {plan.PlanName} của {expert.Account.Name} – Vui lòng phản hồi!";
+                await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
+                {
+                    OwnerId = 1,
+                    Message = message,
+                    Title = title,
+                    IsRead = false,
+                    CreatedDate = DateTimeHelper.NowVietnamTime()
+                });
+                await AblyHelper.SendMessageWithChanel(title, message, ownerChanel);
+
                 return new BusinessResult(200, "Public plan successfull !");
             }
             catch (Exception ex)
