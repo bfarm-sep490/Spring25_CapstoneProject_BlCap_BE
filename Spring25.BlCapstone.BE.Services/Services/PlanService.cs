@@ -573,10 +573,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmers = await _unitOfWork.FarmerRepository.GetFarmersByPlanId(id);
                 foreach (var farmer in farmers)
                 {
-                    var farmerChanel = $"farmer-{farmer.FarmerId}";
                     var message = "Kế hoạch đã được duyệt và chính thức đi vào hoạt động. Vui lòng kiểm tra lại lịch làm việc và kế hoạch để chuẩn bị thực hiện các công việc theo kế hoạch. Chúc bạn làm việc hiệu quả và đạt được kết quả tốt trong quá trình thực hiện!";
                     var title = $"Kế hoạch {plan.PlanName} đã chính thức triển khai – Kiểm tra lịch làm việc và bắt đầu!";
-                    await AblyHelper.SendMessageWithChanel(title, message, farmerChanel);
+                    await AblyHelper.SendMessageToDevice(title, message, farmer.FarmerId);
                     await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
                     {
                         FarmerId = farmer.FarmerId,

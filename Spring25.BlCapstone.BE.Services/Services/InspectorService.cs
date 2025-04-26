@@ -212,10 +212,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newIns.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.InspectorRepository.CreateAsync(newIns);
 
-                var inspectorChanel = $"inspector-{rsf.Id}";
                 var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
                 var title = $"Xin chào, {newAccount.Name}";
-                await AblyHelper.SendMessageWithChanel(title, message, inspectorChanel);
                 await _unitOfWork.NotificationInspectorRepository.CreateAsync(new NotificationInspector
                 {
                     InspectorId = rsf.Id,

@@ -5,6 +5,7 @@ using IO.Ably.Push;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Spring25.BlCapstone.BE.Repositories.Redis;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -119,10 +120,32 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             return $"{role.ToUpper()}-{timestamp}-{randomPart}";
         }
 
-        public static async Task<string> SendMessageToDevice(string title, string body, string deviceId, object? data = null)
+        private static string GetDeviceTokensByFarmerId(int id)
+        {
+            var key = $"farmer-{id}";
+            try
+            {
+                if (_redisManagement.IsConnected == false) return null;
+                string productListJson = _redisManagement.GetData(key);
+                if (productListJson == null || productListJson == "[]")
+                {
+                    return null;
+                }
+
+                var result = JsonConvert.DeserializeObject<DeviceTokenModel>(productListJson);
+                return result.Token;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<string> SendMessageToDevice(string title, string body, int farmerId, object? data = null)
         {
             try
             {
+                string deviceId = GetDeviceTokensByFarmerId(farmerId);
                 JObject payload = new JObject
                 {
                     ["notification"] = new JObject

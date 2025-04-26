@@ -220,10 +220,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
 
-                var retailerChanel = $"retailer-{rsf.Id}";
                 var message = "BFarmX - Blockchain FarmXperience rất vui khi được có bạn trong hệ thống của chúng tôi. Mong chúng ta có thể hợp tác lâu dài trong tương lai!";
                 var title = $"Xin chào, {newAccount.Name}";
-                await AblyHelper.SendMessageWithChanel(title, message, retailerChanel);
                 await _unitOfWork.NotificationRetailerRepository.CreateAsync(new NotificationRetailer
                 {
                     RetailerId = rsf.Id,

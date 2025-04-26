@@ -29,10 +29,10 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             return Ok(rs);
         }
 
-        [HttpPost("device/{token_id}")]
-        public async Task<IActionResult> SendToDevice(string token_id, NotificationDeviceRequest model)
+        [HttpPost("device/{farmer_id}")]
+        public async Task<IActionResult> SendToDevice(int farmer_id, NotificationDeviceRequest model)
         {
-            var rs = await _ablyService.SendMessageToDeviceToken(model, token_id);
+            var rs = await _ablyService.SendMessageToDeviceToken(model, farmer_id);
             return Ok(rs);
         }
     }

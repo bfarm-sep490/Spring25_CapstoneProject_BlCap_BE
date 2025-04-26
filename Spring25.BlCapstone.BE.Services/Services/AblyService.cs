@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         Task<IBusinessResult> SendNotification(string title, string body);
         Task<IBusinessResult> SendMessageWithTopic(string title, string body, string topic);
-        Task<IBusinessResult> SendMessageToDeviceToken(NotificationDeviceRequest model, string deviceId);
+        Task<IBusinessResult> SendMessageToDeviceToken(NotificationDeviceRequest model, int farmerId);
     }
 
     public class AblyService : IAblyService
@@ -69,18 +69,18 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
         }
 
-        public async Task<IBusinessResult> SendMessageToDeviceToken(NotificationDeviceRequest model, string deviceId)
+        public async Task<IBusinessResult> SendMessageToDeviceToken(NotificationDeviceRequest model, int farmerId)
         {
             try
             {
                 string res;
                 if (model.Data == null)
                 {
-                    res = await AblyHelper.SendMessageToDevice(model.Title, model.Body, deviceId);
+                    res = await AblyHelper.SendMessageToDevice(model.Title, model.Body, farmerId);
                 }
                 else
                 {
-                    res = await AblyHelper.SendMessageToDevice(model.Title, model.Body, deviceId, model.Data);
+                    res = await AblyHelper.SendMessageToDevice(model.Title, model.Body, farmerId, model.Data);
                 }
 
                 return new BusinessResult(200, res, null);
