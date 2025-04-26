@@ -141,6 +141,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
+
+                var mf = "Bạn đã báo cáo vấn đề thành công. Hãy đợi chuyên gia hoặc chủ trang trại nhận được thông báo và đưa ra quyết định xử lý. Cảm ơn bạn đã báo cáo cho chúng tôi!";
+                var tf = $"Vấn đề đã được report lên hệ thống thành công!";
+                await AblyHelper.SendMessageToDevice(tf, mf, model.FarmerId);
+                await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
+                {
+                    FarmerId = model.FarmerId,
+                    Message = message,
+                    Title = title,
+                    IsRead = false,
+                    Image = model.ImageUrl != null ? model.ImageUrl.FirstOrDefault() : null,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
+                });
+
                 return new BusinessResult(200, "Create successfully!", result);
             }
             catch (Exception ex)
