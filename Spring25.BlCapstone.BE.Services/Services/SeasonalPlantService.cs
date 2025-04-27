@@ -121,33 +121,43 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     x = x + 3;
                     for (int i = 0; i < count.Rows - 3; i++)
                     {
-                        var fertilizerId = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 2));
-                        if (fertilizerId != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 2))
+                        if(!ExcelHelper.CheckedCellIsNull(worksheet, x, 2))
                         {
-                            var caringFertilizer = new FertilizerTemplate();
-                            caringFertilizer.FertilizerId = fertilizerId;
-                            caringFertilizer.Quantity = float.Parse(ExcelHelper.ReadCellValue(worksheet, x, 4));
-                            caringFertilizer.Unit = ExcelHelper.ReadCellValue(worksheet, x, 5);
-                            caringTask.Fertilizers.Add(caringFertilizer);
+                            var fertilizerId = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 2));
+                            if (fertilizerId != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 2))
+                            {
+                                var caringFertilizer = new FertilizerTemplate();
+                                caringFertilizer.FertilizerId = fertilizerId;
+                                caringFertilizer.Quantity = float.Parse(ExcelHelper.ReadCellValue(worksheet, x, 4));
+                                caringFertilizer.Unit = ExcelHelper.ReadCellValue(worksheet, x, 5);
+                                caringTask.Fertilizers.Add(caringFertilizer);
+                            }
                         }
-                        var pesticideId = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 6));
-                        if (pesticideId != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 6))
+                        if (!ExcelHelper.CheckedCellIsNull(worksheet, x, 6))
                         {
-                            var caringPesticide = new PesticideTemplate();
-                            caringPesticide.PesticideId = pesticideId;
-                            caringPesticide.Quantity = float.Parse(ExcelHelper.ReadCellValue(worksheet, x, 8));
-                            caringPesticide.Unit = ExcelHelper.ReadCellValue(worksheet, x, 9);
-                            caringTask.Pesticides.Add(caringPesticide);
+                            var pesticideId = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 6));
+                            if (pesticideId != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 6))
+                            {
+                                var caringPesticide = new PesticideTemplate();
+                                caringPesticide.PesticideId = pesticideId;
+                                caringPesticide.Quantity = float.Parse(ExcelHelper.ReadCellValue(worksheet, x, 8));
+                                caringPesticide.Unit = ExcelHelper.ReadCellValue(worksheet, x, 9);
+                                caringTask.Pesticides.Add(caringPesticide);
+                            }
                         }
-                        var itemid = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 10));
-                        if (itemid != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 10))
+                        if (!ExcelHelper.CheckedCellIsNull(worksheet, x, 10))
                         {
-                            var caringItem = new ItemTemplate();
-                            caringItem.ItemId = itemid;
-                            caringItem.Quantity = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 12));
-                            caringItem.Unit = ExcelHelper.ReadCellValue(worksheet, x, 13);
-                            caringTask.Items.Add(caringItem);
+                            var itemid = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 10));
+                            if (itemid != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 10))
+                            {
+                                var caringItem = new ItemTemplate();
+                                caringItem.ItemId = itemid;
+                                caringItem.Quantity = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 12));
+                                caringItem.Unit = ExcelHelper.ReadCellValue(worksheet, x, 13);
+                                caringTask.Items.Add(caringItem);
+                            }
                         }
+                            
                         x = x + 1;
                     }
                     result.Template.CaringTasks.Add(caringTask);
@@ -184,7 +194,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     x = x + 3;
                     for (int i = 0; i < harvestCount.Rows - 3; i++)
                     {
-                        var harvestingItemid = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 10));
+                        if (!ExcelHelper.CheckedCellIsNull(worksheet, x, 10)) {
+                         var harvestingItemid = int.Parse(ExcelHelper.ReadCellValue(worksheet, x, 10));
                         if (harvestingItemid != 0 && !ExcelHelper.CheckedCellIsNull(worksheet, x, 10))
                         {
                             var harvestingItem = new ItemTemplate();
@@ -193,6 +204,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             harvestingItem.Unit = ExcelHelper.ReadCellValue(worksheet, x, 13);
                             harvestingForm.Items.Add(harvestingItem);
                         }
+                        }
+                       
                         x = x + 1;
                     }
                     result.Template.HarvestingTaskTemplates.Add(harvestingForm);
