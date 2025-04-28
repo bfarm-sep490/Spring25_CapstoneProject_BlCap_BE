@@ -40,7 +40,7 @@ namespace Spring25.BlCapstone.BE.Services.Untils
                 issuer: issuer,
                 audience: audience,
                 claims: authClaims,
-                expires: DateTime.Now.AddSeconds(30),
+                expires: DateTime.Now.AddDays(2),
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
 
