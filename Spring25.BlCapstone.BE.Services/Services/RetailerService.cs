@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Helper;
@@ -37,13 +38,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
     {
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private IConfiguration _configuration;
         private readonly RedisManagement _redisManagement;
 
-        public RetailerService(IMapper mapper, RedisManagement redisManagement)
+        public RetailerService(IMapper mapper, RedisManagement redisManagement, IConfiguration configuration)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
             _redisManagement = redisManagement;
+            _configuration = configuration;
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -211,11 +214,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newRetailer.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.RetailerRepository.CreateAsync(newRetailer);
 
+                var token = JWTHelper.GenerateResetPasswordToken(model.Email, _configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], password, newRetailer.Id);
+
                 var body = EmailHelper.GetEmailBody("RegisterAccount.html", new Dictionary<string, string>
                 {
                     { "{{UserName}}", model.Name },
                     { "{{Email}}", model.Email },
-                    { "{{ResetPasswordLink}}", "https://bfarmx.space/reset-password" }
+                    { "{{ResetPasswordLink}}", $"https://bfarmx.space/auth/reset-password?token={token}" }
                 });
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);

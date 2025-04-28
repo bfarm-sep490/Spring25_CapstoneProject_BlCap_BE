@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Spring25.BlCapstone.BE.Repositories;
 using Spring25.BlCapstone.BE.Repositories.Helper;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using static QRCoder.PayloadGenerator;
 
 namespace Spring25.BlCapstone.BE.Services.Services
 {
@@ -43,12 +45,14 @@ namespace Spring25.BlCapstone.BE.Services.Services
         private readonly UnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly RedisManagement _redisManagement;
+        private IConfiguration _configuration;
 
-        public FarmerService(IMapper mapper, RedisManagement redisManagement)
+        public FarmerService(IMapper mapper, RedisManagement redisManagement, IConfiguration configuration)
         {
             _unitOfWork ??= new UnitOfWork();
             _mapper = mapper;
             _redisManagement = redisManagement;
+            _configuration = configuration;
         }
 
         public async Task<IBusinessResult> GetAll()
@@ -233,11 +237,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     PerformanceScore = null
                 });
 
+                var token = JWTHelper.GenerateResetPasswordToken(model.Email, _configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], password, newFarmer.Id);
+
                 var body = EmailHelper.GetEmailBody("RegisterAccount.html", new Dictionary<string, string>
                 {
                     { "{{UserName}}", model.Name },
                     { "{{Email}}", model.Email },
-                    { "{{ResetPasswordLink}}", "https://bfarmx.space/reset-password" }
+                    { "{{ResetPasswordLink}}", $"https://bfarmx.space/auth/reset-password?token={token}" }
                 });
 
                 await EmailHelper.SendMail(model.Email, "Chào mừng bạn đến với BFARMX - Blockchain FarmXperience!", model.Name, body);
