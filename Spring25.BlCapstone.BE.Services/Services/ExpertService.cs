@@ -67,7 +67,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             try
             {
                 var users = await _unitOfWork.ExpertRepository.GetExpert(id);
-                var result = _mapper.Map<List<ExpertModel>>(users);
+                var result = _mapper.Map<ExpertModel>(users);
 
                 if (users == null)
                 {

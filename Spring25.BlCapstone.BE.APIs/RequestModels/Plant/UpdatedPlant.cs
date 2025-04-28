@@ -26,6 +26,8 @@ namespace Spring25.BlCapstone.BE.APIs.RequestModels.Plant
         public int PreservationDay { get; set; }
         [JsonPropertyName("average_estimated_per_one")]
         public float AverageEstimatedPerOne { get; set; }
+        [JsonPropertyName("average_duration_date")]
+        public int AverageDurationDate { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }  
     }

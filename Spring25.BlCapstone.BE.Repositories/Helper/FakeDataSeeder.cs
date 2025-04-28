@@ -133,7 +133,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.8f,
                     DeltaThree = 1.1f,
                     PreservationDay = 5,
-                    AverageEstimatedPerOne = 0.1f
+                    AverageEstimatedPerOne = 0.1f,
+                    AverageDurationDate = 25
                 },
                 new Plant
                 {
@@ -149,7 +150,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.7f,
                     DeltaThree = 1.0f,
                     PreservationDay = 7,
-                    AverageEstimatedPerOne = 0.015f
+                    AverageEstimatedPerOne = 0.015f,
+                    AverageDurationDate = 35
                 },
                 new Plant
                 {
@@ -165,7 +167,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.2f,
                     PreservationDay = 6, 
-                    AverageEstimatedPerOne = 0.15f
+                    AverageEstimatedPerOne = 0.15f,
+                    AverageDurationDate = 42
                 },
                 new Plant
                 {
@@ -181,7 +184,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.3f,
                     PreservationDay = 10,
-                    AverageEstimatedPerOne = 0.1f
+                    AverageEstimatedPerOne = 0.1f,
+                    AverageDurationDate = 67
                 },
                 new Plant
                 {
@@ -197,7 +201,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.8f,
                     DeltaThree = 1.1f,
                     PreservationDay = 5,
-                    AverageEstimatedPerOne = 0.1f
+                    AverageEstimatedPerOne = 0.1f,
+                    AverageDurationDate = 45
                 },
                 new Plant
                 {
@@ -213,7 +218,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 1.0f,
                     DeltaThree = 1.2f,
                     PreservationDay = 6,
-                    AverageEstimatedPerOne = 0.25f
+                    AverageEstimatedPerOne = 0.25f,
+                    AverageDurationDate = 40
                 },
                 new Plant
                 {
@@ -229,7 +235,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.3f,
                     PreservationDay = 12,
-                    AverageEstimatedPerOne = 0.8f
+                    AverageEstimatedPerOne = 0.8f,
+                    AverageDurationDate = 65
                 },
                 new Plant
                 {
@@ -245,7 +252,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.8f,
                     DeltaThree = 1.0f,
                     PreservationDay = 8,
-                    AverageEstimatedPerOne = 0.8f
+                    AverageEstimatedPerOne = 0.8f,
+                    AverageDurationDate = 52
                 },
                 new Plant
                 {
@@ -261,7 +269,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 0.9f,
                     DeltaThree = 1.2f,
                     PreservationDay = 7,
-                    AverageEstimatedPerOne = 0.8f
+                    AverageEstimatedPerOne = 0.8f,
+                    AverageDurationDate = 52
                 },
                 new Plant
                 {
@@ -277,7 +286,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     DeltaTwo = 1.0f,
                     DeltaThree = 1.3f,
                     PreservationDay = 10,
-                    AverageEstimatedPerOne = 0.8f
+                    AverageEstimatedPerOne = 0.8f,
+                    AverageDurationDate = 75
                 }
             );
 
