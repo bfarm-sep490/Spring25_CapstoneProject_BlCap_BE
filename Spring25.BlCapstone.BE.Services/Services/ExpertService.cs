@@ -216,7 +216,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 newExpert.AccountId = newAccount.Id;
                 var rsf = await _unitOfWork.ExpertRepository.CreateAsync(newExpert);
 
-                var token = JWTHelper.GenerateResetPasswordToken(model.Email, _configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], password, newExpert.Id);
+                var token = JWTHelper.GenerateResetPasswordToken(model.Email, _configuration["JWT:Secret"], _configuration["JWT:ValidAudience"], _configuration["JWT:ValidIssuer"], password, newAccount.Id);
 
                 var body = EmailHelper.GetEmailBody("RegisterAccount.html", new Dictionary<string, string>
                 {
