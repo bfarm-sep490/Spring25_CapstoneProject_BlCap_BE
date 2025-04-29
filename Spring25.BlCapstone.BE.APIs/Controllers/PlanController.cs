@@ -128,6 +128,20 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
+        [HttpPut("{id}/plan-rejection")]
+        public async Task<IActionResult> RejectPlan(int id, string? reason)
+        {
+            try
+            {
+                var rs = await _planService.RejectPlan(id, reason);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(CreatePlan model)

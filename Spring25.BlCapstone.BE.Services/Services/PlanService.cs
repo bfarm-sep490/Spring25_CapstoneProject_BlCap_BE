@@ -39,6 +39,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         Task<IBusinessResult> GetAllItems(int planId);
         Task<IBusinessResult> AssignTasks(int id, AssigningPlan model);
         Task<IBusinessResult> ApprovePlan(int id);
+        Task<IBusinessResult> RejectPlan(int id, string? reason);
         Task<IBusinessResult> Create(CreatePlan model);
         Task<IBusinessResult> UpdatePlan(int id, UpdatePlan model);
         Task<IBusinessResult> UpdateStatus(int id, string status, string? reportBy);
@@ -753,6 +754,75 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 });
 
                 return new BusinessResult { Status = 200, Message = "Approve success", Data = null };
+            }
+            catch (Exception ex)
+            {
+                return new BusinessResult { Status = 500, Message = ex.Message, Data = null };
+            }
+        }
+
+        public async Task<IBusinessResult> RejectPlan(int id, string? reason)
+        {
+            try
+            {
+                var plan = await _unitOfWork.PlanRepository.GetByIdAsync(id);
+                if (plan == null)
+                {
+                    return new BusinessResult(400, "Not found any plans !");
+                }
+
+                plan.Status = "Draft";
+                _unitOfWork.PlanRepository.PrepareUpdate(plan);
+
+                var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId: id);
+                foreach (var caringTask in caringTasks)
+                {
+                    caringTask.Status = "Draft";
+                    _unitOfWork.CaringTaskRepository.PrepareUpdate(caringTask);
+                }
+
+                var harvestingTasks = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTasks(planId: id);
+                foreach (var harvestingTask in harvestingTasks)
+                {
+                    harvestingTask.Status = "Draft";
+                    _unitOfWork.HarvestingTaskRepository.PrepareUpdate(harvestingTask);
+                }
+
+                var packagingTasks = await _unitOfWork.PackagingTaskRepository.GetPackagingTasks(planId: id);
+                foreach (var packagingTask in packagingTasks)
+                {
+                    packagingTask.Status = "Draft";
+                    _unitOfWork.PackagingTaskRepository.PrepareUpdate(packagingTask);
+                }
+
+                var inspectingForms = await _unitOfWork.InspectingFormRepository.GetInspectingForms(planId: id);
+                foreach (var inspectingForm in inspectingForms)
+                {
+                    inspectingForm.Status = "Draft";
+                    _unitOfWork.InspectingFormRepository.PrepareUpdate(inspectingForm);
+                }
+
+                await _unitOfWork.PlanRepository.SaveAsync();
+                await _unitOfWork.CaringTaskRepository.SaveAsync();
+                await _unitOfWork.HarvestingTaskRepository.SaveAsync();
+                await _unitOfWork.PackagingTaskRepository.SaveAsync();
+                await _unitOfWork.InspectingFormRepository.SaveAsync();
+
+                var expert = await _unitOfWork.ExpertRepository.GetExpert(plan.ExpertId);
+                var expertChanel = $"expert-{expert.Id}";
+                var message = $"Kế hoạch của bạn đã bị từ chối với lí do: {reason}. Bạn vẫn có thể xem kế hoạch đấy dưới dạng nháp ở mục Kế Hoạch nhé !";
+                var title = $"Kế hoạch {plan.PlanName} của bạn đã bị chủ trang trại từ chối!";
+                await _unitOfWork.NotificationExpertRepository.CreateAsync(new NotificationExpert
+                {
+                    ExpertId = expert.Id,
+                    Message = message,
+                    Title = title,
+                    IsRead = false,
+                    CreatedDate = DateTimeHelper.NowVietnamTime()
+                });
+                await AblyHelper.SendMessageWithChanel(title, message, expertChanel);
+
+                return new BusinessResult(200, "Reject plan success !");
             }
             catch (Exception ex)
             {
