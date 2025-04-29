@@ -111,6 +111,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var insForm = await _unitOfWork.InspectingFormRepository.GetInspectingFormById(id);
                 insForm.Status = "Complete";
+                insForm.CompleteDate = DateTimeHelper.NowVietnamTime();
                 _unitOfWork.InspectingFormRepository.PrepareUpdate(insForm);
 
                 var re = _mapper.Map<InspectingResultModel>(result);
