@@ -33,6 +33,8 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         public string? QRCode { get; set; }
         [JsonPropertyName("seed_quantity")]
         public int? SeedQuantity { get; set; }
+        [JsonPropertyName("evaluated_result")]
+        public string? EvaluatedResult { get; set; }
         [JsonPropertyName("created_at")]
         public DateTime CreatedAt { get; set; }
         [JsonPropertyName("created_by")]

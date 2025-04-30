@@ -23,6 +23,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .Include(p => p.CaringTasks)
                 .Include(p => p.HarvestingTasks)
                 .Include(p => p.InspectingForms)
+                    .ThenInclude(p => p.InspectingResult)
                 .Include(p => p.PackagingTasks)
                 .Include(p => p.Problems)
                 .Include(p => p.Yield)
@@ -49,6 +50,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(p => p.PlanTransaction)
                                 .Include(p => p.OrderPlans)
                                     .ThenInclude(p => p.Order)
+                                .Include(p => p.InspectingForms)
+                                    .ThenInclude(p => p.InspectingResult)
                                 .AsQueryable();
 
             if (expertId != null)

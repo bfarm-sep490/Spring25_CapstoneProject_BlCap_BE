@@ -314,6 +314,16 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.ProblemInfors, opt => opt.MapFrom(src => src.Problems))
                 .ForMember(dest => dest.OrderInfor, opt => opt.MapFrom(src => src.OrderPlans))
                 .ForMember(dest => dest.UrlAddress, opt => opt.MapFrom(src => src.PlanTransaction.UrlAddress))
+                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src =>
+                            src.InspectingForms != null &&
+                            src.InspectingForms.Any(c => c.Status != null && c.Status.Trim().ToLower() == "complete") &&
+                            src.InspectingForms.OrderBy(c => c.CompleteDate).FirstOrDefault(c => c.Status != null && c.Status.Trim().ToLower() == "complete").InspectingResult != null
+                                ? src.InspectingForms
+                                    .OrderBy(c => c.CompleteDate)
+                                    .FirstOrDefault(c => c.Status != null && c.Status.Trim().ToLower() == "complete")
+                                    .InspectingResult.EvaluatedResult
+                                : "Chưa được kiểm định"
+                                    ))
                 .ReverseMap();
             CreateMap<OrderPlan, OrderInfor>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OrderId))
@@ -340,6 +350,16 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Expert.Account.Name))
                 .ForMember(dest => dest.UrlAddress, opt => opt.MapFrom(src => src.PlanTransaction.UrlAddress))
                 .ForMember(dest => dest.OrderIds, opt => opt.MapFrom(src => src.OrderPlans.Select(po => po.OrderId).ToList()))
+                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src =>
+                            src.InspectingForms != null &&
+                            src.InspectingForms.Any(c => c.Status != null && c.Status.Trim().ToLower() == "complete") &&
+                            src.InspectingForms.OrderBy(c => c.CompleteDate).FirstOrDefault(c => c.Status != null && c.Status.Trim().ToLower() == "complete").InspectingResult != null
+                                ? src.InspectingForms
+                                    .OrderBy(c => c.CompleteDate)
+                                    .FirstOrDefault(c => c.Status != null && c.Status.Trim().ToLower() == "complete")
+                                    .InspectingResult.EvaluatedResult
+                                : "Chưa được kiểm định"
+                                    ))
                 .ReverseMap();
             CreateMap<Plan, PlanGeneral>()
                 .ForMember(dest => dest.PlantInformation, opt => opt.MapFrom(src => src.Plant))
