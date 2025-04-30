@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Repositories.BlockChain;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Services.Services;
@@ -7,6 +8,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/blockchains")]
     [ApiController]
+    [Authorize]
     public class BlockChainController : Controller
     {
         private readonly IBlockChainService _blockchain;

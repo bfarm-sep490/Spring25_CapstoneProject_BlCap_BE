@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Plant;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plant;
@@ -9,6 +10,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/plants")]
     [ApiController]
+    [Authorize]
     public class PlantController : Controller
     {
         private IMapper _mapper;

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Order;
@@ -8,6 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/product-pickup-batches")]
     [ApiController]
+    [Authorize]
     public class ProductPickupBatchController : ControllerBase
     {
         private readonly IProductPickupBatchService _batchesService;

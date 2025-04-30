@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
@@ -8,6 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/inspecting-results")]
     [ApiController]
+    [Authorize]
     public class InspectingResultController : ControllerBase
     {
         private readonly IInspectingResultService _service;

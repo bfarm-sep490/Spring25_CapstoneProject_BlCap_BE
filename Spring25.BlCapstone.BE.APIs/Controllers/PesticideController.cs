@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Pesticide;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Pesticide;
@@ -6,8 +7,9 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api")]
+    [Route("api/pesticides")]
     [ApiController]
+    [Authorize]
     public class PesticideController : Controller
     {
         private IPesticideService _pesticideService;
@@ -17,7 +19,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _pesticideService = pesticideService;
             _mapper = mapper;
         }
-        [HttpGet("pesticides")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(string? status)
         {
             try
@@ -30,7 +32,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("pesticides")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatedPesticide model)
         {
             try
@@ -46,7 +48,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 }
             }
         }
-        [HttpPut("pesticides/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdatedPesticide model, [FromRoute] int id)
         {
             try
@@ -60,7 +62,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("pesticides/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetbyId([FromRoute] int id)
         {
             try
@@ -74,7 +76,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpDelete("pesticides/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
             try
@@ -88,7 +90,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("pesticides/images/upload")]
+        [HttpPost("images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
             var rs = await _pesticideService.UploadImage(image);

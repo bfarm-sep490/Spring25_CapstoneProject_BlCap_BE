@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +10,9 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api")]
+    [Route("api/harvesting-tasks")]
     [ApiController]
+    [Authorize]
     public class HarvestingTaskController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -21,7 +23,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _harvestingTaskService = harvestingTaskService;
         }
 
-        [HttpGet("harvesting-tasks")]
+        [HttpGet]
         public async Task<IActionResult> GetAllHarvestingTasks([FromQuery] FilterRequestNotCaring model)
         {
             try
@@ -35,7 +37,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("harvesting-tasks/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetHarvestingTaskById([FromRoute]int id)
         {
             try
@@ -49,21 +51,21 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("harvesting-tasks/images/upload")]
+        [HttpPost("images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
             var rs = await _harvestingTaskService.UploadImage(image);
             return Ok(rs);
         }
 
-        [HttpPut("harvesting-tasks/{id}/task-report")]
+        [HttpPut("{id}/task-report")]
         public async Task<IActionResult> UpdateHarvestingTask(int id, HarvestingTaskReport model)
         {
             var rs = await _harvestingTaskService.ReportHarvestingTask(id, model);
             return Ok(rs);
         }
 
-        [HttpGet("harvesting-tasks/dashboard")]
+        [HttpGet("dashboard")]
         public async Task<IActionResult> GetdashboardHarvestingTasks()
         {
             try
@@ -77,7 +79,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("harvesting-tasks/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateHarvestingTask model)
         {
             try
@@ -91,7 +93,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("harvesting-tasks")]
+        [HttpPost]
         public async Task<IActionResult> Create(CreateHarvestingPlan model)
         {
             try
@@ -105,7 +107,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpDelete("harvesting-tasks/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
             try
@@ -119,7 +121,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("harvesting-tasks/dashboard/plan/{id}")]
+        [HttpGet("dashboard/plan/{id}")]
         public async Task<IActionResult> GetdashboardHarvestingTasksByPlanId([FromRoute]int id)
         {
             try
@@ -133,7 +135,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("harvesting-tasks/completed/plan/{id}")]
+        [HttpGet("completed/plan/{id}")]
         public async Task<IActionResult> GetHarvestdTasksDashboardByPlanId([FromRoute] int id)
         {
             try
@@ -147,7 +149,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("harvesting-tasks/{id}/assigned-farmers")]
+        [HttpGet("{id}/assigned-farmers")]
         public async Task<IActionResult> GetHistoryFarmers(int id)
         {
             try
@@ -161,7 +163,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("harvesting-tasks/{id}/farmers/{farmer_id}")]
+        [HttpPost("{id}/farmers/{farmer_id}")]
         public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] TaskReasonReplace? model)
         {
             try

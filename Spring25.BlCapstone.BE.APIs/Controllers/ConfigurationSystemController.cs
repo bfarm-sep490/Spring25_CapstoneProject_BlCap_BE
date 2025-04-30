@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Config;
 using Spring25.BlCapstone.BE.Services.Services;
@@ -7,6 +8,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/configuration-systems")]
     [ApiController]
+    [Authorize]
     public class ConfigurationSystemController : ControllerBase
     {
         public IConfigurationSystemService _configurationSystemService;

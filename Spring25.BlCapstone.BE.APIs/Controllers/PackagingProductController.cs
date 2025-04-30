@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.Services;
 using System.Text.Json.Serialization;
@@ -7,6 +8,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/packaging-products")]
     [ApiController]
+    [Authorize]
     public class PackagingProductController : ControllerBase
     {
         private readonly IPackagingProductService _packagingProductService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Net.payOS.Types;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Payment;
@@ -8,6 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/payments")]
     [ApiController]
+    [Authorize]
     public class PaymentController : ControllerBase
     {
         public IPaymentService _paymentService;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Auth;
 using Spring25.BlCapstone.BE.Services.Base;
@@ -32,6 +33,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<IBusinessResult>> GetAccountInfobyId([FromRoute] int id)
         {
             try
@@ -46,6 +48,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}/password")]
+        [Authorize]
         public async Task<IActionResult> ChangePassword(int id, AccountChangePassword model)
         {
             try
@@ -60,6 +63,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetAll()
         {
             try
@@ -74,6 +78,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("password-forgotten")]
+        [Authorize]
         public async Task<IActionResult> ForgotPassword(string email)
         {
             try

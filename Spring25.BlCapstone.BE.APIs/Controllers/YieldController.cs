@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Yield;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Yield;
@@ -8,6 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/yields")]
     [ApiController]
+    [Authorize]
     public class YieldController : Controller
     {
         private IMapper _mapper;

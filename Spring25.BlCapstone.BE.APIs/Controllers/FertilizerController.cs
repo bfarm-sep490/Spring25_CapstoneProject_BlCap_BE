@@ -8,8 +8,9 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api")]
+    [Route("api/fertilizers")]
     [ApiController]
+    [Authorize]
     public class FertilizerController : Controller
     {
         private IFertilizerService _fertilizerService;
@@ -20,7 +21,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("fertilizers")]
+        [HttpGet]
         public async Task<IActionResult> GetAll(string? status)
         {
             try
@@ -34,7 +35,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpDelete("fertilizers/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Remove([FromRoute] int id)
         {
             try
@@ -48,7 +49,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("fertilizers")]
+        [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatedFertilizer model)
         {
             try
@@ -63,7 +64,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("fertilizers/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UpdatedFertilizer model, [FromRoute] int id)
         {
             try
@@ -78,7 +79,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("fertilizers/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             try
@@ -92,7 +93,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("fertilizers/images/upload")]
+        [HttpPost("images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
             var rs = await _fertilizerService.UploadImage(image);

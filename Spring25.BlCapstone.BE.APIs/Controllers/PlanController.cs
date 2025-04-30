@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.Plan;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Plan;
@@ -9,6 +10,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/plans")]
     [ApiController]
+    [Authorize]
     public class PlanController : ControllerBase
     {
         private IPlanService _planService;

@@ -1,13 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks.Inspect;
 using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api")]
+    [Route("api/inspecting-forms")]
     [ApiController]
-    public class InspectingFormController : Controller
+    [Authorize]
+    public class InspectingFormController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IInspectingFormService _inspectingFormService;
@@ -17,7 +19,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _inspectingFormService = inspectingFormService;
         }
 
-        [HttpGet("inspecting-forms")]
+        [HttpGet]
         public async Task<IActionResult> GetAllInpectingForms([FromQuery] List<string>? status, int? plan_id, int? inspector_id)
         {
             try
@@ -31,7 +33,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("inspecting-forms/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetInpectingFormById([FromRoute]int id)
         {
             try
@@ -45,7 +47,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("inspecting-forms")]
+        [HttpPost]
         public async Task<IActionResult> Create(CreateInspectingPlan model)
         {
             try
@@ -59,7 +61,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("inspecting-forms/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateInspectingForm model)
         {
             try
@@ -73,7 +75,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpDelete("inspecting-forms/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
         {
             try

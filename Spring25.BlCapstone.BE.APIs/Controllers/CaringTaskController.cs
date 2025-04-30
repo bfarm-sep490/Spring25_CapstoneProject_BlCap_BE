@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MailKit.Net.Imap;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask;
@@ -9,8 +10,9 @@ using Spring25.BlCapstone.BE.Services.Services;
 
 namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
-    [Route("api")]
+    [Route("api/caring-tasks")]
     [ApiController]
+    [Authorize]
     public class CaringTaskController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -21,7 +23,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             _caringTaskService = caringTaskService;
         }
 
-        [HttpGet("caring-tasks")]
+        [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] FilterTaskResponse request)
         {
             try
@@ -35,7 +37,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             try
@@ -49,14 +51,14 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("caring-tasks/images/upload")]
+        [HttpPost("images/upload")]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
             var rs = await _caringTaskService.UploadImage(image);
             return Ok(rs);
         }
 
-        [HttpPost("caring-tasks")]
+        [HttpPost]
         public async Task<IActionResult> Create(CreateCaringPlan model)
         {
             try
@@ -70,7 +72,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpDelete("caring-tasks/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             try
@@ -84,7 +86,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("caring-tasks/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateCaringTask model)
         {
             try
@@ -98,7 +100,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPut("caring-tasks/{id}/task-report")]
+        [HttpPut("{id}/task-report")]
         public async Task<IActionResult> Report(int id, CaringTaskReport model)
         {
             try
@@ -112,7 +114,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/dashboard")]
+        [HttpGet("dashboard")]
         public async Task<IActionResult> GetDashboard()
         {
             try
@@ -126,7 +128,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/dashboard/plan/{id}")]
+        [HttpGet("dashboard/plan/{id}")]
         public async Task<IActionResult> GetDashboardByPlanId([FromRoute] int id)
         {
             try
@@ -140,7 +142,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/{id}/assigned-farmers")]
+        [HttpGet("{id}/assigned-farmers")]
         public async Task<IActionResult> GetHistoryFarmers(int id)
         {
             try
@@ -154,7 +156,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpGet("caring-tasks/count/plans/{id}")]
+        [HttpGet("count/plans/{id}")]
         public async Task<IActionResult> GetCountPlanTypeByPlanId([FromRoute] int id)
         {
             try
@@ -170,7 +172,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             }
         }
 
-        [HttpPost("caring-tasks/{id}/farmers/{farmer_id}")]
+        [HttpPost("{id}/farmers/{farmer_id}")]
         public async Task<IActionResult> ChangeFarmer(int id, int farmer_id, [FromBody] TaskReasonReplace? model)
         {
             try

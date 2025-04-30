@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.APIs.RequestModels.CaringTask;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Tasks;
@@ -10,6 +11,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/packaging-tasks")]
     [ApiController]
+    [Authorize]
     public class PackagingTaskController : ControllerBase
     {
         private IPackagingTaskService _service;

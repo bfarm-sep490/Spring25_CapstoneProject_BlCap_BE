@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Spring25.BlCapstone.BE.Services.Services;
@@ -7,6 +8,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/harvesting-product")]
     [ApiController]
+    [Authorize]
     public class HarvestingProductController : ControllerBase
     {
         private readonly IHarvestingTaskService _harvestingTaskService;
