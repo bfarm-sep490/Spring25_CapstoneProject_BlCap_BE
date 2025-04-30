@@ -178,27 +178,28 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
         private readonly Dictionary<string, Dictionary<string, float>> _contaminantLimits = new()
         {
-            { "Rau họ thập tự", new Dictionary<string, float> { { "Cadmi", 0.05f } } },
-            { "Hành", new Dictionary<string, float> { { "Cadmi", 0.05f } } },
+            { "Rau họ thập tự", new Dictionary<string, float> { { "Cadmi", 0.05f }, { "Plumbum", 0.3f } } },
+            { "Hành", new Dictionary<string, float> { { "Cadmi", 0.05f }, { "Plumbum", 0.1f } } },
             { "Rau ăn lá", new Dictionary<string, float> { { "Cadmi", 0.2f }, { "Plumbum", 0.3f } } },
             { "Rau ăn quả", new Dictionary<string, float> { { "Cadmi", 0.05f }, { "Plumbum", 0.1f } } },
             { "Rau ăn củ", new Dictionary<string, float> { { "Cadmi", 0.1f }, { "Plumbum", 0.1f } } },
-            { "Nấm", new Dictionary<string, float> { { "Cadmi", 0.2f } } },
+            { "Rau ăn thân", new Dictionary<string, float> { { "Cadmi", 0.1f } } },
+            { "Nấm", new Dictionary<string, float> { { "Cadmi", 0.2f }, { "Plumbum", 0.3f } } },
             { "Rau củ quả", new Dictionary<string, float> { { "Hydrargyrum", 0.02f } } },
-            { "Rau khô", new Dictionary<string, float> { { "Arsen", 1.0f } } }
+            { "Rau khô", new Dictionary<string, float> { { "Arsen", 1.0f } } },
+            { "Rau họ đậu", new Dictionary<string, float> { { "Cadmi", 0.1f }, { "Plumbum", 0.2f } } }
         };
 
         private readonly Dictionary<string, float> _globalLimits = new()
         {
-            { "SulfurDioxide", 10.0f },
-            { "Nitrat", 9.0f },
-            { "NaNO3_KNO3", 15.0f },
-            { "Glyphosate_Glufosinate", 0.01f },
+            { "SulfurDioxide", 0f },
+            { "Nitrat", 5000f },
+            { "Glyphosate_Glufosinate", 0.1f },
             { "MethylBromide", 0.01f },
-            { "HydrogenPhosphide", 0.01f },
+            { "HydrogenPhosphide", 0f },
             { "Dithiocarbamate", 0.01f },
             { "Chlorate", 0.01f },
-            { "Perchlorate", 0.01f },
+            { "Perchlorate", 0.05f },
             { "Salmonella", 0f },
             { "Coliforms", 10f }
         };
@@ -226,15 +227,25 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return "Grade 3";
                 }
+                
+                if (_globalLimits.ContainsKey("SulfurDioxide") && model.Salmonella > _globalLimits["SulfurDioxide"])
+                {
+                    return "Grade 3";
+                }
+                
+                if (_globalLimits.ContainsKey("HydrogenPhosphide") && model.Salmonella > _globalLimits["HydrogenPhosphide"])
+                {
+                    return "Grade 3";
+                }
 
                 void CheckLimit(string contaminant, float value)
                 {
                     if (!limits.ContainsKey(contaminant)) return;
                     float limit = limits[contaminant];
 
-                    if (value >= 1.3 * limit)
+                    if (value >= limit)
                         majorViolations++;
-                    else if (value > limit && value < (1.3 * limit))
+                    else if (value < limit && (value > (limit / 1.3)))
                         minorViolations++;
                 }
 
@@ -243,22 +254,20 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     if (!_globalLimits.ContainsKey(contaminant)) return;
                     float limit = _globalLimits[contaminant];
 
-                    if (value >= 1.3 * limit)
+                    if (value >= limit)
                         majorViolations++;
-                    else if (value > limit && value < (1.3 * limit))
+                    else if (value < limit && (value > (limit / 1.3)))
                         minorViolations++;
                 }
 
                 void CheckEColi(float value)
                 {
-                    float lowerBound = (float)(Math.Pow(10, 2) * 1.3);
-                    float upperBound = (float)(Math.Pow(10, 3) * 1.3);
-                    float boundL = (float)(Math.Pow(10, 2));
-                    float boundU = (float)(Math.Pow(10, 3));
+                    float lowerLimit = (float)Math.Pow(10, 2);
+                    float upperLimit = (float)Math.Pow(10, 3);
 
-                    if (value <= lowerBound || value >= upperBound)
+                    if (value > upperLimit)
                         majorViolations++;
-                    else if ((value > boundL && value < lowerBound) || (value > boundU && value < upperBound))
+                    else if (value >= lowerLimit && value <= upperLimit)
                     {
                         minorViolations++;
                     }
@@ -272,12 +281,10 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 CheckLimit("Arsen", model.Arsen);
                 CheckLimit("Coliforms", model.Coliforms);
 
-                CheckLimitGlobal("SulfurDioxide", model.SulfurDioxide);
                 CheckLimitGlobal("Nitrat", model.Nitrat);
                 CheckLimitGlobal("NaNO3_KNO3", model.NaNO3_KNO3);
                 CheckLimitGlobal("Glyphosate_Glufosinate", model.Glyphosate_Glufosinate);
                 CheckLimitGlobal("MethylBromide", model.MethylBromide);
-                CheckLimitGlobal("HydrogenPhosphide", model.HydrogenPhosphide);
                 CheckLimitGlobal("Dithiocarbamate", model.Dithiocarbamate);
                 CheckLimitGlobal("Chlorate", model.Chlorate);
                 CheckLimitGlobal("Perchlorate", model.Perchlorate);
