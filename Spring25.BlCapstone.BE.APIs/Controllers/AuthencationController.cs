@@ -78,7 +78,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("password-forgotten")]
-        [Authorize]
         public async Task<IActionResult> ForgotPassword(string email)
         {
             try
