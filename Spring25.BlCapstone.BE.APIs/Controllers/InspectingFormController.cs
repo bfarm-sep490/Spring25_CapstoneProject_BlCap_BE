@@ -8,7 +8,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/inspecting-forms")]
     [ApiController]
-    [Authorize]
     public class InspectingFormController : ControllerBase
     {
         private readonly IMapper _mapper;
