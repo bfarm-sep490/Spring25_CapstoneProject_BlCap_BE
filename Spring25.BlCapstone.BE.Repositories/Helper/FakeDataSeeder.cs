@@ -487,7 +487,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new CaringFertilizer { Id = 12, FertilizerId = 3, TaskId = 14, Unit = "Kg", Quantity = 6.0f },
                 new CaringFertilizer { Id = 13, FertilizerId = 1, TaskId = 32, Unit = "Kg", Quantity = 6.0f },
                 new CaringFertilizer { Id = 14, FertilizerId = 1, TaskId = 42, Unit = "Kg", Quantity = 6.0f },
-                new CaringFertilizer { Id = 14, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f }
+                new CaringFertilizer { Id = 15, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f }
             );
 
             modelBuilder.Entity<CaringImage>().HasData(
