@@ -39,6 +39,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Include(p => p.Plan)
                                     .ThenInclude(p => p.Expert)
                                         .ThenInclude(p => p.Account)
+                                .Include(p => p.Plan)
+                                    .ThenInclude(p => p.InspectingForms)
+                                        .ThenInclude(p => p.InspectingResult)
                                  .Where(p => p.FarmerId == farmerId);
 
             if (is_active_in_plan.HasValue)

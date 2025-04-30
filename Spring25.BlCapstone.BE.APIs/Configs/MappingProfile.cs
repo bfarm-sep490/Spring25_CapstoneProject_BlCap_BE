@@ -213,6 +213,16 @@ namespace Spring25.BlCapstone.BE.APIs.Configs
                 .ForMember(dest => dest.UpdatedBy, opt => opt.MapFrom(src => src.Plan.UpdatedBy))
                 .ForMember(dest => dest.IsApproved, opt => opt.MapFrom(src => src.Plan.IsApproved))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToLower().Trim().Equals("active")))
+                .ForMember(dest => dest.EvaluatedResult, opt => opt.MapFrom(src =>
+                            src.Plan.InspectingForms != null &&
+                            src.Plan.InspectingForms.Any(c => c.Status != null && c.Status.Trim().ToLower() == "complete") &&
+                            src.Plan.InspectingForms.OrderBy(c => c.CompleteDate).FirstOrDefault(c => c.Status != null && c.Status.Trim().ToLower() == "complete").InspectingResult != null
+                                ? src.Plan.InspectingForms
+                                    .OrderBy(c => c.CompleteDate)
+                                    .FirstOrDefault(c => c.Status != null && c.Status.Trim().ToLower() == "complete")
+                                    .InspectingResult.EvaluatedResult
+                                : "Chưa được kiểm định"
+                                    ))
                 .ReverseMap();
             CreateMap<Farmer, FarmerModel>()
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Account.Email))
