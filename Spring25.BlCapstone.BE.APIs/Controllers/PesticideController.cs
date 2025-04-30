@@ -10,7 +10,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
     [Route("api/pesticides")]
     [ApiController]
     [Authorize]
-    public class PesticideController : Controller
+    public class PesticideController : ControllerBase
     {
         private IPesticideService _pesticideService;
         private IMapper _mapper;

@@ -9,7 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
     [Route("api/templates")]
     [ApiController]
     [Authorize]
-    public class SeasonalPlantController : Controller
+    public class SeasonalPlantController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly ISeasonalPlantService _seasonalPlantService;

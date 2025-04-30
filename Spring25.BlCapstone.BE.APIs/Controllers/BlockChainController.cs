@@ -9,7 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
     [Route("api/blockchains")]
     [ApiController]
     [Authorize]
-    public class BlockChainController : Controller
+    public class BlockChainController : ControllerBase
     {
         private readonly IBlockChainService _blockchain;
         public BlockChainController(IBlockChainService blockchain)

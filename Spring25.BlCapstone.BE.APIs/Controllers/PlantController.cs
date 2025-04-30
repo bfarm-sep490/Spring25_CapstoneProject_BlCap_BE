@@ -11,7 +11,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
     [Route("api/plants")]
     [ApiController]
     [Authorize]
-    public class PlantController : Controller
+    public class PlantController : ControllerBase
     {
         private IMapper _mapper;
         private IPlantService _seedService;

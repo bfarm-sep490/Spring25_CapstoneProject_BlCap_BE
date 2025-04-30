@@ -9,6 +9,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/inspecting-results")]
     [ApiController]
+    [Authorize]
     public class InspectingResultController : ControllerBase
     {
         private readonly IInspectingResultService _service;

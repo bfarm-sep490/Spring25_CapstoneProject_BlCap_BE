@@ -10,7 +10,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
     [Route("api/yields")]
     [ApiController]
     [Authorize]
-    public class YieldController : Controller
+    public class YieldController : ControllerBase
     {
         private IMapper _mapper;
         private IYieldService _yieldService;

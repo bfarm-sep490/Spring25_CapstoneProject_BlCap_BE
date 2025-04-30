@@ -11,7 +11,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
     [Route("api/fertilizers")]
     [ApiController]
     [Authorize]
-    public class FertilizerController : Controller
+    public class FertilizerController : ControllerBase
     {
         private IFertilizerService _fertilizerService;
         private IMapper _mapper;
