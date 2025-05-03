@@ -5,6 +5,7 @@ using Spring25.BlCapstone.BE.Repositories.Helper;
 using Spring25.BlCapstone.BE.Repositories.Models;
 using Spring25.BlCapstone.BE.Repositories.Repositories;
 using Spring25.BlCapstone.BE.Services.Base;
+using Spring25.BlCapstone.BE.Services.BusinessModels.Notification;
 using Spring25.BlCapstone.BE.Services.BusinessModels.Problem;
 using Spring25.BlCapstone.BE.Services.Untils;
 using Spring25.BlCapstone.BE.Services.Utils;
@@ -208,6 +209,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         task.Status = "Cancel";
                         _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
                     }
+
+                    var farmerChanel = $"farmer-{problem.FarmerId}";
+                    var message = $"Vấn đề đã bị từ chối với lí do: {model.ResultContent}";
+                    var title = $"Đã cập nhật trạng thái vấn đề - {problem.ProblemName}";
+                    await AblyHelper.SendMessageWithChanel(title, message, farmerChanel);
+                    await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
+                    {
+                        FarmerId = problem.FarmerId,
+                        Message = message,
+                        Title = title,
+                        IsRead = false,
+                        CreatedDate = DateTimeHelper.NowVietnamTime(),
+                    });
                 } 
                 else
                 {
@@ -216,6 +230,24 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         task.Status = "Ongoing";
                         _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
                     }
+                    var farmers = await _unitOfWork.FarmerCaringTaskRepository.GetAllFarmersCaringTaskByProblemId(id);
+
+                    foreach(var f in farmers)
+                    {
+                        var farmerChanel = $"farmer-{f.FarmerId}";
+                        var message = $"Vấn đề đã được giải quyết, hãy truy cập hệ thống với công việc mới được giao!";
+                        var title = $"Vấn đề đang được giải quyết, hãy cập nhật công việc với - {problem.ProblemName}";
+                        await AblyHelper.SendMessageWithChanel(title, message, farmerChanel);
+                        await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
+                        {
+                            FarmerId = f.FarmerId,
+                            Message = message,
+                            Title = title,
+                            IsRead = false,
+                            CreatedDate = DateTimeHelper.NowVietnamTime(),
+                        });
+                    }
+                    
                 }
 
                 await _unitOfWork.CaringTaskRepository.SaveAsync();

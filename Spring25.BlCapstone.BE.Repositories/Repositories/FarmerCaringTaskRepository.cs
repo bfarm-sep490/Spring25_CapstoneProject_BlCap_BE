@@ -49,5 +49,13 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                              && fct.FarmerId == farmerId)
                                  .ToListAsync();
         }
+
+        public async Task<List<FarmerCaringTask>> GetAllFarmersCaringTaskByProblemId(int problemId)
+        {
+            return await _context.FarmerCaringTasks
+                                 .Include(p => p.CaringTask)
+                                 .Where(p => p.CaringTask.ProblemId == problemId)
+                                 .ToListAsync();
+        }
     }
 }
