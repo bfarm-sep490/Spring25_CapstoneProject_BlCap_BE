@@ -16,17 +16,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             _context = context;
         }
 
-        public async Task<List<ConfigurationSystem>> GetAllConfigs(string? status)
+        public async Task<ConfigurationSystem> GetConfig()
         {
             var query = _context.ConfigurationSystems
                                 .AsQueryable();
 
-            if (!string.IsNullOrEmpty(status))
-            {
-                query = query.Where(x => x.Status.ToLower().Trim().Equals(status.ToLower().Trim()));
-            }
-
-            return await query.ToListAsync();
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

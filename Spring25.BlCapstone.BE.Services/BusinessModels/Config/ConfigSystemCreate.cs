@@ -11,5 +11,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Config
     {
         [JsonPropertyName("deposit_percent")]
         public float DepositPercent { get; set; }
+        [JsonPropertyName("address")]
+        public string Address { get; set; }
     }
 }

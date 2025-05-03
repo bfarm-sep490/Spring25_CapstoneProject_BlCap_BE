@@ -13,9 +13,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IConfigurationSystemService
     {
-        Task<IBusinessResult> GetAll(string? status);
+        Task<IBusinessResult> GetConfig();
         Task<IBusinessResult> CreateNewConfig(ConfigSystemCreate model);
-        Task<IBusinessResult> SwitchStatus(int id);
     }
 
     public class ConfigurationSystemService : IConfigurationSystemService
@@ -29,11 +28,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _mapper = mapper;
         }
 
-        public async Task<IBusinessResult> GetAll(string? status)
+        public async Task<IBusinessResult> GetConfig()
         {
             try
             {
-                var configs = await _unitOfWork.ConfigurationSystemRepository.GetAllConfigs(status);
+                var configs = await _unitOfWork.ConfigurationSystemRepository.GetConfig();
                 return new BusinessResult(200, "List of configuration: ", configs);
             }
             catch (Exception ex)
@@ -46,32 +45,21 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var cc = _mapper.Map<ConfigurationSystem>(model);
-                cc.Status = "Inactive";
-
-                await _unitOfWork.ConfigurationSystemRepository.CreateAsync(cc);
-
-                return new BusinessResult(200, "New configuration: ", cc);
-            }
-            catch (Exception ex)
-            {
-                return new BusinessResult(500, ex.Message);
-            }
-        }
-
-        public async Task<IBusinessResult> SwitchStatus(int id)
-        {
-            try
-            {
-                var config = await _unitOfWork.ConfigurationSystemRepository.GetByIdAsync(id);
+                var config = await _unitOfWork.ConfigurationSystemRepository.GetConfig();
                 if (config == null)
                 {
-                    return new BusinessResult(400, "Not found any config !");
-                }
+                    var cc = _mapper.Map<ConfigurationSystem>(model);
 
-                config.Status = !config.Status.ToLower().Trim().Equals("active") ? "Active" : "Inactive";
-                await _unitOfWork.ConfigurationSystemRepository.UpdateAsync(config);
-                return new BusinessResult(200, "Switch success", config);
+                    await _unitOfWork.ConfigurationSystemRepository.CreateAsync(cc);
+                }
+                else
+                {
+                    _mapper.Map(model, config);
+
+                    await _unitOfWork.ConfigurationSystemRepository.UpdateAsync(config);
+                }
+                
+                return new BusinessResult(200, "New configuration: ", model);
             }
             catch (Exception ex)
             {

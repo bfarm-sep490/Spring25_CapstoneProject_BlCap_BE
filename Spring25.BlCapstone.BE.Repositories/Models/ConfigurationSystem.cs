@@ -15,7 +15,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Models
         public int Id { get; set; }
         [JsonPropertyName("deposit_percent")]
         public float DepositPercent { get; set; }
-        [JsonPropertyName("status")]
-        public string Status { get; set; }
+        [JsonPropertyName("address")]
+        public string Address { get; set; }
     }
 }

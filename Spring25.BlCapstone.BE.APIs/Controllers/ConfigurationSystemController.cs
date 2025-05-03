@@ -18,11 +18,11 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll(string? status)
+        public async Task<IActionResult> GetConfig()
         {
             try
             {
-                var rs = await _configurationSystemService.GetAll(status);
+                var rs = await _configurationSystemService.GetConfig();
                 return Ok(rs);
             }
             catch (Exception ex)
@@ -37,20 +37,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
             try
             {
                 var rs = await _configurationSystemService.CreateNewConfig(model);
-                return Ok(rs);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        
-        [HttpPut("{id}/status")]
-        public async Task<IActionResult> Switch(int id)
-        {
-            try
-            {
-                var rs = await _configurationSystemService.SwitchStatus(id);
                 return Ok(rs);
             }
             catch (Exception ex)
