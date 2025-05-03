@@ -9,7 +9,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/yields")]
     [ApiController]
-    [Authorize]
     public class YieldController : ControllerBase
     {
         private IMapper _mapper;
@@ -21,6 +20,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll(string? status)
         {
             try
@@ -49,6 +49,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> RemoveById([FromRoute] int id)
         {
             try
@@ -63,6 +64,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create(CreatedYield model)
         {
             try
@@ -78,6 +80,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Create(int id, UpdatedYield model)
         {
             try
@@ -93,6 +96,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}/suggest-plants")]
+        [Authorize]
         public async Task<IActionResult> GetSuggestPlantsbyYieldId([FromRoute] int id)
         {
             try
@@ -107,6 +111,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}/history-plans")]
+        [Authorize]
         public async Task<IActionResult> GetHistoryPlans(int id)
         {
             try

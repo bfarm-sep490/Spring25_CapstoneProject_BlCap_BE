@@ -10,7 +10,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/plants")]
     [ApiController]
-    [Authorize]
     public class PlantController : ControllerBase
     {
         private IMapper _mapper;
@@ -22,6 +21,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll(string? status, string? name)
         {
             try
@@ -50,6 +50,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> RemoveById([FromRoute] int id)
         {
             try
@@ -64,6 +65,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Create([FromBody] CreatedPlant model)
         {
             try
@@ -79,6 +81,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update([FromBody] UpdatedPlant model, [FromRoute]int id)
         {
             try
@@ -94,6 +97,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("images/upload")]
+        [Authorize]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
             var rs = await _seedService.UploadImage(image);
@@ -101,6 +105,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}/suggest-yields")]
+        [Authorize]
         public async Task<IActionResult> GetSuggestYieldsbyPlantId([FromRoute] int id)
         {
             try
@@ -115,6 +120,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpDelete("{id}/suggest-yields")]
+        [Authorize]
         public async Task<IActionResult> DeleteSuggestYields(int id, [Required] int yield_id)
         {
             try
@@ -129,6 +135,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
        
         [HttpPost("{id}/suggest-yields")]
+        [Authorize]
         public async Task<IActionResult> CreateSuggestYields(int id, [FromBody] PlantYieldModel model)
         {
             try
