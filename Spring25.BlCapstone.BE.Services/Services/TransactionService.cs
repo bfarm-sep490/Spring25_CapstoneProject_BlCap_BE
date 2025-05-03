@@ -36,7 +36,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var trans = await _unitOfWork.TransactionRepository.GetTransactions(orderId, status);
                 var res = _mapper.Map<List<TransactionModel>>(trans);
 
-                return new BusinessResult(200, "List transactions: ", res);
+                return new BusinessResult(200, "List transactions: ", res.OrderByDescending(c => c.PaymentDate));
             }
             catch (Exception ex)
             {

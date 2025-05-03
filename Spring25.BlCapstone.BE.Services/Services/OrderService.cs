@@ -108,7 +108,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         .ToList();
                 }
             });
-            return new BusinessResult(200, "List Order", result);
+            return new BusinessResult(200, "List Order", result.OrderByDescending(c => c.CreatedAt));
         }
 
         public async Task<IBusinessResult> GetOrderById(int id)

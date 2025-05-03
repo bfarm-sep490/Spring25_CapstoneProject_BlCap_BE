@@ -36,7 +36,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             {
                 var batches = await _unitOfWork.ProductPickupBatchRepository.GetAllBatches(orderId);
                 var rs = _mapper.Map<List<BatchModel>>(batches);
-                return new BusinessResult(200, "List batches: ", rs);
+                return new BusinessResult(200, "List batches: ", rs.OrderByDescending(c => c.CreatedDate));
             }
             catch (Exception ex)
             {

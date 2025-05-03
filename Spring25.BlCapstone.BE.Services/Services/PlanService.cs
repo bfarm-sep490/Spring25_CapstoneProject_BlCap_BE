@@ -106,7 +106,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = _mapper.Map<List<PlanForList>>(plan);
 
-                return new BusinessResult(200, "List of Plans", rs);
+                return new BusinessResult(200, "List of Plans", rs.OrderByDescending(c => c.CreatedAt));
 
             }
             catch (Exception ex)

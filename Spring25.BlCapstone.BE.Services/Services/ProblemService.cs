@@ -44,7 +44,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var problems = await _unitOfWork.ProblemRepository.GetProblems(planId, farmerId, name, status, pageNumber, pageSize);
 
                 var res = _mapper.Map<List<ProblemModel>>(problems);
-                return new BusinessResult(200, "List of problems: ", res);
+                return new BusinessResult(200, "List of problems: ", res.OrderByDescending(c => c.CreatedDate));
             }
             catch (Exception ex)
             {
