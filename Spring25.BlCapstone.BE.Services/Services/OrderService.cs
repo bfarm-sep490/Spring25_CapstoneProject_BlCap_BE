@@ -76,6 +76,19 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
+                var ownerChanel = "owner";
+                var mO = $"Bạn có 1 đơn hàng chờ duyệt mới - {plant.PlantName}. Hãy kiểm tra phần Đơn Hàng để biết thêm chi tiết !";
+                var tO = "Bạn có đơn hàng cần duyệt mới !";
+                await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
+                await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
+                {
+                    OwnerId = 1,
+                    Message = message,
+                    Title = title,
+                    IsRead = false,
+                    CreatedDate = DateTimeHelper.NowVietnamTime(),
+                });
+
                 var response = new OrderModel();
                 _mapper.Map(rs, response);
                 return new BusinessResult(200, "Create order successfull", response);

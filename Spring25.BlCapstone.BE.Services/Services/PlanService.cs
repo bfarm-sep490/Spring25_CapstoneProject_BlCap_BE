@@ -252,19 +252,31 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var farmersCaringTask = await _unitOfWork.FarmerCaringTaskRepository.GetFarmerCaringTasksByPlanId(id);
                 foreach (var farmer in farmersCaringTask)
                 {
-                    await _unitOfWork.FarmerCaringTaskRepository.RemoveAsync(farmer);
+                    var caringTask = await _unitOfWork.CaringTaskRepository.GetByIdAsync(farmer.TaskId);
+                    if (caringTask.Status.ToLower().Trim().Equals("draft") || caringTask.Status.ToLower().Trim().Equals("pending"))
+                    {
+                        await _unitOfWork.FarmerCaringTaskRepository.RemoveAsync(farmer);
+                    }
                 }
 
                 var farmersHarvestingTask = await _unitOfWork.FarmerHarvestingTaskRepository.GetFarmerHarvestingTasksByPlanId(id);
                 foreach (var farmer in farmersHarvestingTask)
                 {
-                    await _unitOfWork.FarmerHarvestingTaskRepository.RemoveAsync(farmer);
+                    var harTask = await _unitOfWork.HarvestingTaskRepository.GetByIdAsync(farmer.TaskId);
+                    if (harTask.Status.ToLower().Trim().Equals("draft") || harTask.Status.ToLower().Trim().Equals("pending"))
+                    {
+                        await _unitOfWork.FarmerHarvestingTaskRepository.RemoveAsync(farmer);
+                    }
                 }
 
                 var farmerPackagingTask = await _unitOfWork.FarmerPackagingTaskRepository.GetFarmerPackagingTasksByPlanId(id);
                 foreach (var farmer in farmerPackagingTask)
                 {
-                    await _unitOfWork.FarmerPackagingTaskRepository.RemoveAsync(farmer);
+                    var packTask = await _unitOfWork.PackagingTaskRepository.GetByIdAsync(farmer.TaskId);
+                    if (packTask.Status.ToLower().Trim().Equals("draft") || packTask.Status.ToLower().Trim().Equals("pending"))
+                    {
+                        await _unitOfWork.FarmerPackagingTaskRepository.RemoveAsync(farmer);
+                    }
                 }
 
                 if (model.Farmers.Any())
