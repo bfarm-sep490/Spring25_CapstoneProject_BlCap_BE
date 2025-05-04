@@ -137,6 +137,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult { Status = 400, Message = "Not found any Harvesting Task", Data = null };
                 }
 
+                _mapper.Map(model, harvestingTask);
+
                 if (model.Status.ToLower().Trim().Equals("complete"))
                 {
                     var blTransaction = await _unitOfWork.PlanTransactionRepository.GetPlanTransactionByTaskId(harvestingTaskId: id);
@@ -184,7 +186,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     _unitOfWork.FarmerPerformanceRepository.PrepareUpdate(farmer);
                 }
 
-                _mapper.Map(model, harvestingTask);
                 harvestingTask.UpdatedAt = DateTimeHelper.NowVietnamTime();
                 harvestingTask.CompleteDate = DateTimeHelper.NowVietnamTime();
 
