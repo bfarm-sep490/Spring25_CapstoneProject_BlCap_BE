@@ -168,15 +168,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
-                var ownerChanel = $"owner";
+                var ownerChanel = "owner";
                 var mo = "Bên kiểm định đã gửi kết quả điểm định về cây trồng trong kế hoạch. Hãy truy cập kế hoạch để xem chi tiết hơn về kết quả kiểm định!";
                 var to = $"Đã có kết quả kiểm định từ kế hoạch - {plant.PlantName}";
-                await AblyHelper.SendMessageWithChanel(title, message, ownerChanel);
+                await AblyHelper.SendMessageWithChanel(to, mo, ownerChanel);
                 await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
                 {
                     OwnerId = 1,
-                    Message = message,
-                    Title = title,
+                    Message = mo,
+                    Title = to,
                     IsRead = false,
                     CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });

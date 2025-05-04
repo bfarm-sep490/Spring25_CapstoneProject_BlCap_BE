@@ -9,7 +9,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/retailers")]
     [ApiController]
-    [Authorize]
     public class RetailerController : ControllerBase
     {
         private IRetailerService _retailerService;
@@ -19,6 +18,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -33,6 +33,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var rs = await _retailerService.GetById(id);
@@ -40,6 +41,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}/status")]
+        [Authorize]
         public async Task<IActionResult> SwitchStatus(int id)
         {
             var rs = await _retailerService.SwitchStatus(id);
@@ -47,6 +49,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Remove(int id)
         {
             var rs = await _retailerService.RemoveRetailer(id);
@@ -61,6 +64,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Update(int id, CreateRetailer model)
         {
             var rs = await _retailerService.UpdateRetailer(id, model);
@@ -68,6 +72,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("images/upload")]
+        [Authorize]
         public async Task<IActionResult> UploadImage(List<IFormFile> image)
         {
             var rs = await _retailerService.UploadImage(image);
@@ -75,6 +80,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{id}/notifications")]
+        [Authorize]
         public async Task<IActionResult> GetListNotifications(int id)
         {
             try
@@ -89,6 +95,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("notification-read/{notification_id}")]
+        [Authorize]
         public async Task<IActionResult> MarkAsRead(int notification_id)
         {
             try
@@ -103,6 +110,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}/notifications-read")]
+        [Authorize]
         public async Task<IActionResult> MarkAllAsRead(int id)
         {
             try
