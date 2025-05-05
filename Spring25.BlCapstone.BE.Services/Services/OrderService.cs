@@ -43,7 +43,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var estimatedPrice = plant.BasePrice * order.PreOrderQuantity;
                 newOrder.Status = "PendingConfirmation";
                 newOrder.TotalPrice = estimatedPrice;
-                newOrder.Address = "?";
                 newOrder.CreatedAt = DateTimeHelper.NowVietnamTime();
 
                 var rs = await _unitOfWork.OrderRepository.CreateAsync(newOrder);

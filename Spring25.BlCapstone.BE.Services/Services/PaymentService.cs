@@ -99,7 +99,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
                 var description = $"#{orderCode} D@{DateTimeHelper.NowVietnamTime():yyMMdd}";
-                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
+                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, _cancelURL, _returnURL, expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: "Do not have!", buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
                 if (createPayment == null)
@@ -164,7 +164,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 int expiredAt = (int)((DateTimeOffset)expirationDate).ToUnixTimeSeconds();
 
                 var description = $"#{orderCode} P@{DateTimeHelper.NowVietnamTime():yyMMdd}";
-                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, "http://localhost:5173/payment-success", "http://localhost:5173/payment-success", expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: order.Address, buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
+                PaymentData paymentData = new PaymentData(orderCode, model.Amount, description, items, "http://localhost:5173/payment-success", "http://localhost:5173/payment-success", expiredAt: expiredAt, buyerPhone: order.Phone, buyerAddress: "Do not have!", buyerName: order.Retailer.Account.Name, buyerEmail: order.Retailer.Account.Email);
                 CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);
 
                 if (createPayment == null)

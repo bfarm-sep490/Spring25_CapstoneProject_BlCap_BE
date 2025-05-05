@@ -33,8 +33,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public float? TotalPrice { get; set; }
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("address")]
-        public string Address { get; set; }
         [JsonPropertyName("phone")]
         public string Phone { get; set; }
         [JsonPropertyName("preorder_quantity")]
