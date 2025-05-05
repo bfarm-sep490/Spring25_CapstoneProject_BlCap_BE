@@ -363,13 +363,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
             modelBuilder.Entity<FarmerPermission>().HasData(
                 new FarmerPermission { FarmerId = 4, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-35) },
-                new FarmerPermission { FarmerId = 1, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-32) },
+                new FarmerPermission { FarmerId = 2, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-32) },
                 new FarmerPermission { FarmerId = 5, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-31) },
                 new FarmerPermission { FarmerId = 2, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-10) },
                 new FarmerPermission { FarmerId = 3, PlanId = 2, Status = "Active", CreatedAt = DateTime.Now.AddDays(-5) },
                 new FarmerPermission { FarmerId = 1, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-55) },
                 new FarmerPermission { FarmerId = 3, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-30) },
-                new FarmerPermission { FarmerId = 5, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) }
+                new FarmerPermission { FarmerId = 5, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) },
+                new FarmerPermission { FarmerId = 1, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) }
             );
 
             modelBuilder.Entity<CaringTask>().HasData(
@@ -449,7 +450,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
                 new CaringTask { Id = 73, PlanId = 9, Description = "Tưới nước đều đặn cho cây", TaskName = "Tưới nước cho rau muống lần đầu", TaskType = "Watering", StartDate = new DateTime(2025, 5, 3), EndDate = new DateTime(2025, 5, 3).AddHours(7), CompleteDate = new DateTime(2025, 5, 3).AddHours(5), Status = "Complete", CreatedAt = new DateTime(2025, 04, 20), CreatedBy = "Hoàng Quỳnh J" },
                 new CaringTask { Id = 74, PlanId = 9, Description = "Bón phân cho cây sau khi tưới cây đầy đủ", TaskName = "Bón phân cho cây", TaskType = "Fertilizing", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), Status = "Ongoing", CreatedAt = new DateTime(2025, 4, 20), CreatedBy = "Hoàng Quỳnh J" },
-                new CaringTask { Id = 75, PlanId = 9, Description = "Tưới nước hằng ngày vào buổi chiều để tránh cây bị héo do nắng to", TaskName = "Tưới nước hằng ngày cho cây trồng", TaskType = "Watering", StartDate = DateTime.Now.AddHours(10), EndDate = DateTime.Now.AddHours(17), Status = "Ongoing", CreatedAt = new DateTime(2025, 4, 20), CreatedBy = "Hoàng Quỳnh J" }
+                new CaringTask { Id = 75, PlanId = 9, Description = "Tưới nước hằng ngày vào buổi chiều để tránh cây bị héo do nắng to", TaskName = "Tưới nước hằng ngày cho cây trồng", TaskType = "Watering", StartDate = DateTime.Now.AddHours(1), EndDate = DateTime.Now.AddHours(17), Status = "Ongoing", CreatedAt = new DateTime(2025, 4, 20), CreatedBy = "Hoàng Quỳnh J" }
             );
 
             modelBuilder.Entity<FarmerCaringTask>().HasData(
@@ -1101,48 +1102,49 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PlantYield>().HasData(
-                new PlantYield { PlantId = 1, YieldId = 1 },
-                new PlantYield { PlantId = 1, YieldId = 2 },
-                new PlantYield { PlantId = 1, YieldId = 3 },
-                new PlantYield { PlantId = 2, YieldId = 1 },
-                new PlantYield { PlantId = 2, YieldId = 4 },
-                new PlantYield { PlantId = 2, YieldId = 5 },
-                new PlantYield { PlantId = 3, YieldId = 6 },
-                new PlantYield { PlantId = 3, YieldId = 1 },
-                new PlantYield { PlantId = 3, YieldId = 5 },
-                new PlantYield { PlantId = 3, YieldId = 7 },
-                new PlantYield { PlantId = 4, YieldId = 4 },
-                new PlantYield { PlantId = 4, YieldId = 2 },
-                new PlantYield { PlantId = 4, YieldId = 7 },
-                new PlantYield { PlantId = 5, YieldId = 5 },
-                new PlantYield { PlantId = 6, YieldId = 6 },
-                new PlantYield { PlantId = 7, YieldId = 7 },
-                new PlantYield { PlantId = 8, YieldId = 3 },
-                new PlantYield { PlantId = 9, YieldId = 1 },
-                new PlantYield { PlantId = 10, YieldId = 2 },
-                new PlantYield { PlantId = 10, YieldId = 8 },
-                new PlantYield { PlantId = 10, YieldId = 9 },
-                new PlantYield { PlantId = 10, YieldId = 10 },
-                new PlantYield { PlantId = 10, YieldId = 11 },
-                new PlantYield { PlantId = 10, YieldId = 12 },
-                new PlantYield { PlantId = 3, YieldId = 13 },
-                new PlantYield { PlantId = 3, YieldId = 14 },
-                new PlantYield { PlantId = 3, YieldId = 15 },
-                new PlantYield { PlantId = 1, YieldId = 16 },
-                new PlantYield { PlantId = 1, YieldId = 17 },
-                new PlantYield { PlantId = 3, YieldId = 17 },
-                new PlantYield { PlantId = 7, YieldId = 17 },
-                new PlantYield { PlantId = 7, YieldId = 10 },
-                new PlantYield { PlantId = 7, YieldId = 12 },
-                new PlantYield { PlantId = 7, YieldId = 13 },
-                new PlantYield { PlantId = 7, YieldId = 14 },
-                new PlantYield { PlantId = 7, YieldId = 15 }
+                new PlantYield { PlantId = 1, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 2, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 3, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 2, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 2, YieldId = 4, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 2, YieldId = 5, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 6, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 5, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 7, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 4, YieldId = 4, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 4, YieldId = 2, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 4, YieldId = 7, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 5, YieldId = 5, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 6, YieldId = 6, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 7, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 8, YieldId = 3, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 9, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 2, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 8, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 9, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 10, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 11, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 12, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 14, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 13, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 14, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 15, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 16, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 10, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 12, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 13, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 14, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 15, MaximumQuantity = 200 }
             );
 
             modelBuilder.Entity<PlanTransaction>().HasData(
                 new PlanTransaction { Id = 2, UrlAddress = "0xea28dee1c7cf4dd2fd216ff9cda37a0aae86da13" },
-                new PlanTransaction { Id = 3, UrlAddress = "0x9ce2a61740aa3ba1ffcde706c4c19d74fe09129e" },
-                new PlanTransaction { Id = 4, UrlAddress = "0x36b4b269e46e05e6636bb861a4abfeb56bce1034" },
+                new PlanTransaction { Id = 9, UrlAddress = "0x9ce2a61740aa3ba1ffcde706c4c19d74fe09129e" },
+                new PlanTransaction { Id = 3, UrlAddress = "0x36b4b269e46e05e6636bb861a4abfeb56bce1034" },
                 new PlanTransaction { Id = 1, UrlAddress = "0xb4f50683b576df59f974c80993f8ff6f2ba69502" }
             );
         }

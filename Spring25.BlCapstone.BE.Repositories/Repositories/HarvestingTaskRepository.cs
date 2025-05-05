@@ -179,6 +179,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                 .Include(x => x.Plan)
                                     .ThenInclude(x => x.InspectingForms)
                                         .ThenInclude(x => x.InspectingResult)
+                                .Where(x => x.Status.ToLower().Trim().Equals("complete"))
                                 .AsQueryable();
 
             if (planId.HasValue)
