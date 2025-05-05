@@ -50,7 +50,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     { "{{orderDate}}", DateTimeHelper.NowVietnamTime().ToString("MMM dd, yy") },
                     { "{{orderConfirmDate}}", DateTimeHelper.NowVietnamTime().AddDays(2).ToString("MMM dd, yy") },
-                    { "{{orderTrackingLink}}", "https://bfarmx.space" },
+                    { "{{orderTrackingLink}}", $"https://bfarmx.space/orders/{newOrder.Id}" },
                     { "{{orderCode}}", $"{plant.PlantName}" },
                     { "{{imageOrder}}", $"{plant.ImageUrl}" },
                     { "{{productName}}", $"{plant.PlantName}" },
@@ -79,12 +79,12 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var ownerChanel = "owner";
                 var mO = $"Bạn có 1 đơn hàng chờ duyệt mới - {plant.PlantName}. Hãy kiểm tra phần Đơn Hàng để biết thêm chi tiết !";
                 var tO = "Bạn có đơn hàng cần duyệt mới !";
-                await AblyHelper.SendMessageWithChanel(title, message, retaileraChanel);
+                await AblyHelper.SendMessageWithChanel(tO, mO, ownerChanel);
                 await _unitOfWork.NotificationOwnerRepository.CreateAsync(new NotificationOwner
                 {
                     OwnerId = 1,
-                    Message = message,
-                    Title = title,
+                    Message = mO,
+                    Title = tO,
                     IsRead = false,
                     CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });

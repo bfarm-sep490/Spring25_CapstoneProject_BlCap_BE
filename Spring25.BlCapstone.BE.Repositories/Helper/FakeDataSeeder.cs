@@ -1119,7 +1119,24 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new PlantYield { PlantId = 7, YieldId = 7 },
                 new PlantYield { PlantId = 8, YieldId = 3 },
                 new PlantYield { PlantId = 9, YieldId = 1 },
-                new PlantYield { PlantId = 10, YieldId = 2 }
+                new PlantYield { PlantId = 10, YieldId = 2 },
+                new PlantYield { PlantId = 10, YieldId = 8 },
+                new PlantYield { PlantId = 10, YieldId = 9 },
+                new PlantYield { PlantId = 10, YieldId = 10 },
+                new PlantYield { PlantId = 10, YieldId = 11 },
+                new PlantYield { PlantId = 10, YieldId = 12 },
+                new PlantYield { PlantId = 3, YieldId = 13 },
+                new PlantYield { PlantId = 3, YieldId = 14 },
+                new PlantYield { PlantId = 3, YieldId = 15 },
+                new PlantYield { PlantId = 1, YieldId = 16 },
+                new PlantYield { PlantId = 1, YieldId = 17 },
+                new PlantYield { PlantId = 3, YieldId = 17 },
+                new PlantYield { PlantId = 7, YieldId = 17 },
+                new PlantYield { PlantId = 7, YieldId = 10 },
+                new PlantYield { PlantId = 7, YieldId = 12 },
+                new PlantYield { PlantId = 7, YieldId = 13 },
+                new PlantYield { PlantId = 7, YieldId = 14 },
+                new PlantYield { PlantId = 7, YieldId = 15 }
             );
 
             modelBuilder.Entity<PlanTransaction>().HasData(

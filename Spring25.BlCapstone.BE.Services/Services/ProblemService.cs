@@ -247,7 +247,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             CreatedDate = DateTimeHelper.NowVietnamTime(),
                         });
                     }
-                    
                 }
 
                 await _unitOfWork.CaringTaskRepository.SaveAsync();
