@@ -36,16 +36,17 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
-                var newOrder = _mapper.Map<Repositories.Models.Order>(order);
-                newOrder.Status = "PendingConfirmation";
-                newOrder.CreatedAt = DateTimeHelper.NowVietnamTime();
-
                 var plant = await _unitOfWork.PlantRepository.GetByIdAsync(order.PlantId);
                 var account = await _unitOfWork.AccountRepository.GetAccountByUserId(retailerId: order.RetailerId);
 
-                var rs = await _unitOfWork.OrderRepository.CreateAsync(newOrder);
+                var newOrder = _mapper.Map<Repositories.Models.Order>(order);
                 var estimatedPrice = plant.BasePrice * order.PreOrderQuantity;
+                newOrder.Status = "PendingConfirmation";
+                newOrder.TotalPrice = estimatedPrice;
+                newOrder.CreatedAt = DateTimeHelper.NowVietnamTime();
 
+                var rs = await _unitOfWork.OrderRepository.CreateAsync(newOrder);
+                
                 var body = EmailHelper.GetEmailBody("ConfirmOrder.html", new Dictionary<string, string>
                 {
                     { "{{orderDate}}", DateTimeHelper.NowVietnamTime().ToString("MMM dd, yy") },
