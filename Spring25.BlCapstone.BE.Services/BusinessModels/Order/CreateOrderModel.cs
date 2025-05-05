@@ -17,8 +17,6 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Order
         public int PackagingTypeId { get; set; }
         [JsonPropertyName("deposit_price")]
         public float DepositPrice { get; set; }
-        [JsonPropertyName("address")]
-        public string Address { get; set; }
         [JsonPropertyName("phone")]
         public string Phone { get; set; }
         [JsonPropertyName("preorder_quantity")]
