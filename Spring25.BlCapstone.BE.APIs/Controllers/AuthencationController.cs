@@ -48,7 +48,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPut("{id}/password")]
-        [Authorize]
         public async Task<IActionResult> ChangePassword(int id, AccountChangePassword model)
         {
             try
