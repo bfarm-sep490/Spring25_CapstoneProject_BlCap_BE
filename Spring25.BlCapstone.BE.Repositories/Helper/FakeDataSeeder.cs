@@ -350,14 +350,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Plan>().HasData(
-                new Plan { Id = 1, PlantId = 1, YieldId = 1, ExpertId = 1, PlanName = "Trồng cà chua vụ đông", Description = "Kế hoạch trồng cà chua vào mùa đông", StartDate = new DateTime(2024, 1, 10), EndDate = new DateTime(2024, 4, 15), CompleteDate = new DateTime(2024, 4, 15), Status = "Complete", EstimatedProduct = 500, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
+                new Plan { Id = 1, PlantId = 3, YieldId = 7, ExpertId = 3, PlanName = "Kế hoạch Xà lách xoăn - Mùa Phụ", Description = "Kế hoạch trồng xà lách xoăn vào mùa phụ - khí hậu không ổn định, chất lượng có thể không đảm bảo", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 6, 15), Status = "Ongoing", EstimatedProduct = 200, CreatedAt = DateTime.Now.AddMonths(-5), CreatedBy = "Hoàng Quỳnh J", IsApproved = true },
                 new Plan { Id = 2, PlantId = 2, YieldId = 2, ExpertId = 2, PlanName = "Trồng dưa lưới", Description = "Kế hoạch trồng dưa lưới trong nhà kính", StartDate = new DateTime(2025, 2, 1), EndDate = new DateTime(2025, 6, 1), CompleteDate = new DateTime(2025, 6, 5), Status = "Ongoing", EstimatedProduct = 300, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
                 new Plan { Id = 3, PlantId = 3, YieldId = 3, ExpertId = 3, PlanName = "Trồng bắp cải", Description = "Kế hoạch trồng bắp cải sạch", StartDate = new DateTime(2025, 3, 15), EndDate = new DateTime(2025, 6, 30), CompleteDate = new DateTime(2025, 6, 30), Status = "Ongoing", EstimatedProduct = 400, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
-                new Plan { Id = 4, PlantId = 4, YieldId = 4, ExpertId = 1, PlanName = "Trồng rau muống", Description = "Kế hoạch trồng rau muống ngắn ngày", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 5, 5), CompleteDate = new DateTime(2025, 5, 5), Status = "Pending", EstimatedProduct = 200, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
+                new Plan { Id = 4, PlantId = 4, YieldId = 4, ExpertId = 1, PlanName = "Trồng rau muống", Description = "Kế hoạch trồng rau muống ngắn ngày", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 5, 5), CompleteDate = new DateTime(2025, 5, 5), Status = "Ongoing", EstimatedProduct = 200, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
                 new Plan { Id = 5, PlantId = 5, YieldId = 5, ExpertId = 2, PlanName = "Trồng cà rốt", Description = "Kế hoạch trồng cà rốt hữu cơ", StartDate = new DateTime(2025, 5, 1), EndDate = new DateTime(2025, 9, 1), CompleteDate = new DateTime(2025, 9, 2), Status = "Pending", EstimatedProduct = 350, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
                 new Plan { Id = 6, PlantId = 6, YieldId = 6, ExpertId = 3, PlanName = "Trồng hành lá", Description = "Kế hoạch trồng hành lá sạch", StartDate = new DateTime(2025, 6, 10), EndDate = new DateTime(2025, 9, 30), CompleteDate = new DateTime(2025, 9, 30), Status = "Pending", EstimatedProduct = 250, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
                 new Plan { Id = 7, PlantId = 10, YieldId = 2, ExpertId = 2, PlanName = "Mùa vụ trồng củ cải trắng", Description = "Bản kế hoạch chi tiết trồng củ cải trắng ngắn hạn trong vòng 30 ngày", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(30), Status = "Draft", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Admin", IsApproved = false },
-                new Plan { Id = 8, PlantId = 10, YieldId = 3, ExpertId = 1, PlanName = "Mùa vụ trồng cà chua", Description = "Bản kế hoạch chi tiết trồng cà chua trong vòng 60 ngày", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(60), Status = "Pending", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Lê Quang C", IsApproved = false }
+                new Plan { Id = 8, PlantId = 10, YieldId = 3, ExpertId = 1, PlanName = "Mùa vụ trồng cà chua", Description = "Bản kế hoạch chi tiết trồng cà chua trong vòng 60 ngày", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(60), Status = "Pending", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Lê Quang C", IsApproved = false },
+                new Plan { Id = 9, PlantId = 1, YieldId = 1, ExpertId = 3, PlanName = "Kế hoạch Rau muống - Mùa Hạ", Description = "Kế hoạch trồng rau muống mùa hạ cho ra năng suất nông sản mạnh, có 1 số tác nhân giúp cây có thể săn chắc mà không bị héo ảnh hưởng bới mùa nắng to.", StartDate = new DateTime(3,5,2025), EndDate = new DateTime(6,7,2025), CompleteDate = null, Status = "Ongoing", EstimatedProduct = 200, CreatedAt = new DateTime(20,04,2025), CreatedBy = "Hoàng Quỳnh J", IsApproved = true, SeedQuantity = 70 }
             );
 
             modelBuilder.Entity<FarmerPermission>().HasData(
@@ -444,7 +445,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new CaringTask { Id = 69, PlanId = 8, Description = "Tưới nước đều đặn vào sáng sớm, Chú ý: giảm lượng nước tưới trong quá trình thu hoạch", TaskName = "Tưới nước cho cây cà chua 39", TaskType = "Watering", StartDate = new DateTime(2025, 6, 22, 7, 30, 0), EndDate = new DateTime(2025, 6, 22, 9, 30, 0), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "Lê Quang C" },
                 new CaringTask { Id = 70, PlanId = 8, Description = "Tưới nước đều đặn vào sáng sớm, Chú ý: nên thu hoạch quả có xuất hiện vệt màu hồng hoặc đỏ nhạt ở phần đáy quả", TaskName = "Tưới nước cho cây cà chua 40", TaskType = "Watering", StartDate = new DateTime(2025, 6, 22, 7, 30, 0), EndDate = new DateTime(2025, 6, 22, 9, 30, 0), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "Lê Quang C" },
                 new CaringTask { Id = 71, PlanId = 8, Description = "Tưới nước đều đặn vào sáng sớm, Chú ý: màu sắc quả chuyển dần từ xanh sang hồng hoặc đỏ nhạt; thịt quả bắt đầu mềm hơn.", TaskName = "Tưới nước cho cây cà chua 41", TaskType = "Watering", StartDate = new DateTime(2025, 6, 22, 7, 30, 0), EndDate = new DateTime(2025, 6, 22, 9, 30, 0), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "Lê Quang C" },
-                new CaringTask { Id = 72, PlanId = 8, Description = "Tưới nước đều đặn vào sáng sớm, Chú ý: giảm lượng nước tưới trong quá trình thu hoạch", TaskName = "Tưới nước cho cây cà chua 42", TaskType = "Watering", StartDate = new DateTime(2025, 6, 22, 7, 30, 0), EndDate = new DateTime(2025, 6, 22, 9, 30, 0), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "Lê Quang C" }
+                new CaringTask { Id = 72, PlanId = 8, Description = "Tưới nước đều đặn vào sáng sớm, Chú ý: giảm lượng nước tưới trong quá trình thu hoạch", TaskName = "Tưới nước cho cây cà chua 42", TaskType = "Watering", StartDate = new DateTime(2025, 6, 22, 7, 30, 0), EndDate = new DateTime(2025, 6, 22, 9, 30, 0), Status = "Pending", CreatedAt = DateTime.Now, CreatedBy = "Lê Quang C" },
+
+                new CaringTask { Id = 73, PlanId = 9, Description = "Tưới nước đều đặn cho cây", TaskName = "Tưới nước cho rau muống lần đầu", TaskType = "Watering", StartDate = new DateTime(3,5,2025), EndDate = new DateTime(3,5,2025).AddHours(7), CompleteDate = new DateTime(3,5,2025).AddHours(5), Status = "Complete", CreatedAt = new DateTime(20, 04, 2025), CreatedBy = "Hoàng Quỳnh J" },
+                new CaringTask { Id = 74, PlanId = 9, Description = "Bón phân cho cây sau khi tưới cây đầy đủ", TaskName = "Bón phân cho cây", TaskType = "Fertilizing", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), Status = "Ongoing", CreatedAt = new DateTime(20, 04, 2025), CreatedBy = "Hoàng Quỳnh J" },
+                new CaringTask { Id = 75, PlanId = 9, Description = "Tưới nước hằng ngày vào buổi chiều để tránh cây bị héo do nắng to", TaskName = "Tưới nước hằng ngày cho cây trồng", TaskType = "Watering", StartDate = DateTime.Now.AddHours(10), EndDate = DateTime.Now.AddHours(17), Status = "Ongoing", CreatedAt = new DateTime(20, 04, 2025), CreatedBy = "Hoàng Quỳnh J" }
             );
 
             modelBuilder.Entity<FarmerCaringTask>().HasData(
@@ -462,7 +467,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new FarmerCaringTask { FarmerId = 6, TaskId = 10, Description = "Installing new irrigation pipes.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(5) },
                 new FarmerCaringTask { FarmerId = 1, TaskId = 12, Description = "Harvesting completed for lettuce field.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-2) },
                 new FarmerCaringTask { FarmerId = 2, TaskId = 14, Description = "Scheduled pest control task delayed.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(4) },
-                new FarmerCaringTask { FarmerId = 3, TaskId = 15, Description = "Monitoring crop growth using sensors.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-1) }
+                new FarmerCaringTask { FarmerId = 3, TaskId = 15, Description = "Monitoring crop growth using sensors.", Status = "Active", ExpiredDate = DateTime.Now.AddDays(-1) },
+
+                new FarmerCaringTask { FarmerId = 1, TaskId = 74, Status = "Active" },
+                new FarmerCaringTask { FarmerId = 1, TaskId = 75, Status = "Active" }
             );
 
             modelBuilder.Entity<CaringPesticide>().HasData(
@@ -497,7 +505,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new CaringFertilizer { Id = 12, FertilizerId = 3, TaskId = 14, Unit = "Kg", Quantity = 6.0f },
                 new CaringFertilizer { Id = 13, FertilizerId = 1, TaskId = 32, Unit = "Kg", Quantity = 6.0f },
                 new CaringFertilizer { Id = 14, FertilizerId = 1, TaskId = 42, Unit = "Kg", Quantity = 6.0f },
-                new CaringFertilizer { Id = 15, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f }
+                new CaringFertilizer { Id = 15, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f },
+                new CaringFertilizer { Id = 74, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f }
             );
 
             modelBuilder.Entity<CaringImage>().HasData(
@@ -520,7 +529,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new HarvestingTask { Id = 4, PlanId = 4, TaskName = "Thu hoạch dưa leo", Description = "Thu hoạch dưa leo vào đúng thời điểm chín", StartDate = DateTime.Now.AddDays(-9), EndDate = DateTime.Now.AddDays(-1), CompleteDate = DateTime.Now, HarvestedQuantity = 2000, CreatedAt = DateTime.Now.AddDays(-4), CreatedBy = "thangbinhbeo", Status = "Pending" },
                 new HarvestingTask { Id = 5, PlanId = 5, TaskName = "Thu hoạch bí đỏ", Description = "Thu hoạch bí đỏ khi vỏ cứng lại", StartDate = DateTime.Now.AddDays(-9), EndDate = DateTime.Now.AddDays(-2), CompleteDate = DateTime.Now.AddDays(-1), HarvestedQuantity = 1500, CreatedAt = DateTime.Now.AddDays(-8), CreatedBy = "thangbinhbeo", Status = "Pending" },
                 new HarvestingTask { Id = 6, PlanId = 8, TaskName = "Thu hoạch cà chua 1", Description = "Thu hoạch quả cà chua khi có những vệt hồng hoặc đỏ dưới đáy", StartDate = new DateTime(2025, 6, 25, 7, 30, 0), EndDate = new DateTime(2025, 6, 25, 17, 30, 0), CreatedBy = "Lê Quang C", Status = "Pending" },
-                new HarvestingTask { Id = 7, PlanId = 8, TaskName = "Thu hoạch cà chua 2", Description = "Thu hoạch bí đỏ khi vỏ cứng lại", StartDate = new DateTime(2025, 6, 26, 7, 30, 0), EndDate = new DateTime(2025, 6, 26, 17, 30, 0), HarvestedQuantity = 1500, CreatedAt = DateTime.Now.AddDays(-8), CreatedBy = "Lê Quang C", Status = "Pending" }
+                new HarvestingTask { Id = 7, PlanId = 8, TaskName = "Thu hoạch cà chua 2", Description = "Thu hoạch bí đỏ khi vỏ cứng lại", StartDate = new DateTime(2025, 6, 26, 7, 30, 0), EndDate = new DateTime(2025, 6, 26, 17, 30, 0), HarvestedQuantity = 1500, CreatedAt = DateTime.Now.AddDays(-8), CreatedBy = "Lê Quang C", Status = "Pending" },
+                new HarvestingTask { Id = 8, PlanId = 1, TaskName = "Thu hoạch xà lách xoăn đợt đầu", Description = "Thu hoạch xà lách xoăn đợt 1 ở nửa thửa đất", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), CreatedAt = DateTime.Now.AddDays(-8), CreatedBy = "Lê Quang C", Status = "Ongoing" },
+                new HarvestingTask { Id = 9, PlanId = 1, TaskName = "Thu hoạch xà lách xoăn đợt tiếp", Description = "Thu hoạch xà lách xoăn đợt cuối ở những phần còn lại", StartDate = DateTime.Now.AddDays(2), EndDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-8), CreatedBy = "Lê Quang C", Status = "Ongoing" }
             );
 
             modelBuilder.Entity<FarmerHarvestingTask>().HasData(
@@ -531,7 +542,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new FarmerHarvestingTask { FarmerId = 5, TaskId = 5, Description = "Thu hoạch bắp cải non, đảm bảo không có sâu bệnh trước khi đóng gói.", Status = "Active", ExpiredDate = DateTime.UtcNow.AddDays(-3) },
                 new FarmerHarvestingTask { FarmerId = 6, TaskId = 1, Description = "Thu hái rau dền đúng thời điểm để đảm bảo độ tươi ngon.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
                 new FarmerHarvestingTask { FarmerId = 1, TaskId = 3, Description = "Thu hoạch cải xanh và vận chuyển ngay sau khi thu hoạch.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(2) },
-                new FarmerHarvestingTask { FarmerId = 2, TaskId = 5, Description = "Thu hoạch hành lá, buộc thành bó nhỏ trước khi phân phối.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(4) }
+                new FarmerHarvestingTask { FarmerId = 2, TaskId = 5, Description = "Thu hoạch hành lá, buộc thành bó nhỏ trước khi phân phối.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(4) },
+                new FarmerHarvestingTask { FarmerId = 1, TaskId = 8, Status = "Active" },
+                new FarmerHarvestingTask { FarmerId = 1, TaskId = 9, Status = "Active" }
             );
 
             modelBuilder.Entity<HarvestingImage>().HasData(
@@ -557,7 +570,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     CreatedAt = DateTime.Now.AddDays(-6),
                     CreatedBy = "thangbinhbeo"
                 },
-
                 new InspectingForm
                 {
                     Id = 2,
@@ -572,7 +584,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-7)
                 },
-
                 new InspectingForm
                 {
                     Id = 3,
@@ -583,11 +594,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     StartDate = DateTime.Now.AddDays(-7),
                     EndDate = DateTime.Now.AddDays(-6),
                     CompleteDate = DateTime.Now.AddDays(-6),
-                    Status = "Pending",
+                    Status = "Complete",
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-8)
                 },
-
                 new InspectingForm
                 {
                     Id = 4,
@@ -602,7 +612,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-9)
                 },
-
                 new InspectingForm
                 {
                     Id = 5,
@@ -617,7 +626,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-10)
                 },
-
                 new InspectingForm
                 {
                     Id = 6,
@@ -632,19 +640,32 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     CreatedBy = "thangbinhbeo",
                     CreatedAt = DateTime.Now.AddDays(-11)
                 },
-                  new InspectingForm
-                  {
-                      Id = 7,
-                      PlanId = 8,
-                      InspectorId = 1,
-                      FormName = "Kiểm tra cà chua",
-                      Description = "Đánh giá màu sắc và chất lượng cà chua",
-                      StartDate = new DateTime(2025, 6, 17, 7, 30, 0),
-                      EndDate = new DateTime(2025, 6, 19, 19, 30, 0),
-                      Status = "Pending",
-                      CreatedBy = "Lê Quang C",
-                      CreatedAt = DateTime.Now
-                  }
+                new InspectingForm
+                {
+                    Id = 7,
+                    PlanId = 8,
+                    InspectorId = 1,
+                    FormName = "Kiểm tra cà chua",
+                    Description = "Đánh giá màu sắc và chất lượng cà chua",
+                    StartDate = new DateTime(2025, 6, 17, 7, 30, 0),
+                    EndDate = new DateTime(2025, 6, 19, 19, 30, 0),
+                    Status = "Pending",
+                    CreatedBy = "Lê Quang C",
+                    CreatedAt = DateTime.Now
+                },
+                new InspectingForm
+                {
+                    Id = 8,
+                    PlanId = 3,
+                    InspectorId = 1,
+                    FormName = "Kiểm tra rau muống",
+                    Description = "Đánh giá hàm lượng chất có trong cà chua phục vụ trước khi thu hoạch",
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(1),
+                    Status = "Ongoing",
+                    CreatedBy = "Lê Quang C",
+                    CreatedAt = DateTime.Now
+                }
             );
 
             modelBuilder.Entity<PackagingTask>().HasData(
@@ -652,7 +673,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new PackagingTask { Id = 2, PlanId = 2, PackagingTypeId = 2, TaskName = "Đóng gói cà phê", ResultContent = "Đã đóng gói được 500 túi", TotalPackagedWeight = 500, PackagedItemCount = 20, Description = "Đóng gói cà phê bột vào túi 1kg", StartDate = DateTime.Now.AddDays(-3), EndDate = DateTime.Now.AddDays(1), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-4), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
                 new PackagingTask { Id = 3, PlanId = 3, PackagingTypeId = 3, TaskName = "Đóng gói trà xanh", ResultContent = "Đã đóng gói thành công 20000 gói", TotalPackagedWeight = 20000, PackagedItemCount = 10, Description = "Đóng gói trà xanh vào hộp 100g", StartDate = DateTime.Now.AddDays(-2), EndDate = DateTime.Now.AddDays(3), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-3), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
                 new PackagingTask { Id = 4, PlanId = 4, PackagingTypeId = 2, TaskName = "Đóng gói hạt điều", ResultContent = "Đã đóng gói thành công", TotalPackagedWeight = 300, PackagedItemCount = 1, Description = "Đóng gói hạt điều vào túi 500g", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(4), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-1), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 5, PlanId = 5, PackagingTypeId = 4, TaskName = "Đóng gói xoài sấy", ResultContent = "Đã đóng gói 10000 gói", TotalPackagedWeight = 10000, PackagedItemCount = 2, Description = "Đóng gói xoài sấy vào túi 250g", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(5), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now }
+                new PackagingTask { Id = 5, PlanId = 5, PackagingTypeId = 4, TaskName = "Đóng gói xoài sấy", ResultContent = "Đã đóng gói 10000 gói", TotalPackagedWeight = 10000, PackagedItemCount = 2, Description = "Đóng gói xoài sấy vào túi 250g", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(5), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 6, PlanId = 1, PackagingTypeId = 2, OrderId = 11, TaskName = "Đóng gói cho đơn hàng", Description = "Công việc đóng gói này dành cho đơn hàng đã được đặt trên hệ thống với bao bì được ghi chú. Hãy lưu ý !", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), Status = "Ongoing", CreatedAt = DateTime.Now.AddMonths(-1), CreatedBy = "thangbinhbeo" }
             );
 
             modelBuilder.Entity<FarmerPackagingTask>().HasData(
@@ -664,7 +686,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new FarmerPackagingTask { FarmerId = 6, TaskId = 1, Description = "Đóng túi rau dền theo định lượng 500g, kiểm tra độ sạch trước khi niêm phong.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(-1) },
                 new FarmerPackagingTask { FarmerId = 1, TaskId = 3, Description = "Sắp xếp rau húng quế vào hộp nhựa, đảm bảo không dập nát.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(2) },
                 new FarmerPackagingTask { FarmerId = 3, TaskId = 5, Description = "Niêm phong bao bì rau mồng tơi, gắn mã QR để truy xuất nguồn gốc.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(-4) },
-                new FarmerPackagingTask { FarmerId = 5, TaskId = 2, Description = "Phân chia đậu bắp vào túi nhỏ 250g, đảm bảo đạt tiêu chuẩn an toàn.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(1) }
+                new FarmerPackagingTask { FarmerId = 5, TaskId = 2, Description = "Phân chia đậu bắp vào túi nhỏ 250g, đảm bảo đạt tiêu chuẩn an toàn.", Status = "Inactive", ExpiredDate = DateTime.UtcNow.AddDays(1) },
+                new FarmerPackagingTask { FarmerId = 1, TaskId = 6, Status = "Active" }
             );
 
             modelBuilder.Entity<PackagingImage>().HasData(
@@ -677,15 +700,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
             modelBuilder.Entity<Problem>().HasData(
                 new Problem { Id = 1, PlanId = 1, FarmerId = 6, ProblemName = "Sâu bệnh trên lá", Description = "Xuất hiện sâu ăn lá trên cây.", CreatedDate = DateTime.Parse("2025-02-01"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 2, PlanId = 2, FarmerId = 6, ProblemName = "Thiếu nước", Description = "Đất khô, cây có dấu hiệu héo.", CreatedDate = DateTime.Parse("2025-02-05"), Status = "Resolved", ResultContent = "Đã tưới nước bổ sung." },
+                new Problem { Id = 2, PlanId = 2, FarmerId = 6, ProblemName = "Thiếu nước", Description = "Đất khô, cây có dấu hiệu héo.", CreatedDate = DateTime.Parse("2025-02-05"), Status = "Resolve", ResultContent = "Đã tưới nước bổ sung." },
                 new Problem { Id = 3, PlanId = 3, FarmerId = 6, ProblemName = "Đất kém dinh dưỡng", Description = "Lá vàng, cây chậm phát triển.", CreatedDate = DateTime.Parse("2025-02-10"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 4, PlanId = 3, FarmerId = 6, ProblemName = "Cây bị nấm", Description = "Xuất hiện đốm trắng trên lá.", CreatedDate = DateTime.Parse("2025-02-12"), Status = "Resolved", ResultContent = "Đã phun thuốc chống nấm." },
+                new Problem { Id = 4, PlanId = 3, FarmerId = 6, ProblemName = "Cây bị nấm", Description = "Xuất hiện đốm trắng trên lá.", CreatedDate = DateTime.Parse("2025-02-12"), Status = "Resolve", ResultContent = "Đã phun thuốc chống nấm." },
                 new Problem { Id = 5, PlanId = 3, FarmerId = 6, ProblemName = "Thiếu ánh sáng", Description = "Cây phát triển yếu do ánh sáng yếu.", CreatedDate = DateTime.Parse("2025-02-15"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 6, PlanId = 4, FarmerId = 6, ProblemName = "Sâu đục thân", Description = "Phát hiện dấu hiệu sâu đục thân cây.", CreatedDate = DateTime.Parse("2025-02-18"), Status = "Resolved", ResultContent = "Đã xử lý bằng thuốc trừ sâu." },
+                new Problem { Id = 6, PlanId = 4, FarmerId = 6, ProblemName = "Sâu đục thân", Description = "Phát hiện dấu hiệu sâu đục thân cây.", CreatedDate = DateTime.Parse("2025-02-18"), Status = "Resolve", ResultContent = "Đã xử lý bằng thuốc trừ sâu." },
                 new Problem { Id = 7, PlanId = 4, FarmerId = 6, ProblemName = "Mưa quá nhiều", Description = "Đất ẩm lâu, có nguy cơ úng rễ.", CreatedDate = DateTime.Parse("2025-02-20"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 8, PlanId = 5, FarmerId = 6, ProblemName = "Cây bị héo", Description = "Cây không đủ dinh dưỡng, lá rụng nhiều.", CreatedDate = DateTime.Parse("2025-02-22"), Status = "Resolved", ResultContent = "Đã bổ sung phân bón." },
+                new Problem { Id = 8, PlanId = 5, FarmerId = 6, ProblemName = "Cây bị héo", Description = "Cây không đủ dinh dưỡng, lá rụng nhiều.", CreatedDate = DateTime.Parse("2025-02-22"), Status = "Resolve", ResultContent = "Đã bổ sung phân bón." },
                 new Problem { Id = 9, PlanId = 6, FarmerId = 6, ProblemName = "Bọ trĩ tấn công", Description = "Bọ trĩ gây hại trên lá non.", CreatedDate = DateTime.Parse("2025-02-25"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 10, PlanId = 6, FarmerId = 6, ProblemName = "Nhiệt độ quá cao", Description = "Nắng nóng kéo dài gây stress cho cây.", CreatedDate = DateTime.Parse("2025-02-28"), Status = "Resolved", ResultContent = "Đã che bóng giảm nhiệt độ." }
+                new Problem { Id = 10, PlanId = 6, FarmerId = 6, ProblemName = "Nhiệt độ quá cao", Description = "Nắng nóng kéo dài gây stress cho cây.", CreatedDate = DateTime.Parse("2025-02-28"), Status = "Resolve", ResultContent = "Đã che bóng giảm nhiệt độ." }
             );
 
             modelBuilder.Entity<ProblemImage>().HasData(
@@ -792,16 +815,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, RetailerId = 1, PlantId = 1, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "PendingConfirmation", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddDays(3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 1, RetailerId = 1, PlantId = 1, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "PendingConfirmation", Address = "123 Đường A, Quận 1, TP.HCM", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddMonths(3), CreatedAt = DateTime.Now.AddDays(-2) },
                 new Order { Id = 2, RetailerId = 2, PlantId = 2, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Deposit", Address = "456 Đường B, Quận 2, TP.HCM", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
-                new Order { Id = 3, RetailerId = 3, PlantId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Paid", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(2), CreatedAt = DateTime.Now.AddDays(-6) },
+                new Order { Id = 3, RetailerId = 3, PlantId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Paid", Address = "789 Đường C, Quận 3, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(2), CreatedAt = DateTime.Now.AddDays(-6) },
                 new Order { Id = 4, RetailerId = 1, PlantId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, PreOrderQuantity = 200f, Status = "Pending", Address = "321 Đường D, Quận 4, TP.HCM", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
                 new Order { Id = 5, RetailerId = 2, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Cancel", Address = "654 Đường E, Quận 5, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
-                new Order { Id = 6, RetailerId = 1, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Reject", Address = "623 Đường F, Quận 6, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-5) },
+                new Order { Id = 6, RetailerId = 1, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Reject", Address = "623 Đường F, Quận 6, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(5), CreatedAt = DateTime.Now.AddDays(-5) },
                 new Order { Id = 7, RetailerId = 3, PlantId = 4, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "PendingConfirmation", Address = "6004 Đường G, Quận 7, TP.HCM", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(12), CreatedAt = DateTime.Now.AddDays(-2) },
                 new Order { Id = 8, RetailerId = 1, PlantId = 3, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Forfeit", Address = "1234 Đường H, Quận 9, TP.HCM", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 9, RetailerId = 2, PlantId = 1, PackagingTypeId = 2, DepositPrice = 4500.0f, PreOrderQuantity = 150f, Status = "Deposit", Address = "900 Đường I, Quận 10, TP.HCM", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddDays(4), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 10, RetailerId = 3, PlantId = 4, PackagingTypeId = 1, DepositPrice = 8600.0f, PreOrderQuantity = 300f, Status = "Paid", Address = "567 Đường J, Quận Bình Thạnh, TP.HCM", Phone = "0967890123", EstimatedPickupDate = DateTime.Now.AddDays(8), CreatedAt = DateTime.Now.AddDays(-7) }
+                new Order { Id = 9, RetailerId = 2, PlantId = 1, PackagingTypeId = 2, DepositPrice = 4500.0f, PreOrderQuantity = 150f, Status = "Deposit", Address = "900 Đường I, Quận 10, TP.HCM", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddMonths(4), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 10, RetailerId = 3, PlantId = 4, PackagingTypeId = 1, DepositPrice = 8600.0f, PreOrderQuantity = 300f, Status = "Paid", Address = "567 Đường J, Quận Bình Thạnh, TP.HCM", Phone = "0967890123", EstimatedPickupDate = DateTime.Now.AddDays(8), CreatedAt = DateTime.Now.AddDays(-7) },
+                new Order { Id = 11, RetailerId = 1, PlantId = 3, PackagingTypeId = 2, DepositPrice = 360000f, PreOrderQuantity = 60f, Status = "Deposit", Address = "?", Phone = "0838097512", EstimatedPickupDate = DateTime.Now, CreatedAt = DateTime.Now.AddMonths(-2)}
+            );
+
+            modelBuilder.Entity<OrderPlan>().HasData(
+                new OrderPlan { OrderId = 11, PlanId = 1, Quantity = 60 }    
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(
@@ -1087,7 +1115,9 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
 
             modelBuilder.Entity<PlanTransaction>().HasData(
                 new PlanTransaction { Id = 2, UrlAddress = "0xea28dee1c7cf4dd2fd216ff9cda37a0aae86da13" },
-                new PlanTransaction { Id = 3, UrlAddress = "0x9ce2a61740aa3ba1ffcde706c4c19d74fe09129e" }
+                new PlanTransaction { Id = 3, UrlAddress = "0x9ce2a61740aa3ba1ffcde706c4c19d74fe09129e" },
+                new PlanTransaction { Id = 4, UrlAddress = "0x36b4b269e46e05e6636bb861a4abfeb56bce1034" },
+                new PlanTransaction { Id = 1, UrlAddress = "0xb4f50683b576df59f974c80993f8ff6f2ba69502" }
             );
         }
     }

@@ -114,6 +114,8 @@ builder.Services.AddScoped<IConfigurationSystemService, ConfigurationSystemServi
 builder.Services.AddScoped<IProductPickupBatchService, ProductPickupBatchService>();
 builder.Services.AddScoped<ISeasonalPlantService, SeasonalPlantService>();
 builder.Services.AddScoped<IOwnerService, OwnerService>();
+builder.Services.AddScoped<IBlockChainService, BlockChainService>();
+builder.Services.AddScoped<IVechainInteraction, VechainInteraction>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddSingleton<RedisManagement>();
 
@@ -121,8 +123,7 @@ builder.Services.AddSingleton<RedisManagement>();
 builder.Services.AddHostedService<TaskCheckStatusService>();
 builder.Services.AddHostedService<TaskChangeStatusPlanByOrder>();
 builder.Services.AddHostedService<ExpiredProductCheckStatusService>();
-builder.Services.AddScoped<IBlockChainService, BlockChainService>();
-builder.Services.AddScoped<IVechainInteraction, VechainInteraction>();
+builder.Services.AddHostedService<ExpiredProblemCheckService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

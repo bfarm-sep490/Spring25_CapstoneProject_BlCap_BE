@@ -74,5 +74,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                     .ThenInclude(f => f.Account)
                 .ToListAsync();
         }
+
+        public async Task<List<Problem>> GetAllProblemsExpired()
+        {
+            return await _context.Problems
+                                 .Where(p => p.CreatedDate.AddDays(1) >= DateTime.Now && p.Status.ToLower().Trim().Equals("pending"))
+                                 .ToListAsync();
+        }
     }
 }
