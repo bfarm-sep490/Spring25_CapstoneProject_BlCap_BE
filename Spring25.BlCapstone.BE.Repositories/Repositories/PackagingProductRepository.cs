@@ -99,11 +99,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
             var packagingProduct = await _context.PackagingProducts
                 .Include(pp => pp.PackagingTask)
                     .ThenInclude(pt => pt.Order)
+                        .ThenInclude(pt => pt.PackagingType)
                 .Include(pp => pp.ProductPickupBatches)
                 .FirstOrDefaultAsync(pp => pp.Id == packagingProductId);
 
             int orderId = packagingProduct.PackagingTask.OrderId.Value;
             float preorderQuantity = packagingProduct.PackagingTask.Order.PreOrderQuantity;
+            float preOrderPerPack = packagingProduct.PackagingTask.Order.PackagingType.QuantityPerPack;
+            int preOrderPacks = (int)Math.Ceiling(preorderQuantity / preOrderPerPack);
 
             var totalPicked = await _context.ProductPickupBatchs
                                             .Include(p => p.PackagingProduct)
@@ -113,7 +116,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                             )
                                             .SumAsync(p => p.Quantity);
 
-            return totalPicked + newQuantity <= preorderQuantity;
+            return totalPicked + newQuantity <= preOrderPacks;
         }
     }
 }

@@ -725,7 +725,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new ProblemImage { Id = 11, ProblemId = 6, Url = "https://bvtvthienbinh.com/files/upload/TIN-TUC/can-canh-sau-duc-than.jpg" },
                 new ProblemImage { Id = 12, ProblemId = 6, Url = "https://kimnonggoldstar.vn/wp-content/uploads/2022/12/sau-duc-than-hai-sau-rieng-kimnonggoldstar-vn-1.jpg" },
                 new ProblemImage { Id = 13, ProblemId = 7, Url = "https://file1.dangcongsan.vn/data/0/images/2022/09/16/vanphong/imager-8-64713-700.jpg" }
-                );
+            );
 
             modelBuilder.Entity<InspectingResult>().HasData(
                 new InspectingResult { Id = 1, Arsen = 0.01f, Plumbum = 0.02f, Cadmi = 0.005f, Hydrargyrum = 0.001f, Salmonella = 0, Coliforms = 10, Ecoli = 1, Glyphosate_Glufosinate = 0.02f, SulfurDioxide = 5, MethylBromide = 0.1f, HydrogenPhosphide = 0.05f, Dithiocarbamate = 0.02f, Nitrat = 50, NaNO3_KNO3 = 10, Chlorate = 0.1f, Perchlorate = 0.02f, EvaluatedResult = "Grade 1", ResultContent = "Rau cải đạt chuẩn" },
@@ -780,7 +780,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new CaringItem { Id = 12, ItemId = 4, TaskId = 12, Quantity = 1, Unit = "Cái" },
                 new CaringItem { Id = 13, ItemId = 3, TaskId = 13, Quantity = 8, Unit = "Kg" },
                 new CaringItem { Id = 14, ItemId = 2, TaskId = 14, Quantity = 1, Unit = "Cái" },
-                new CaringItem { Id = 15, ItemId = 1, TaskId = 15, Quantity = 2, Unit = "Cái" }
+                new CaringItem { Id = 15, ItemId = 1, TaskId = 15, Quantity = 2, Unit = "Cái" },
+                new CaringItem { Id = 16, ItemId = 1, TaskId = 73, Quantity = 2, Unit = "Cái" },
+                new CaringItem { Id = 17, ItemId = 13, TaskId = 74, Quantity = 1, Unit = "Cái" },
+                new CaringItem { Id = 18, ItemId = 17, TaskId = 75, Quantity = 1, Unit = "Cái" }
             );
 
             modelBuilder.Entity<HarvestingItem>().HasData(
@@ -793,7 +796,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new HarvestingItem { Id = 7, ItemId = 7, TaskId = 4, Quantity = 1, Unit = "Cái" },
                 new HarvestingItem { Id = 8, ItemId = 6, TaskId = 4, Quantity = 1, Unit = "Cái" },
                 new HarvestingItem { Id = 9, ItemId = 6, TaskId = 5, Quantity = 1, Unit = "Cái" },
-                new HarvestingItem { Id = 10, ItemId = 5, TaskId = 5, Quantity = 2, Unit = "Cái" }
+                new HarvestingItem { Id = 10, ItemId = 5, TaskId = 5, Quantity = 2, Unit = "Cái" },
+                new HarvestingItem { Id = 11, ItemId = 5, TaskId = 8, Quantity = 5, Unit = "Cái" },
+                new HarvestingItem { Id = 12, ItemId = 6, TaskId = 8, Quantity = 5, Unit = "Cái" },
+                new HarvestingItem { Id = 13, ItemId = 6, TaskId = 9, Quantity = 5, Unit = "Cái" }
             );
 
             modelBuilder.Entity<PackagingItem>().HasData(
@@ -801,11 +807,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new PackagingItem { Id = 2, ItemId = 9, TaskId = 2, Quantity = 4, Unit = "unit" },
                 new PackagingItem { Id = 3, ItemId = 10, TaskId = 1, Quantity = 6, Unit = "unit" },
                 new PackagingItem { Id = 4, ItemId = 11, TaskId = 4, Quantity = 3, Unit = "machine" },
-                new PackagingItem { Id = 5, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "line" }
+                new PackagingItem { Id = 5, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "line" },
+                new PackagingItem { Id = 6, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "line" },
+                new PackagingItem { Id = 7, ItemId = 10, TaskId = 6, Quantity = 5, Unit = "Cái" },
+                new PackagingItem { Id = 8, ItemId = 8, TaskId = 6, Quantity = 1, Unit = "Cái" }
             );
 
             modelBuilder.Entity<PackagingType>().HasData(
-                new PackagingType { Id = 1, Name = "Bao 500g", Description = "Đóng gói theo túi nilon 500g", Status = "Active", QuantityPerPack = 0.5f, PricePerPack = 500f },
+                new PackagingType { Id = 1, Name = "Bao 0.5kg", Description = "Đóng gói theo túi nilon 500g", Status = "Active", QuantityPerPack = 0.5f, PricePerPack = 500f },
                 new PackagingType { Id = 2, Name = "Bao 1kg", Description = "Đóng gói theo túi nilon 1kg", Status = "Active", QuantityPerPack = 1f, PricePerPack = 5000f },
                 new PackagingType { Id = 3, Name = "Bao 2kg", Description = "Đóng gói theo túi lưới 2kg", Status = "Active", QuantityPerPack = 2f, PricePerPack = 2000f },
                 new PackagingType { Id = 4, Name = "Bao 5kg", Description = "Đóng gói theo thùng giấy 5kg", Status = "Active", QuantityPerPack = 5f, PricePerPack = 2000f },
