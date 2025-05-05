@@ -9,7 +9,6 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
 {
     [Route("api/payments")]
     [ApiController]
-    [Authorize]
     public class PaymentController : ControllerBase
     {
         public IPaymentService _paymentService;
@@ -19,6 +18,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("deposit-payment/payos")]
+        [Authorize]
         public async Task<IActionResult> CreatePaymentDepositLink(CreatePaymentDepositRequest model)
         {
             try
@@ -33,6 +33,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
         
         [HttpPost("remaining-payment/payos")]
+        [Authorize]
         public async Task<IActionResult> CreatePaymentRemainingLinkPayOS(CreatePaymentRemainingRequest model)
         {
             try
@@ -47,6 +48,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
         
         [HttpPost("remaining-payment/cash")]
+        [Authorize]
         public async Task<IActionResult> CreatePaymentRemainingLinkCash(CreatePaymentRemainingRequest model)
         {
             try
@@ -61,6 +63,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpGet("{transaction_id}")]
+        [Authorize]
         public async Task<IActionResult> GetPaymentLinkInfo(int transaction_id)
         {
             try
@@ -75,6 +78,7 @@ namespace Spring25.BlCapstone.BE.APIs.Controllers
         }
 
         [HttpPost("{transaction_id}/cancel")]
+        [Authorize]
         public async Task<IActionResult> CancelPayment(int transaction_id, string? reason)
         {
             try
