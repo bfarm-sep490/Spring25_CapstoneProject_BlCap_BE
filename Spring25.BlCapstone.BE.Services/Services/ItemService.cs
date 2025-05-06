@@ -18,7 +18,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 {
     public interface IItemService
     {
-        Task<IBusinessResult> GetAll(string? status);
+        Task<IBusinessResult> GetAll(string? status, string? type);
         Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> CreateItem(CreatedItem item);
         Task<IBusinessResult> UpdateItem(int id, CreatedItem item);
@@ -40,7 +40,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             _redisManagement = redisManagement;
         }
 
-        public async Task<IBusinessResult> GetAll(string? status)
+        public async Task<IBusinessResult> GetAll(string? status, string? type)
         {
             List<ItemModel> result;
             try
@@ -63,9 +63,15 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 var list = await _unitOfWork.ItemRepository.GetAllAsync();
                 result = _mapper.Map<List<ItemModel>>(list);
             }
+
             if (!string.IsNullOrEmpty(status))
             {
                 result = result.Where(f => f.Status.ToLower().Trim() == status.ToLower().Trim()).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(type))
+            {
+                result = result.Where(f => f.Type.ToLower().Trim() == type.ToLower().Trim()).ToList();
             }
             return new BusinessResult(200,"List Item",result);
         }

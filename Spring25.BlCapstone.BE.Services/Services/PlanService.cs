@@ -1472,6 +1472,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 plan.Status = "Complete";
+                plan.CompleteDate = DateTimeHelper.NowVietnamTime();
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
 
                 var farmer = await _unitOfWork.FarmerPermissionRepository.GetFarmerPermissionsByPlanId(id);
@@ -1615,6 +1616,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 });
 
                 plan.Status = "Cancel";
+                plan.CompleteDate = DateTimeHelper.NowVietnamTime();
                 _unitOfWork.PlanRepository.PrepareUpdate(plan);
 
                 var caringTasks = await _unitOfWork.CaringTaskRepository.GetAllCaringTasks(planId: id);

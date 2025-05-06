@@ -115,7 +115,7 @@ namespace Spring25.BlCapstone.BE.Services.BusinessModels.Plan
         [JsonPropertyName("created_by")]
         public string CreatedBy { get; set; }
         [JsonPropertyName("total_package_weight")]
-        public float TotalPackagedWeight { get; set; }
+        public float? TotalPackagedWeight { get; set; }
 
         [JsonPropertyName("items")]
         public List<PackageItem>? Items { get; set; } = new List<PackageItem>();
