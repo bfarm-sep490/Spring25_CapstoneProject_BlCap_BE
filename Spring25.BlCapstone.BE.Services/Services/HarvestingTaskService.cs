@@ -131,6 +131,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
                 var harvestingTask = await _unitOfWork.HarvestingTaskRepository.GetHarvestingTaskById(id);
                 if (harvestingTask == null)
                 {
@@ -215,10 +216,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = _mapper.Map<HarvestingTaskModel>(harvestingTask);
 
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitAsync();
                 return new BusinessResult { Status = 200, Message = "Update successfull", Data = rs };
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackAsync();
                 return new BusinessResult { Status = 500, Message = ex.Message };
             }
         }

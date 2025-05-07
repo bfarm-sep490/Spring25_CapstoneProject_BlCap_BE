@@ -296,6 +296,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
                 var caringTask = await _unitOfWork.CaringTaskRepository.GetCaringTaskById(id);
                 if (caringTask == null)
                 {
@@ -389,10 +390,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 var rs = _mapper.Map<CaringTaskModel>(caringTask);
 
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitAsync();
                 return new BusinessResult { Status = 200, Message = "Update successfull", Data = rs };
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackAsync();
                 return new BusinessResult(500, ex.Message);
             }
         }

@@ -370,7 +370,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new FarmerPermission { FarmerId = 1, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-55) },
                 new FarmerPermission { FarmerId = 3, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-30) },
                 new FarmerPermission { FarmerId = 5, PlanId = 1, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) },
-                new FarmerPermission { FarmerId = 1, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) }
+                new FarmerPermission { FarmerId = 1, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) },
+                new FarmerPermission { FarmerId = 2, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) },
+                new FarmerPermission { FarmerId = 3, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) },
+                new FarmerPermission { FarmerId = 4, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) },
+                new FarmerPermission { FarmerId = 5, PlanId = 9, Status = "Active", CreatedAt = DateTime.Now.AddDays(-2) }
             );
 
             modelBuilder.Entity<CaringTask>().HasData(
@@ -507,7 +511,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new CaringFertilizer { Id = 13, FertilizerId = 1, TaskId = 32, Unit = "Kg", Quantity = 6.0f },
                 new CaringFertilizer { Id = 14, FertilizerId = 1, TaskId = 42, Unit = "Kg", Quantity = 6.0f },
                 new CaringFertilizer { Id = 15, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f },
-                new CaringFertilizer { Id = 74, FertilizerId = 8, TaskId = 55, Unit = "Kg", Quantity = 6.0f }
+                new CaringFertilizer { Id = 16, FertilizerId = 8, TaskId = 74, Unit = "Kg", Quantity = 6.0f }
             );
 
             modelBuilder.Entity<CaringImage>().HasData(

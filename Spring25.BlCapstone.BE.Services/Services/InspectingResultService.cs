@@ -80,6 +80,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
                 var form = await _unitOfWork.InspectingResultRepository.GetByIdAsync(id);
                 if (form != null)
                 {
@@ -181,10 +182,13 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     CreatedDate = DateTimeHelper.NowVietnamTime(),
                 });
 
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitAsync();
                 return new BusinessResult(200, "Create inspecting result success !", re);
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackAsync();
                 return new BusinessResult(500, ex.Message);
             }
         }

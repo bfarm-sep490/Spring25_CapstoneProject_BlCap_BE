@@ -107,6 +107,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
         {
             try
             {
+                await _unitOfWork.BeginTransactionAsync();
                 var packTask = await _unitOfWork.PackagingTaskRepository.GetPackagingTaskById(id);
                 if (packTask == null)
                 {
@@ -204,7 +205,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             HarvestingTaskId = model.HarvestingTaskId,
                             QuantityPerPack = type.QuantityPerPack,
                             PackQuantity = model.PackagedItemCount,
-                            //QR code blockchain ne
                             QRCode = "?",
                             Status = "Active"
                         });
@@ -217,7 +217,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             HarvestingTaskId = model.HarvestingTaskId,
                             QuantityPerPack = type.QuantityPerPack,
                             PackQuantity = model.PackagedItemCount - 1,
-                            //QR code blockchain ne
                             QRCode = "?",
                             Status = "Active"
                         });
@@ -228,7 +227,6 @@ namespace Spring25.BlCapstone.BE.Services.Services
                             HarvestingTaskId = model.HarvestingTaskId,
                             QuantityPerPack = Math.Abs(isSpare),
                             PackQuantity = 1,
-                            //QR code blockchain ne
                             QRCode = "?",
                             Status = "Active"
                         });
@@ -277,6 +275,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (rs > 0)
                 {
+                    await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.CommitAsync();
                     return new BusinessResult(200, "Update successfully!", res);
                 }
                 else
@@ -286,6 +286,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackAsync();
                 return new BusinessResult(500, ex.Message);
             }
         }
