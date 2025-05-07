@@ -1055,6 +1055,11 @@ namespace Spring25.BlCapstone.BE.Services.Services
                     return new BusinessResult(400, "Not found any plans !");
                 }
 
+                if (!plan.Status.ToLower().Trim().Equals("draft"))
+                {
+                    return new BusinessResult(400, $"Can not edit with status: {plan.Status}. Please try again!");
+                }
+
                 plan.YieldId = model.YieldId;
                 plan.PlantId = model.PlantId;
                 plan.PlanName = model.PlanName;
@@ -1071,7 +1076,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
 
                 if (rs != null)
                 {
-                    return new BusinessResult(200, "Update status successfully");
+                    return new BusinessResult(200, "Update status successfully", model);
                 }
                 else
                 {
