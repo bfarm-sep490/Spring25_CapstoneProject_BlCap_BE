@@ -51,7 +51,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
         public async Task<List<DashboardTransactions>> GetDashboardTransactionsAsync(DateTime? start = null, DateTime? end = null)
         {
             var query = _context.Transactions
-                                .Where(t => t.Status.ToLower() == "paid" && t.PaymentDate.HasValue);
+                                .Where(t => (t.Status.ToLower() == "paid" || t.Status.ToLower() == "cash") && t.PaymentDate.HasValue);
 
             var effectiveEndDate = end?.Date ?? DateTime.UtcNow.Date;
 

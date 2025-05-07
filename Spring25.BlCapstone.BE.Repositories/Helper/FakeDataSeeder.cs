@@ -14,7 +14,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
         {
             modelBuilder.Entity<Account>().HasData(
                 new Account { Id = 1, Name = "Eurofins Scientific", Email = "service.eurofins@gmail.com", Role = "Inspector", Password = "Eurofin@123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 2, Name = "Trần Thị B", Email = "farmer@gmail.com", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 2, Name = "Trần Thị Be", Email = "farmer@gmail.com", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 3, Name = "Lê Quang C", Email = "lequangc@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 4, Name = "Phạm Minh D", Email = "phaminhd@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 5, Name = "Nguyễn Bình Phương Trâm", Email = "tramnbp@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
@@ -350,14 +350,14 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Plan>().HasData(
-                new Plan { Id = 1, PlantId = 3, YieldId = 7, ExpertId = 1, PlanName = "Kế hoạch Xà lách xoăn - Mùa Phụ", Description = "Kế hoạch trồng xà lách xoăn vào mùa phụ - khí hậu không ổn định, chất lượng có thể không đảm bảo", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 6, 15), Status = "Ongoing", EstimatedProduct = 200, CreatedAt = DateTime.Now.AddMonths(-5), CreatedBy = "Hoàng Quỳnh J", IsApproved = true },
-                new Plan { Id = 2, PlantId = 2, YieldId = 2, ExpertId = 2, PlanName = "Trồng dưa lưới", Description = "Kế hoạch trồng dưa lưới trong nhà kính", StartDate = new DateTime(2025, 2, 1), EndDate = new DateTime(2025, 6, 1), Status = "Ongoing", EstimatedProduct = 300, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
-                new Plan { Id = 3, PlantId = 3, YieldId = 3, ExpertId = 3, PlanName = "Trồng bắp cải", Description = "Kế hoạch trồng bắp cải sạch", StartDate = new DateTime(2025, 3, 15), EndDate = new DateTime(2025, 6, 30), Status = "Ongoing", EstimatedProduct = 400, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
-                new Plan { Id = 4, PlantId = 4, YieldId = 4, ExpertId = 1, PlanName = "Trồng rau muống", Description = "Kế hoạch trồng rau muống ngắn ngày", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 5, 5), Status = "Ongoing", EstimatedProduct = 200, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
+                new Plan { Id = 1, PlantId = 3, YieldId = 11, ExpertId = 1, PlanName = "Kế hoạch Xà lách xoăn - Mùa Phụ", Description = "Kế hoạch trồng xà lách xoăn vào mùa phụ - khí hậu không ổn định, chất lượng có thể không đảm bảo", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 6, 15), Status = "Ongoing", EstimatedProduct = 200, CreatedAt = DateTime.Now.AddMonths(-5), CreatedBy = "Hoàng Quỳnh J", IsApproved = true },
+                new Plan { Id = 2, PlantId = 2, YieldId = 1, ExpertId = 2, PlanName = "Trồng dưa lưới", Description = "Kế hoạch trồng dưa lưới trong nhà kính", StartDate = new DateTime(2025, 2, 1), EndDate = new DateTime(2025, 6, 1), Status = "Ongoing", EstimatedProduct = 300, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
+                new Plan { Id = 3, PlantId = 9, YieldId = 15, ExpertId = 3, PlanName = "Trồng dưa leo", Description = "Kế hoạch trồng dưa leo sạch", StartDate = new DateTime(2025, 3, 15), EndDate = new DateTime(2025, 6, 30), Status = "Ongoing", EstimatedProduct = 400, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = true },
+                new Plan { Id = 4, PlantId = 4, YieldId = 17, ExpertId = 1, PlanName = "Trồng rau muống", Description = "Kế hoạch trồng rau muống ngắn ngày", StartDate = new DateTime(2025, 4, 5), EndDate = new DateTime(2025, 5, 5), Status = "Ongoing", EstimatedProduct = 200, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
                 new Plan { Id = 5, PlantId = 5, YieldId = 5, ExpertId = 2, PlanName = "Trồng cà rốt", Description = "Kế hoạch trồng cà rốt hữu cơ", StartDate = new DateTime(2025, 5, 1), EndDate = new DateTime(2025, 9, 1), Status = "Pending", EstimatedProduct = 350, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
-                new Plan { Id = 6, PlantId = 6, YieldId = 6, ExpertId = 3, PlanName = "Trồng hành lá", Description = "Kế hoạch trồng hành lá sạch", StartDate = new DateTime(2025, 6, 10), EndDate = new DateTime(2025, 9, 30), Status = "Pending", EstimatedProduct = 250, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
-                new Plan { Id = 7, PlantId = 10, YieldId = 2, ExpertId = 2, PlanName = "Mùa vụ trồng củ cải trắng", Description = "Bản kế hoạch chi tiết trồng củ cải trắng ngắn hạn trong vòng 30 ngày", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(30), Status = "Draft", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Admin", IsApproved = false },
-                new Plan { Id = 8, PlantId = 10, YieldId = 3, ExpertId = 1, PlanName = "Mùa vụ trồng cà chua", Description = "Bản kế hoạch chi tiết trồng cà chua trong vòng 60 ngày", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(60), Status = "Pending", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Lê Quang C", IsApproved = false },
+                new Plan { Id = 6, PlantId = 6, YieldId = 10, ExpertId = 3, PlanName = "Trồng hành lá", Description = "Kế hoạch trồng hành lá sạch", StartDate = new DateTime(2025, 6, 10), EndDate = new DateTime(2025, 9, 30), Status = "Pending", EstimatedProduct = 250, CreatedAt = DateTime.Now, CreatedBy = "Admin", IsApproved = false },
+                new Plan { Id = 7, PlantId = 10, YieldId = 16, ExpertId = 2, PlanName = "Mùa vụ trồng củ cải trắng", Description = "Bản kế hoạch chi tiết trồng củ cải trắng ngắn hạn trong vòng 30 ngày", StartDate = DateTime.Now.AddMonths(5), EndDate = DateTime.Now.AddMonths(10), Status = "Draft", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Admin", IsApproved = false },
+                new Plan { Id = 8, PlantId = 10, YieldId = 11, ExpertId = 1, PlanName = "Mùa vụ trồng cà chua", Description = "Bản kế hoạch chi tiết trồng cà chua trong vòng 60 ngày", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(60), Status = "Pending", EstimatedProduct = 500, CreatedAt = DateTime.Now.AddDays(-10), CreatedBy = "Lê Quang C", IsApproved = false },
                 new Plan { Id = 9, PlantId = 1, YieldId = 1, ExpertId = 3, PlanName = "Kế hoạch Rau muống - Mùa Hạ", Description = "Kế hoạch trồng rau muống mùa hạ cho ra năng suất nông sản mạnh, có 1 số tác nhân giúp cây có thể săn chắc mà không bị héo ảnh hưởng bới mùa nắng to.", StartDate = new DateTime(2025, 5, 3), EndDate = new DateTime(2025, 7, 6), CompleteDate = null, Status = "Ongoing", EstimatedProduct = 200, CreatedAt = new DateTime(2025, 4, 20), CreatedBy = "Hoàng Quỳnh J", IsApproved = true, SeedQuantity = 70 }
             );
 
@@ -659,8 +659,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Id = 8,
                     PlanId = 3,
                     InspectorId = 1,
-                    FormName = "Kiểm tra rau muống",
-                    Description = "Đánh giá hàm lượng chất có trong cà chua phục vụ trước khi thu hoạch",
+                    FormName = "Kiểm tra dưa leo",
+                    Description = "Đánh giá hàm lượng chất có trong dưa leo phục vụ trước khi thu hoạch",
                     StartDate = DateTime.Now,
                     EndDate = DateTime.Now.AddDays(1),
                     Status = "Ongoing",
@@ -804,12 +804,12 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PackagingItem>().HasData(
-                new PackagingItem { Id = 1, ItemId = 8, TaskId = 1, Quantity = 2, Unit = "machine" },
-                new PackagingItem { Id = 2, ItemId = 9, TaskId = 2, Quantity = 4, Unit = "unit" },
-                new PackagingItem { Id = 3, ItemId = 10, TaskId = 1, Quantity = 6, Unit = "unit" },
-                new PackagingItem { Id = 4, ItemId = 11, TaskId = 4, Quantity = 3, Unit = "machine" },
-                new PackagingItem { Id = 5, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "line" },
-                new PackagingItem { Id = 6, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "line" },
+                new PackagingItem { Id = 1, ItemId = 8, TaskId = 1, Quantity = 2, Unit = "Máy" },
+                new PackagingItem { Id = 2, ItemId = 9, TaskId = 2, Quantity = 4, Unit = "Cái" },
+                new PackagingItem { Id = 3, ItemId = 10, TaskId = 1, Quantity = 6, Unit = "Cái" },
+                new PackagingItem { Id = 4, ItemId = 11, TaskId = 4, Quantity = 3, Unit = "Máy" },
+                new PackagingItem { Id = 5, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "Cái" },
+                new PackagingItem { Id = 6, ItemId = 12, TaskId = 5, Quantity = 1, Unit = "Cái" },
                 new PackagingItem { Id = 7, ItemId = 10, TaskId = 6, Quantity = 5, Unit = "Cái" },
                 new PackagingItem { Id = 8, ItemId = 8, TaskId = 6, Quantity = 1, Unit = "Cái" }
             );
@@ -825,17 +825,22 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, RetailerId = 1, PlantId = 1, PackagingTypeId = 1, DepositPrice = 500.0f, PreOrderQuantity = 200f, Status = "PendingConfirmation", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddMonths(3), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 2, RetailerId = 2, PlantId = 2, PackagingTypeId = 2, DepositPrice = 750.0f, PreOrderQuantity = 100f, Status = "Deposit", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
-                new Order { Id = 3, RetailerId = 3, PlantId = 3, PackagingTypeId = 3, DepositPrice = 1000.0f, PreOrderQuantity = 200f, Status = "Paid", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(2), CreatedAt = DateTime.Now.AddDays(-6) },
-                new Order { Id = 4, RetailerId = 1, PlantId = 4, PackagingTypeId = 4, DepositPrice = 5000.0f, PreOrderQuantity = 200f, Status = "Pending", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 5, RetailerId = 2, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Cancel", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
-                new Order { Id = 6, RetailerId = 1, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Reject", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(5), CreatedAt = DateTime.Now.AddDays(-5) },
-                new Order { Id = 7, RetailerId = 3, PlantId = 4, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "PendingConfirmation", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(12), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 8, RetailerId = 1, PlantId = 3, PackagingTypeId = 5, DepositPrice = 7500.0f, PreOrderQuantity = 200f, Status = "Forfeit", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) },
-                new Order { Id = 9, RetailerId = 2, PlantId = 1, PackagingTypeId = 2, DepositPrice = 4500.0f, PreOrderQuantity = 150f, Status = "Deposit", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddMonths(4), CreatedAt = DateTime.Now.AddDays(-2) },
-                new Order { Id = 10, RetailerId = 3, PlantId = 4, PackagingTypeId = 1, DepositPrice = 8600.0f, PreOrderQuantity = 300f, Status = "Paid", Phone = "0967890123", EstimatedPickupDate = DateTime.Now.AddDays(8), CreatedAt = DateTime.Now.AddDays(-7) },
-                new Order { Id = 11, RetailerId = 1, PlantId = 3, PackagingTypeId = 2, DepositPrice = 360000f, PreOrderQuantity = 60f, Status = "Deposit", Phone = "0838097512", EstimatedPickupDate = DateTime.Now, CreatedAt = DateTime.Now.AddMonths(-2)}
+                new Order { Id = 1, RetailerId = 1, PlantId = 1, PackagingTypeId = 1, DepositPrice = 500000.0f, TotalPrice = 1600000.0f, PreOrderQuantity = 200f, Status = "Paid", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddMonths(-3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 2, RetailerId = 2, PlantId = 2, PackagingTypeId = 2, DepositPrice = 750000.0f, TotalPrice = 2500000.0f, PreOrderQuantity = 100f, Status = "Deposit", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
+                new Order { Id = 3, RetailerId = 3, PlantId = 3, PackagingTypeId = 3, DepositPrice = 1000000.0f, TotalPrice = 3300000.0f, PreOrderQuantity = 200f, Status = "Paid", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(2), CreatedAt = DateTime.Now.AddDays(-6) },
+                new Order { Id = 4, RetailerId = 1, PlantId = 4, PackagingTypeId = 4, DepositPrice = 5000000.0f, TotalPrice = 16600000.0f, PreOrderQuantity = 200f, Status = "Pending", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 5, RetailerId = 2, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500000.0f, TotalPrice = 25000000.0f, PreOrderQuantity = 200f, Status = "Cancel", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(10), CreatedAt = DateTime.Now.AddDays(-1) },
+                new Order { Id = 6, RetailerId = 1, PlantId = 2, PackagingTypeId = 5, DepositPrice = 7500000.0f, PreOrderQuantity = 25000000.0f, Status = "Reject", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(5), CreatedAt = DateTime.Now.AddDays(-5) },
+                new Order { Id = 7, RetailerId = 3, PlantId = 4, PackagingTypeId = 5, DepositPrice = 7500000.0f, PreOrderQuantity = 25000000.0f, Status = "PendingConfirmation", Phone = "0945678901", EstimatedPickupDate = DateTime.Now.AddDays(12), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 8, RetailerId = 1, PlantId = 3, PackagingTypeId = 5, DepositPrice = 7500000.0f, PreOrderQuantity = 25000000.0f, Status = "Forfeit", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddDays(11), CreatedAt = DateTime.Now.AddDays(-3) },
+                new Order { Id = 9, RetailerId = 2, PlantId = 1, PackagingTypeId = 2, DepositPrice = 4500000.0f, PreOrderQuantity = 15000000.0f, Status = "Deposit", Phone = "0956789012", EstimatedPickupDate = DateTime.Now.AddMonths(4), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 10, RetailerId = 3, PlantId = 4, PackagingTypeId = 1, DepositPrice = 8600000.0f, PreOrderQuantity = 28600000.0f, Status = "Paid", Phone = "0967890123", EstimatedPickupDate = DateTime.Now.AddDays(8), CreatedAt = DateTime.Now.AddDays(-7) },
+                new Order { Id = 11, RetailerId = 1, PlantId = 3, PackagingTypeId = 2, DepositPrice = 360000f, PreOrderQuantity = 1200000f, Status = "Deposit", Phone = "0838097512", EstimatedPickupDate = DateTime.Now, CreatedAt = DateTime.Now.AddMonths(-2)}
+            );
+
+            modelBuilder.Entity<Transaction>().HasData(
+                new Transaction { Id = 1, OrderId = 1, OrderCode = 538594208, Content = "#538594208 D@250506 Thanh toán đặt cọc", Price = 500000.0f, Type = "Deposit", Status = "Paid", PaymentDate = DateTime.Now.AddMonths(-5) },
+                new Transaction { Id = 2, OrderId = 1, OrderCode = 1784618532, Content = "#1784618532 P@250506 Thanh toán tiền mặt", Price = 1600000.0f, Type = "PayRemaining", Status = "Paid", PaymentDate = DateTime.Now.AddMonths(-3) }
             );
 
             modelBuilder.Entity<OrderPlan>().HasData(
@@ -1102,43 +1107,48 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PlantYield>().HasData(
-                new PlantYield { PlantId = 1, YieldId = 1, MaximumQuantity = 200 },
+                // Thâm canh
                 new PlantYield { PlantId = 1, YieldId = 2, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 1, YieldId = 3, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 2, YieldId = 1, MaximumQuantity = 200 },
                 new PlantYield { PlantId = 2, YieldId = 4, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 2, YieldId = 5, MaximumQuantity = 200 },
                 new PlantYield { PlantId = 3, YieldId = 6, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 1, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 5, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 7, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 4, YieldId = 4, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 4, YieldId = 2, MaximumQuantity = 200 },
                 new PlantYield { PlantId = 4, YieldId = 7, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 5, YieldId = 5, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 6, YieldId = 6, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 7, YieldId = 7, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 8, YieldId = 3, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 9, YieldId = 1, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 2, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 8, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 9, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 10, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 11, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 12, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 10, YieldId = 14, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 13, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 14, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 15, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 1, YieldId = 16, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 1, YieldId = 17, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 3, YieldId = 17, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 7, YieldId = 17, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 7, YieldId = 10, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 5, YieldId = 8, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 6, YieldId = 10, MaximumQuantity = 200 },
                 new PlantYield { PlantId = 7, YieldId = 12, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 8, YieldId = 14, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 16, MaximumQuantity = 200 },
+
+                // Luân canh
+                new PlantYield { PlantId = 1, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 2, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 9, YieldId = 1, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 3, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 8, YieldId = 3, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 2, YieldId = 5, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 5, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 5, YieldId = 5, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 9, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 9, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 9, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 9, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 10, YieldId = 11, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 11, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 11, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 11, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 9, YieldId = 11, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 3, YieldId = 13, MaximumQuantity = 200 },
                 new PlantYield { PlantId = 7, YieldId = 13, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 7, YieldId = 14, MaximumQuantity = 200 },
-                new PlantYield { PlantId = 7, YieldId = 15, MaximumQuantity = 200 }
+                new PlantYield { PlantId = 3, YieldId = 15, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 15, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 2, YieldId = 15, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 9, YieldId = 15, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 8, YieldId = 15, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 1, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 5, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 6, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 7, YieldId = 17, MaximumQuantity = 200 },
+                new PlantYield { PlantId = 4, YieldId = 17, MaximumQuantity = 200 }
             );
 
             modelBuilder.Entity<PlanTransaction>().HasData(
@@ -1146,6 +1156,10 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new PlanTransaction { Id = 9, UrlAddress = "0x9ce2a61740aa3ba1ffcde706c4c19d74fe09129e" },
                 new PlanTransaction { Id = 3, UrlAddress = "0x36b4b269e46e05e6636bb861a4abfeb56bce1034" },
                 new PlanTransaction { Id = 1, UrlAddress = "0xb4f50683b576df59f974c80993f8ff6f2ba69502" }
+            );
+
+            modelBuilder.Entity<ConfigurationSystem>().HasData(
+                new ConfigurationSystem { Id = 1, DepositPercent = 30, Address = "1405 BFarmX, Ho Chi Minh City, Viet Nam."}    
             );
         }
     }

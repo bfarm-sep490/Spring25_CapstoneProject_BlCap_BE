@@ -210,10 +210,9 @@ namespace Spring25.BlCapstone.BE.Services.Services
                         _unitOfWork.CaringTaskRepository.PrepareUpdate(task);
                     }
 
-                    var farmerChanel = $"farmer-{problem.FarmerId}";
                     var message = $"Vấn đề đã bị từ chối với lí do: {model.ResultContent}";
                     var title = $"Đã cập nhật trạng thái vấn đề - {problem.ProblemName}";
-                    await AblyHelper.SendMessageWithChanel(title, message, farmerChanel);
+                    await AblyHelper.SendMessageToDevice(title, message, problem.FarmerId);
                     await _unitOfWork.NotificationFarmerRepository.CreateAsync(new NotificationFarmer
                     {
                         FarmerId = problem.FarmerId,
