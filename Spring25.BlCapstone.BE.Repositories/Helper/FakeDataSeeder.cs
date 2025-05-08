@@ -15,17 +15,17 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             modelBuilder.Entity<Account>().HasData(
                 new Account { Id = 1, Name = "Eurofins Scientific", Email = "service.eurofins@gmail.com", Role = "Inspector", Password = "Eurofin@123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 2, Name = "Trần Thị Be", Email = "farmer@gmail.com", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 3, Name = "Lê Quang C", Email = "lequangc@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 4, Name = "Phạm Minh D", Email = "phaminhd@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 3, Name = "Lê Quang Cường", Email = "lequangc@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 4, Name = "Phạm Minh Diếp", Email = "phaminhd@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 5, Name = "Nguyễn Bình Phương Trâm", Email = "tramnbp@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 6, Name = "Nguyễn Thiện F", Email = "nguyenthienf@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 7, Name = "Trần Bích G", Email = "tranbichg@gmail.com", Role = "Farmer", Password = "1234", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 6, Name = "Nguyễn Thiện Flront", Email = "nguyenthienf@gmail.com", Role = "Farmer", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 7, Name = "Trần Bích Giang", Email = "tranbichg@gmail.com", Role = "Farmer", Password = "1234", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 8, Name = "atvstp - TCCL VIETNAM", Email = "inspector@gmail.com", Role = "Inspector", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 9, Name = "Phạm Tuan I", Email = "phamtuani@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
+                new Account { Id = 9, Name = "Phạm Tuan Ini", Email = "phamtuani@gmail.com", Role = "Expert", Password = "123", IsActive = true, CreatedAt = DateTime.UtcNow },
                 new Account { Id = 10, Name = "Hoàng Quỳnh J", Email = "expert@gmail.com", Role = "Expert", Password = "1@", IsActive = true, CreatedAt = DateTime.UtcNow },
-                new Account { Id = 11, Name = "Trịnh Xuân Admin", Email = "owner@bfarmx.space", Role = "Farm Owner", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 11, Name = "Trịnh Xuân Owner", Email = "owner@bfarmx.space", Role = "Farm Owner", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
                 new Account { Id = 12, Name = "Lê Quốc Khánh", Email = "lee.cois.dev@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
-                new Account { Id = 13, Name = "Vũ Hoàng Duy Khánh", Email = "khanhvhd@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
+                new Account { Id = 13, Name = "Vũ Hoàng Duy Khánh", Email = "khanh911234@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
                 new Account { Id = 14, Name = "Trịnh Hữu Tuấn", Email = "tuanhuu3264@gmail.com", Role = "Retailer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now },
                 new Account { Id = 15, Name = "Xoo Binf", Email = "binhbeopro1122@gmail.com", Role = "Farmer", Password = "1@", IsActive = true, CreatedAt = DateTime.Now}
             );
@@ -674,11 +674,11 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<PackagingTask>().HasData(
-                new PackagingTask { Id = 1, PlanId = 1, PackagingTypeId = 1, TaskName = "Đóng gói", ResultContent = "Đã đóng gói theo túi 5kg, thu được 1000 túi", TotalPackagedWeight = 1000, PackagedItemCount = 20, Description = "Đóng gói gạo vào túi 5kg", StartDate = DateTime.Now.AddDays(-5), EndDate = DateTime.Now.AddDays(2), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-6), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 2, PlanId = 2, PackagingTypeId = 2, TaskName = "Đóng gói", ResultContent = "Đã đóng gói được 500 túi", TotalPackagedWeight = 500, PackagedItemCount = 20, Description = "Đóng gói cà phê bột vào túi 1kg", StartDate = DateTime.Now.AddDays(-3), EndDate = DateTime.Now.AddDays(1), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-4), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 3, PlanId = 3, PackagingTypeId = 3, TaskName = "Đóng gói", ResultContent = "Đã đóng gói thành công 20000 gói", TotalPackagedWeight = 20000, PackagedItemCount = 10, Description = "Đóng gói trà xanh vào hộp 100g", StartDate = DateTime.Now.AddDays(-2), EndDate = DateTime.Now.AddDays(3), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-3), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 4, PlanId = 4, PackagingTypeId = 2, TaskName = "Đóng gói", ResultContent = "Đã đóng gói thành công", TotalPackagedWeight = 300, PackagedItemCount = 1, Description = "Đóng gói hạt điều vào túi 500g", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(4), CompleteDate = DateTime.Now.AddDays(3), Status = "Cancel", CreatedAt = DateTime.Now.AddDays(-1), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
-                new PackagingTask { Id = 5, PlanId = 5, PackagingTypeId = 4, TaskName = "Đóng gói", ResultContent = "Đã đóng gói 10000 gói", TotalPackagedWeight = 10000, PackagedItemCount = 2, Description = "Đóng gói xoài sấy vào túi 250g", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(5), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 1, PlanId = 1, PackagingTypeId = 1, TaskName = "Đóng gói", ResultContent = "Đã đóng gói theo túi 5kg, thu được 1000 túi", TotalPackagedWeight = 1000, PackagedItemCount = 20, Description = "Đóng gói vào túi 5kg", StartDate = DateTime.Now.AddDays(-5), EndDate = DateTime.Now.AddDays(2), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-6), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 2, PlanId = 2, PackagingTypeId = 2, TaskName = "Đóng gói", ResultContent = "Đã đóng gói được 500 túi", TotalPackagedWeight = 500, PackagedItemCount = 20, Description = "Đóng gói vào túi 1kg", StartDate = DateTime.Now.AddDays(-3), EndDate = DateTime.Now.AddDays(1), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-4), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 3, PlanId = 3, PackagingTypeId = 3, TaskName = "Đóng gói", ResultContent = "Đã đóng gói thành công 20000 gói", TotalPackagedWeight = 20000, PackagedItemCount = 10, Description = "Đóng gói vào hộp 100g", StartDate = DateTime.Now.AddDays(-2), EndDate = DateTime.Now.AddDays(3), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now.AddDays(-3), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 4, PlanId = 4, PackagingTypeId = 2, TaskName = "Đóng gói", ResultContent = "Đã đóng gói thành công", TotalPackagedWeight = 300, PackagedItemCount = 1, Description = "Đóng gói vào túi 500g", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(4), CompleteDate = DateTime.Now.AddDays(3), Status = "Cancel", CreatedAt = DateTime.Now.AddDays(-1), CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
+                new PackagingTask { Id = 5, PlanId = 5, PackagingTypeId = 4, TaskName = "Đóng gói", ResultContent = "Đã đóng gói 10000 gói", TotalPackagedWeight = 10000, PackagedItemCount = 2, Description = "Đóng gói vào túi 250g", StartDate = DateTime.Now.AddDays(1), EndDate = DateTime.Now.AddDays(5), CompleteDate = DateTime.Now.AddDays(3), Status = "Complete", CreatedAt = DateTime.Now, CreatedBy = "thangbinhbeo", UpdatedAt = DateTime.Now },
                 new PackagingTask { Id = 6, PlanId = 1, PackagingTypeId = 2, OrderId = 11, TaskName = "Đóng gói cho đơn hàng", Description = "Công việc đóng gói này dành cho đơn hàng đã được đặt trên hệ thống với bao bì được ghi chú. Hãy lưu ý !", StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(1), Status = "Ongoing", CreatedAt = DateTime.Now.AddMonths(-1), CreatedBy = "thangbinhbeo", TotalPackagedWeight = 60f }
             );
 
@@ -829,7 +829,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Order>().HasData(
-                new Order { Id = 1, RetailerId = 1, PlantId = 1, PackagingTypeId = 1, DepositPrice = 500000.0f, TotalPrice = 1600000.0f, PreOrderQuantity = 200f, Status = "Paid", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddMonths(-3), CreatedAt = DateTime.Now.AddDays(-2) },
+                new Order { Id = 1, RetailerId = 2, PlantId = 1, PackagingTypeId = 1, DepositPrice = 500000.0f, TotalPrice = 1600000.0f, PreOrderQuantity = 200f, Status = "Paid", Phone = "0901234567", EstimatedPickupDate = DateTime.Now.AddMonths(-3), CreatedAt = DateTime.Now.AddDays(-2) },
                 new Order { Id = 2, RetailerId = 2, PlantId = 2, PackagingTypeId = 2, DepositPrice = 750000.0f, TotalPrice = 2500000.0f, PreOrderQuantity = 100f, Status = "Deposit", Phone = "0912345678", EstimatedPickupDate = DateTime.Now.AddDays(5), CreatedAt = DateTime.Now.AddDays(-4) },
                 new Order { Id = 3, RetailerId = 3, PlantId = 3, PackagingTypeId = 3, DepositPrice = 1000000.0f, TotalPrice = 3300000.0f, PreOrderQuantity = 200f, Status = "Paid", Phone = "0923456789", EstimatedPickupDate = DateTime.Now.AddMonths(2), CreatedAt = DateTime.Now.AddDays(-6) },
                 new Order { Id = 4, RetailerId = 1, PlantId = 4, PackagingTypeId = 4, DepositPrice = 5000000.0f, TotalPrice = 16600000.0f, PreOrderQuantity = 200f, Status = "Pending", Phone = "0934567890", EstimatedPickupDate = DateTime.Now.AddDays(7), CreatedAt = DateTime.Now.AddDays(-3) },
@@ -848,7 +848,8 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<OrderPlan>().HasData(
-                new OrderPlan { OrderId = 11, PlanId = 1, Quantity = 60 }    
+                new OrderPlan { OrderId = 11, PlanId = 1, Quantity = 60 },
+                new OrderPlan { OrderId = 1, PlanId = 1, Quantity = 100 }
             );
 
             modelBuilder.Entity<PackagingProduct>().HasData(

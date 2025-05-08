@@ -153,6 +153,8 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 {
                     return new BusinessResult(400, $"Can not pay the remaining order with {order.Status} status");
                 }
+                order.TotalPrice = model.Amount;
+                _unitOfWork.OrderRepository.PrepareUpdate(order);
 
                 var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
                 List<ItemData> items = new List<ItemData>
@@ -210,6 +212,7 @@ namespace Spring25.BlCapstone.BE.Services.Services
                 }
 
                 order.Status = "Paid";
+                order.TotalPrice = model.Amount;
                 _unitOfWork.OrderRepository.PrepareUpdate(order);
 
                 var orderCode = OrderCodeHelper.GenerateOrderCodeHash(order.Id, order.PlantId);
