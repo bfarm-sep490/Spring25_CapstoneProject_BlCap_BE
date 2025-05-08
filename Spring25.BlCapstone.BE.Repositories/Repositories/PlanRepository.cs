@@ -79,19 +79,6 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                 .ToListAsync();
         }
 
-        public async Task<int> GetPlanNotHaveOrderOrHaveOnlyOrdersCancle()
-        {
-            return await _context.Plans
-                .Include(x => x.OrderPlans)
-                    .ThenInclude(x => x.Order)
-                .Where(x => (!x.OrderPlans.Any() || x.OrderPlans.All(o => o.Order.Status.ToLower() == "cancel"))
-                && x.StartDate >= DateTime.Now && x.Status.ToLower() == "cancel")
-                .ExecuteUpdateAsync(p => p.SetProperty(plan => plan.Status, "Cancel")
-                    .SetProperty(plan => plan.UpdatedAt, DateTime.Now)
-                    .SetProperty(plan => plan.UpdatedBy, "Auto")
-                );
-        }
-
         public async Task<List<Plan>> GetSuggestPlansByPlanId(int plantId, int planId, float estimatedProduct)
         {
             var result = await _context.Plans.Where(x => x.PlantId == plantId && x.Id != planId && x.Status.ToLower() == "complete")

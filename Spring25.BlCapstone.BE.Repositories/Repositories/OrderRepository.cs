@@ -129,5 +129,21 @@ namespace Spring25.BlCapstone.BE.Repositories.Repositories
                                  .Where(o => o.OrderPlans.Any(p => p.PlanId == planId))
                                  .ToListAsync();
         }
+
+        public async Task<List<Order>> GetAllOrderPendingHasNoOrder()
+        {
+            return await _context.Orders
+                                 .Include(o => o.OrderPlans)
+                                 .Include(o => o.Plant)
+                                 .Where(o => !o.OrderPlans.Any() && o.Status.ToLower().Trim().Equals("pending"))
+                                 .ToListAsync();
+        }
+
+        public async Task<List<Order>> GetAllOrderReachPickupDate()
+        {
+            return await _context.Orders
+                                 .Where(o => o.EstimatedPickupDate.AddDays(1) > DateTime.Now && o.Status.ToLower().Trim().Equals("deposit"))
+                                 .ToListAsync();
+        }
     }
 }

@@ -246,7 +246,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Quantity = 10000,
                     Status = "Available",
                     BasePrice = 19000,
-                    Type = "Rau củ quả",
+                    Type = "Rau ăn quả",
                     ImageUrl = "https://bizweb.dktcdn.net/100/390/808/products/dau-bap-huu-co-500x500.jpg?v=1600504946570",
                     DeltaOne = 1.2f,
                     DeltaTwo = 0.8f,
@@ -263,7 +263,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Quantity = 10000,
                     Status = "Available",
                     BasePrice = 18000,
-                    Type = "Rau củ quả",
+                    Type = "Rau ăn quả",
                     ImageUrl = "https://hoayeuthuong.com/hinh-hoa-tuoi/moingay/11896_dua-leo-lon-kg.jpg",
                     DeltaOne = 1.5f,
                     DeltaTwo = 0.9f,
@@ -280,7 +280,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                     Quantity = 10000,
                     Status = "Available",
                     BasePrice = 25000,
-                    Type = "Rau củ quả",
+                    Type = "Rau ăn quả",
                     ImageUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQHrOrbNd1JxfpvcHVUqe5bklaBHYxon-Qew&s",
                     DeltaOne = 1.6f,
                     DeltaTwo = 1.0f,
@@ -592,7 +592,7 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
                 new InspectingForm
                 {
                     Id = 3,
-                    PlanId = 3,
+                    PlanId = 4,
                     InspectorId = 2,
                     FormName = "Kiểm tra bắp cải",
                     Description = "Kiểm tra độ ẩm và màu sắc bắp cải",
@@ -704,15 +704,15 @@ namespace Spring25.BlCapstone.BE.Repositories.Helper
             );
 
             modelBuilder.Entity<Problem>().HasData(
-                new Problem { Id = 1, PlanId = 1, FarmerId = 6, ProblemName = "Sâu bệnh trên lá", Description = "Xuất hiện sâu ăn lá trên cây.", CreatedDate = DateTime.Parse("2025-02-01"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 2, PlanId = 2, FarmerId = 6, ProblemName = "Thiếu nước", Description = "Đất khô, cây có dấu hiệu héo.", CreatedDate = DateTime.Parse("2025-02-05"), Status = "Resolve", ResultContent = "Đã tưới nước bổ sung." },
-                new Problem { Id = 3, PlanId = 3, FarmerId = 6, ProblemName = "Đất kém dinh dưỡng", Description = "Lá vàng, cây chậm phát triển.", CreatedDate = DateTime.Parse("2025-02-10"), Status = "Pending", ResultContent = null },
-                new Problem { Id = 4, PlanId = 3, FarmerId = 6, ProblemName = "Cây bị nấm", Description = "Xuất hiện đốm trắng trên lá.", CreatedDate = DateTime.Parse("2025-02-12"), Status = "Resolve", ResultContent = "Đã phun thuốc chống nấm." },
-                new Problem { Id = 5, PlanId = 3, FarmerId = 6, ProblemName = "Thiếu ánh sáng", Description = "Cây phát triển yếu do ánh sáng yếu.", CreatedDate = DateTime.Parse("2025-02-15"), Status = "Pending", ResultContent = null },
+                new Problem { Id = 1, PlanId = 1, FarmerId = 6, ProblemName = "Sâu bệnh trên lá", Description = "Xuất hiện sâu ăn lá trên cây.", CreatedDate = DateTime.Now.AddHours(-5), Status = "Pending", ResultContent = null },
+                new Problem { Id = 2, PlanId = 2, FarmerId = 6, ProblemName = "Thiếu nước", Description = "Đất khô, cây có dấu hiệu héo.", CreatedDate = DateTime.Now.AddHours(-5), Status = "Resolve", ResultContent = "Đã tưới nước bổ sung." },
+                new Problem { Id = 3, PlanId = 3, FarmerId = 6, ProblemName = "Đất kém dinh dưỡng", Description = "Lá vàng, cây chậm phát triển.", CreatedDate = DateTime.Now.AddHours(-5), Status = "Pending", ResultContent = null },
+                new Problem { Id = 4, PlanId = 3, FarmerId = 6, ProblemName = "Cây bị nấm", Description = "Xuất hiện đốm trắng trên lá.", CreatedDate = DateTime.Now.AddHours(-5), Status = "Resolve", ResultContent = "Đã phun thuốc chống nấm." },
+                new Problem { Id = 5, PlanId = 3, FarmerId = 6, ProblemName = "Thiếu ánh sáng", Description = "Cây phát triển yếu do ánh sáng yếu.", CreatedDate = DateTime.Now.AddHours(-5), Status = "Pending", ResultContent = null },
                 new Problem { Id = 6, PlanId = 4, FarmerId = 6, ProblemName = "Sâu đục thân", Description = "Phát hiện dấu hiệu sâu đục thân cây.", CreatedDate = DateTime.Parse("2025-02-18"), Status = "Cancel", ResultContent = "Đã xử lý bằng thuốc trừ sâu." },
                 new Problem { Id = 7, PlanId = 4, FarmerId = 6, ProblemName = "Mưa quá nhiều", Description = "Đất ẩm lâu, có nguy cơ úng rễ.", CreatedDate = DateTime.Parse("2025-02-20"), Status = "Cancel", ResultContent = null },
                 new Problem { Id = 8, PlanId = 5, FarmerId = 6, ProblemName = "Cây bị héo", Description = "Cây không đủ dinh dưỡng, lá rụng nhiều.", CreatedDate = DateTime.Parse("2025-02-22"), Status = "Resolve", ResultContent = "Đã bổ sung phân bón." },
-                new Problem { Id = 9, PlanId = 6, FarmerId = 6, ProblemName = "Bọ trĩ tấn công", Description = "Bọ trĩ gây hại trên lá non.", CreatedDate = DateTime.Parse("2025-02-25"), Status = "Pending", ResultContent = null },
+                new Problem { Id = 9, PlanId = 6, FarmerId = 6, ProblemName = "Bọ trĩ tấn công", Description = "Bọ trĩ gây hại trên lá non.", CreatedDate = DateTime.Now.AddHours(-5), Status = "Pending", ResultContent = null },
                 new Problem { Id = 10, PlanId = 6, FarmerId = 6, ProblemName = "Nhiệt độ quá cao", Description = "Nắng nóng kéo dài gây stress cho cây.", CreatedDate = DateTime.Parse("2025-02-28"), Status = "Resolve", ResultContent = "Đã che bóng giảm nhiệt độ." }
             );
 

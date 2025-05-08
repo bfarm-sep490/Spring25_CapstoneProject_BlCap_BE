@@ -22,22 +22,17 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
             _logger = logger;
         }
 
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
-
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Check expired Task status started !");
+            _logger.LogInformation("Check expired Order status started !");
             _timer = new System.Timers.Timer(TimeSpan.FromDays(1).TotalMilliseconds);
-            _timer.Elapsed += async (sender, args) => await ProcessExpirePlan();
+            _timer.Elapsed += async (sender, args) => await ProcessExpireOrder();
             _timer.AutoReset = true;
             _timer.Enabled = true;
             return Task.CompletedTask;
         }
 
-        private async Task ProcessExpirePlan()
+        private async Task ProcessExpireOrder()
         {
             _logger.LogInformation("Checking plan do not have order...");
             using (var scope = _serviceScopeFactory.CreateScope())
@@ -45,19 +40,30 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<UnitOfWork>();
                 try
                 {
-                    var expirePlan = await unitOfWork.PlanRepository.GetPlanNotHaveOrderOrHaveOnlyOrdersCancle();
-                    if (expirePlan != 0)
+                    var orders = await unitOfWork.OrderRepository.GetAllOrderPendingHasNoOrder();
+                    var forfeitOrders = await unitOfWork.OrderRepository.GetAllOrderReachPickupDate();
+
+                    foreach (var order in orders)
                     {
-                        _logger.LogInformation($"Change {expirePlan} plans to Cancel");
+                        var plant = await unitOfWork.PlantRepository.GetByIdAsync(order.PlantId);
+                        if (DateTime.Now.AddDays(plant.AverageDurationDate) < order.EstimatedPickupDate)
+                        {
+                            order.Status = "Cancel";
+                            unitOfWork.OrderRepository.PrepareUpdate(order);
+                        }
                     }
-                    else
+
+                    foreach (var order in forfeitOrders)
                     {
-                        _logger.LogInformation($"Do not have plans to change");
+                        order.Status = "Forfeit";
+                        unitOfWork.OrderRepository.PrepareUpdate(order);
                     }
+
+                    await unitOfWork.OrderRepository.SaveAsync();
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogInformation($"Plan update fail: {ex.Message}");
+                    _logger.LogInformation($"Order update fail: {ex.Message}");
                 }
             }
         }
@@ -67,6 +73,11 @@ namespace Spring25.BlCapstone.BackgroundServices.BackgroundServices
             _logger.LogInformation("Stop");
             _timer?.Stop();
             return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
     }
 }
